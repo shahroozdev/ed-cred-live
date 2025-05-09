@@ -10,6 +10,8 @@ import { ForumQuestionModule } from './forum-question/forum-question.module';
 import { ForumReplyModule } from './forum-reply/forum-reply.module';
 import { FeedbackFormModule } from './feedback-form/feedback-form.module';
 import { FeedbackResponseModule } from './feedback-response/feedback-response.module';
+import { SubcategoryModule } from './subcategory/subcategory.module';
+import { Subcategory } from './subcategory/subcategory.entity';
 import { RoleModule } from './role/role.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { SearchController } from './search/search.controller';
@@ -18,8 +20,6 @@ import { SearchModule } from './search/search.module';
 import { Post } from './posts/post.entity';
 import { FeedbackResponse } from './feedback-response/entities/feedback-response.entity';
 import { FeedbackForm } from './feedback-form/entities/feedback-form.entity';
-import { Dispute } from './dispute/dispute.entity';
-import { DisputeModule } from './dispute/dispute.module';
 
 @Module({
     imports: [
@@ -44,17 +44,17 @@ import { DisputeModule } from './dispute/dispute.module';
                 from: '"No Reply" <no-reply@yourdomain.com>',
             },
         }),
-        TypeOrmModule.forFeature([User, Category, Post, FeedbackResponse, FeedbackForm, Dispute]),
+        TypeOrmModule.forFeature([User, Category, Subcategory, Post, FeedbackResponse, FeedbackForm]),
         AuthModule,
         PostModule,
         CategoryModule,
+        SubcategoryModule,
         ForumQuestionModule,
         ForumReplyModule,
         FeedbackFormModule,
         FeedbackResponseModule,
         RoleModule,
         SearchModule,
-        DisputeModule,
     ],
     controllers: [SearchController],
     providers: [SearchService],

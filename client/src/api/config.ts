@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 
-export const API_BASE_URL = "http://localhost:6969";
-//export const API_BASE_URL = "http://188.132.135.5:6969";
+//export const API_BASE_URL = "http://localhost:6969";
+export const API_BASE_URL = "http://188.132.135.5:6969";
 
 //WARN: deprecated. Use the getRequest instead
 export const request = async (route: string) => {

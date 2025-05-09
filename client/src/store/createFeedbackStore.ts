@@ -1,15 +1,23 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { toast } from "sonner";
+import { useQuestionStore } from "./questionStore";
+import { getProfile } from "@/api/auth";
+import { title } from "process";
 
 export interface Feedback {
     id: string;
     title: string;
-    userCategoryId: string;
-    formCategoryId: string;
-    // category: number;
-    // subcategory: string;
+    category: number;
+    subcategory: string;
     status: "active" | "inactive";
-    details: any;
+    details: {
+        name: boolean;
+        country: boolean;
+        dates: boolean;
+        salary: boolean;
+        web: boolean;
+    }
 }
 
 interface FeedbackSotre {

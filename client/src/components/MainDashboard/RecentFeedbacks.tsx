@@ -8,7 +8,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, Pagi
 import { FilterXIcon, Trash2Icon } from "lucide-react";
 import { deleteFeedback, fetchFeedbacks } from "@/api/feedback";
 import { Question } from "@/store/questionStore";
-import { SubCategory } from "@/store/categoryStore";
+import { Category, SubCategory } from "@/store/categoryStore";
 import { useRouter } from "next/navigation";
 
 // TODO:factor it out in the common module
@@ -125,8 +125,8 @@ export const RecentFeedback = () => {
                     <TableHeader>
                         <TableRow>
                             <TableHead>Title</TableHead>
-                            <TableHead>Form Category</TableHead>
-                            <TableHead>User Category</TableHead>
+                            <TableHead>Category</TableHead>
+                            <TableHead>Subcategory</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead>Questions</TableHead>
                             <TableHead>Date</TableHead>
@@ -136,8 +136,8 @@ export const RecentFeedback = () => {
                         {paginatedFeedbacks.map((fb, index) => (
                             <TableRow key={index}>
                                 <TableCell onClick={() => router.push(`/feedback/${fb.id}`)}>{fb.title}</TableCell>
-                                <TableCell>{fb.formCategory?.name ?? "DEPRECATED"}</TableCell>
-                                <TableCell>{fb.userCategory?.name ?? "DEPRECATED"}</TableCell>
+                                <TableCell>{fb.category.name}</TableCell>
+                                <TableCell>{fb.subcategory && fb.subcategory.name}</TableCell>
                                 <TableCell className={fb.status ? "text-green-500" : "text-red-500"}>
                                     {fb.status ? "active" : "draft"}
                                 </TableCell>

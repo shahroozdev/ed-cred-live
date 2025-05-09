@@ -5,37 +5,24 @@ import {
     Body,
     Param,
     Delete,
-    ParseIntPipe,
-    UseGuards,
-    Req,
-    ForbiddenException
+    ParseIntPipe
 } from '@nestjs/common';
 import { FeedbackFormService } from './feedback-form.service';
 import { CreateFeedbackFormDto } from './dto/create-feedback-form.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { FeedbackForm } from './entities/feedback-form.entity';
 
 @Controller('feedback-form')
 export class FeedbackFormController {
     constructor(private readonly feedbackFormService: FeedbackFormService) {}
 
     @Post()
-    @UseGuards(JwtAuthGuard)
-    create(@Req() req, @Body() createFeedbackFormDto: CreateFeedbackFormDto) {
-        if (req.user.role !== "admin") {
-            throw new ForbiddenException("You do not have permission to create a feedback form");
-        }
+    create(@Body() createFeedbackFormDto: CreateFeedbackFormDto) {
         return this.feedbackFormService.create(createFeedbackFormDto);
     }
 
     @Get()
     findAll() {
         return this.feedbackFormService.findAll();
-    }
-
-    @Get('/forms')
-    @UseGuards(JwtAuthGuard)
-    findByUserCategoryId(@Req() req) {
-        return this.feedbackFormService.findByUserCategoryId(req.user.id);
     }
 
     @Get('/groups')
@@ -53,13 +40,13 @@ export class FeedbackFormController {
         return this.feedbackFormService.findByCategoryId(categoryId);
     }
 
-    // @Get('category/:categoryId/subcategory/:subcategoryId')
-    // async getByCategoryAndSubcategory(
-    //     @Param('categoryId', ParseIntPipe) categoryId: number,
-    //     @Param('subcategoryId', ParseIntPipe) subcategoryId: number
-    // ): Promise<FeedbackForm[]> {
-    //     return this.feedbackFormService.findByCategoryAndSubcategory(categoryId, subcategoryId);
-    // }
+    @Get('category/:categoryId/subcategory/:subcategoryId')
+    async getByCategoryAndSubcategory(
+        @Param('categoryId', ParseIntPipe) categoryId: number,
+        @Param('subcategoryId', ParseIntPipe) subcategoryId: number
+    ): Promise<FeedbackForm[]> {
+        return this.feedbackFormService.findByCategoryAndSubcategory(categoryId, subcategoryId);
+    }
 
     @Delete(':id')
     remove(@Param('id') id: string) {

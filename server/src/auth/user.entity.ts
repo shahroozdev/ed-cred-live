@@ -5,7 +5,6 @@ import { FeedbackForm } from 'src/feedback-form/entities/feedback-form.entity';
 import { UserRole, Permission, SubscriptionPlan } from "./../../types/user";
 import { Category } from 'src/category/category.entity';
 import { FeedbackResponse } from 'src/feedback-response/entities/feedback-response.entity';
-import { Dispute } from 'src/dispute/dispute.entity';
 
 @Entity()
 export class User {
@@ -59,9 +58,6 @@ export class User {
 
     @Column({ type: 'jsonb', nullable: true })
     preferences?: Record<string, any>;
-
-    @OneToMany(() => Dispute, (dispute) => dispute.disputedBy)
-    disputes: Dispute[];
 
     //NOTE: if we delete a category, what shall happen to the 
     // users of that category?

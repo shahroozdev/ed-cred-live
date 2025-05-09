@@ -117,23 +117,14 @@ export class AuthService {
                 'category',
                 'role',
                 'isVerified',
-                'emailVerificationToken',
-                'verificationDocumentUrl',
                 'subscription',
                 'createdAt',
+                'verificationDocumentUrl'
             ],
             relations: ['category'],
-            order: {
-                createdAt: 'DESC',
-            }
         });
 
-        const updatedUsers = users.map(user => ({
-            ...user,
-            isVerifying: !!(user.emailVerificationToken || user.verificationDocumentUrl),
-        }));
-
-        return updatedUsers;
+        return users;
     }
 
     async updateUserRole(id: number, role: UserRole): Promise<User> {
@@ -201,30 +192,30 @@ export class AuthService {
 
         // TODO: Make this editable by the admin user
         await this.mailerService.sendMail({
-            to: user.email,
-            subject: 'Verify Your Email - Ed-Cred',
-            html: `
-<div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 40px;">
-<div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
-<h2 style="color: #1e40af;">Welcome to Ed-Cred 👋</h2>
-<p style="color: #333333; font-size: 16px;">
-Thank you for signing up! Please verify your email address to activate your account.
-</p>
-<div style="text-align: center; margin: 30px 0;">
-<a href="${verifyUrl}" style="background-color: #1e40af; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold;">
-Verify Email
-</a>
-</div>
-<p style="color: #777777; font-size: 14px;">
-If you didn’t request this, you can ignore this email.
-</p>
-<hr style="margin: 30px 0; border: none; border-top: 1px solid #eaeaea;" />
-<p style="color: #999999; font-size: 12px;">
-© ${new Date().getFullYear()} Ed-Cred. All rights reserved.
-</p>
-</div>
-</div>
-`,
+          to: user.email,
+          subject: 'Verify Your Email - Ed-Cred',
+          html: `
+            <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 40px;">
+              <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+                <h2 style="color: #1e40af;">Welcome to Ed-Cred 👋</h2>
+                <p style="color: #333333; font-size: 16px;">
+                  Thank you for signing up! Please verify your email address to activate your account.
+                </p>
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="${verifyUrl}" style="background-color: #1e40af; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+                    Verify Email
+                  </a>
+                </div>
+                <p style="color: #777777; font-size: 14px;">
+                  If you didn’t request this, you can ignore this email.
+                </p>
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid #eaeaea;" />
+                <p style="color: #999999; font-size: 12px;">
+                  © ${new Date().getFullYear()} Ed-Cred. All rights reserved.
+                </p>
+              </div>
+            </div>
+          `,
         });
 
         return true;

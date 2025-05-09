@@ -5,15 +5,15 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import {
+    CategoryInput,
     QuestionInput,
     StatusInput,
+    SubCategoryInput,
     SwitchInput,
     TitleInput,
     QuestionSelectInput,
     QuestionTypeInput,
-    AddQuestion,
-    FormCategoryInput,
-    UserCategoryInput
+    AddQuestion
 } from "./FeedbackElements";
 import { Button } from "../ui/button";
 import { Feedback, useFeedbackStore } from "@/store/createFeedbackStore";
@@ -24,10 +24,8 @@ import { ChevronDownIcon } from "lucide-react";
 
 export const GeneralFormSchema = z.object({
     title: z.string().min(2, "Title must be at least 2 characters").max(50, "Title must be under 50 characters"),
-
-    formCategoryId: z.string(),
-    userCategoryId: z.string(),
-
+    category: z.string(),
+    subcategory: z.string().min(1, "Subcategory is required"),
     status: z.enum(["active", "inactive"]),
     details: z.object({
         // common
@@ -70,6 +68,7 @@ const FeedbackForm = () => {
         resolver: zodResolver(GeneralFormSchema),
         defaultValues: {
             title: "",
+            subcategory: "",
             details: {
                 salary:          false,
                 schoolName:      false,
@@ -80,7 +79,7 @@ const FeedbackForm = () => {
                 pricipalDivison: false,
                 directorName:    false,
             },
-            status: "active",
+            status: "inactive",
         },
     });
 
@@ -129,8 +128,8 @@ const MetaDataInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralForm
             <div className={`mt-2 flex flex-col gap-4 overflow-hidden transition-[max-height]`} >
                 <TitleInput form={form} />
                 <div className="flex gap-2">
-                    <FormCategoryInput form={form} />
-                    <UserCategoryInput form={form} />
+                    <CategoryInput form={form} />
+                    <SubCategoryInput form={form} />
                 </div>
                 <StatusInput form={form} />
                 <SwitchInput form={form} />

@@ -12,7 +12,7 @@ export const ReviewCard = ({ response, hideRating=false } : { response: any, hid
         }>
             <div className="flex gap-4">
                 <Image
-                    src={`/uploads/categoryIcons/${response.feedbackForm.formCategory.name.toLowerCase()}.png`}
+                    src={`/uploads/categoryIcons/${response.feedbackForm.category.name.toLowerCase()}.png`}
                     width={200} height={200} alt={''} className="w-12 h-auto object-contain" />
                 {response.details?.pricipalName ?
                     <div className="flex flex-col leading-snug gap-0">
