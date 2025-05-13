@@ -1,5 +1,3 @@
-
-import { logout } from "@/api/auth";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,7 +15,10 @@ import { useRouter } from "next/navigation";
 export const UserBubble = ({ user } : { user : UserProfile }) => {
 
     const router = useRouter();
-
+ function logout() {
+    localStorage.removeItem('token');
+    router.push('/')
+}
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

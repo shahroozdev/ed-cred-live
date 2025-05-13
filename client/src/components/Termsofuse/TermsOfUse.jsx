@@ -3,7 +3,7 @@ import React from 'react'
 const TermsOFUse = () => {
     return (
 
-        <div className="w-screen my-25 px-60">
+        <div className="max-w-[1200px] w-full m-auto bg-background py-4 md:px-10 px-2">
             <p className='text-[#686C70] my-3 '>
                 Effective Date: <strong>February 12, 2025</strong>
             </p>
@@ -17,7 +17,7 @@ const TermsOFUse = () => {
                 Ed-Cred provides a platform where users can submit anonymous reviews and ratings of educational professionals, schools, and institutions. Reviews submitted through the Platform are intended to foster transparency and provide valuable feedback to the educational community. By submitting a review, you agree that you are submitting truthful and accurate information to the best of your knowledge.
             </p>
             <h2 className="text-2xl font-semibold my-3">Submission Guidelines</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     All reviews are anonymous, even to Ed-Cred.
                 </li>
@@ -44,7 +44,7 @@ const TermsOFUse = () => {
                 </li>
             </ul>
             <h2 className="text-2xl font-semibold my-3">Moderation of Reviews</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     Ed-Cred will make reasonable efforts to moderate incoming reviews to ensure they comply with our guidelines and terms. This includes reviewing submitted content for relevance, accuracy, and appropriateness.
                 </li>
@@ -58,7 +58,7 @@ const TermsOFUse = () => {
 
             {/* Verified Claims */}
             <h2 className="text-2xl font-semibold my-3">Verified Claims</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     Any claims in your review that are supported by official documentation will receive a "Verified Stamp" and will be bolded for emphasis.
                 </li>
@@ -67,7 +67,7 @@ const TermsOFUse = () => {
                 </li>
             </ul>
             <h2 className="text-2xl font-semibold my-3">Dispute of Claims</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     If you wish to dispute a claim made in a review, you may submit a formal request to Ed-Cred.
                 </li>
@@ -82,7 +82,7 @@ const TermsOFUse = () => {
                 </li>
             </ul>
             <h2 className="text-2xl font-semibold my-3">Limitation of Liability</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     Ed-Cred is a platform that allows users to share reviews and feedback. As such, Ed-Cred is not responsible for the content submitted by users.
                 </li>
@@ -94,7 +94,7 @@ const TermsOFUse = () => {
                 </li>
             </ul>
             <h2 className="text-2xl font-semibold my-3">Privacy</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     Ed-Cred is committed to respecting your privacy. All reviews submitted through the Platform are anonymous.
                 </li>
@@ -106,7 +106,7 @@ const TermsOFUse = () => {
                 </li>
             </ul>
             <h2 className="text-2xl font-semibold my-3">User Conduct</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     By using the Platform, you agree not to submit false, defamatory, or misleading information.
                 </li>
@@ -115,13 +115,13 @@ const TermsOFUse = () => {
                 </li>
             </ul>
             <h2 className="text-2xl font-semibold my-3">Changes to Terms</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <p>
                     Ed-Cred reserves the right to modify or update these Terms of Use at any time. Any changes will be posted on the Platform, and your continued use of the Platform after such changes indicates your acceptance of the revised Terms.
                 </p>
             </ul>
             <h2 className="text-2xl font-semibold my-3">Contact Information</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc lpl-6 space-y-2 text-[#686C70]">
                 <p>
                     If you have any questions about these Terms or wish to dispute a claim, please contact us at <strong>email.</strong>
                 </p>

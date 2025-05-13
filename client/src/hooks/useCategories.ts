@@ -18,7 +18,8 @@ export function useCategories(): UseUserProfileResult {
 
         const fetchUser = async () => {
             try {
-                const res = await getRequest("/category/");
+                const res = await getRequest("/category");
+                console.log(res, 'res')
                 if (!res || !res.ok) throw new Error("Failed to fetch user profile");
 
                 const json = await res.json();

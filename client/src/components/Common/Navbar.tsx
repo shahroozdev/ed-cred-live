@@ -17,18 +17,19 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { logout } from "@/api/auth";
 import { ThemeToggle } from "@/components/Common/ThemeToggle";
 import { usePathname, useRouter } from "next/navigation";
 import { useUserProfile } from "@/hooks/useProfile";
 import { Loader } from "@/components/ui/loader";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const Navbar = () => {
     return (
-        <div className="bg-background sticky top-0 z-50 border-b">
-            <div className="flex h-16 items-center px-4">
-                <MainNav className="mx-6" />
+        <div className="bg-background sticky top-0 z-50 border-b max-w-screen">
+            <div className="flex h-16 items-center px-4 ">
+                <MainNav className="mx-2" />
                 <div className="ml-auto flex items-center space-x-4">
                     <ThemeToggle />
                     <Search />
@@ -99,43 +100,74 @@ export function UserNav() {
         </DropdownMenu>
     )
 }
+interface MainNavProps extends React.HTMLAttributes<HTMLElement> {}
 
+export function MainNav({ className, ...props }: MainNavProps) {
+  const pathname = usePathname()
+  const navRef = useRef<HTMLElement>(null)
 
-function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
-    const pathname = usePathname();
+  const links = [
+    { href: "/dashboard", label: "Overview" },
+    { href: "/feedback", label: "Feedback" },
+    { href: "/feedback/create", label: "Create Feedback" },
+    { href: "/forum", label: "Forum" },
+    { href: "/users", label: "Manage users" },
+    { href: "/review/", label: "Review" },
+    { href: "/posts", label: "Posts" },
+    { href: "/category", label: "Categories" },
+    { href: "/subcategory", label: "SubCategories" },
+    { href: "/settings", label: "Settings" },
+  ]
 
-    const links = [
-                { href: "/dashboard", label: "Overview" },
-                { href: "/feedback", label: "Feedback" },
-                { href: "/feedback/create", label: "Create Feedback" },
-                { href: "/forum", label: "Forum" },
-                { href: "/users", label: "Manage users" },
-                { href: "/review/", label: "Review" },
-                { href: "/posts", label: "Posts" },
-                { href: "/category", label: "Categories" },
-                { href: "/subcategory", label: "SubCategories" },
-                { href: "/settings", label: "Settings" },
-            ];
+  const scroll = (offset: number) => {
+    if (navRef.current) {
+      navRef.current.scrollBy({ left: offset, behavior: "smooth" })
+    }
+  }
 
-    return (
-        <nav
-            className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-            {...props}
-        >
-            {links.map(({ href, label }) => (
-                <Link
-                    key={href}
-                    href={href}
-                    className={cn(
-                        "hover:text-primary text-sm font-medium transition-colors",
-                        pathname === href ? "text-foreground" : "text-muted-foreground"
-                    )}
-                >
-                    {label}
-                </Link>
-            ))}
-        </nav>
-    );
+  return (
+    <div className={cn("relative group", className)}>
+      {/* Left arrow */}
+      <button
+        onClick={() => scroll(-100)}
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 opacity-0 transition-opacity group-hover:opacity-100"
+        aria-label="Scroll left"
+      >
+        <ChevronLeft size={20} />
+      </button>
+
+      {/* Scrollable nav */}
+      <nav
+        ref={navRef}
+        {...props}
+        className="overflow-x-auto scrollbar-none flex items-center space-x-4 lg:space-x-6 px-6"
+      >
+        {links.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            className={cn(
+              "whitespace-nowrap text-sm font-medium transition-colors",
+              pathname === href
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-primary"
+            )}
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
+
+      {/* Right arrow */}
+      <button
+        onClick={() => scroll(100)}
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 opacity-0 transition-opacity group-hover:opacity-100"
+        aria-label="Scroll right"
+      >
+        <ChevronRight size={20} />
+      </button>
+    </div>
+  )
 }
 
 export default MainNav;

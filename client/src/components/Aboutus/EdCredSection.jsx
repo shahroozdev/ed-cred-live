@@ -3,10 +3,10 @@ import Image from 'next/image';
 
 const EdCredSection = () => {
     return (
-        <div className="w-6xl mx-auto px-6 md:px-12 py-16 pb-34 bg-white">
+        <div className="w-6xl mx-auto px-6 md:px-12 py-16 pb-34 bg-background">
             <div className="text-sm flex flex-col md:flex-row items-start md:items-center gap-10">
                 {/* Text Section */}
-                <div className="md:w-2/3 text-black">
+                <div className="md:w-2/3 text-[var(--mt-pre-color)]">
                     <p className="mb-4">
                         At Ed-Cred, we believe in the power of transparency and the importance of honest feedback in the education community. Our platform allows individuals to share their experiences and insights about educational professionals, schools, and institutions, helping others make informed decisions.
                     </p>
@@ -32,7 +32,7 @@ const EdCredSection = () => {
                     {/* Larger Image */}
                     <div className="relative w-5 h-56 md:w-55 md:h-55 md:-right-20">
                         <Image
-                            src="/AboutUs/Papers.jpeg"
+                            src="/images/AboutUs/Papers.jpeg"
                             alt="Educational setting"
                             layout="fill"
                             objectFit="cover"
@@ -43,7 +43,7 @@ const EdCredSection = () => {
                     {/* Overlapping Smaller Image */}
                     <div className="absolute w-40 h-40 md:w-50 md:h-60 top-28  md:top-40 ">
                         <Image
-                            src="/AboutUs/meeting.jpeg"
+                            src="/images/AboutUs/meeting.jpeg"
                             alt="Learning environment"
                             layout="fill"
                             objectFit="cover"

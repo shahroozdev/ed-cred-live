@@ -24,7 +24,13 @@ import {
 import { data } from "./sidebar-data"
 import Image from "next/image"
 import { Separator } from "../ui/separator"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import Link from "next/link"
 
 export const SideMenu = () => {
     return(
@@ -110,7 +116,7 @@ export function NavMain({
                                             (<>
                                                 <span>{item.title}</span>
                                                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                                            </>) : <span><a href={item.url}>{item.title}</a></span>
+                                            </>) : <span><Link href={item.url}>{item.title}</Link></span>
                                     }
                                 </SidebarMenuButton>
                             </CollapsibleTrigger>

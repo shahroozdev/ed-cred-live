@@ -60,7 +60,7 @@ export class AuthService {
             permissions: newUser.permissions,
         });
 
-        return { token };
+        return { token }; 
     }
 
     async login(identifier: string, password: string) {

@@ -1,18 +1,23 @@
 import { Controller, Post, Get, Delete, Body, Param } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category } from './category.entity';
+import { CreateCategoryDto } from './dto';
+import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
+import { response } from 'types';
+import { ApiCustomResponse } from 'src/decorators/api-decorator';
 
 @Controller('category')
 export class CategoryController {
     constructor(private readonly categoryService: CategoryService) {}
 
     @Post()
-    async createCategory(@Body() data: Category): Promise<Category> {
-        return this.categoryService.createCategory(data);
+     @ApiCustomResponse('createCategory')
+    async createCategory(@Body() data: CreateCategoryDto): Promise<Category> {
+        return apiWrapper(() => this.categoryService.createCategory(data));
     }
 
     @Get()
-    async getAllCategories(): Promise<Category[]> {
+    async getAllCategories(): Promise<response & {categories?:Category[]}> {
         return this.categoryService.getAllCategories();
     }
 

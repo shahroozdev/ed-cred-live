@@ -8,7 +8,7 @@ const Feedbacks = () => {
     const [feedbacks, setFeedbacks] = useState([]);
     const setup = async() => {
         const res = await getRequest("/feedback-responses/recent/")
-        const body = await res.json();
+        const body = res?await res.json():[]
         setFeedbacks(body);
     }
     const colors = [ "#FF5050", "#439E5E", "#FFC944", "#3A8DFF"];
@@ -25,7 +25,7 @@ const Feedbacks = () => {
             </div>
             <div className="flex flex-col items-center justify-center gap-4 px-10 md:w-2/3 md:flex-row md:gap-14 md:p-0 ">
                 {
-                    feedbacks.map((feedback, index) => <Card name={feedback.details.schoolName} desc={feedback.details.schoolCountry} review={feedback.comments} color={colors[index]} key={`card-${index}`} />)
+                   feedbacks?.length>0&& feedbacks?.map((feedback, index) => <Card name={feedback?.details?.schoolName} desc={feedback?.details?.schoolCountry} review={feedback?.comments} color={colors[index]} key={`card-${index}`} />)
                 }
             </div>
         </div>

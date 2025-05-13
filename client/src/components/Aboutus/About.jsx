@@ -6,14 +6,12 @@ import Navbar from '@/components/Landing/Navbar';
 
 const About = () => {
     return (
-        <div className='w-full h-auto p-0 m-0 overflow-x-hidden bg-white'>
-            <Navbar />
+        <div className='w-full h-auto p-0 m-0 overflow-x-hidden bg-background'>
             <Header
                 title='About Us'
                 description='Join us in shaping a more transparent, accountable, and growth-oriented educational experience for all.'
             />
             <EdCredSection/>
-            <Footer/>
         </div>
     )
 }

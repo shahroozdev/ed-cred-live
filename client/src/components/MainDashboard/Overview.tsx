@@ -11,32 +11,32 @@ import { Stats } from "@/components/Common/Stats";
 import { useCategoryStore } from "@/store/categoryStore";
 import { useEffect } from "react";
 import { useFeedbacksStore } from "@/store/feedbackStore";
+import { useQuery } from "@/hooks/generalHooks";
 
 export const OverviewTab = () => {
     const { posts } = usePostStore();
-    const { categories, fetchCategories } = useCategoryStore();
+  const { data, isLoading, error } = useQuery({
+    url: "category",
+    key: "categories",
+  });
     const { feedbacks } = useFeedbacksStore();
-
-    useEffect(() => {
-        fetchCategories();
-    }, []);
 
     const stats = [
         {
             title: "Total Feedbacks",
-            value: feedbacks.length.toString(),
+            value: feedbacks?.length?.toString(),
         },
         {
             title: "Active Feedbacks",
-            value: feedbacks.filter(f => f.status === "active").length.toString(),
+            value: feedbacks?.filter(f => f?.status === "active")?.length?.toString(),
         },
         {
             title: "Total Posts",
-            value: posts.length.toString(),
+            value: posts?.length?.toString(),
         },
         {
             title: "Total Categries",
-            value: categories.length.toString(),
+            value: data?.categories?.length?.toString(),
         },
 
     ]

@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
@@ -8,6 +7,7 @@ import { useState } from "react"
 import { login } from "@/api/auth";
 import { toast } from "sonner";
 import Image from "next/image";
+import { Button } from "../atoms";
 
 export function LoginForm({
     className,
@@ -53,9 +53,9 @@ export function LoginForm({
                 <div className="grid gap-2">
                     <div className="flex items-center">
                         <Label htmlFor="password">Password</Label>
-                        <a href="/forgot-password" className="ml-auto text-sm underline-offset-4 hover:underline"> Forgot your password? </a>
+                        <a href="/forgot-password"  className="ml-auto text-sm underline-offset-4 hover:underline"> Forgot your password? </a>
                     </div>
-                    <Input id="password" type="password" required onChange={(e) => setPassword(e.target.value)} />
+                    <Input id="password" type="password" placeholder="Enter Password" required onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 {
                     error && <div className="text-destructive-foreground">{error}</div>
@@ -68,10 +68,10 @@ export function LoginForm({
                         Or continue with
                     </span>
                 </div>
-                <Button variant="outline" className="w-full">
-                    <Image src="/icons/google_icon.svg" width={24} height={24} alt="google_icon" />
-                    Login with Google
-                </Button>
+                <div className="w-full !flex !gap-2 !max-h-[40px] border items-center justify-center cursor-pointer rounded-md">
+                    <Image src="/icons/google_icon.svg" width={24} height={24} alt="google_icon" className="w-[30px] h-full" />
+                    <span>Login with Google</span>
+                </div>
             </div>
             <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}

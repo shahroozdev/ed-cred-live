@@ -3,7 +3,7 @@ import React from 'react'
 const WebsitePolicy = () => {
     return (
 
-        <div className="w-screen my-25 px-60">
+        <div className="max-w-[1200px] w-full m-auto bg-background py-4 md:px-10 px-2">
             <p className='text-[#686C70] my-3 '>
                 Effective Date: <strong>February 12, 2025</strong>
             </p>
@@ -17,7 +17,7 @@ const WebsitePolicy = () => {
                 Ed-Cred provides a platform for users to submit anonymous reviews of educational professionals, institutions, and other related entities. You are solely responsible for ensuring the content you submit is accurate, lawful, and compliant with the guidelines outlined in this policy. Reviews and discussion posts are submitted voluntarily, and once submitted, they are final and cannot be edited or deleted.
             </p>
             <h2 className="text-2xl font-semibold my-3">Submission Guidelines</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     Reviews, discussion posts, and forum contributions must accurately reflect your intended feedback and can be submitted anonymously.
                 </li>
@@ -36,7 +36,7 @@ const WebsitePolicy = () => {
                 Ed-Cred will make reasonable efforts to moderate all incoming reviews, discussion posts, and forum contributions to ensure they comply with our guidelines. Due to the volume of reviews and posts, moderation may take up to one-two months. We rely on the community to report inappropriate content, which will be prioritized for review.
             </p>
             <h2 className="text-2xl font-semibold my-3">Discussion and Forum Posts</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     Discussion posts and forum contributions are intended to foster constructive conversation and exchange of ideas. Posts must adhere to community standards, remaining respectful, relevant, and free from defamatory content.
                 </li>
@@ -52,7 +52,7 @@ const WebsitePolicy = () => {
                 Ed-Cred will make reasonable efforts to moderate all incoming reviews, discussion posts, and forum contributions to ensure they comply with our guidelines. Due to the volume of reviews and posts, moderation may take up to one-two months. We rely on the community to report inappropriate content, which will be prioritized for review.
             </p>
             <h2 className="text-2xl font-semibold my-3">Dispute and Claims</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <li>
                     If you wish to dispute a review or post, you must provide official documentation supporting your claim. A $100 service fee will apply for processing the dispute.
                 </li>
@@ -73,7 +73,7 @@ const WebsitePolicy = () => {
                 Ed-Cred reserves the right to modify or update this Website Use Policy at any time. Any changes will be posted on the Platform, and your continued use of the site will signify your acceptance of the updated terms.
             </p>
             <h2 className="text-2xl font-semibold my-3">Contact Information</h2>
-            <ul className="list-disc list-inside space-y-2 text-[#686C70]">
+            <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
                 <p>
                     If you have any questions about these Terms or wish to dispute a claim, please contact us at <strong>email.</strong>
                 </p>

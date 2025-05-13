@@ -26,8 +26,8 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
         try {
             const response = await fetch(`${API_BASE_URL}/category`, { headers: getAuthHeaders() });
             if (!response.ok) throw new Error("Failed to fetch categories");
-            const data: Category[] = await response.json();
-            set({ categories: data });
+            const data: any = await response.json();
+            set({ categories: data?.categories });
         } catch (error) {
             console.error(error);
         }

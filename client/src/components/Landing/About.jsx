@@ -1,9 +1,10 @@
 import Image from "next/image"
-import Button from "@/components/ui/Button"
+import { Button } from "../atoms";
+
 
 const About = () => {
     return (
-        <div className="my-20 flex flex-col items-center justify-center gap-20 font-[400] md:my-40 md:w-2/3 md:flex-row md:gap-40">
+        <div className="my-20 flex flex-col lg:items-start items-center justify-center gap-20 max-w-[1400px] md:px-10 px-4 m-auto font-[400] w-full lg:flex-row">
             <div className="flex flex-col items-center gap-8 md:items-start">
                 <div className="flex flex-col items-center gap-2 md:items-start">
                     <div className="w-max rounded-full bg-[#A1AF001A] px-4 py-2 font-sans text-xs font-[400] tracking-widest text-[#439E5E] md:text-sm">

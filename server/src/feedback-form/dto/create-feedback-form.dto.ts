@@ -1,3 +1,4 @@
+
 // Optional details toggles
 export interface FeedbackDetails {
         salary:          boolean;
@@ -19,8 +20,8 @@ export interface Question {
 }
 
 export class CreateFeedbackFormDto {
-    formCategoryId: number;
-    userCategoryId: number;
+    categoryId: number;
+    subCategoryId: number;
     authorId: number;
     title: string;
     isDraft: boolean;

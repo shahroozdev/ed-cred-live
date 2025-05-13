@@ -40,16 +40,16 @@ const Searchbar = () => {
     }, [debouncedTerm]);
 
     return (
-        <div className="relative flex items-center justify-center gap-2">
+        <div className="rounded-full border border-[#C7BAAF] bg-white relative flex items-center shadow-md justify-between overflow-hidden h-10 py-2 px-1 gap-2">
             <input
                 type="text"
                 placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="rounded-full border border-[#C7BAAF] bg-white p-2 px-4 md:p-4 md:px-8 shadow-md md:w-auto w-1/2"
+                className="border-none bg-white p-2 px-4 md:p-4 md:px-8  md:w-auto w-full appearence-none outline-none"
             />
-            <button className="cursor-pointer rounded-full bg-primary p-2 md:p-3">
-                <SearchIcon color="white" strokeWidth={3} />
+            <button className="cursor-pointer rounded-full bg-primary p-2">
+                <SearchIcon color="white" strokeWidth={3} size={18} />
             </button>
 
             {/* Display results */}
