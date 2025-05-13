@@ -1,7 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from "typeorm";
 import { FeedbackForm } from "src/feedback-form/entities/feedback-form.entity";
 import { User } from "src/auth/user.entity";
-import { Dispute } from "src/dispute/dispute.entity";
 
 @Entity()
 export class FeedbackResponse {
@@ -40,7 +39,4 @@ export class FeedbackResponse {
 
     @CreateDateColumn()
     submittedAt: Date;
-
-    @OneToMany(() => Dispute, (dispute) => dispute.disputedBy)
-    disputes: Dispute[];
 }

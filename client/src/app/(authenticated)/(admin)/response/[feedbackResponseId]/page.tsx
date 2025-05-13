@@ -14,8 +14,6 @@ import {
     TabsTrigger,
     TabsContent,
 } from "@/components/ui/tabs";
-import { VerificationBadge } from "@/components/Common/VerificationBadge";
-import { DisputeButton } from "@/components/Common/Dispute";
 
 export default function FeedbackResponseViewPage({ params }: { params: Promise<{ feedbackResponseId: string }> }) {
 
@@ -84,9 +82,6 @@ export default function FeedbackResponseViewPage({ params }: { params: Promise<{
                                             </TabsTrigger>
                                         ))
                                     }
-                                    <TabsTrigger value="verified">
-                                        Verified
-                                    </TabsTrigger>
                                 </TabsList>
 
                                 <TabsContent value="all">
@@ -111,15 +106,6 @@ export default function FeedbackResponseViewPage({ params }: { params: Promise<{
                                         </TabsContent>
                                     ))
                                 }
-                                <TabsContent value="verified">
-                                    {
-                                        feedback.responses
-                                        .filter((response) => response.author?.isVerified)
-                                        .map((response) => (
-                                            <IndividualReview key={response.id} response={response} />
-                                        ))
-                                    }
-                                </TabsContent>
                             </Tabs>
                         </div>
                     </div>: <Loader />
@@ -154,7 +140,7 @@ function FeedbackView({
         <div className="w-4xl max-w-4xl flex flex-col mt-20">
             <div className="text-2xl font-semibold mb-6">{feedbackForm.title}</div>
             <div className="flex gap-4 items-start">
-                <Image src={`/uploads/categoryIcons/${feedbackForm.formCategory.name.toLowerCase()}.png`} alt={feedbackForm.formCategory.name} width={100} height={200} alt={""} className="h-auto w-12 object-contain" />
+                <Image src={`/uploads/categoryIcons/${feedbackForm.category.name.toLowerCase()}.png`} width={100} height={200} alt={""} className="h-auto w-12 object-contain" />
                 <div className="">
                     {
                         details.pricipalName ? 
@@ -191,21 +177,16 @@ function FeedbackView({
 
 const IndividualReview = ({ response }: { response : FeedbackResponse }) => {
     return (
-        <div className="flex flex-col gap-4 py-6 bg-muted p-4 rounded-md shadow-lg">
+        <div className="flex flex-col gap-4 py-6 bg-white">
             {
-                response.answers.slice(0, response.answers.length - 1).map(answer => (<div key={answer.questionId} className="flex bg-white p-4 rounded-lg">
-                    <div className="text-base">{response.feedbackForm.questions.filter((question: any) => question.id == answer.questionId)[0]?.text}</div>
+                response.answers.slice(0, response.answers.length - 1).map(answer => (<div key={answer.questionId} className="flex bg-muted p-4 rounded-lg">
+                    <div className="text-lg">{response.feedbackForm.questions.filter((question: any) => question.id == answer.questionId)[0]?.text}</div>
                     <RatingBar rating={typeof answer.answer === 'number' ? answer.answer : 0} />
                 </div>))
             }
-            <div className="bg-white p-4 rounded-lg text-base flex flex-col">
-                <div className="font-semibold text-sm">Comments</div>
+            <div className="bg-muted p-4 rounded-lg text-lg flex flex-col">
+                <div className="font-semibold">Comments</div>
                 <div>{response.comments}</div>
-            </div>
-
-            <div className="flex gap-2">
-                <VerificationBadge isVerified={response.author.isVerified} />
-                <DisputeButton feedbackResponseId={response.id} />
             </div>
         </div>
     )

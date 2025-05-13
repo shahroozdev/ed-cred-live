@@ -28,12 +28,11 @@ export class CategoryService {
     return {status:200, message:'All Categories List.', categories}
   }
 
-  async getCategoryById(id: number): Promise<Category> {
-    const category = await this.categoryRepository.findOne({ where: { id } });
-    if (!category)
-      throw new NotFoundException(`Category with ID ${id} not found`);
-    return category;
-  }
+    async getCategoryById(id: number): Promise<Category> {
+        const category = await this.categoryRepository.findOne({ where: { id }, relations: ['subCategories'] });
+        if (!category) throw new NotFoundException(`Category with ID ${id} not found`);
+        return category;
+    }
 
   async removeCategory(id: number): Promise<void> {
     const result = await this.categoryRepository.delete(id);

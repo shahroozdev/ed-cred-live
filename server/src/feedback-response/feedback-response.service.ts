@@ -49,16 +49,16 @@ export class FeedbackResponseService {
         return await this.feedbackResponseRepository.save(feedbackResponse);
     }
 
+    // Get all responses for a specific feedback form
     async getResponsesByForm(feedbackFormId: string): Promise<FeedbackResponse[]> {
         return await this.feedbackResponseRepository.find({
             where: {
                 feedbackForm: { id: Number(feedbackFormId) },
-                accepted: true,
+                accepted: true, // Only return accepted feedback
             },
             relations: ['feedbackForm'],
         });
     }
-
     async findOneResponse(id: string) {
         return await this.feedbackResponseRepository.find({
             where: {id: id},
@@ -72,7 +72,7 @@ export class FeedbackResponseService {
     }> {
         const baseResponse = await this.feedbackResponseRepository.findOne({
             where: { id: responseId },
-            relations: ['feedbackForm', 'feedbackForm.formCategory', 'author'],
+            relations: ['feedbackForm', 'feedbackForm.category', 'author'],
         });
 
         if (!baseResponse || !baseResponse.details) {
@@ -88,7 +88,7 @@ export class FeedbackResponseService {
         const query = this.feedbackResponseRepository
         .createQueryBuilder('feedback_response')
         .leftJoinAndSelect('feedback_response.feedbackForm', 'feedback_form')
-        .leftJoinAndSelect('feedback_form.formCategory', 'formCategory')
+        .leftJoinAndSelect('feedback_form.category', 'category')
         .leftJoinAndSelect('feedback_response.author', 'author')
         .leftJoinAndSelect('author.category', 'author_category');
 
@@ -96,26 +96,29 @@ export class FeedbackResponseService {
         let related: FeedbackResponse[] = [];
 
         if (pricipalName) {
+            // Match by principal + school
             responses = await query
                 .where("feedback_response.details->>'pricipalName' ILIKE :pricipalName", { pricipalName })
-                .orWhere("feedback_response.details->>'schoolName' ILIKE :schoolName", { schoolName })
-                .orWhere("feedback_response.details->>'schoolWebsite' ILIKE :schoolWebsite", { schoolWebsite })
-                .orWhere("feedback_response.details->>'schoolCountry' ILIKE :schoolCountry", { schoolCountry })
+                .andWhere("feedback_response.details->>'schoolName' ILIKE :schoolName", { schoolName })
+                .andWhere("feedback_response.details->>'schoolWebsite' ILIKE :schoolWebsite", { schoolWebsite })
+                .andWhere("feedback_response.details->>'schoolCountry' ILIKE :schoolCountry", { schoolCountry })
                 .getMany();
 
             const schoolResponses = await this.feedbackResponseRepository
                 .createQueryBuilder('feedback_response')
                 .leftJoinAndSelect('feedback_response.feedbackForm', 'feedback_form')
-                .leftJoinAndSelect('feedback_form.formCategory', 'formCategory')
+                .leftJoinAndSelect('feedback_form.category', 'category')
                 .leftJoinAndSelect('feedback_response.author', 'author')
                 .where("feedback_response.details->>'schoolName' ILIKE :schoolName", { schoolName })
                 .andWhere("feedback_response.details->>'schoolWebsite' ILIKE :schoolWebsite", { schoolWebsite })
                 .andWhere("feedback_response.details->>'schoolCountry' ILIKE :schoolCountry", { schoolCountry })
                 .getMany();
 
+            // Now filter the responses to find those with no principal name
             const schoolResponsesWithoutPrincipal = schoolResponses.filter(response => !response.details?.pricipalName);
 
             if (schoolResponsesWithoutPrincipal.length > 0) {
+                // Get the latest response without a principal name
                 const latestSchoolResponse = schoolResponsesWithoutPrincipal.reduce((latest, current) => {
                     return !latest || new Date(current.submittedAt) > new Date(latest.submittedAt) ? current : latest;
                 }, null as FeedbackResponse | null);
@@ -125,12 +128,14 @@ export class FeedbackResponseService {
                 }
             }
         } else if (!pricipalName && schoolName && schoolWebsite && schoolCountry) {
+            // Match by school
             responses = await query
                 .where("feedback_response.details->>'schoolName' ILIKE :schoolName", { schoolName })
                 .andWhere("feedback_response.details->>'schoolWebsite' ILIKE :schoolWebsite", { schoolWebsite })
                 .andWhere("feedback_response.details->>'schoolCountry' ILIKE :schoolCountry", { schoolCountry })
                 .getMany();
 
+            // Get the latest response for each principal
             const principalMap = new Map<string, FeedbackResponse>();
             for (const r of responses) {
                 const pName = r.details.pricipalName?.trim();

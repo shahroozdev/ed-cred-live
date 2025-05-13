@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { API_BASE_URL, getRequest } from "./config";
+import { API_BASE_URL } from "./config";
 
 const API_URL = `${API_BASE_URL}/feedback-form`
 
@@ -49,16 +49,6 @@ export async function fetchFeedbacks() {
         console.error("Error fetching feedbacks:", error);
         return [];
     }
-}
-
-export async function fetchFeedbacksByUserCategory() {
-    const response = await getRequest("/feedback-form/forms");
-    if (response.error) {
-        console.error(response.message);
-        toast.error(response.message);
-        return;
-    }
-    return await response.json();
 }
 
 export async function fetchFeedbackById(id: string) {

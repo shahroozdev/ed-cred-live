@@ -205,7 +205,7 @@ const FeedbackResponsesTable = ({ responses }: { responses: FeedbackResponse[] }
                         <TableCell>{response.author ? response.author.username : "Anonymous"}</TableCell>
                         {/* @ts-ignore */}
                         {detailKeys.map((key) => (
-                            <TableCell key={key} onClick={() => router.push(`/feedback/response/${response.id}`)}>{formatValue(key, response.details[key])}</TableCell>
+                            <TableCell key={key}>{formatValue(key, response.details[key])}</TableCell>
                         ))}
                         <TableCell className="text-right space-x-2">
                             {
@@ -225,6 +225,7 @@ const FeedbackResponsesTable = ({ responses }: { responses: FeedbackResponse[] }
 
                                         <Button size="sm" onClick={async () => {
                                             router.push(`/feedback/response/${response.id}`)
+
                                         }}>View</Button>
                                         <Button size="sm" variant="destructive" onClick={async () => {
                                             await deleteFeedback(response.id);
