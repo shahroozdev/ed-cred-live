@@ -1,4 +1,3 @@
-"use client";
 import About from "@/components/Landing/About";
 import Categories from "@/components/Landing/Categories";
 import Feedbacks from "@/components/Landing/RecentFeedbacks";
@@ -7,11 +6,13 @@ import Header from "@/components/Landing/Header";
 // import Metrics from '@/components/Landing/Metrics';
 import Dissussions from "@/components/Landing/RecentDisscussions";
 import Navbar from "@/components/Landing/Navbar";
+import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 
-const HomePage = () => {
+const HomePage = async() => {
+    const user = await getServerSideDataWithFeatures({url:'/auth/profile', key:'profile'})
   return (
     <div className="min-h-screen h-full bg-background relative">
-      <Navbar />
+      <Navbar user={user}/>
       <Header />
       <Categories />
       <About />

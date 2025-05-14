@@ -37,7 +37,6 @@ export default function ReivewPage({ params }: { params: Promise<{ category: str
                             <LoaderIcon className="animate-spin" />
                             :
                             <div className="w-full flex h-full flex-col items-start mt-40">
-                                <Navbar />
                                 {
                                     feedbacks.map((feedback) => (
                                         <div key={feedback.id} className="w-full">

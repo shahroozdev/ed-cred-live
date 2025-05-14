@@ -2,7 +2,6 @@ import { User } from "src/auth/user.entity";
 import { Category } from "src/category/category.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { FeedbackDetails, Question } from "../dto/create-feedback-form.dto";
-import { Subcategory } from "src/subcategory/subcategory.entity";
 import { FeedbackResponse } from "src/feedback-response/entities/feedback-response.entity";
 import { Subcategory } from "src/subcategory/subcategory.entity";
 

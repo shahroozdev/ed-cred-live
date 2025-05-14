@@ -2,6 +2,7 @@
 import { useQuery } from "@/hooks/generalHooks";
 import Image from "next/image";
 import { Slider } from "../molecules";
+import { imagesUrls } from "@/types";
 
 const Categories = () => {
   const { data, isLoading, error } = useQuery({
@@ -45,15 +46,7 @@ const Categories = () => {
 };
 
 export const Card = ({ title }) => {
-  const imagesUrls = {
-    "Leadership Members": "leadership",
-    Teachers: "Teachers",
-    Schools: "schools",
-    Districts: "districts",
-    "Staff Members":"staff",
-    "Parent":"parent",
-    "Principal":"pricipal",
-  };
+
   return (
     <div className="flex items-center justify-center gap-4 rounded-3xl border border-[#E5F4F2] bg-background p-4 text-center shadow-md flex-col h-[270px] min-h-[270px] max-h-[270px]">
       <div>

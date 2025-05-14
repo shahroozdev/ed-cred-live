@@ -29,6 +29,7 @@ export async function createCategory(
 
 export async function getAllCategories(): Promise<any> {
     const response = await fetch(API_URL, { headers: getAuthHeaders() });
+    console.log(API_URL, response, 'url')
 
     if (!response.ok) throw new Error('Failed to fetch categories');
     return response.json();

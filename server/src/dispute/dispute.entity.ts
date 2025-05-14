@@ -14,7 +14,7 @@ export class Dispute {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(() => FeedbackResponse, (response) => response.disputes, { onDelete: 'CASCADE' })
+    @ManyToOne(() => FeedbackResponse, (response) => response?.disputes, { onDelete: 'CASCADE' })
     feedbackResponse: FeedbackResponse;
 
     @ManyToOne(() => User, (user) => user.disputes, { eager: true })
@@ -37,4 +37,5 @@ export class Dispute {
 
     @UpdateDateColumn()
     updatedAt: Date;
+
 }

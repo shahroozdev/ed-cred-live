@@ -20,6 +20,7 @@ import { SearchModule } from './search/search.module';
 import { Post } from './posts/post.entity';
 import { FeedbackResponse } from './feedback-response/entities/feedback-response.entity';
 import { FeedbackForm } from './feedback-form/entities/feedback-form.entity';
+import { Dispute } from './dispute/dispute.entity';
 
 @Module({
     imports: [
@@ -44,7 +45,7 @@ import { FeedbackForm } from './feedback-form/entities/feedback-form.entity';
                 from: '"No Reply" <no-reply@yourdomain.com>',
             },
         }),
-        TypeOrmModule.forFeature([User, Category, Subcategory, Post, FeedbackResponse, FeedbackForm]),
+        TypeOrmModule.forFeature([User, Category, Subcategory, Post, FeedbackResponse, FeedbackForm, Dispute]),
         AuthModule,
         PostModule,
         CategoryModule,

@@ -20,19 +20,21 @@ import { extname, join } from 'path';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserRole } from 'types/user';
 import { RolesGuard } from 'src/guards/roles.guard';
-
+import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
+import { response } from 'types';
+import { User } from './user.entity';
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
 
     @Post('signup')
-    async signup(@Body() { username, email, password }: { username: string; email: string; password: string; }) {
-        return this.authService.signup(username, email, password);
+    async signup(@Body() { username, email, password }: { username: string; email: string; password: string; }): Promise<response & {token?:string, user?: User}> {
+        return apiWrapper(() => this.authService.signup(username, email, password));
     }
 
     @Post('login')
-    async login(@Body() { identifier, password }: { identifier: string; password: string }) {
-        return this.authService.login(identifier, password);
+    async login(@Body() { identifier, password }: { identifier: string; password: string }): Promise<response & {token?:string, user?: User}> {
+        return apiWrapper(() => this.authService.login(identifier, password));
     }
 
     @Get('profile')

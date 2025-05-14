@@ -23,7 +23,7 @@ export function NavigationMenuItems({ userCategoryId }: { userCategoryId?: strin
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/review" legacyBehavior passHref>
+                    <Link href="/user/review" legacyBehavior passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Give Feedback
                         </NavigationMenuLink>

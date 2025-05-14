@@ -1,8 +1,5 @@
 "use client"
-
-import { useState, useEffect } from "react";
-import { getProfile } from "@/api/auth";
-import { Category } from "@/store/categoryStore";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,10 +11,10 @@ import {
 } from "@/components/ui/card";
 import { postFormDataRequest, postRequest } from "@/api/config";
 import { toast } from "sonner";
-import Navbar from "@/components/Landing/Navbar";
 import Footer from "@/components/Landing/Footer";
 import { useUserProfile } from "@/hooks/useProfile";
 import { Loader } from "@/components/ui/loader";
+import { Category } from "@/types/user";
 
 interface User {
     id:         string;
@@ -29,7 +26,7 @@ interface User {
 }
 
 const UserVerifyPage = () => {
-    const { user } = useUserProfile();
+    const { user }:any = useUserProfile();
     const [emailSent, setEmailSent] = useState(false);
 
     async function sendVerificationCode(email: string) {
@@ -59,8 +56,7 @@ const UserVerifyPage = () => {
     if (!user) return (<div className="w-full h-screen items-center justify-center"><Loader /></div>)
 
     return (
-        <main className="min-h-screen w-full text-foreground flex flex-col gap-20 pt-20 mt-40 items-center justify-between">
-            <Navbar />
+        <main className="min-h-screen w-full text-foreground flex flex-col gap-20 items-center justify-between">
             {
                 emailSent ? <div className="text-2xl flex flex-col gap-8 text-center">
                     Email has been sent.<br/> Check your email for verfication
@@ -114,7 +110,6 @@ const UserVerifyPage = () => {
                             </div>
                         </> : <></>
             }
-            <Footer />
         </main>
     )
 }

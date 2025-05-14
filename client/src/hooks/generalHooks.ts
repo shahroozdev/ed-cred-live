@@ -50,30 +50,14 @@ export  async function MutateFunc(value:{url:string, method: 'POST' | 'PUT' | 'D
         const res= await mutateData({method:value?.method,url:value?.url,body:data, revalidatePage:!value?.tags?path:'', ...(value?.tags?{revalidateTags:value?.tags}:{}), ...(value?.allowMulti?{allowMulti:value?.allowMulti}:{})})
         if (res?.status === 200) {
           value?.onSuccess&&value.onSuccess(res)
-          toast("Success", {
-            description: res?.message,
-          })
-          //   notification.success({
-            //     message: res?.message,
-            //     duration: 3,
-            //   });
+          toast.success(res?.message)
             value?.sendTo && router.replace(value?.sendTo)
           } else {
-          toast("Error", {
-            description: res?.message,
-          })
-        //   notification.error({
-        //     message: res?.message,
-        //     duration: 3,
-        //   });
-        }
-  
+          toast.error(res?.message|| "Something went wrong")
+        }       
         return res;
-        } catch (error:any) {
-          console.log(error)
-          toast("Error", {
-            description: error.data.response?.message,
-          })
+      } catch (error:any) {
+        toast.error(error.data.response?.message|| "Something went wrong")
           throw error;
         }finally{
           setIsPending(false)
@@ -93,11 +77,11 @@ export  async function MutateFunc(value:{url:string, method: 'POST' | 'PUT' | 'D
           setLoading(true);
           const data = await getServerSideDataWithFeatures({url, key})// Replace with your API endpoint
           setData(data);
+          setLoading(false);
         } catch (err:any) {
           setError(err.message);
-        } finally {
           setLoading(false);
-        }
+        } 
       };
   
       fetchData();

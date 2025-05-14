@@ -8,6 +8,7 @@ import { UserRole } from "./../../types/user";
 import { Category } from 'src/category/category.entity';
 import { randomBytes } from 'crypto';
 import { MailerService } from '@nestjs-modules/mailer';
+import { response } from 'types';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,7 @@ export class AuthService {
         private mailerService: MailerService,
     ) {}
 
-    async signup(username: string, email: string, password: string) {
+    async signup(username: string, email: string, password: string): Promise<response & {token?:string, user?: User}> {
 
         const existingUser = await this.userRepository.findOne({
             where: [{ username }, { email }] 
@@ -60,10 +61,10 @@ export class AuthService {
             permissions: newUser.permissions,
         });
 
-        return { token }; 
+        return { status:200, message:'Sign Up Successfully.', token, user:newUser }; 
     }
 
-    async login(identifier: string, password: string) {
+    async login(identifier: string, password: string): Promise<response & {token?:string, user?: User}>  {
         const user = await this.userRepository.findOne({
             where: [{ email: identifier }, { username: identifier }],
         });
@@ -84,7 +85,7 @@ export class AuthService {
             permissions: user.permissions,
         });
 
-        return { token };
+        return { status:200, message:'Log In Successfully.', token, user }; 
     }
 
     async getProfile(userId: number) {

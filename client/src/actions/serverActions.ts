@@ -16,6 +16,7 @@ export async function getServerSideDataWithFeatures(props:{url:string, key?:stri
         next: { tags: [...(props?.key|| [])] },
       });
       const data= await response.json();
+
       return data
     } catch (err: any) {
       console.log(err)
@@ -47,10 +48,10 @@ export async function getServerSideDataWithFeatures(props:{url:string, key?:stri
         const response = await methodHandlers[value?.method]?.() 
         success = true;
         const twoDay = 48*60*60
-        if (response?.accessToken && response?.user && response?.status === 200) {
-          const { accessToken , user} = response;
+        if (response?.token && response?.user && response?.status === 200) {
+          const { token , user} = response;
           const cookieStore = await cookies()
-          cookieStore.set({name:'token', value:accessToken, httpOnly:true, path:'/', secure:true, maxAge:twoDay})
+          cookieStore.set({name:'token', value:token, httpOnly:true, path:'/', secure:true, maxAge:twoDay})
           cookieStore.set({name:'user', value:JSON.stringify(user), httpOnly:true, path:'/', secure:true, maxAge:twoDay})
         }
         return response;

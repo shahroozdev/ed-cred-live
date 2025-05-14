@@ -1,42 +1,57 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  OneToMany,
+} from "typeorm";
 import { FeedbackForm } from "src/feedback-form/entities/feedback-form.entity";
 import { User } from "src/auth/user.entity";
+import { Dispute } from "src/dispute/dispute.entity";
 
 @Entity()
 export class FeedbackResponse {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @ManyToOne(() => FeedbackForm, (feedbackForm) => feedbackForm.responses, { onDelete: "CASCADE" })
-    feedbackForm: FeedbackForm;
+  @ManyToOne(() => FeedbackForm, (feedbackForm) => feedbackForm.responses, {
+    onDelete: "CASCADE",
+  })
+  feedbackForm: FeedbackForm;
 
-    @ManyToOne(() => User, (user) => user.feedbackFormsResponses, { nullable: true })
-    author: User;
+  @ManyToOne(() => User, (user) => user.feedbackFormsResponses, {
+    nullable: true,
+  })
+  author: User;
 
-    @Column({ default: false })
-    accepted: boolean;
+  @Column({ default: false })
+  accepted: boolean;
 
-    @Column("jsonb")
-    details: {
-        salary:          string;
-        schoolName:      string;
-        schoolWebsite:   string;
-        schoolCountry:   string;
-        reportingPeriod: string;
-        pricipalName:    string;
-        pricipalDivison: string;
-        directorName:    string;
-    };
+  @Column("jsonb")
+  details: {
+    salary: string;
+    schoolName: string;
+    schoolWebsite: string;
+    schoolCountry: string;
+    reportingPeriod: string;
+    pricipalName: string;
+    pricipalDivison: string;
+    directorName: string;
+  };
 
-    @Column("jsonb")
-    answers: {
-        questionId: string;
-        answer: string | string[] | boolean | number;
-    }[];
+  @Column("jsonb")
+  answers: {
+    questionId: string;
+    answer: string | string[] | boolean | number;
+  }[];
 
-    @Column({ type: "text", nullable: true })
-    comments?: string;
+  @Column({ type: "text", nullable: true })
+  comments?: string;
 
-    @CreateDateColumn()
-    submittedAt: Date;
+  @CreateDateColumn()
+  submittedAt: Date;
+
+  @OneToMany(() => Dispute, (dispute) => dispute.disputedBy)
+  disputes: Dispute[];
 }

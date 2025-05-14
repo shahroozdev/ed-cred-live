@@ -1,24 +1,11 @@
 "use client";
-
-import { useEffect } from "react";
 import Image from "next/image";
-import Signup from "@/components/Landing/Signup";
-import Signin from "@/components/Landing/Signin";
-import { Loader } from "@/components/ui/loader";
-import { useUserProfile } from "@/hooks/useProfile";
 import { UserBubble } from "../Common/UserBubble";
 import { NavigationMenuItems } from "./NavigationMenuItems";
-import { MenuList } from "../atoms";
 import LoginRegistrationModal from "./loginRegistrationModal";
 
-const Navbar = () => {
-  const { user, loading } = useUserProfile();
 
-  // useEffect(() => {
-  //     if (user && user.role === "admin") {
-  //         //redirect("/dashboard");
-  //     }
-  // }, [user]);
+const Navbar = ({user}) => {
 
   return (
     <div className="sticky top-0 left-0 flex h-[70px] min-w-screen w-full max-w-screen items-center justify-center bg-background shadow-md px-8 z-50 text-[var(--mt-pre-color)]">
@@ -41,13 +28,11 @@ const Navbar = () => {
               userCategoryId={user && user.category ? user.category.id : 0}
             />
           </div>
-          {loading ? (
-            <Loader />
-          ) : user ? (
+          { user?.name ? (
             <UserBubble user={user} />
           ) : (
             <div className="flex gap-2 md:gap-4">
-              <LoginRegistrationModal/>
+              <LoginRegistrationModal />
             </div>
           )}
         </div>

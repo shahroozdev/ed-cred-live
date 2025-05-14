@@ -4,9 +4,9 @@ import { useCategoryStore } from "@/store/categoryStore";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import Navbar from "@/components/Landing/Navbar";
 import Footer from "@/components/Landing/Footer";
 import { Category } from "@/types/user";
+import { imagesUrls } from "@/types";
 
 const SignupCategorySelectPage = () => {
 
@@ -22,7 +22,6 @@ const SignupCategorySelectPage = () => {
 
     return (
         <main className="w-full h-screen font-inter flex flex-col gap-10 items-center justify-between">
-            <Navbar />
             <div className="flex flex-col gap-4 w-full h-auto items-center justify-center py-10 max-w-[1400px] m-auto">
                 <div className="w-lg text-center mb-10">
                     <div className="font-semibold text-3xl">Select Category</div>
@@ -34,7 +33,6 @@ const SignupCategorySelectPage = () => {
                     }
                 </div>
             </div>
-            <Footer />
         </main>
     )
 }
@@ -55,23 +53,12 @@ const Card = ({ category }: {category: Category}) => {
             return;
         }
 
-        console.log(response.requiresVerification);
-
         if (response.requiresVerification) {
             router.push("/user/verify/");
         } else {
             router.push("/user/welcome");
         }
     };
-      const imagesUrls = {
-    "Leadership Members": "leadership",
-    Teachers: "Teachers",
-    Schools: "schools",
-    Districts: "districts",
-    "Staff Members":"staff",
-    "Parent":"parent",
-    "Principal":"pricipal",
-  }as any
 
     return (
         <div 
