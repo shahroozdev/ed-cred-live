@@ -70,7 +70,7 @@ new Date(value.to)
     };
 
     const filteredResponses = useMemo(() => {
-        return responses.filter((response) => {
+        return responses.filter((response:any) => {
             const submittedBy = response.author?.username || "Anonymous";
             if (
                 filters["Submitted by"] &&
@@ -143,7 +143,7 @@ new Date(value.to)
             </TableHeader>
 
             <TableBody>
-                {filteredResponses.map((response) => (
+                {filteredResponses.map((response:any) => (
                     <TableRow key={response.id}>
                         <TableCell>
                             {response.author ? response.author.username : "Anonymous"}

@@ -1,7 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
-import { BaseUser } from "./../../../../shared/types/user"
-import { getProfile } from "@/api/auth";
 import { BadgeCheckIcon, BadgeMinusIcon } from "lucide-react";
 import { useUserProfile } from "@/hooks/useProfile";
 import { Loader } from "@/components/ui/loader";

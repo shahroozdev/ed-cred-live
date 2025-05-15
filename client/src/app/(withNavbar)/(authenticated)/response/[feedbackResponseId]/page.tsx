@@ -51,7 +51,6 @@ export default function FeedbackResponseViewPage({ params }: { params: Promise<{
 
     return(
         <div className="w-full h-full min-h-screen flex justify-center text-black pt-20">
-            <Navbar />
             {
                 feedback ? 
                     <div className="w-4xl">
@@ -74,14 +73,13 @@ export default function FeedbackResponseViewPage({ params }: { params: Promise<{
                             <Tabs defaultValue="all" className="w-full">
                                 <TabsList className="flex flex-wrap gap-2">
                                     <TabsTrigger value="all">All</TabsTrigger>
-                                    {
-                                        Array.from(new Set(feedback.responses.map(r => r.author?.category?.name)))
-                                        .map((category) => category && (
-                                            <TabsTrigger key={category} value={category}>
+                                    <>{Array.from(new Set(feedback.responses.map((r:any) => r.author?.category?.name)))
+                                        .map((category:any, idx:number) => category && (
+                                            <TabsTrigger key={idx} value={category}>
                                                 {category}
                                             </TabsTrigger>
                                         ))
-                                    }
+                                    }</>
                                 </TabsList>
 
                                 <TabsContent value="all">
@@ -91,21 +89,19 @@ export default function FeedbackResponseViewPage({ params }: { params: Promise<{
                                         ))
                                     }
                                 </TabsContent>
-
-                                {
-                                    Array.from(new Set(feedback.responses.map(r => r.author?.category?.name)))
-                                    .map((category) => category && (
-                                        <TabsContent key={category} value={category}>
+                                <>{Array.from(new Set(feedback.responses.map((r:any) => r.author?.category?.name)))
+                                    .map((category:any, idx:number) => (category && (
+                                        <TabsContent key={idx} value={category}>
                                             {
                                                 feedback.responses
-                                                .filter((r) => r.author?.category?.name === category)
-                                                .map((response) => (
+                                                .filter((r:any) => r.author?.category?.name === category)
+                                                .map((response:any) => (
                                                     <IndividualReview key={response.id} response={response} />
                                                 ))
                                             }
                                         </TabsContent>
-                                    ))
-                                }
+                                    )))
+                                }</>
                             </Tabs>
                         </div>
                     </div>: <Loader />
@@ -175,12 +171,12 @@ function FeedbackView({
     );
 }
 
-const IndividualReview = ({ response }: { response : FeedbackResponse }) => {
+const IndividualReview = ({ response }: { response : any }) => {
     return (
         <div className="flex flex-col gap-4 py-6 bg-white">
             {
-                response.answers.slice(0, response.answers.length - 1).map(answer => (<div key={answer.questionId} className="flex bg-muted p-4 rounded-lg">
-                    <div className="text-lg">{response.feedbackForm.questions.filter((question: any) => question.id == answer.questionId)[0]?.text}</div>
+                response.answers.slice(0, response.answers.length - 1).map((answer:any) => (<div key={answer.questionId} className="flex bg-muted p-4 rounded-lg">
+                    <div className="text-lg">{response?.feedbackForm.questions.filter((question: any) => question.id == answer.questionId)[0]?.text}</div>
                     <RatingBar rating={typeof answer.answer === 'number' ? answer.answer : 0} />
                 </div>))
             }

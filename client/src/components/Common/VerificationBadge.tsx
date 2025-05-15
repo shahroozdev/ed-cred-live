@@ -5,7 +5,7 @@ export const VerificationBadge = ({ isVerified }: { isVerified: boolean }) => {
     if (!isVerified) return null;
 
     return (
-        <Popover className="">
+        <Popover>
             <PopoverTrigger className="w-max ml-auto inline-flex items-center justify-end gap-1 bg-green-300 text-green-900 px-3 py-1 text-sm rounded-full font-medium" >
                 <BadgeCheck className="w-4 h-4" />
                 Verified Response

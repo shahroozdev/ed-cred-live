@@ -8,8 +8,9 @@ import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, Pagi
 import { FilterXIcon, Trash2Icon } from "lucide-react";
 import { deleteFeedback, fetchFeedbacks } from "@/api/feedback";
 import { Question } from "@/store/questionStore";
-import { Category, SubCategory } from "@/store/categoryStore";
+import { SubCategory } from "@/store/categoryStore";
 import { useRouter } from "next/navigation";
+import { Category } from "@/types/user";
 
 // TODO:factor it out in the common module
 export interface Feedback {
@@ -171,7 +172,7 @@ export const RecentFeedback = () => {
                                     <PaginationItem>
                                         <PaginationPrevious 
                                             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
-                                            disabled={currentPage === 1}
+                                            // disabled={currentPage === 1}
                                         />
                                     </PaginationItem>
 
@@ -195,7 +196,7 @@ export const RecentFeedback = () => {
                                     <PaginationItem>
                                         <PaginationNext 
                                             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} 
-                                            disabled={currentPage === totalPages}
+                                            // disabled={currentPage === totalPages}
                                         />
                                     </PaginationItem>
                                 </PaginationContent>

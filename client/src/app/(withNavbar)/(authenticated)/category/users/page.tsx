@@ -12,8 +12,8 @@ import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Category } from "@/store/categoryStore";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { Category } from "@/types/user";
 
 interface ListingUser {
     username:   string;

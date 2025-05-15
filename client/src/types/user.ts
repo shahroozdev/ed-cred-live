@@ -16,4 +16,5 @@ export interface Category {
     requiresVerification: boolean;
     subCategories: SubCategory[];
     iconUrl: string;
+    permissions?:any;
 }

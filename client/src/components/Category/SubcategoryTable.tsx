@@ -110,7 +110,7 @@ export const SubCategoryTable = () => {
                                 <PaginationItem>
                                     <PaginationPrevious
                                         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                                        disabled={currentPage === 1}
+                                        // disabled={currentPage === 1}
                                     />
                                 </PaginationItem>
 
@@ -134,7 +134,7 @@ export const SubCategoryTable = () => {
                                 <PaginationItem>
                                     <PaginationNext
                                         onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                                        disabled={currentPage === totalPages}
+                                        // disabled={currentPage === totalPages}
                                     />
                                 </PaginationItem>
                             </PaginationContent>

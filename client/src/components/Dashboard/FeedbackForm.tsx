@@ -143,7 +143,7 @@ const SubmitButton = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormS
     const { setFeedback } = useFeedbackStore();
     const handleFeedbackSave = () => {
         const data = form.getValues();
-        const feedback: Feedback = {
+        const feedback: any = {
             id: uuidv4(),
             ...data,
         };

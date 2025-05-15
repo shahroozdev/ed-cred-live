@@ -35,13 +35,13 @@ const detailType = {
         pricipalDivison: "text",
         directorName:    "text",
         salary:          "number",
-}
+}as any;
 
 
 export const FeedbackForm = ({ feedback, color = "red" }: { feedback: Feedback, color?: string }) => {
     const [responses, setResponses] = useState<{ [key: string]: any }>({});
     const router = useRouter();
-    const [details, setDetails] = useState({});
+    const [details, setDetails] = useState<any>({});
     const { user } = useUserProfile();
 
     const handleResponseChange = (id: string, value: any) => {
@@ -50,7 +50,7 @@ export const FeedbackForm = ({ feedback, color = "red" }: { feedback: Feedback, 
 
 const handleSubmit = async () => {
     try {
-            const feedbackResponse: CreateFeedbackResponseDto = {
+            const feedbackResponse: any = {
                 feedbackFormId: feedback.id, 
                 details: details,
                 answers: Object.entries(responses)
@@ -60,7 +60,7 @@ const handleSubmit = async () => {
                 })),
                 comments: responses["comments"] || "",
                 submittedAt: new Date().toISOString(),
-                authorId: user.id,
+                authorId: user?.id,
             };
 
             await createFeedbackResponse(feedbackResponse);
@@ -91,14 +91,14 @@ const handleSubmit = async () => {
                                     {detailType[detail] === "dropdown" ? (
                                         <CountryDropdown
                                             value={details[detail]}
-                                            onChange={(val) => setDetails((prev) => ({ ...prev, [detail]: val }))}
+                                            onChange={(val) => setDetails((prev:any) => ({ ...prev, [detail]: val }))}
                                         />
                                     ) : detailType[detail] === "date-range" ? (
                                             <DateRangePicker
                                                 //@ts-ignore
                                                 date={details[detail]}
                                                 setDate={(value) =>
-                                                    setDetails((prev) => ({ ...prev, [detail]: value }))
+                                                    setDetails((prev:any) => ({ ...prev, [detail]: value }))
                                                 }
                                             />
                                         ) : (
@@ -109,7 +109,7 @@ const handleSubmit = async () => {
                                                     //@ts-ignore
                                                     value={details[detail]}
                                                     onChange={(e) =>
-                                                        setDetails((prev) => ({ ...prev, [detail]: e.target.value }))
+                                                        setDetails((prev:any) => ({ ...prev, [detail]: e.target.value }))
                                                     }
                                                 />
                                             )}

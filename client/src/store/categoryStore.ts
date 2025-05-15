@@ -5,7 +5,7 @@ import { Category } from "@/types/user";
 interface CategoryStore {
     categories: Category[];
     fetchCategories: () => Promise<void>;
-    addCategory: (category: Omit<Category, "createdAt">) => Promise<void>;
+    addCategory: (category: any) => Promise<void>;
     removeCategory: (id: number) => Promise<void>;
 }
 
@@ -33,7 +33,7 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
         }
     },
 
-    addCategory: async (category) => {
+    addCategory: async (category:any) => {
         try {
             const newCategory = { ...category, createdAt: new Date() };
             const response = await fetch(`${API_BASE_URL}/category`, {

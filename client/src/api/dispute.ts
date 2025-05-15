@@ -11,7 +11,7 @@ interface UpdateDisputeDto {
 }
 
 export async function createDispute(
-    feedbackResponseId: string,
+    feedbackResponseId: number,
     data: CreateDisputeDto,
 ) {
     const res = await postRequest(`disputes/${feedbackResponseId}`, JSON.stringify(data));

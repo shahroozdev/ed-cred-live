@@ -26,17 +26,17 @@ export function formatDate(date: Date): string {
 export async function getUsers(): Promise<User[]> {
     const response = await getRequest("/auth/users");
     if (!response) return [];
-    const body = await response.json();
-    if (body.error) {
-        console.error(error);
+    const body:any = await response.json();
+    if (body?.error) {
+        console.error(body?.error);
         return [];
     }
     return body;
 }
 
-export async function deleteUser(userId: string): void {
-    const resopnse = await postRequest("/auth/");
-}
+// export async function deleteUser(userId: string): void {
+//     const resopnse = await postRequest("/auth/");
+// }
 
 export async function verifyUser(userId: string, action: "approve" | "reject"): Promise<void> {
     const _resopnse = await postRequest("auth/verify-user", JSON.stringify({ userId, action }));

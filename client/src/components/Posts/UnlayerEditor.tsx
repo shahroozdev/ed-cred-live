@@ -8,7 +8,7 @@ import {
   forwardRef,
   Ref,
 } from "react";
-import type { EmailEditorRef } from "react-email-editor";
+// import type { EmailEditorRef } from "react-email-editor";
 
 // Dynamically import to avoid SSR issues
 const EmailEditor = dynamic(() => import("react-email-editor"), {
@@ -33,7 +33,7 @@ const UnlayerEditor = forwardRef(
     { value, onChange, className }: UnlayerEditorProps,
     ref: Ref<UnlayerEditorHandle>
   ) => {
-    const editorRef = useRef<EmailEditorRef>(null);
+const editorRef = useRef<any>(null);
 
     // Load initial design
     useEffect(() => {
@@ -51,14 +51,14 @@ const UnlayerEditor = forwardRef(
     useImperativeHandle(ref, () => ({
       exportHtml: () => {
         return new Promise((resolve) => {
-          editorRef.current?.editor?.exportHtml((data) => {
+          editorRef.current?.editor?.exportHtml((data:any) => {
             resolve(data.html);
           });
         });
       },
       exportDesign: () => {
         return new Promise((resolve) => {
-          editorRef.current?.editor?.exportDesign((design) => {
+          editorRef.current?.editor?.exportDesign((design:any) => {
             resolve(JSON.stringify(design));
           });
         });
@@ -68,7 +68,7 @@ const UnlayerEditor = forwardRef(
     // Export HTML on change
     const handleLoad = () => {
       editorRef.current?.editor?.addEventListener("design:updated", () => {
-        editorRef.current?.editor?.exportHtml((data) => {
+        editorRef.current?.editor?.exportHtml((data:any) => {
           onChange?.(data.html);
         });
       });
