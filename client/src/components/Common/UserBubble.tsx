@@ -1,3 +1,4 @@
+import { removeCookie } from "@/actions/serverActions";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -15,8 +16,10 @@ import { useRouter } from "next/navigation";
 export const UserBubble = ({ user } : { user : UserProfile }) => {
 
     const router = useRouter();
- function logout() {
+async function logout() {
     localStorage.removeItem('token');
+    await removeCookie('user');
+    await removeCookie('token');
     router.push('/')
 }
     return (

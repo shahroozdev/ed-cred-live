@@ -10,20 +10,17 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { useCategories } from "@/hooks/useCategories";
-import { Loader } from "../ui/loader";
 import { useFetcher } from "@/hooks/useFetcher";
 import { Post } from "@/api/posts";
 
-export function NavigationMenuItems({ userCategoryId }: { userCategoryId?: string }) {
-    const { categories, loading } = useCategories();
+export function NavigationMenuItems() {
     const { data: posts } = useFetcher<Post[]>("/posts/preview/");
 
     return (
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <Link href="/user/review" legacyBehavior passHref>
+                    <Link href="/review" legacyBehavior passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Give Feedback
                         </NavigationMenuLink>
@@ -32,7 +29,7 @@ export function NavigationMenuItems({ userCategoryId }: { userCategoryId?: strin
 
                 
                 <NavigationMenuItem>
-                    <Link href="/user/dashboard" legacyBehavior passHref>
+                    <Link href="/dashboard" legacyBehavior passHref>
                         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                             Read Feedback
                         </NavigationMenuLink>

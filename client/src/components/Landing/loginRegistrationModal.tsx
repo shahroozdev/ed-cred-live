@@ -23,7 +23,7 @@ const LoginRegistrationModal = () => {
         Sign-in
       </Button>
       <div
-        className="fixed bottom-0 left-0 flex h-[93vh] w-screen flex-col items-center justify-center gap-4 rounded-t-2xl bg-background text-[var(--mt-pre-color)] font-sans font-[400] shadow-inner z-[100] transition-all duration-300  p-6 sm:p-8"
+        className="fixed bottom-0 left-0 flex h-[93vh] overflow-y-auto w-screen flex-col items-center justify-center gap-4 rounded-t-2xl bg-background text-[var(--mt-pre-color)] font-sans font-[400] shadow-inner z-[100] transition-all duration-300  p-6 sm:p-8"
         style={{ bottom: open.status ? "0" : "-100%" }}
       >
         {open.type==="signup"?<Signup/>:<Signin/>}
@@ -32,7 +32,7 @@ const LoginRegistrationModal = () => {
           size={40}
           strokeWidth={1}
         //   stroke="#00000099"
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 cursor-pointer text-[var(--mt-pre-color)]"
+          className="absolute top-6 left-2/3 -translate-x-1/2 cursor-pointer text-[var(--mt-pre-color)]"
         />
       </div>
     </>
