@@ -7,8 +7,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useCategoryStore } from "@/store/categoryStore";
-import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import { Button } from "../atoms";
 
 const FormSchema = z.object({
     name: z.string().min(2, "The category must be at least 2 characters"),
@@ -35,7 +35,7 @@ export const AddCategory = () => {
         <div className="ring-2 ring-muted p-4 rounded-md">
             <div className="font-semibold text-xl mb-4">Add Category</div>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex-wrap flex w-full items-center justify-start gap-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex-wrap flex  items-center justify-start gap-4">
                     <FormField
                         control={form.control}
                         name="name"
@@ -76,7 +76,7 @@ export const AddCategory = () => {
                         control={form.control}
                         name="requiresVerification"
                         render={({ field }) => (
-                            <FormItem className="w-md flex justify-between my-2 ">
+                            <FormItem className="w-md flex gap-2 mt-5 ">
                                 <FormLabel className="text-left flex-col items-start gap-1">
                                     Verification Required
                                 </FormLabel>

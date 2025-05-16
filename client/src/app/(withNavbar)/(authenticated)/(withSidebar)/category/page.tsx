@@ -40,8 +40,8 @@ const CategoryPage = () => {
     const router = useRouter();
     return (
         <div className="bg-background text-foreground relative flex flex-col overflow-x-hidden font-inter">
-            <div className="flex flex-col gap-4 p-10 items-center">
-                <div className="flex flex-col gap-8 w-4xl">
+            <div className="flex flex-col gap-4 p-5 items-center">
+                <div className="flex flex-col gap-8 w-full">
                     <Title
                         title="Categories"
                         desc=""

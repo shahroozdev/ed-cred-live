@@ -18,10 +18,7 @@ export const Stats = ({ stats } : { stats: { title: string; value: string}[]; de
     }
 
     return(
-        <div 
-            className={`grid gap-4`}
-            style={{ gridTemplateColumns: `repeat(${stats.length}, minmax(0, 1fr))`}}
-        >
+        <div  className={`grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4`} >
             {
                 stats.map((stat, index) => <StatCard {...stat} key={`stat-card-${index}`} />)
             }
