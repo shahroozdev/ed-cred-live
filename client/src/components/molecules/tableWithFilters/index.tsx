@@ -1,0 +1,94 @@
+"use client";
+import { Button } from "@/components/atoms";
+import { Separator } from "@/components/ui/separator";
+import { cn, getAllParam } from "@/lib/utils";
+import { TableWithColumnProps } from "@/types";
+import { FilterXIcon, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import CustomTable from "../table";
+import { Input } from "@/components/ui/input";
+import CustomForm from "../customForm";
+
+const TableWithFilter = ({
+  tableColumn,
+  tableData,
+  title,
+  form,
+  tablePagination,
+  noFilter,
+  removeMainCSS,
+  className,
+  loading,
+  searchBar,
+}: TableWithColumnProps) => {
+  const [showFilters, setShowFilters] = useState(false);
+  const [search, setSearch] = useState("");
+  const router = useRouter();
+  const onSubmit2 = (data: any) => {
+    const queryParams = getAllParam(data);
+    router.push(`?page=1&${queryParams}`);
+  };
+  const handleSearch = () => {
+    router.push(`?page=1&query=${search}`);
+  };
+  return (
+    <div
+      className={cn(
+        className,
+        removeMainCSS
+          ? ""
+          : "shadow-[8px_8px_48px_0px_rgba(0,0,0,0.08)] rounded-xl border mb-5"
+      )}
+    >
+      <div
+        className={"mt-3 flex items-center justify-between sm:px-4 px-2 mb-2"}
+      >
+        <div className="text-xl font-semibold flex items-center">{title}</div>
+        <div className="flex h-fit items-center gap-5">
+          {!noFilter && (
+            <Button
+              variant={"ghost"}
+              icon={<FilterXIcon size={20} />}
+              background="#F3F4F6"
+              rounded={8}
+              color="#4B5563"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              {!showFilters ? "Filter" : "Cancel"}
+            </Button>
+          )}
+        </div>
+      </div>
+      {showFilters && <Separator className="my-3" />}
+            {showFilters && (
+        <div className={`sm:px-4 px-2 ${showFilters?'h-auto':'h-0'} transition-all duration-300 ease-in-out`}>
+          <CustomForm props={{ ...form, onSubmit:onSubmit2 }} />
+        </div>
+      )}
+      {searchBar && (
+        <div className="w-full flex justify-end px-5">
+          <div className="flex items-center gap-2 border border-gray-300 rounded-md px-2 bg-white">
+            <Input
+              placeholder="Search title..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-48 border-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus:shadow-none appearance-none text-sm"
+            />
+            <Search className="text-gray-400 w-4 h-4 cursor-pointer" onClick={handleSearch}/>
+          </div>
+        </div>
+      )}
+      <div className="sm:px-4 px-2">
+        <CustomTable
+          data={tableData}
+          columns={tableColumn}
+          pagination={tablePagination}
+          loading={loading}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default TableWithFilter;

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react"; // Assuming you're using lucide for icons
+import { ReactNode } from "react";
 
 const Button = ({
   children,
@@ -7,13 +8,15 @@ const Button = ({
   loading = false,
   disabled,
   className,
+  icon,
   ...props
 }: {
   children: React.ReactNode;
-  variant?: "primary" | "border" | "outline" | "secondary";
+  variant?: "primary" | "border" | "outline" | "secondary" |"ghost";
   loading?: boolean;
   disabled?: boolean;
   className?: string;
+  icon?:ReactNode;
   [key: string]: any;
 }) => {
   const variants = {
@@ -24,6 +27,7 @@ const Button = ({
     outline: "bg-transparent border",
     secondary:
       "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+    ghost: "bg-[#e5e5e5] text-gray-700",
   };
 
   return (
@@ -38,6 +42,7 @@ const Button = ({
       {loading && (
         <Loader2 className="animate-spin h-4 w-4" />
       )}
+            {icon && icon}
       {children}
     </button>
   );

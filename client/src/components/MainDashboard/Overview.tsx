@@ -1,3 +1,4 @@
+'use client'
 import {
     Card,
     CardHeader,
@@ -8,8 +9,6 @@ import { RecentFeedback } from "./RecentFeedbacks";
 import { RecentPosts } from "./RecentPosts";
 import { usePostStore } from "@/store/usePostStore";
 import { Stats } from "@/components/Common/Stats";
-import { useCategoryStore } from "@/store/categoryStore";
-import { useEffect } from "react";
 import { useFeedbacksStore } from "@/store/feedbackStore";
 import { useQuery } from "@/hooks/generalHooks";
 

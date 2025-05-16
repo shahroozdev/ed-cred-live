@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <SidebarProvider>
-        <div className="flex h-full w-screen overflow-hidden">
+        <div className="flex h-full w-full overflow-hidden">
           <SideMenu />
           <SidebarInset className="flex-1 overflow-auto">{children}</SidebarInset>
         </div>

@@ -1,5 +1,5 @@
 'use client'
-import { ChevronLeft, ChevronRight, ChevronUp, DivideCircle, User2, type LucideIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronUp, User2, type LucideIcon } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,

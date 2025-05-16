@@ -4,7 +4,7 @@ import { fetchFeedbacks } from "@/api/feedback";
 import { RecentFeedback } from "@/components/MainDashboard/RecentFeedbacks";
 import { Stats } from "@/components/Common/Stats";
 import { Title } from "@/components/Common/Title";
-import { Navbar } from "@/components/Common/Navbar";
+
 
 export default function FeedbacksPage() {
     const [feedbacks, setFeedbacks] = useState<any[]>([]);

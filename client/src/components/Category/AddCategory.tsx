@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -35,7 +34,7 @@ export const AddCategory = () => {
         <div className="ring-2 ring-muted p-4 rounded-md">
             <div className="font-semibold text-xl mb-4">Add Category</div>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="flex-wrap flex  items-center justify-start gap-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="grid md:grid-cols-2 grid-cols-1 justify-start gap-4">
                     <FormField
                         control={form.control}
                         name="name"
@@ -43,7 +42,7 @@ export const AddCategory = () => {
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Enter category name" {...field} maxLength={100} className="w-md" />
+                                    <Input placeholder="Enter category name" {...field} maxLength={100}  />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -54,7 +53,7 @@ export const AddCategory = () => {
                         control={form.control}
                         name="status"
                         render={({ field }) => (
-                            <FormItem className="w-sm">
+                            <FormItem >
                                 <FormLabel>Status</FormLabel>
                                 <Select onValueChange={(value) => field.onChange(value)} defaultValue={field.value}>
                                     <FormControl>

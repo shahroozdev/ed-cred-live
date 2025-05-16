@@ -1,4 +1,7 @@
+import { CSSProperties, ReactElement, ReactNode } from "react";
 import { Category } from "./user";
+import { z } from "zod";
+import { SubmitHandler } from "react-hook-form";
 
 export interface QueryProps {
   url: string;
@@ -80,3 +83,79 @@ interface BaseUser {
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+export interface ModalProps {
+  children: ReactNode;
+  className?: string;
+  title?: ReactNode;
+  description?: string;
+  footer?: ReactNode;
+  trigger: ReactNode;
+  defaultOpen?: boolean;
+  notClose?: boolean;
+  open: boolean;
+  triggerClassName?: string;
+  setIsOpen: (value: boolean) => void;
+}
+
+export interface TableWithColumnProps {
+  onSubmit?: (value: any) => void;
+  title: string;
+  actionBtnText?: string;
+  actionBtnIcon?: string;
+  actionBtn?: ReactNode;
+  form?: any;
+  searchBar?:boolean;
+  tableData: any;
+  tableColumn: any;
+  tablePagination?: boolean;
+  noFilter?: boolean;
+  removeMainCSS?: boolean;
+  actionBtnWrapper?: ReactElement;
+  className?: string;
+  loading?: boolean; // ← Add this line
+  PreNode?: ReactNode;
+}
+
+export interface CustomFormProps {
+  schema: z.ZodType<any>;
+  onSubmit: SubmitHandler<any>;
+  defaultValues?: Record<string, any>;
+  style?: any;
+  arr?: Array<any>;
+  preNode?: ReactNode;
+  postNode?: ReactNode;
+  btnCss?: string;
+  btnText?: string;
+  btnWidth?: string;
+  style2?: CSSProperties;
+  extraBtn?: ReactNode;
+  btnIcon?: ReactNode;
+  btnDivClassName?: string;
+}
+export type item = {
+  id?: any;
+  type: string; // Specify allowed types
+  inputName: string; // Name of the input field
+  placeHolder?: string; // Placeholder text
+  postNode?: ReactNode;
+  preNode?: ReactNode;
+  style?: string;
+  pStyle?: string;
+  label?: ReactNode;
+  options?: { value: string; label: string }[];
+  optionsStyle?: string;
+  optionsDivStyle?: string;
+  noBorder?: boolean;
+  defaultValue?: any;
+  isMulti?: boolean;
+  allowClear?: boolean;
+  bgColor?: string;
+  hAuto?: boolean;
+  rows?: number;
+  selectWidth?: string;
+  inputWidth?: string;
+  mode?: "tags" | "multiple" | "default";
+  disabled?: boolean;
+  copyable?: boolean;
+};

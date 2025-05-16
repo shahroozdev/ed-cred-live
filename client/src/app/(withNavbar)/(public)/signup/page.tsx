@@ -5,6 +5,7 @@ import { Button } from "@/components/atoms";
 import Link from "next/link";
 import { SignupFormData, signupSchema } from "@/lib/schemas";
 import { useMutate } from "@/hooks/generalHooks";
+import TitleWrapper from "@/components/atoms/titleWrapper";
 
 const SignupPage = () => {
 
@@ -27,6 +28,7 @@ const SignupPage = () => {
   };
 
   return (
+    <TitleWrapper title={""} notBackBtn>
     <div className="flex h-full w-full flex-col items-center justify-center gap-4 border rounded-2xl p-5 bg-background font-sans font-[400] transition-[bottom]">
       <div className="text-2xl sm:text-3xl font-bold">Sign Up below</div>
       <form
@@ -128,6 +130,7 @@ const SignupPage = () => {
         </div>
       </div>
     </div>
+     </TitleWrapper>
   );
 };
 

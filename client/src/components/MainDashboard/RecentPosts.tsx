@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from "react";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
 import { usePostStore } from "@/store/usePostStore";

@@ -6,8 +6,12 @@ export async function middleware(request: NextRequest) {
   const token = cookieStore.get("token")?.value;
   const user = cookieStore.get("user")?.value;
   const authRoutes = ["/signup", "/login"];
-
-  if (request.nextUrl.pathname?.startsWith("/user")) {
+  const protectedRoutes =["/category", "/users", "/feedback", "/forum", "/posts", "/roles", "/subcategory", "/dashboard", "pricing", "/response", "/review", "/setting", "/verify","/welcome"]
+    const pathname = request.nextUrl.pathname;
+    const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+  if (isProtectedRoute) {
     if (!token) {
       return NextResponse.redirect(new URL(`/login`, request.url));
     }

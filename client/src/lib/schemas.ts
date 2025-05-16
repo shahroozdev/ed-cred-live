@@ -20,3 +20,9 @@ export const signupSchema = z.object({
 });
 
 export type SignupFormData = z.infer<typeof signupSchema>;
+
+export const CategoryFiltersSchema = z.object({
+  name: z.string().optional(),
+  to_date: z.string().optional(),
+  from_date: z.string().optional(),
+});

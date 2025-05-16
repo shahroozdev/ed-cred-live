@@ -3,7 +3,7 @@ import React from 'react'
 const TermsOFUse = () => {
     return (
 
-        <div className="max-w-[1200px] w-full m-auto bg-background py-4 md:px-10 px-2">
+        <div className="max-w-[1400px] w-full m-auto bg-background py-4 md:px-10 px-2">
             <p className='text-[#686C70] my-3 '>
                 Effective Date: <strong>February 12, 2025</strong>
             </p>
