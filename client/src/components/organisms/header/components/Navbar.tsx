@@ -1,14 +1,15 @@
 "use client";
 import Image from "next/image";
-import { UserBubble } from "../Common/UserBubble";
 import { NavigationMenuItems } from "./NavigationMenuItems";
 import LoginRegistrationModal from "./loginRegistrationModal";
+import { UserBubble } from "./UserBubble";
+import { UserProfile } from "@/types/user";
+import DrawerBtn from "../../sidebar/mobileSidebar";
 
 
-const Navbar = ({user}) => {
-
+const Navbar = ({ user }: { user: UserProfile }) => {
   return (
-    <div className="sticky top-0 left-0 flex h-[70px] min-w-screen w-full max-w-screen items-center justify-center bg-background shadow-md px-8 z-50 text-[var(--mt-pre-color)]">
+    <div className="sticky top-0 left-0 flex h-[70px] min-w-screen w-full max-w-screen items-center justify-center bg-background shadow-md px-8 z-10 text-[var(--mt-pre-color)]">
       <div className="w-full flex items-center justify-between py-4">
         <div className="flex items-center justify-center gap-2 md:gap-4">
           <Image
@@ -25,16 +26,17 @@ const Navbar = ({user}) => {
           {/* <MenuList/> */}
           <div className="lg:block hidden">
             <NavigationMenuItems
-              userCategoryId={user && user.category ? user.category.id : 0}
+            // userCategoryId={user && user?.category ? user.category.id : 0}
             />
           </div>
-          { user?.name ? (
+          {user?.name ? (
             <UserBubble user={user} />
           ) : (
             <div className="flex gap-2 md:gap-4">
               <LoginRegistrationModal />
             </div>
           )}
+          <div className="lg:hidden block"><DrawerBtn user={user} /></div>
         </div>
       </div>
     </div>

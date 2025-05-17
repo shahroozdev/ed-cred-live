@@ -1,4 +1,4 @@
-import Footer from "@/components/Landing/Footer";
+import { Footer } from "@/components/organisms";
 import React, { ReactNode } from "react";
 
 const Layout = async ({ children }: { children: ReactNode }) => {

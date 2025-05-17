@@ -1,9 +1,3 @@
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardContent
-} from "@/components/ui/card"
 
 export const Stats = ({ stats } : { stats: { title: string; value: string}[]; description?: string }) => {
     
@@ -18,7 +12,7 @@ export const Stats = ({ stats } : { stats: { title: string; value: string}[]; de
     }
 
     return(
-        <div  className={`grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4`} >
+        <div  className={`grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4`} >
             {
                 stats.map((stat, index) => <StatCard {...stat} key={`stat-card-${index}`} />)
             }

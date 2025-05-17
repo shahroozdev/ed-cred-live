@@ -1,17 +1,8 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
-import { Button } from "../ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { Input } from "../ui/input";
-import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationEllipsis, PaginationLink } from "../ui/pagination";
-import { FilterXIcon, Trash2Icon } from "lucide-react";
-import { useSubCategoryStore } from "@/store/categoryStore";
 import TableWithFilter from "../molecules/tableWithFilters";
 import { useQuery } from "@/hooks/generalHooks";
 import { CategoryFilterForm } from "@/data/forms";
-import { studentMaterialColumn, subCategoryColumn } from "@/data/tableColumns";
+import { subCategoryColumn } from "@/data/tableColumns";
 
 export const SubCategoryTable = () => {
       const { data, isLoading:loading } = useQuery({

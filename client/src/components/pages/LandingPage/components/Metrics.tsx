@@ -26,7 +26,7 @@ const Metrics = () => {
     )
 }
 
-const Metric = ({ value, title }) => {
+const Metric = ({ value, title }:{value:any, title:any}) => {
     return (
         <div className='flex w-full flex-col items-center justify-center gap-2 rounded-t-2xl border-b-4 border-[#FF6250] bg-white p-10 px-14'>
             <div className='text-4xl font-[700]'>{value}</div>

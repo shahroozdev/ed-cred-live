@@ -9,34 +9,6 @@ import { SubCategoryTable } from "@/components/Category/SubcategoryTable";
 import TitleWrapper from "@/components/atoms/titleWrapper";
 
 const CategoryPage = () => {
-  const { categories, fetchCategories, addCategory } = useCategoryStore();
-  const [name, setName] = useState("");
-  const [status, setStatus] = useState<"active" | "draft">("active");
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const handleAddCategory = async () => {
-    if (!name) return alert("Category name is required!");
-    await addCategory({ name, status });
-    setName("");
-  };
-
-  const stats = [
-    {
-      title: "Total Categories",
-      value: categories.length.toString(),
-    },
-    {
-      title: "Active Categories",
-      value: categories.filter((c) => c.status === "active").length.toString(),
-    },
-    {
-      title: "Draft Categories",
-      value: categories.filter((c) => c.status !== "active").length.toString(),
-    },
-  ];
 
   return (
     <TitleWrapper title="Sub Categories">

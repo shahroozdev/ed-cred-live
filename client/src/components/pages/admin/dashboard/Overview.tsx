@@ -14,10 +14,14 @@ import { useQuery } from "@/hooks/generalHooks";
 
 export const OverviewTab = () => {
     const { posts } = usePostStore();
-  const { data, isLoading, error } = useQuery({
-    url: "category",
+  const { data } = useQuery({
+    url: "/category",
     key: "categories",
   });
+//   const { data:feedbacks} = useQuery({
+//     url: "/feedback",
+//     key: "feedbacks",
+//   });
     const { feedbacks } = useFeedbacksStore();
 
     const stats = [
@@ -27,7 +31,7 @@ export const OverviewTab = () => {
         },
         {
             title: "Active Feedbacks",
-            value: feedbacks?.filter(f => f?.status === "active")?.length?.toString(),
+            value: feedbacks?.filter((f:any) => f?.status === "active")?.length?.toString(),
         },
         {
             title: "Total Posts",
@@ -40,11 +44,11 @@ export const OverviewTab = () => {
 
     ]
     return(
-        <div>
+        <div className="w-full">
             <Stats stats={stats}/>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <div className="grid gap-4 lg:grid-cols-3 grid-cols-1 w-full">
                 <RecentFeedback />
-                <Card className="col-span-3 h-max">
+                <Card className="col-span-1 h-max">
                     <CardHeader>
                         <CardTitle>Recent Posts</CardTitle>
                     </CardHeader>

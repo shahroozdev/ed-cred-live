@@ -1,16 +1,19 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { SideMenu } from "@/components/Common/SideMenu";
 import { ReactNode } from "react";
+import { getServerSideDataWithFeatures } from "@/actions/serverActions";
+import { SideMenu } from "@/components/organisms";
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default async function Layout({ children }: { children: ReactNode }) {
+  const user = await getServerSideDataWithFeatures({
+    url: "/auth/profile",
+    key: "profile",
+  });
   return (
     <>
-      <SidebarProvider>
-        <div className="flex h-full w-full overflow-hidden">
-          <SideMenu />
-          <SidebarInset className="flex-1 overflow-auto">{children}</SidebarInset>
-        </div>
-      </SidebarProvider>
+      <div className="flex h-full w-full overflow-hidden">
+        {user.role === "admin" ? <SideMenu /> : <></>}
+        <SidebarInset className="flex-1 overflow-auto">{children}</SidebarInset>
+      </div>
     </>
   );
 }

@@ -19,10 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCategoryStore, useSubCategoryStore } from "@/store/categoryStore";
-import { Button } from "../ui/button";
-import { useEffect } from "react";
-import { useQuery } from "@/hooks/generalHooks";
+import { useMutate, useQuery } from "@/hooks/generalHooks";
+import { Button } from "../atoms";
 
 const FormSchema = z.object({
   name: z.string().min(2, "The category must be at least 2 characters"),
@@ -31,6 +29,7 @@ const FormSchema = z.object({
 });
 
 export const AddSubCategory = () => {
+  const { MutateFunc, isPending } = useMutate();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -39,14 +38,19 @@ export const AddSubCategory = () => {
     },
   });
 
-  const { addCategory } = useSubCategoryStore();
   const { data, isLoading: loading } = useQuery({
     url: "/category",
     key: "categories",
   });
   const categories = data?.categories;
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    addCategory(data);
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    await MutateFunc({
+      url: "/subcategory",
+      method: "POST",
+      body: data,
+      tags: "subcategories",
+      onSuccess: () => form.reset(),
+    });
   };
 
   return (
@@ -116,11 +120,15 @@ export const AddSubCategory = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {categories&&categories?.map((category:any, i:number) => (
-                      <SelectItem key={i} value={category.id?.toString() ?? ""}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
+                    {categories &&
+                      categories?.map((category: any, i: number) => (
+                        <SelectItem
+                          key={i}
+                          value={category?.id?.toString() ?? ""}
+                        >
+                          {category?.name}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -128,7 +136,7 @@ export const AddSubCategory = () => {
             )}
           />
 
-          <Button type="submit" className="self-end">
+          <Button type="submit" className="self-end" loading={isPending}>
             Submit
           </Button>
         </form>

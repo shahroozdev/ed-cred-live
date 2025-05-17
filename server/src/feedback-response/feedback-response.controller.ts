@@ -24,7 +24,7 @@ export class FeedbackResponseController {
     }
 
 
-    @Get('recent/')
+    @Get('/recent')
     async getLastFourFeedbacks() {
         return await this.feedbackResponseService.getLastFourFeedbacks();
     }

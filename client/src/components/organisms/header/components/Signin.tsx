@@ -1,6 +1,6 @@
 "use client";
 import { useMutate } from "@/hooks/generalHooks";
-import { Button } from "../atoms";
+import { Button } from "../../../atoms";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { loginSchema, LoginSchema } from "@/lib/schemas";

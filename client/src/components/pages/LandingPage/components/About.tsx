@@ -1,5 +1,5 @@
+import { Button } from "@/components/atoms";
 import Image from "next/image"
-import { Button } from "../atoms";
 
 
 const About = () => {

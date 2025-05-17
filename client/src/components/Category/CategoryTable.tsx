@@ -1,27 +1,23 @@
 "use client";
 import { studentMaterialColumn } from "@/data/tableColumns";
-import { useQuery } from "@/hooks/generalHooks";
 import TableWithFilter from "../molecules/tableWithFilters";
 import { CategoryFilterForm } from "@/data/forms";
-import { FC } from "react"
 
-export const CategoryTable:FC = () => {
-  const { data, isLoading:loading } = useQuery({
-    url: "/category",
-    key: "categories",
-  });
-console.log(loading)
+export const CategoryTable = ({ data }: { data: Record<any, any> | null }) => {
+ 
   return (
     <div className="ring-2 ring-muted rounded-md p-4">
-      {/* Filtering Bar */}
       <TableWithFilter
         form={CategoryFilterForm}
         title="Recent Categories"
         tableData={data?.categories}
         tableColumn={studentMaterialColumn}
         tablePagination={true}
-        loading={loading}
+        // loading={loading}
         searchBar
+        total={data?.total}
+        currentPage={data?.currentPage}
+        pageSize={data?.pageSize}
       />
     </div>
   );

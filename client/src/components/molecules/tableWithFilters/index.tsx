@@ -21,6 +21,9 @@ const TableWithFilter = ({
   className,
   loading,
   searchBar,
+  total,
+  currentPage,
+  pageSize,
 }: TableWithColumnProps) => {
   const [showFilters, setShowFilters] = useState(false);
   const [search, setSearch] = useState("");
@@ -61,9 +64,13 @@ const TableWithFilter = ({
         </div>
       </div>
       {showFilters && <Separator className="my-3" />}
-            {showFilters && (
-        <div className={`sm:px-4 px-2 ${showFilters?'h-auto':'h-0'} transition-all duration-300 ease-in-out`}>
-          <CustomForm props={{ ...form, onSubmit:onSubmit2 }} />
+      {showFilters && (
+        <div
+          className={`sm:px-4 px-2 ${
+            showFilters ? "h-auto" : "h-0"
+          } transition-all duration-300 ease-in-out`}
+        >
+          <CustomForm props={{ ...form, onSubmit: onSubmit2 }} />
         </div>
       )}
       {searchBar && (
@@ -73,9 +80,12 @@ const TableWithFilter = ({
               placeholder="Search title..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-48 border-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus:shadow-none appearance-none text-sm"
+              className="w-48 border-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 !bg-transparent focus:shadow-none appearance-none text-sm"
             />
-            <Search className="text-gray-400 w-4 h-4 cursor-pointer" onClick={handleSearch}/>
+            <Search
+              className="text-gray-400 w-4 h-4 cursor-pointer"
+              onClick={handleSearch}
+            />
           </div>
         </div>
       )}
@@ -85,6 +95,9 @@ const TableWithFilter = ({
           columns={tableColumn}
           pagination={tablePagination}
           loading={loading}
+          total={total}
+          currentPage={currentPage}
+          pageSize={pageSize}
         />
       </div>
     </div>

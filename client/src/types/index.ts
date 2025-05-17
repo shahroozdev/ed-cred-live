@@ -8,80 +8,83 @@ export interface QueryProps {
   key: string;
 }
 
-export   const imagesUrls = {
-    "Leadership Members": "leadership",
-    Teachers: "Teachers",
-    Schools: "schools",
-    Districts: "districts",
-    "Staff Members":"staff",
-    "Parent":"parent",
-    "Principal":"pricipal",
-  }as any
+export const imagesUrls = {
+  "Leadership Members": "leadership",
+  Teachers: "Teachers",
+  Schools: "schools",
+  Districts: "districts",
+  "Staff Members": "staff",
+  Parent: "parent",
+  Principal: "pricipal",
+} as any;
 
-  export interface CustomTableProps {
+export interface CustomTableProps {
   data: any;
   columns: any;
   pagination?: boolean;
   title?: string;
   loading?: boolean;
+  total?: number;
+  currentPage?: number;
+  pageSize?: number;
 }
 
 enum UserRole {
-    ADMIN     = "admin",
-    MODERATOR = "moderator",
-    USER      = "user",
+  ADMIN = "admin",
+  MODERATOR = "moderator",
+  USER = "user",
 }
 
 enum UserCategory {
-    STUDENT  = "student",
-    TEACHER  = "teacher",
-    CUSTOMER = "customer",
-    EMPLOYEE = "employee",
+  STUDENT = "student",
+  TEACHER = "teacher",
+  CUSTOMER = "customer",
+  EMPLOYEE = "employee",
 }
 
 enum Permission {
-    VIEW_POST            = "view_post",
-    CREATE_POST          = "create_post",
-    CREATE_FEEDBACK_FORM = "create_feedback_form",
-    ANSWER_FEEDBACK_FORM = "answer_feedback_form",
+  VIEW_POST = "view_post",
+  CREATE_POST = "create_post",
+  CREATE_FEEDBACK_FORM = "create_feedback_form",
+  ANSWER_FEEDBACK_FORM = "answer_feedback_form",
 }
 
 enum SubscriptionPlan {
-    FREE       = "free",
-    BASIC      = "basic",
-    PREMIUM    = "premium",
-    ENTERPRISE = "enterprise",
+  FREE = "free",
+  BASIC = "basic",
+  PREMIUM = "premium",
+  ENTERPRISE = "enterprise",
 }
 
 interface BaseUser {
-    name: string;
-    email: string;
-    role: UserRole;
-    category: Category;
-    permissions: Permission[];
+  name: string;
+  email: string;
+  role: UserRole;
+  category: Category;
+  permissions: Permission[];
 
-    subscription: {
-        status: "free" | "subscribed";
-        plan?: SubscriptionPlan;
-        expiresAt?: Date;
-    };
+  subscription: {
+    status: "free" | "subscribed";
+    plan?: SubscriptionPlan;
+    expiresAt?: Date;
+  };
 
-    profile_picture?: string;
-    isVerified?: boolean;
+  profile_picture?: string;
+  isVerified?: boolean;
 
-    // authProvider?: "local" | "google" | "facebook";
-    // lastLoginAt?: Date;
-    // failedLoginAttempts?: number;
-    // passwordResetToken?: string;
-    // passwordResetExpiresAt?: Date;
+  // authProvider?: "local" | "google" | "facebook";
+  // lastLoginAt?: Date;
+  // failedLoginAttempts?: number;
+  // passwordResetToken?: string;
+  // passwordResetExpiresAt?: Date;
 
-    preferences?: Record<string, any>;
-    notificationsEnabled?: boolean;
+  preferences?: Record<string, any>;
+  notificationsEnabled?: boolean;
 
-    activityLogs?: { action: string; timestamp: Date }[];
+  activityLogs?: { action: string; timestamp: Date }[];
 
-    createdAt?: Date;
-    updatedAt?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface ModalProps {
@@ -105,7 +108,7 @@ export interface TableWithColumnProps {
   actionBtnIcon?: string;
   actionBtn?: ReactNode;
   form?: any;
-  searchBar?:boolean;
+  searchBar?: boolean;
   tableData: any;
   tableColumn: any;
   tablePagination?: boolean;
@@ -115,6 +118,9 @@ export interface TableWithColumnProps {
   className?: string;
   loading?: boolean; // ← Add this line
   PreNode?: ReactNode;
+  total?: number;
+  currentPage?: number;
+  pageSize?: number;
 }
 
 export interface CustomFormProps {

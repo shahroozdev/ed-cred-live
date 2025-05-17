@@ -23,17 +23,18 @@ import { RolesGuard } from 'src/guards/roles.guard';
 import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
 import { response } from 'types';
 import { User } from './user.entity';
+import { CreateUserDto, LoginUserDto } from './dto';
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
 
     @Post('signup')
-    async signup(@Body() { username, email, password }: { username: string; email: string; password: string; }): Promise<response & {token?:string, user?: User}> {
+    async signup(@Body() { username, email, password }: CreateUserDto): Promise<response & {token?:string, user?: User}> {
         return apiWrapper(() => this.authService.signup(username, email, password));
     }
 
     @Post('login')
-    async login(@Body() { identifier, password }: { identifier: string; password: string }): Promise<response & {token?:string, user?: User}> {
+    async login(@Body() { identifier, password }: LoginUserDto): Promise<response & {token?:string, user?: User}> {
         return apiWrapper(() => this.authService.login(identifier, password));
     }
 

@@ -1,8 +1,7 @@
+import { Button } from "@/components/atoms";
 import Image from "next/image";
-import { Button } from "../atoms";
 
-
-const Card = ({ title, image, description }) => {
+const Card = ({ title, image, description }:any) => {
     return (
         <div className="flex flex-col items-start justify-center gap-6 rounded-3xl border border-[#E5F4F2] bg-background p-8 text-left shadow-lg">
             <div><Image src={`/images/${image}`} width={500} height={300} alt={title} /></div>

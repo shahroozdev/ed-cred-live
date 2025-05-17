@@ -20,8 +20,7 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { CustomTableProps } from "@/types";
-
-
+import { useRouter, useSearchParams } from "next/navigation";
 
 const CustomTable = ({
   data = [],
@@ -29,11 +28,17 @@ const CustomTable = ({
   pagination,
   title,
   loading,
+  total,
+  currentPage = 1,
+  pageSize = 10,
 }: CustomTableProps) => {
   const [sorting, setSorting] = useState<any>([]);
   const [columnFilters, setColumnFilters] = useState<any>([]);
   const [columnVisibility, setColumnVisibility] = useState<any>({});
- 
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const table = useReactTable({
     data,
     columns,
@@ -50,7 +55,23 @@ const CustomTable = ({
       columnVisibility,
     },
   });
+  const totalPages = Math.ceil(
+    (total || table.getFilteredRowModel().rows.length) / pageSize
+  );
+  const nextPageHandle = () => {
+    const queryParams = new URLSearchParams(searchParams.toString());
+    queryParams.set("page", String(currentPage + 1));
+    router.push(`?${queryParams.toString()}`);
+  };
 
+  const prevPageHandle = () => {
+    const queryParams = new URLSearchParams(searchParams.toString());
+    const newPage = Math.max(1, currentPage - 1); // Prevent page < 1
+    queryParams.set("page", String(newPage));
+    router.push(`?${queryParams.toString()}`);
+  };
+
+  console.log(currentPage, total, pageSize, "pageSize");
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-4">
@@ -58,9 +79,9 @@ const CustomTable = ({
       </div>
       <Table>
         <TableHeader className="bg-[#F9FAFB]">
-          {table.getHeaderGroups()?.map((headerGroup:any) => (
+          {table.getHeaderGroups()?.map((headerGroup: any) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup?.headers?.map((header:any, idx:number) => {
+              {headerGroup?.headers?.map((header: any, idx: number) => {
                 return (
                   <TableHead
                     key={header.id}
@@ -93,12 +114,12 @@ const CustomTable = ({
               </TableCell>
             </TableRow>
           ) : table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row:any) => (
+            table.getRowModel().rows.map((row: any) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
-                {row.getVisibleCells().map((cell:any) => (
+                {row.getVisibleCells().map((cell: any) => (
                   <TableCell
                     key={cell.id}
                     className={"px-3 md:px-5 py-3"}
@@ -129,22 +150,22 @@ const CustomTable = ({
       {pagination && (
         <div className="flex items-center justify-end space-x-2 py-4 px-5">
           <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredRowModel().rows.length} row(s)
+            {total || table.getFilteredRowModel().rows.length} row(s)
           </div>
           <div className="space-x-2">
             <Button
               variant="outline"
               size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
+              onClick={prevPageHandle}
+              disabled={currentPage === 1}
             >
               Previous
             </Button>
             <Button
               variant="outline"
               size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
+              onClick={nextPageHandle}
+              disabled={currentPage >= totalPages}
             >
               Next
             </Button>

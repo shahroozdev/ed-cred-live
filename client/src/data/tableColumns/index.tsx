@@ -159,10 +159,18 @@ export const studentMaterialColumn = [
 ];
 export const subCategoryColumn = [
   customColummn({ key: "name", label: "Sub Category", width:200}),
-  customColummn({ key: "name2", label: "Parent Category", width:200}),
+  customColummn({ key: "name2", label: "Category", width:200}),
   customColummn({ key: "status", label: "Status" }),
   customColummn({ key: "createdAt", label: "Created At", type:'date', width:150}),
   action({ edit: true, deleteBtn: true })
+];
+export const feedbacksDashboardColumn = [
+  customColummn({ key: "name", label: "Title", width:200}),
+  customColummn({ key: "name2", label: "Category", width:200}),
+  customColummn({ key: "name3", label: "Subcategory", width:200}),
+  customColummn({ key: "question", label: "Question", width:200}),
+  customColummn({ key: "status", label: "Status" }),
+  customColummn({ key: "createdAt", label: "Created At", type:'date', width:150}),
 ];
 
 

@@ -13,23 +13,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { logout } from "@/api/auth";
+import { useRef } from "react";
 import { ThemeToggle } from "@/components/Common/ThemeToggle";
 import { usePathname, useRouter } from "next/navigation";
-import { useUserProfile } from "@/hooks/useProfile";
-import { Loader } from "@/components/ui/loader";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { removeCookie } from "@/actions/serverActions";
+import { UserBubble } from "./UserBubble";
+import DrawerBtn from "../../sidebar/mobileSidebar";
 
-export const AdminNavbar = ({ user }: { user: Record<any, any> }) => {
+export const AdminNavbar = ({ user }: { user: any }) => {
   return (
-    <div className="bg-background sticky top-0 z-50 border-b max-w-screen">
+    <div className="bg-background sticky top-0 z-10 border-b max-w-screen">
       <div className="flex h-16 items-center px-4 ">
-        <MainNav className="mx-2" />
+        {/* <MainNav className="mx-2" /> */}
         <div className="ml-auto flex items-center space-x-4">
           <ThemeToggle />
           <Search />
-          <UserNav user={user} />
+          <UserBubble user={user} />
+          <div className="md:hidden block"><DrawerBtn user={user} /></div>
         </div>
       </div>
     </div>
@@ -38,8 +39,10 @@ export const AdminNavbar = ({ user }: { user: Record<any, any> }) => {
 
 export function UserNav({ user: profile }: { user: Record<any, any> }) {
   const router = useRouter();
-  const logoutAndRedirect = () => {
-    logout();
+  const logoutAndRedirect = async () => {
+    localStorage.removeItem("token");
+    await removeCookie("user");
+    await removeCookie("token");
     router.push("/");
   };
   return (

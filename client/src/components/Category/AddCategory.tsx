@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useCategoryStore } from "@/store/categoryStore";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../atoms";
+import { useMutate } from "@/hooks/generalHooks";
 
 const FormSchema = z.object({
     name: z.string().min(2, "The category must be at least 2 characters"),
@@ -16,6 +17,7 @@ const FormSchema = z.object({
 });
 
 export const AddCategory = () => {
+    const {MutateFunc, isPending} = useMutate();
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -25,9 +27,8 @@ export const AddCategory = () => {
         },
     });
 
-    const { addCategory } = useCategoryStore();
-    const onSubmit = (data: z.infer<typeof FormSchema>) => {
-        addCategory(data);
+    const onSubmit = async(data: z.infer<typeof FormSchema>) => {
+        await MutateFunc({url:'/category', method:'POST', body:data, tags:'categories', onSuccess:()=>form.reset()});
     };
 
     return (
@@ -84,7 +85,7 @@ export const AddCategory = () => {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" className="w-full mt-3">Submit</Button>
+                    <Button type="submit" className="w-full mt-3" loading={isPending}>Submit</Button>
                 </form>
             </Form>
         </div>

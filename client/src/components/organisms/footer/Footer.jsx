@@ -3,7 +3,8 @@ import Image from 'next/image'
 import React from 'react'
 
 import { ArrowRightIcon, FacebookIcon, LinkedinIcon, TwitterIcon } from 'lucide-react'
-import { Button } from '../atoms'
+import { Button } from '@/components/atoms'
+
 
 const Footer = () => {
     const date = new Date();

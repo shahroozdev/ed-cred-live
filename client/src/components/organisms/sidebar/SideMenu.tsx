@@ -1,5 +1,11 @@
-'use client'
-import { ChevronLeft, ChevronRight, ChevronUp, User2, type LucideIcon } from "lucide-react";
+"use client";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  User2,
+  type LucideIcon,
+} from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -22,7 +28,7 @@ import {
 } from "@/components/ui/sidebar";
 import { data } from "./sidebar-data";
 import Image from "next/image";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../ui/separator";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,8 +40,8 @@ import Link from "next/link";
 export const SideMenu = () => {
   const { toggleSidebar, open } = useSidebar();
   return (
-    <Sidebar className="font-inter !bg-background" collapsible="icon">
-      <SidebarHeader>
+    <Sidebar className="font-inter !bg-white" collapsible="icon">
+      <SidebarHeader className="relative overflow-auto">
         <SidebarMenu>
           <SidebarMenuItem className="my-2">
             <SidebarMenuButton>
@@ -48,16 +54,25 @@ export const SideMenu = () => {
               />
               <div className="font-semibold text-lg">Ed Cred</div>
             </SidebarMenuButton>
+            <div onClick={toggleSidebar} className="absolute right-0 top-0">
+              {open ? (
+                <ChevronLeft
+                  className="bg-green-600 rounded-full !h-10 !w-10 text-white !absolute right-0 cursor-pointer z-50 "
+                  onClick={toggleSidebar}
+                />
+              ) : (
+                <ChevronRight
+                  className="bg-green-600 rounded-full !h-10 !w-10 text-white ml-1"
+                  onClick={toggleSidebar}
+                />
+              )}
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
         <Separator />
       </SidebarHeader>
       <SidebarContent>
-        <div onClick={toggleSidebar} className="relative">
-          {open ? <ChevronLeft className="bg-green-600 rounded-full !h-10 !w-10 text-white !absolute right-0 cursor-pointer z-50 " onClick={toggleSidebar} /> : <ChevronRight className="bg-green-600 rounded-full !h-10 !w-10 text-white ml-1" onClick={toggleSidebar} />}
-          {/* <span className={`bg-green-600 rounded-full h-10 w-10 ${open ? "ml-2" : "hidden"}`}></span> */}
-        </div>
-        <NavMain items={data.navMain} />
+        <NavMain items={data?.navMain} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
@@ -109,9 +124,9 @@ export function NavMain({
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map((item) => (
+        {items?.map((item, idx) => (
           <Collapsible
-            key={item.title}
+            key={idx}
             asChild
             defaultOpen={item.isActive}
             className="group/collapsible"

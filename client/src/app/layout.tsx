@@ -2,8 +2,8 @@ import { Geist, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/Common/theme-provider";
-import Navbar from "@/components/Landing/Navbar";
 import { ReactNode } from "react";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export const metadata = {
   title: "Ed-Cred",
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} antialiased max-w-screen overflow-x-hidden bg-background relative`}
+        className={`${inter.variable} antialiased max-w-screen min-w-screen w-full overflow-x-hidden bg-background relative`}
         suppressHydrationWarning
       >
         <ThemeProvider
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <SidebarProvider>{children}</SidebarProvider>
         </ThemeProvider>
         <Toaster />
       </body>
