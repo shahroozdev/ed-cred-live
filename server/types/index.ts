@@ -2,7 +2,7 @@ import { Category } from "src/category/category.entity";
 
 export type response = {
   status: number;
-  message: string;
+  message?: string;
   total?:number;
   currentPage?: number;
   pageSize?: number;

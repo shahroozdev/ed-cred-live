@@ -39,7 +39,29 @@ export class CategoryService {
     };
   }
 
-  async getAllCategories(query?: Record<string, any>): Promise<response & { categories?: Category[] }> {
+  async getAllCategories(): Promise<response & { categories?: Category[] }> {
+
+  const [categories, count] = await this.categoryRepository.findAndCount({
+    relations: ["feedbackForms"],
+    order: {
+      createdAt: "DESC",
+    },
+  });
+
+  if (count === 0) {
+    return {
+      status: 404,
+      message: "No categories found.",
+    };
+  }
+
+  return {
+    status: 200,
+    message: "Categories fetched successfully.",
+    categories,
+  };
+  }
+  async getAllCategoriesWithFilters(query?: Record<string, any>): Promise<response & { categories?: Category[] }> {
     const page = query?.page ?? 1;
     const pageSize = query?.pageSize ?? 10;
 

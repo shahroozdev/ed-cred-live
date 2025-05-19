@@ -36,6 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { Dispatch, SetStateAction } from "react";
 
 export const SideMenu = () => {
   const { toggleSidebar, open } = useSidebar();
@@ -108,7 +109,7 @@ export const SideMenu = () => {
 };
 
 export function NavMain({
-  items,
+  items, setIsOpen,
 }: {
   items: {
     title: string;
@@ -119,7 +120,7 @@ export function NavMain({
       title: string;
       url: string;
     }[];
-  }[];
+  }[],  setIsOpen?:Dispatch<SetStateAction<boolean>>
 }) {
   return (
     <SidebarGroup>
@@ -141,7 +142,7 @@ export function NavMain({
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </>
                   ) : (
-                    <span>
+                    <span onClick={()=>setIsOpen&&setIsOpen(false)}>
                       <Link href={item.url}>{item.title}</Link>
                     </span>
                   )}
@@ -152,9 +153,9 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={`${item.url}${subItem.url}`}>
-                          <span>{subItem.title}</span>
-                        </a>
+                        <Link href={`${item.url}${subItem.url}`}>
+                          <span onClick={()=>setIsOpen&&setIsOpen(false)}>{subItem.title}</span>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

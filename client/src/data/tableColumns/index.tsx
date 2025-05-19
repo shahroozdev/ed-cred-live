@@ -33,7 +33,7 @@ export const action = ({
       return (
         <div className="flex gap-4">
           {btnText && <Button rounded={8} variant="primary" >{btnText}</Button>}
-          {edit &&<IconButton bgColor="blue" className="cursor-pointer text-white"><Pencil size={20}/></IconButton> }
+          {edit &&<IconButton bgColor="black" className="cursor-pointer text-white"><Pencil size={20}/></IconButton> }
           {view && <Eye size={20}/>}
           {deleteBtn && (
             <ConfirmationDeleteModal
@@ -155,14 +155,14 @@ export const studentMaterialColumn = [
   customColummn({ key: "status", label: "Status" }),
   customColummn({ key: "requiresVerification", label: "Requires Verification", width:250 }),
   customColummn({ key: "createdAt", label: "Created At", type:'date', width:150}),
-  action({ edit: true, deleteBtn: true })
+  action({ edit: true, deleteBtn: true, deleteBtnLink:'/category', deleteModalText:'Want To Delete This Category?'})
 ];
 export const subCategoryColumn = [
   customColummn({ key: "name", label: "Sub Category", width:200}),
-  customColummn({ key: "name2", label: "Category", width:200}),
+  customColummn({ key: "parentCategory.name", label: "Category", width:200}),
   customColummn({ key: "status", label: "Status" }),
   customColummn({ key: "createdAt", label: "Created At", type:'date', width:150}),
-  action({ edit: true, deleteBtn: true })
+  action({ edit: true, deleteBtn: true, deleteBtnLink:'/subcategory', deleteModalText:'Want To Delete This SubCategory?' })
 ];
 export const feedbacksDashboardColumn = [
   customColummn({ key: "name", label: "Title", width:200}),

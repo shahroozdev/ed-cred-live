@@ -1,27 +1,38 @@
-import { Controller, Post, Get, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Post, Get, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { SubcategoryService } from './subcategory.service';
 import { Subcategory } from './subcategory.entity';
+import { response } from 'types';
+import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
+import { CreateItemDto } from './dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('subcategory')
 export class SubcategoryController {
     constructor(private readonly categoryService: SubcategoryService) {}
 
     @Post()
-    async createCategory(@Body() data: { name: string; status: "active" | "draft"; categoryId: number; }): Promise<Subcategory> {
-        return this.categoryService.createSubcategory(data.name, data.status, data.categoryId);
+    @UseGuards(JwtAuthGuard)
+    async createCategory(@Body() data:CreateItemDto): Promise<response & { subcategory?: Subcategory }> {
+        return await apiWrapper(() =>this.categoryService.createSubcategory(data.name, data.status, data.categoryId));
     }
 
     @Get()
-    async getAllCategories(): Promise<Subcategory[]> {
-        return this.categoryService.getAllSubcategories();
+    async getAllCategories( @Query() query?: Record<string, any>): Promise<response & { subcategories?: Subcategory[] }> {
+        return await apiWrapper(() =>this.categoryService.getAllSubcategories(query));
+    }
+    @Get("/with-filters")
+    @UseGuards(JwtAuthGuard)
+    async getAllCategoriesWithFilter( @Query() query?: Record<string, any>): Promise<response & { subcategories?: Subcategory[] }> {
+        return await apiWrapper(() =>this.categoryService.getAllSubcategoriesWithFilter(query));
     }
 
     @Get(':id')
     async getCategoryById(@Param('id') id: number): Promise<Subcategory | null> {
-        return this.categoryService.getSubcategoryById(id);
+        return await apiWrapper(() =>this.categoryService.getSubcategoryById(id));
     }
 
     @Delete(':id')
+    @UseGuards(JwtAuthGuard)
     async removeCategory(@Param('id') id: number): Promise<{ message: string }> {
         await this.categoryService.removeSubcategory(id);
         return { message: 'Category removed successfully' };

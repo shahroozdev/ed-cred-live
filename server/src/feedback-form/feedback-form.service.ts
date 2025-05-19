@@ -25,8 +25,8 @@ export class FeedbackFormService {
         private readonly subcategoryRepository: Repository<Subcategory>,
     ) {}
 
-    async create(createFeedbackFormDto: CreateFeedbackFormDto): Promise<FeedbackForm> {
-        const { categoryId, subCategoryId, authorId, ...rest } = createFeedbackFormDto;
+    async create(createFeedbackFormDto: CreateFeedbackFormDto, authorId:number): Promise<FeedbackForm> {
+        const { categoryId, subCategoryId, ...rest } = createFeedbackFormDto;
 
         // Fetch user and category
         const user = await this.userRepository.findOne({ where: { id: authorId } });

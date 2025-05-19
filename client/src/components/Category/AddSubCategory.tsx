@@ -19,8 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useMutate, useQuery } from "@/hooks/generalHooks";
-import { Button } from "../atoms";
+import { useMutate } from "@/hooks/generalHooks";
+import { Button, CategorySelect } from "../atoms";
 
 const FormSchema = z.object({
   name: z.string().min(2, "The category must be at least 2 characters"),
@@ -35,19 +35,16 @@ export const AddSubCategory = () => {
     defaultValues: {
       name: "",
       status: "active",
+      categoryId: "", // Include this!
     },
   });
 
-  const { data, isLoading: loading } = useQuery({
-    url: "/category",
-    key: "categories",
-  });
-  const categories = data?.categories;
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    console.log(data);
     await MutateFunc({
       url: "/subcategory",
       method: "POST",
-      body: data,
+      body: { ...data, categoryId: Number(data?.categoryId) },
       tags: "subcategories",
       onSuccess: () => form.reset(),
     });
@@ -103,38 +100,7 @@ export const AddSubCategory = () => {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="categoryId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Parent Category</FormLabel>
-                <Select
-                  onValueChange={(value) => field.onChange(value)}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Parent Category" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {categories &&
-                      categories?.map((category: any, i: number) => (
-                        <SelectItem
-                          key={i}
-                          value={category?.id?.toString() ?? ""}
-                        >
-                          {category?.name}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <CategorySelect control={form.control} />
 
           <Button type="submit" className="self-end" loading={isPending}>
             Submit

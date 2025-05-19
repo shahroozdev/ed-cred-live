@@ -1,18 +1,21 @@
 "use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FilterXIcon, Search } from "lucide-react";
+
 import { Button } from "@/components/atoms";
 import { Separator } from "@/components/ui/separator";
-import { cn, getAllParam } from "@/lib/utils";
-import { TableWithColumnProps } from "@/types";
-import { FilterXIcon, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import CustomTable from "../table";
 import { Input } from "@/components/ui/input";
+import CustomTable from "../table";
 import CustomForm from "../customForm";
 
-const TableWithFilter = ({
+import { cn, getAllParam } from "@/lib/utils";
+import { TableWithColumnProps } from "@/types";
+
+const TableWithFilter: React.FC<TableWithColumnProps> = ({
   tableColumn,
-  tableData,
+  tableData=[],
   title,
   form,
   tablePagination,
@@ -24,57 +27,58 @@ const TableWithFilter = ({
   total,
   currentPage,
   pageSize,
-}: TableWithColumnProps) => {
+}) => {
   const [showFilters, setShowFilters] = useState(false);
   const [search, setSearch] = useState("");
   const router = useRouter();
-  const onSubmit2 = (data: any) => {
+
+  const onSubmit2 = (data: Record<string, any>) => {
     const queryParams = getAllParam(data);
     router.push(`?page=1&${queryParams}`);
   };
+
   const handleSearch = () => {
-    router.push(`?page=1&query=${search}`);
+    const encodedSearch = encodeURIComponent(search);
+    router.push(`?page=1&query=${encodedSearch}`);
   };
+
   return (
     <div
       className={cn(
         className,
-        removeMainCSS
-          ? ""
-          : "shadow-[8px_8px_48px_0px_rgba(0,0,0,0.08)] rounded-xl border mb-5"
+        !removeMainCSS &&
+          "shadow-[8px_8px_48px_0px_rgba(0,0,0,0.08)] rounded-xl border mb-5"
       )}
     >
-      <div
-        className={"mt-3 flex items-center justify-between sm:px-4 px-2 mb-2"}
-      >
+      <div className="mt-3 flex items-center justify-between sm:px-4 px-2 mb-2">
         <div className="text-xl font-semibold flex items-center">{title}</div>
-        <div className="flex h-fit items-center gap-5">
-          {!noFilter && (
+        {!noFilter && (
+          <div className="flex h-fit items-center gap-5">
             <Button
-              variant={"ghost"}
+              variant="ghost"
               icon={<FilterXIcon size={20} />}
               background="#F3F4F6"
               rounded={8}
               color="#4B5563"
-              onClick={() => setShowFilters(!showFilters)}
+              onClick={() => setShowFilters((prev) => !prev)}
             >
-              {!showFilters ? "Filter" : "Cancel"}
+              {showFilters ? "Cancel" : "Filter"}
             </Button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-      {showFilters && <Separator className="my-3" />}
+
       {showFilters && (
-        <div
-          className={`sm:px-4 px-2 ${
-            showFilters ? "h-auto" : "h-0"
-          } transition-all duration-300 ease-in-out`}
-        >
-          <CustomForm props={{ ...form, onSubmit: onSubmit2 }} />
-        </div>
+        <>
+          <Separator className="my-3" />
+          <div className="sm:px-4 px-2 transition-all duration-300 ease-in-out">
+            <CustomForm props={{ ...form, onSubmit: onSubmit2 }} />
+          </div>
+        </>
       )}
+
       {searchBar && (
-        <div className="w-full flex justify-end px-5">
+        <div className="w-full flex justify-end px-5 mb-2">
           <div className="flex items-center gap-2 border border-gray-300 rounded-md px-2 bg-white">
             <Input
               placeholder="Search title..."
@@ -89,6 +93,7 @@ const TableWithFilter = ({
           </div>
         </div>
       )}
+
       <div className="sm:px-4 px-2">
         <CustomTable
           data={tableData}

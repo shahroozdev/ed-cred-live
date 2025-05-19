@@ -18,14 +18,12 @@ import {
     SelectItem
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { GeneralFormSchema, QuestionFormSchema } from "./FeedbackForm";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { AppleIcon, CheckIcon, MinusIcon, PlusIcon, XIcon } from "lucide-react";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { Question, useQuestionStore } from "@/store/questionStore";
 import { v4 as uuidv4 } from "uuid";
-import { useCategoryStore, useSubCategoryStore } from "@/store/categoryStore";
-import { useEffect } from "react";
+import { GeneralFormSchema, QuestionFormSchema } from "@/lib/schemas";
 
 export const TitleInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
     return (
@@ -63,71 +61,6 @@ export const QuestionSelectInput = ({ form }: {form: UseFormReturn<z.infer<typeo
     )
 }
 
-export const CategoryInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
-    const { categories, fetchCategories } = useCategoryStore();
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-    return (
-        <FormField
-            control={form.control}
-            name="category"
-            render={({ field }) => (
-                <FormItem className="w-full">
-                    <FormLabel>Category</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value?.toString()}>
-                        <FormControl>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select a category" />
-                            </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="">
-                            {
-                                categories.map((category) => <SelectItem value={category.id?.toString() ?? ""} key={category.id}>{category.name}</SelectItem>)
-                            }
-                        </SelectContent>
-                    </Select>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
-    )
-}
-
-export const SubCategoryInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
-    const { categories, fetchCategories } = useSubCategoryStore();
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-    return (
-        <FormField
-            control={form.control}
-            name="subcategory"
-            render={({ field }) => (
-                <FormItem className="w-full">
-                    <FormLabel>Subcategory</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select a subcategory" />
-                            </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                            {
-                                categories.length > 0 &&
-                                categories.filter(category => category.parentCategory.id?.toString()  == form.watch("category"))
-                                .map((category) => <SelectItem value={category.id?.toString() ?? ""} key={category.id}>{category.name}</SelectItem>)
-                            }
-                        </SelectContent>
-                    </Select>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
-    )
-}
 
 export const StatusInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
     return (
@@ -156,11 +89,11 @@ export const StatusInput = ({ form }: {form: UseFormReturn<z.infer<typeof Genera
 }
 
 export const SwitchInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
-
+    console.log();
     return (
         <div className="flex flex-col gap-4">
             <Label>Feedback Details</Label>
-            <div className="flex flex-wrap gap-4">
+            <div className="grid lg:grid-cols-4 xl:grid-cols-5  sm:grid-cols-2 gap-2">
                 {Object.keys(form.getValues('details')).map((detail) => (
                     <FormField
                         key={detail}

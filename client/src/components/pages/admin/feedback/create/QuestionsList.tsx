@@ -9,15 +9,17 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Separator } from "../ui/separator";
-import { Button } from "../ui/button";
+
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+
 
 const QuestionsList = () => {
     const { questions } = useQuestionStore();
     const [open, setOpen] = useState(false);
     return(
-        <div className="flex flex-col gap-10 my-10 relative w-full">
+        <div className="flex flex-col gap-10 my-10 relative w-full rounded-md outline-muted p-6 outline-2 isolate shadow-sm">
             <div className="font-semibold text-2xl">Added Questions</div>
             <ChevronDownIcon 
                 className={`absolute right-2 top-2 transition-transform ${!open ? "rotate-0" : "rotate-180"}`} 

@@ -1,41 +1,51 @@
-import { User } from 'src/auth/user.entity';
-import { FeedbackForm } from 'src/feedback-form/entities/feedback-form.entity';
-import { Subcategory } from 'src/subcategory/subcategory.entity';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
+import { User } from "src/auth/user.entity";
+import { FeedbackForm } from "src/feedback-form/entities/feedback-form.entity";
+import { Subcategory } from "src/subcategory/subcategory.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  OneToMany,
+  DeleteDateColumn,
+} from "typeorm";
 
 export type Permission = "post" | "feedback" | "review";
 
 @Entity()
 export class Category {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ unique: true })
-    name: string;
+  @Column({ unique: true })
+  name: string;
 
-    @Column({ type: 'enum', enum: ["active", "draft"], default: "active" })
-    status: "active" | "draft";
+  @Column({ type: "enum", enum: ["active", "draft"], default: "active" })
+  status: "active" | "draft";
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @Column("simple-array", { nullable: true })
-    permissions?: Permission[];
+  @DeleteDateColumn({ nullable: true })
+  deletedAt?: Date; // <- Soft delete column
 
-    @Column("boolean")
-    requiresVerification: boolean;
+  @Column("simple-array", { nullable: true })
+  permissions?: Permission[];
 
-    @Column({ default: "categoryIcons/default.png" })
-    iconUrl: string;
+  @Column("boolean")
+  requiresVerification: boolean;
 
-    // There are multiple users in a category
-    @OneToMany(() => User, (user) => user.category)
-    users: User[];
+  @Column({ default: "categoryIcons/default.png" })
+  iconUrl: string;
 
-    // A category can be linked with multiple feedback forms
-    @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)
-    feedbackForms: FeedbackForm[];
+  // There are multiple users in a category
+  @OneToMany(() => User, (user) => user.category)
+  users: User[];
 
-    @OneToMany(() => Subcategory, (subcategory) => subcategory.parentCategory)
-    subCategories: Subcategory[];
+  // A category can be linked with multiple feedback forms
+  @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)
+  feedbackForms: FeedbackForm[];
+
+  @OneToMany(() => Subcategory, (subcategory) => subcategory.parentCategory)
+  subCategories: Subcategory[];
 }

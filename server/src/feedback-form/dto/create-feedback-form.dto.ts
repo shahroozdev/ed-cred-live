@@ -1,30 +1,70 @@
+import { Type } from "class-transformer";
+import { IsArray, IsBoolean, IsNumber, IsString, ValidateNested } from "class-validator";
 
 // Optional details toggles
-export interface FeedbackDetails {
-        salary:          boolean;
-        schoolName:      boolean;
-        schoolWebsite:   boolean;
-        schoolCountry:   boolean;
-        reportingPeriod: boolean;
-        pricipalName:    boolean;
-        pricipalDivison: boolean;
-        directorName:    boolean;
+export class FeedbackDetails {
+  @IsBoolean()
+  salary: boolean;
+
+  @IsBoolean()
+  schoolName: boolean;
+
+  @IsBoolean()
+  schoolWebsite: boolean;
+
+  @IsBoolean()
+  schoolCountry: boolean;
+
+  @IsBoolean()
+  reportingPeriod: boolean;
+
+  @IsBoolean()
+  pricipalName: boolean;
+
+  @IsBoolean()
+  pricipalDivison: boolean;
+
+  @IsBoolean()
+  directorName: boolean;
 }
 
-export interface Question {
-    id: string;
-    text: string;
-    type: "rating" | "multiple_choice" | "true_false" | "open_ended";
-    options?: string[];
-    correctAnswer?: string;
+export class Question {
+  @IsString()
+  id: string;
+
+  @IsString()
+  text: string;
+
+  @IsString()
+  type: "rating" | "multiple_choice" | "true_false" | "open_ended";
+
+  @IsArray()
+  @IsString({ each: true })
+  options?: string[];
+
+  @IsString()
+  correctAnswer?: string;
 }
 
 export class CreateFeedbackFormDto {
-    categoryId: number;
-    subCategoryId: number;
-    authorId: number;
-    title: string;
-    isDraft: boolean;
-    details: FeedbackDetails;
-    questions: Question[];
+  @IsNumber()
+  categoryId: number;
+
+  @IsNumber()
+  subCategoryId: number;
+
+  @IsString()
+  title: string;
+
+  @IsBoolean()
+  isDraft: boolean;
+
+  @ValidateNested()
+  @Type(() => FeedbackDetails)
+  details: FeedbackDetails;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => Question)
+  questions: Question[];
 }

@@ -29,7 +29,7 @@ export const data = {
                 },
                 {
                     title: "Create Feedback",
-                    url: "/feedback/create",
+                    url: "/create",
                 },
             ],
         },

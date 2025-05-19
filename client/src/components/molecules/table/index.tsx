@@ -28,7 +28,7 @@ const CustomTable = ({
   pagination,
   title,
   loading,
-  total,
+  total=0,
   currentPage = 1,
   pageSize = 10,
 }: CustomTableProps) => {
@@ -40,7 +40,7 @@ const CustomTable = ({
   const searchParams = useSearchParams();
 
   const table = useReactTable({
-    data,
+    data:data??[],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -54,10 +54,8 @@ const CustomTable = ({
       columnFilters,
       columnVisibility,
     },
-  });
-  const totalPages = Math.ceil(
-    (total || table.getFilteredRowModel().rows.length) / pageSize
-  );
+  })??[]
+
   const nextPageHandle = () => {
     const queryParams = new URLSearchParams(searchParams.toString());
     queryParams.set("page", String(currentPage + 1));
@@ -71,7 +69,6 @@ const CustomTable = ({
     router.push(`?${queryParams.toString()}`);
   };
 
-  console.log(currentPage, total, pageSize, "pageSize");
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-4">
@@ -79,7 +76,7 @@ const CustomTable = ({
       </div>
       <Table>
         <TableHeader className="bg-[#F9FAFB]">
-          {table.getHeaderGroups()?.map((headerGroup: any) => (
+          {table?.getHeaderGroups()?.map((headerGroup: any) => (
             <TableRow key={headerGroup.id}>
               {headerGroup?.headers?.map((header: any, idx: number) => {
                 return (
@@ -113,10 +110,10 @@ const CustomTable = ({
                 Loading...
               </TableCell>
             </TableRow>
-          ) : table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row: any) => (
+          ) : table?.getRowModel()?.rows?.length ? (
+            table?.getRowModel()?.rows?.map((row: any) => (
               <TableRow
-                key={row.id}
+                key={row?.id}
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell: any) => (
@@ -150,7 +147,7 @@ const CustomTable = ({
       {pagination && (
         <div className="flex items-center justify-end space-x-2 py-4 px-5">
           <div className="flex-1 text-sm text-muted-foreground">
-            {total || table.getFilteredRowModel().rows.length} row(s)
+            {total || table?.getFilteredRowModel()?.rows?.length} row(s)
           </div>
           <div className="space-x-2">
             <Button
@@ -165,7 +162,7 @@ const CustomTable = ({
               variant="outline"
               size="sm"
               onClick={nextPageHandle}
-              disabled={currentPage >= totalPages}
+              disabled={currentPage >= Math.ceil((total || table.getFilteredRowModel().rows.length) / pageSize)}
             >
               Next
             </Button>

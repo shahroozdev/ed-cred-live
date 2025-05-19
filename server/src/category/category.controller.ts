@@ -24,14 +24,18 @@ export class CategoryController {
   async createCategory(
     @Body() data: CreateCategoryDto
   ): Promise<response & { category?: Category }> {
-    return apiWrapper(() => this.categoryService.createCategory(data));
+    return await apiWrapper(() => this.categoryService.createCategory(data));
   }
 
   @Get()
-  async getAllCategories(
+  async getAllCategories(): Promise<response & { categories?: Category[] }> {
+    return this.categoryService.getAllCategories();
+  }
+  @Get('/with-filters')
+  async getAllCategoriesWithFilters(
     @Query() query?: Record<string, any>
   ): Promise<response & { categories?: Category[] }> {
-    return this.categoryService.getAllCategories(query);
+    return this.categoryService.getAllCategoriesWithFilters(query);
   }
 
   @Get(":id")

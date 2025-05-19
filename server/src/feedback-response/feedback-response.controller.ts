@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete, NotFoundException, Patch } from '@nestjs/common';
 import { FeedbackResponseService } from './feedback-response.service';
 import { CreateFeedbackResponseDto } from './dto/create-feedback-response.dto';
+import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
 
 @Controller('feedback-responses')
 export class FeedbackResponseController {
@@ -26,7 +27,7 @@ export class FeedbackResponseController {
 
     @Get('/recent')
     async getLastFourFeedbacks() {
-        return await this.feedbackResponseService.getLastFourFeedbacks();
+        return await apiWrapper(() => this.feedbackResponseService.getLastFourFeedbacks());
     }
 
     // Get a specific feedback response by ID

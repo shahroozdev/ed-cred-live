@@ -34,8 +34,9 @@ const ConfirmationDeleteModal = ({
       title={
         <div className="flex flex-col gap-4 justify-center items-center">
           <IconButton
-            bgColor={`"#DC26264D"`}
+            bgColor={`red`}
             circle
+            className="text-white"
           >
              <Trash2 />
           </IconButton>

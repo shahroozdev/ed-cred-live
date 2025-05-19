@@ -1,25 +1,38 @@
-import { Category } from 'src/category/category.entity';
-import { FeedbackForm } from 'src/feedback-form/entities/feedback-form.entity';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Category } from "src/category/category.entity";
+import { FeedbackForm } from "src/feedback-form/entities/feedback-form.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  OneToMany,
+  ManyToOne,
+  DeleteDateColumn,
+} from "typeorm";
 
 @Entity()
 export class Subcategory {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ unique: true })
-    name: string;
+  @Column({ unique: true })
+  name: string;
 
-    @Column({ type: 'enum', enum: ["active", "draft"], default: "active" })
-    status: "active" | "draft";
+  @Column({ type: "enum", enum: ["active", "draft"], default: "active" })
+  status: "active" | "draft";
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    // A category can be linked with multiple feedback forms
-    @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)
-    feedbackForms: FeedbackForm[];
+  @DeleteDateColumn({ nullable: true })
+  deletedAt?: Date; // <- Soft delete column
 
-    @ManyToOne(() => Category, (category) => category.subCategories, { onDelete: 'CASCADE' })
-    parentCategory: Category;
+  // A category can be linked with multiple feedback forms
+  @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)
+  feedbackForms: FeedbackForm[];
+
+  @ManyToOne(() => Category, (category) => category.subCategories, {
+    onDelete: "CASCADE",
+  })
+  parentCategory: Category;
 }

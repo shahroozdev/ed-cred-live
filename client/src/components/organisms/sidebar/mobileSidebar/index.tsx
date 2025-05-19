@@ -13,16 +13,18 @@ import {
 import Image from "next/image";
 import { NavMain } from "../SideMenu";
 import { data } from "../sidebar-data";
+import { useState } from "react";
 
 const DrawerBtn = ({ user }: { user: Record<string, any> }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   return (
     <div className="block">
-      <Drawer direction="right">
-        <DrawerTrigger>
+      <Drawer direction="right" open={isOpen}>
+        <DrawerTrigger onClick={()=>setIsOpen(!isOpen)}>
           <Menu className="cursor-pointer" />
         </DrawerTrigger>
         <DrawerContent className="bg-background h-screen">
-          <DrawerClose className="text-right mr-4 mt-4  cursor-pointer">
+          <DrawerClose className="text-right mr-4 mt-4  cursor-pointer" onClick={()=>setIsOpen(false)}>
             <span className="text-[var(--mt-pre-color)] rounded-full px-2 py-1">X</span>
           </DrawerClose>
           <DrawerHeader>
@@ -39,7 +41,7 @@ const DrawerBtn = ({ user }: { user: Record<string, any> }) => {
               </div>
             </DrawerTitle>
           </DrawerHeader>
-          <NavMain items={user?.role ==="admin"? data?.navMain:data?.navCommon} />
+          <NavMain items={user?.role ==="admin"? data?.navMain:data?.navCommon} setIsOpen={setIsOpen}/>
         </DrawerContent>
       </Drawer>
     </div>

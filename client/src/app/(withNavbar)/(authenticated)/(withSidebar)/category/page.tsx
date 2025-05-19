@@ -6,9 +6,8 @@ import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 const CategoryPage = async ({ searchParams }: { searchParams: any }) => {
   const params = await searchParams;
   const queryParams = new URLSearchParams(params);
-  console.log(queryParams)
   const data = await getServerSideDataWithFeatures({
-    url: `/category?${queryParams.toString()}`,
+    url: `/category/with-filters?${queryParams.toString()}`,
     key: "categories",
   });
   return (
