@@ -89,7 +89,7 @@ export const StatusInput = ({ form }: {form: UseFormReturn<z.infer<typeof Genera
 }
 
 export const SwitchInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
-    console.log();
+
     return (
         <div className="flex flex-col gap-4">
             <Label>Feedback Details</Label>
@@ -160,10 +160,10 @@ export const RatingInput = ({ form }: { form: UseFormReturn<z.infer<typeof Quest
 export const MultipleChoiceInput = ({ form }: { form: UseFormReturn<z.infer<typeof QuestionFormSchema>> }) => {
     const { fields, append, remove } = useFieldArray({
         control: form.control,
-        name: "questionOptions"
+        name: "options"
     });
 
-    const options = form.watch("questionOptions");
+    const options = form.watch("options");
 
     return (
         <div className="flex flex-col gap-2">
@@ -197,7 +197,7 @@ export const MultipleChoiceInput = ({ form }: { form: UseFormReturn<z.infer<type
              {fields.map((_, i) => (
                 <Input
                     key={i}
-                    onChange={(e: any) => form.setValue(`questionOptions.${i}.value`, e.target.value)}
+                    onChange={(e: any) => form.setValue(`options.${i}.value`, e.target.value)}
                     className="border p-2 rounded w-full mt-1"
                     placeholder={`Option ${i + 1}`}
                     maxLength={50}
@@ -207,8 +207,8 @@ export const MultipleChoiceInput = ({ form }: { form: UseFormReturn<z.infer<type
 
             <Label className="block mt-2">Correct Answer</Label>
             <Select
-                onValueChange={(value) => form.setValue("questionCorrectAnswer", value)}
-                defaultValue={form.getValues("questionCorrectAnswer")}
+                onValueChange={(value) => form.setValue("answer", value)}
+                value={String(form.getValues("answer"))}
             >
                 <SelectTrigger className="border p-2 rounded w-full">
                     <SelectValue placeholder="Select the correct answer" />

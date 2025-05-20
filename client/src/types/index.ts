@@ -29,34 +29,35 @@ export interface CustomTableProps {
   pageSize?: number;
 }
 
-enum UserRole {
+export enum UserRole {
   ADMIN = "admin",
   MODERATOR = "moderator",
   USER = "user",
 }
 
-enum UserCategory {
+export enum UserCategory {
   STUDENT = "student",
   TEACHER = "teacher",
   CUSTOMER = "customer",
   EMPLOYEE = "employee",
 }
 
-enum Permission {
+export enum Permission {
   VIEW_POST = "view_post",
   CREATE_POST = "create_post",
   CREATE_FEEDBACK_FORM = "create_feedback_form",
   ANSWER_FEEDBACK_FORM = "answer_feedback_form",
 }
 
-enum SubscriptionPlan {
+export enum SubscriptionPlan {
   FREE = "free",
   BASIC = "basic",
   PREMIUM = "premium",
   ENTERPRISE = "enterprise",
 }
 
-interface BaseUser {
+export type QuestionType = "rating" | "multiple_choice" | "true_false" | "open_ended";
+export interface BaseUser {
   name: string;
   email: string;
   role: UserRole;
@@ -165,3 +166,10 @@ export type item = {
   disabled?: boolean;
   copyable?: boolean;
 };
+export interface Question {
+    id: string;
+    type: QuestionType;
+    text: string;
+    options?: any[];
+    answer?: string | number | boolean;
+}

@@ -65,7 +65,7 @@ export class FeedbackFormController {
 
   @Delete(":id")
   @UseGuards(JwtAuthGuard)
-  remove(@Param("id") id: string) {
-    return this.feedbackFormService.remove(+id);
+  async remove(@Param("id") id: string) {
+    return await apiWrapper(() => this.feedbackFormService.remove(+id));
   }
 }

@@ -25,7 +25,7 @@ export const data = {
             items: [
                 {
                     title: "All Feedback",
-                    url: "/feedback",
+                    url: "/",
                 },
                 {
                     title: "Create Feedback",

@@ -4,6 +4,8 @@ import Modal from "../modal";
 import { Button, IconButton } from "@/components/atoms";
 import { useMutate } from "@/hooks/generalHooks";
 import { Trash2 } from "lucide-react";
+import { revalidateWholeRoute } from "@/actions/serverActions";
+import { usePathname, useRouter } from "next/navigation";
 
 export interface ConfirmationModalProps {
   text: string;
@@ -20,8 +22,9 @@ const ConfirmationDeleteModal = ({
 }: ConfirmationModalProps) => {
   const [open, setIsOpen] = useState(false);
     const {MutateFunc} = useMutate();
+    const path = usePathname()
     const onDelete=async()=>{
-      await MutateFunc({url, method:'DELETE', tags:qkey})
+      await MutateFunc({url, method:'DELETE', tags:qkey, onSuccess:async()=>await revalidateWholeRoute(path)})
       setIsOpen(false)
     }
   return (

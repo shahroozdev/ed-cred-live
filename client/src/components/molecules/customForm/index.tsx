@@ -57,14 +57,14 @@ const CustomForm = ({ props }: { props: CustomFormProps }) => {
             <div className={item?.style}>
               {item?.childs?.map((ele: any, index: number) => (
                 <CustomInput
-                  props={{ item: ele, register, errors ,setValue}}
+                  item={ele}
                   key={index}
                 />
               ))}
             </div>
           ) : item?.type==="label"?(<>{item?.label}</>
           ) : (
-            <CustomInput props={{ item, register, errors, setValue }} />
+            <CustomInput item={item} />
           )}
         </div>
       ))}

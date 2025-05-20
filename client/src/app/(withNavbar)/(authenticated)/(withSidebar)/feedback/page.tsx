@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchFeedbacks } from "@/api/feedback";
-import { RecentFeedback } from "@/components/MainDashboard/RecentFeedbacks";
 import { Stats } from "@/components/Common/Stats";
 import { Title } from "@/components/Common/Title";
+import { RecentFeedback } from "@/components/pages/admin/dashboard/RecentFeedbacks";
+import { TitleWrapper } from "@/components/atoms";
 
 
 export default function FeedbacksPage() {
@@ -30,13 +31,9 @@ export default function FeedbacksPage() {
     ];
 
     return (
-        <div className="w-3xl mx-auto my-10 flex max-w-4xl flex-col">
-            <Title 
-                title="Feedbacks"
-                desc="Here are the recent feedback forms. You can go here to create a new feedback form."
-            />
+        <TitleWrapper  title="Feedbacks" desc="Here are the recent feedback forms. You can go here to create a new feedback form.">
             <Stats stats={stats}/>
             <RecentFeedback />
-        </div>
+        </TitleWrapper>
     );
 }

@@ -2,7 +2,7 @@
 import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import {
   QuestionInput,
   StatusInput,
@@ -10,32 +10,37 @@ import {
   TitleInput,
   QuestionSelectInput,
   QuestionTypeInput,
-  AddQuestion,
 } from "../FeedbackElements";
 
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { ArrowUpFromLineIcon, ChevronDownIcon } from "lucide-react";
 import { Button, CategorySelect, SubCategorySelect } from "@/components/atoms";
-import { GeneralFormSchema, QuestionFormSchema } from "@/lib/schemas";
+import { GeneralFormSchema } from "@/lib/schemas";
 import { useMutate } from "@/hooks/generalHooks";
+import { Question } from "@/types";
+import AddQuestion from "./addQuestion";
+import QuestionsList from "./QuestionsList";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const FeedbackForm = () => {
   const { MutateFunc, isPending } = useMutate();
-  const questionForm = useForm<z.infer<typeof QuestionFormSchema>>({
-    resolver: zodResolver(QuestionFormSchema),
-    defaultValues: {
-      question: "",
-      questionType: "rating",
-    },
-  });
+  const [questionsList, setQuestionsList] = useState<Question[] | []>([]);
+  //   const { questions } = useQuestionStore();
+  // const questionForm = useForm<z.infer<typeof QuestionFormSchema>>({
+  //   resolver: zodResolver(QuestionFormSchema),
+  //   defaultValues: {
+  //     text: "",
+  //     type: "rating",
+  //   },
+  // });
 
   const form = useForm<z.infer<typeof GeneralFormSchema>>({
     resolver: zodResolver(GeneralFormSchema),
     defaultValues: {
       title: "",
-      category: "",
-      subcategory: "",
+      categoryId: "",
+      subCategoryId: "",
       details: {
         salary: false,
         schoolName: false,
@@ -46,24 +51,41 @@ const FeedbackForm = () => {
         pricipalDivison: false,
         directorName: false,
       },
-      status: "inactive",
+      isDraft: "inactive",
+      questions: questionsList,
     },
   });
 
   const onSubmit = async (data: z.infer<typeof GeneralFormSchema>) => {
-    console.log(data)
-    await MutateFunc({ url: "", method: "POST", body: data });
+    console.log({
+      ...data,
+      subCategoryId: Number(data?.subCategoryId),
+      categoryId: Number(data?.categoryId),
+      questions: questionsList,
+    });
+    await MutateFunc({
+      url: "/feedback-form",
+      method: "POST",
+      body: {
+        ...data,
+        isDraft:data?.isDraft==="active"?false:true,
+        subCategoryId: Number(data?.subCategoryId),
+        categoryId: Number(data?.categoryId),
+        questions: questionsList,
+      },
+      sendTo: "/feedback",
+    });
   };
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-5 items-center justify-between">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex w-full flex-col items-start justify-between gap-10"
         >
-          <MetaDataInput form={form} loading={isPending}/>
-          <div className="flex w-full flex-col gap-4 rounded-md outline-muted p-6 outline-2 isolate shadow-sm">
+          <MetaDataInput form={form} loading={isPending} />
+          {/* <div className="flex w-full flex-col gap-4 rounded-md outline-muted p-6 outline-2 isolate shadow-sm">
             <div className="">
               <div className="text-2xl font-semibold">Questions</div>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -74,17 +96,24 @@ const FeedbackForm = () => {
             <QuestionTypeInput form={questionForm} />
             <QuestionInput form={questionForm} />
             <AddQuestion form={questionForm} />
-          </div>
+          </div> */}
         </form>
       </Form>
+      <AddQuestion setQuestionsList={setQuestionsList} />
+      <QuestionsList
+        questionsList={questionsList}
+        setQuestionsList={setQuestionsList}
+      />
     </div>
   );
 };
 
 const MetaDataInput = ({
-  form,loading
+  form,
+  loading,
 }: {
-  form: UseFormReturn<z.infer<typeof GeneralFormSchema>>;loading:boolean
+  form: UseFormReturn<z.infer<typeof GeneralFormSchema>>;
+  loading: boolean;
 }) => {
   const [collapsed, setCollapsed] = useState(false);
   return (
@@ -114,15 +143,35 @@ const MetaDataInput = ({
       >
         <TitleInput form={form} />
         <div className="grid gap-2 grid-cols-2">
-          <CategorySelect control={form.control} inputName="category" />
-          <SubCategorySelect control={form.control} inputName="subcategory" />
+          <CategorySelect control={form.control} inputName="categoryId" />
+          <SubCategorySelect control={form.control} inputName="subCategoryId" />
         </div>
-        <StatusInput form={form} />
+        <FormField
+          control={form.control}
+          name="isDraft"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Form Status</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <SwitchInput form={form} />
         <Button
           icon={<ArrowUpFromLineIcon />}
           variant={"primary"}
-          className="mb-10 w-full font-normal"
+          className="w-full font-normal"
           type="submit"
           loading={loading}
         >

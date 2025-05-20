@@ -8,6 +8,7 @@ import { Category } from "@/types/user";
 import { feedbacksDashboardColumn } from "@/data/tableColumns";
 import TableWithFilter from "@/components/molecules/tableWithFilters";
 import { useQuery } from "@/hooks/generalHooks";
+import { FeedbackFilterForm } from "@/data/forms";
 
 // TODO:factor it out in the common module
 export interface Feedback {
@@ -33,20 +34,20 @@ export interface Feedback {
 
 export const RecentFeedback = () => {
     const { data, isLoading, error } = useQuery({
-      url: "/feedback-responses/recent",
+      url: "/feedback-form",
       key: "feedbacks",
     });
 console.log(data)
   return (
       <div className="col-span-2">
       <TableWithFilter
-        // form={CategoryFilterForm}
-        noFilter
+        form={FeedbackFilterForm}
+        // noFilter
         title="Recent Feedback"
         tableData={data}
         tableColumn={feedbacksDashboardColumn}
         tablePagination={true}
-        // loading={loading}
+        loading={isLoading}
         searchBar
       />
       </div>

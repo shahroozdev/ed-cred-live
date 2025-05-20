@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsNumber, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 
 // Optional details toggles
 export class FeedbackDetails {
@@ -30,20 +30,17 @@ export class FeedbackDetails {
 
 export class Question {
   @IsString()
-  id: string;
-
-  @IsString()
   text: string;
 
   @IsString()
   type: "rating" | "multiple_choice" | "true_false" | "open_ended";
 
   @IsArray()
-  @IsString({ each: true })
-  options?: string[];
+  @IsOptional()
+  options?: any[];
 
   @IsString()
-  correctAnswer?: string;
+  answer?: string;
 }
 
 export class CreateFeedbackFormDto {

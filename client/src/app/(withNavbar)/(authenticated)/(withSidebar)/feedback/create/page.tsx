@@ -12,7 +12,7 @@ const Dashboard = () => {
     >
       <div className="w-full mt-10">
         <FeedbackForm />
-        <QuestionsList />
+        {/* <QuestionsList /> */}
         {/* <PublishFeedback /> */}
       </div>
     </TitleWrapper>

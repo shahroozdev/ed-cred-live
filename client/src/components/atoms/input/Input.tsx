@@ -1,22 +1,16 @@
 "use client";
-import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
-import {  useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { useState } from "react";
 import { Eye, EyeOff, Upload } from "lucide-react";
 import MultiSelectDropdown from "../select";
 import { item } from "@/types";
+import CategorySelect from "../categorySelect";
+import SubCategorySelect from "../subCategorySelect";
 
-
-
-interface CustomInputProps {
-  item: item;
-  setValue?: UseFormSetValue<any>;
-  errors?: FieldErrors<any>; // Errors object from react-hook-form
-  register?: UseFormRegister<any>; // Register function from react-hook-form
-}
-const CustomInput = ({ props }: { props: CustomInputProps }) => {
-  const { item, register, errors , setValue} = props;
+const CustomInput = ({ item }: {   item: item; }) => {
+  const {register, formState: { errors }, setValue, control} =useFormContext();
   const [showPassword, setshowPassword] = useState<boolean>(false);
-  const [copied, setCopied] = useState(false);
+
   return (
     <div className={`flex flex-col ${item?.inputWidth || "w-full"}`}>
       {item?.label && item?.label}
@@ -29,7 +23,9 @@ const CustomInput = ({ props }: { props: CustomInputProps }) => {
         htmlFor={item.inputName}
       >
         {item?.preNode && item?.preNode}
-        {item.type === "upload" ? (
+        {item.type === "category" ? (<CategorySelect control={control} inputName="categoryId" />)
+        :item.type === "subCategory" ? (<SubCategorySelect control={control} inputName="subCategoryId" />)
+        :item.type === "upload" ? (
           <div className="w-full">
             <label className="flex flex-col items-center gap-1 justify-center border-[#4B5563] rounded-2xl py-16 border-[1px] border-dashed">
               <Upload size={40}/>

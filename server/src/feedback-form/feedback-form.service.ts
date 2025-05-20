@@ -7,7 +7,7 @@ import { User } from 'src/auth/user.entity';
 import { Category } from 'src/category/category.entity';
 import { Subcategory } from 'src/subcategory/subcategory.entity';
 import { FeedbackResponse } from 'src/feedback-response/entities/feedback-response.entity';
-import { response } from 'express';
+import { response } from 'types';
 
 @Injectable()
 export class FeedbackFormService {
@@ -25,7 +25,7 @@ export class FeedbackFormService {
         private readonly subcategoryRepository: Repository<Subcategory>,
     ) {}
 
-    async create(createFeedbackFormDto: CreateFeedbackFormDto, authorId:number): Promise<FeedbackForm> {
+    async create(createFeedbackFormDto: CreateFeedbackFormDto, authorId:number): Promise<response &{feedback:FeedbackForm}> {
         const { categoryId, subCategoryId, ...rest } = createFeedbackFormDto;
 
         // Fetch user and category
@@ -45,8 +45,8 @@ export class FeedbackFormService {
             subcategory,
             author: user,
         });
-
-        return await this.feedbackFormRepository.save(feedbackForm);
+        const feedback=await this.feedbackFormRepository.save(feedbackForm);
+        return {status:200, message:"Feedback Form Created Successfully.", feedback }
     }
 
     async getGroupedResponsesBySchool() {
@@ -202,11 +202,12 @@ export class FeedbackFormService {
         }));
     }
 
-    async remove(id: number): Promise<void> {
+    async remove(id: number): Promise<response> {
         const result = await this.feedbackFormRepository.delete(id);
         if (result.affected === 0) {
             throw new NotFoundException(`FeedbackForm with ID ${id} not found`);
         }
+        return {status:200, message:'Form Deleted Successfully.'}
     }
 
 }

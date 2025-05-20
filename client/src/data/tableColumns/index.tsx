@@ -114,6 +114,8 @@ const customColummn = (values: {
             <p className="text-[#111827]">{date}</p>
             <p className="text-sm text-[#6B7280]">{time}</p>
           </div>
+           : values.key === "questions"?(<>{value?.length}</>)
+           : values.key === "isDraft"?(<p className={`${value?'text-red-500':'text-green-500'}`}>{value?"draft":"active"}</p>)
            : (
             <div>
               <h1
@@ -165,12 +167,13 @@ export const subCategoryColumn = [
   action({ edit: true, deleteBtn: true, deleteBtnLink:'/subcategory', deleteModalText:'Want To Delete This SubCategory?' })
 ];
 export const feedbacksDashboardColumn = [
-  customColummn({ key: "name", label: "Title", width:200}),
-  customColummn({ key: "name2", label: "Category", width:200}),
-  customColummn({ key: "name3", label: "Subcategory", width:200}),
-  customColummn({ key: "question", label: "Question", width:200}),
-  customColummn({ key: "status", label: "Status" }),
+  customColummn({ key: "title", label: "Title", width:200}),
+  customColummn({ key: "category.name", label: "Category", width:200}),
+  customColummn({ key: "subcategory.name", label: "Subcategory", width:200}),
+  customColummn({ key: "questions", label: "Question", width:100}),
+  customColummn({ key: "isDraft", label: "Status" }),
   customColummn({ key: "createdAt", label: "Created At", type:'date', width:150}),
+  action({deleteBtn: true, deleteBtnLink:'/feedback-form', deleteModalText:'Want To Delete This Form?' })
 ];
 
 
