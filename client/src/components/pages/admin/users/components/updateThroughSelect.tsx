@@ -21,6 +21,7 @@ const UpdateThroughSelect = ({user, type}: { user: Record<string, any>; type: "r
         userId: userId,
         [type === "role" ? "userRole" : "categoryId"]: id,
       },
+      tags:'usersList'
     });
   };
   const placeholder = { role: user.role, category: user?.category?.name };
