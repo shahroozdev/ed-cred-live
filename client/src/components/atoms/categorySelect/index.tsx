@@ -15,18 +15,19 @@ import {
 } from "@/components/ui/select";
 import { useQuery } from "@/hooks/generalHooks";
 import React from "react";
-import { Control } from "react-hook-form";
 
 const CategorySelect = ({
   control,
   label,
   placeholder,
   inputName,
+  noLabel
 }: {
   control: any;
   label?: string;
   placeholder?: string;
   inputName?: string;
+  noLabel?:boolean;
 }) => {
   const { data, isLoading: loading } = useQuery({
     url: "/category",
@@ -39,14 +40,14 @@ const CategorySelect = ({
       control={control}
       name={inputName || "categoryId"}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>{label || "Parent Category"}</FormLabel>
+        <FormItem className="w-full">
+          {!noLabel?<FormLabel>{label || "Parent Category"}</FormLabel>:<></>}
           <Select
             onValueChange={(value) => field.onChange(value)}
             value={field.value}
           >
             <FormControl>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className={`w-full`}>
                 <SelectValue placeholder={placeholder || "Parent Category"} />
               </SelectTrigger>
             </FormControl>

@@ -7,6 +7,7 @@ const WithNavabarLayout = async ({ children }: { children: ReactNode }) => {
     url: "/auth/profile",
     key: "profile",
   });
+
   return (
     <div className="relative w-screen">
       <Header user={user} />

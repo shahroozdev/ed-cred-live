@@ -1,8 +1,7 @@
 import React from "react";
 import Header from "@/components/Common/Header";
-import Footer from "@/components/Landing/Footer";
 import TermsOFUse from "@/components/Termsofuse/TermsOfUse";
-import Navbar from "@/components/Landing/Navbar";
+
 
 const TermsOfUsePage = () => {
   return (

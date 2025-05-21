@@ -1,6 +1,4 @@
-import Footer from '@/components/Landing/Footer';
 import Header from '@/components/Common/Header';
-import Navbar from '@/components/Landing/Navbar';
 import WebsitePolicy from '@/components/WebPolicy/WebPolicy';
 import React from 'react';
 

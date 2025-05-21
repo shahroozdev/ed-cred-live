@@ -21,11 +21,13 @@ const SubCategorySelect = ({
   label,
   placeholder,
   inputName,
+  noLabel
 }: {
   control: any;
   label?: string;
   placeholder?: string;
   inputName?: string;
+  noLabel?:boolean;
 }) => {
   const { data, isLoading: loading } = useQuery({
     url: "/subcategory",
@@ -38,8 +40,8 @@ const SubCategorySelect = ({
       control={control}
       name={inputName || "subcategoryId"}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>{label || "Subcategory"}</FormLabel>
+        <FormItem className="w-full">
+         {!noLabel?<FormLabel>{label || "Parent Category"}</FormLabel>:<></>}
           <Select
             onValueChange={(value) => field.onChange(value)}
             value={field.value}

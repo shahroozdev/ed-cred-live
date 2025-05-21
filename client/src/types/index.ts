@@ -137,6 +137,7 @@ export interface CustomFormProps {
   btnWidth?: string;
   style2?: CSSProperties;
   extraBtn?: ReactNode;
+  resetBtn?:boolean;
   btnIcon?: ReactNode;
   btnDivClassName?: string;
 }

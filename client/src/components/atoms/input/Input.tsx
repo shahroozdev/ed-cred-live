@@ -6,9 +6,15 @@ import MultiSelectDropdown from "../select";
 import { item } from "@/types";
 import CategorySelect from "../categorySelect";
 import SubCategorySelect from "../subCategorySelect";
+import { cn } from "@/lib/utils";
 
-const CustomInput = ({ item }: {   item: item; }) => {
-  const {register, formState: { errors }, setValue, control} =useFormContext();
+const CustomInput = ({ item }: { item: item }) => {
+  const {
+    register,
+    formState: { errors },
+    setValue,
+    control,
+  } = useFormContext();
   const [showPassword, setshowPassword] = useState<boolean>(false);
 
   return (
@@ -23,12 +29,18 @@ const CustomInput = ({ item }: {   item: item; }) => {
         htmlFor={item.inputName}
       >
         {item?.preNode && item?.preNode}
-        {item.type === "category" ? (<CategorySelect control={control} inputName="categoryId" />)
-        :item.type === "subCategory" ? (<SubCategorySelect control={control} inputName="subCategoryId" />)
-        :item.type === "upload" ? (
+        {item.type === "category" ? (
+          <CategorySelect control={control} inputName="categoryId" noLabel />
+        ) : item.type === "subCategory" ? (
+          <SubCategorySelect
+            control={control}
+            inputName="subCategoryId"
+            noLabel
+          />
+        ) : item.type === "upload" ? (
           <div className="w-full">
             <label className="flex flex-col items-center gap-1 justify-center border-[#4B5563] rounded-2xl py-16 border-[1px] border-dashed">
-              <Upload size={40}/>
+              <Upload size={40} />
               <p>Drag and drop your files here, or click to browse</p>
               <p className="min-w-50 text-white w-50 rounded-lg text-center py-2 bg-blue-500 cursor-pointer">
                 Upload files
@@ -75,13 +87,36 @@ const CustomInput = ({ item }: {   item: item; }) => {
             {...(register && register(item?.inputName))}
             className={`grow p-2 ${item?.style}`}
           />
-        ) : item?.type === "select" && setValue ? (
+        ) : item?.type === "select"&& setValue ? (
           <MultiSelectDropdown
             item={item}
             register={register}
             setValue={setValue}
             mode={item?.mode}
           />
+          // <select
+          //   id={item?.inputName}
+          //   {...(register && register(item?.inputName))}
+          //   className={cn(
+          //     "grow p-2 h-8 bg-transparent cursor-pointer appearance-none outline-none",
+          //     item?.style
+          //   )}
+          // >
+          //   {item?.placeHolder && (
+          //     <option value="" disabled hidden>
+          //       {item?.placeHolder || "Select an option"}
+          //     </option>
+          //   )}
+          //   {item?.options?.map((option, index) => (
+          //     <option
+          //       key={index}
+          //       value={option.value}
+          //       className="text-black p-2 w-full cursor-pointer"
+          //     >
+          //       {option.label}
+          //     </option>
+          //   ))}
+          // </select>
         ) : (
           <div
             className={`p-2 h-10 grow relative w-full ${item?.style} flex justify-between items-center`}
@@ -91,10 +126,11 @@ const CustomInput = ({ item }: {   item: item; }) => {
               id={item?.inputName}
               {...(register && register(item?.inputName))}
               placeholder={item?.placeHolder}
-              className={` bg-transparent appearance-none w-full outline-none pr-10 ${item?.disabled && '!text-gray-500'}}`} // extra right padding for icon
+              className={` bg-transparent appearance-none w-full outline-none pr-10 ${
+                item?.disabled && "!text-gray-500"
+              }}`} // extra right padding for icon
               disabled={item?.disabled}
             />
-
           </div>
         )}
       </label>

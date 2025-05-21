@@ -19,7 +19,7 @@ export async function getServerSideDataWithFeatures(props:{url:string, key?:stri
 
       return data
     } catch (err: any) {
-      console.log(err)
+      console.log(err, 'err')
       return null;
     }
   };
@@ -47,16 +47,16 @@ export async function getServerSideDataWithFeatures(props:{url:string, key?:stri
     try {
         const response = await methodHandlers[value?.method]?.() 
         success = true;
-        const twoDay = 48*60*60
+        const oneDay = 24*60*60
         if (response?.token && response?.user && response?.status === 200) {
           const { token , user} = response;
           const cookieStore = await cookies()
-          cookieStore.set({name:'token', value:token, httpOnly:true, path:'/', secure:true, maxAge:twoDay})
-          cookieStore.set({name:'user', value:JSON.stringify(user), httpOnly:true, path:'/', secure:true, maxAge:twoDay})
+          cookieStore.set({name:'token', value:token, httpOnly:true, path:'/', secure:true, maxAge:oneDay})
+          cookieStore.set({name:'user', value:JSON.stringify(user), httpOnly:true, path:'/', secure:true, maxAge:oneDay})
         }
+
         return response;
       } catch (err: any) {
-        console.log(err)
         return err?.response?.data;
     }finally{
       if (success) {

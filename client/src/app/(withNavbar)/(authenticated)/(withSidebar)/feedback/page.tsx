@@ -1,39 +1,30 @@
-"use client";
-import { useEffect, useState } from "react";
-import { fetchFeedbacks } from "@/api/feedback";
 import { Stats } from "@/components/Common/Stats";
-import { Title } from "@/components/Common/Title";
 import { RecentFeedback } from "@/components/pages/admin/dashboard/RecentFeedbacks";
 import { TitleWrapper } from "@/components/atoms";
+import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 
 
-export default function FeedbacksPage() {
-    const [feedbacks, setFeedbacks] = useState<any[]>([]);
+export default async function FeedbacksPage({ searchParams }: { searchParams: any }) {
+    const params = await searchParams;
+    const queryParams = new URLSearchParams(params);
+    const data = await getServerSideDataWithFeatures({url:`/feedback-form?${queryParams.toString()}`, key:'feedbacksFormList'})
 
-    useEffect(() => {
-        async function loadFeedbacks() {
-            const data = await fetchFeedbacks();
-            console.log(data)
-            setFeedbacks(data);
-        }
-        loadFeedbacks();
-    }, []);
-
+    const feedbacks = data?.feedbacks;
     const stats = [
         {
             title: "Total feedbacks",
-            value: feedbacks.length.toString(),
+            value: feedbacks?.length.toString(),
         }, 
         {
             title: "Active Feedbacks",
-            value: feedbacks.filter(s => s.status === "active").length.toString(),
+            value: feedbacks?.filter((s:any) => s?.status === "active")?.length?.toString(),
         }
     ];
 
     return (
         <TitleWrapper  title="Feedbacks" desc="Here are the recent feedback forms. You can go here to create a new feedback form.">
             <Stats stats={stats}/>
-            <RecentFeedback />
+            <RecentFeedback data={data}/>
         </TitleWrapper>
     );
 }

@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Req,
   UseGuards,
+  Query,
 } from "@nestjs/common";
 import { FeedbackFormService } from "./feedback-form.service";
 import { CreateFeedbackFormDto } from "./dto/create-feedback-form.dto";
@@ -33,8 +34,8 @@ export class FeedbackFormController {
   }
 
   @Get()
-  findAll() {
-    return this.feedbackFormService.findAll();
+  async findAll(@Query() query?: Record<string, any>) {
+    return await apiWrapper(() => this.feedbackFormService.findAll(query));
   }
 
   @Get("/groups")
@@ -43,13 +44,15 @@ export class FeedbackFormController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.feedbackFormService.findOne(+id);
+  async findOne(@Param("id") id: string) {
+    return await apiWrapper(() => this.feedbackFormService.findOne(+id));
   }
 
   @Get("category/:categoryId")
   async getByCategory(@Param("categoryId", ParseIntPipe) categoryId: number) {
-    return this.feedbackFormService.findByCategoryId(categoryId);
+    return await apiWrapper(() =>
+      this.feedbackFormService.findByCategoryId(categoryId)
+    );
   }
 
   @Get("category/:categoryId/subcategory/:subcategoryId")
@@ -57,9 +60,11 @@ export class FeedbackFormController {
     @Param("categoryId", ParseIntPipe) categoryId: number,
     @Param("subcategoryId", ParseIntPipe) subcategoryId: number
   ): Promise<FeedbackForm[]> {
-    return this.feedbackFormService.findByCategoryAndSubcategory(
-      categoryId,
-      subcategoryId
+    return await apiWrapper(() =>
+      this.feedbackFormService.findByCategoryAndSubcategory(
+        categoryId,
+        subcategoryId
+      )
     );
   }
 

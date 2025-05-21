@@ -27,6 +27,11 @@ export const CategoryFiltersSchema = z.object({
   to_date: z.string().optional(),
   from_date: z.string().optional(),
 });
+export const FeedbackFilterSchema = z.object({
+  categoryId: z.string().optional(),
+  subCategoryId: z.string().optional(),
+  isDraft: z.string().optional(),
+});
 
 export const QuestionFormSchema = z.object({
   type: z.enum(["rating", "multiple_choice", "true_false", "open_ended"], {

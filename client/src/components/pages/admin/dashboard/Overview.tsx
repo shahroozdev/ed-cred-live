@@ -9,29 +9,19 @@ import { RecentFeedback } from "./RecentFeedbacks";
 import { RecentPosts } from "./RecentPosts";
 import { usePostStore } from "@/store/usePostStore";
 import { Stats } from "@/components/Common/Stats";
-import { useFeedbacksStore } from "@/store/feedbackStore";
-import { useQuery } from "@/hooks/generalHooks";
 
-export const OverviewTab = () => {
+
+export const OverviewTab = ({feedbacks, categories}:{feedbacks:Record<string, any>, categories:Record<string, any>}) => {
     const { posts } = usePostStore();
-  const { data } = useQuery({
-    url: "/category",
-    key: "categories",
-  });
-//   const { data:feedbacks} = useQuery({
-//     url: "/feedback",
-//     key: "feedbacks",
-//   });
-    const { feedbacks } = useFeedbacksStore();
 
     const stats = [
         {
             title: "Total Feedbacks",
-            value: feedbacks?.length?.toString(),
+            value: feedbacks?.feedbacks?.length?.toString(),
         },
         {
             title: "Active Feedbacks",
-            value: feedbacks?.filter((f:any) => f?.status === "active")?.length?.toString(),
+            value: feedbacks?.feedbacks?.filter((f:any) => f?.status === "active")?.length?.toString(),
         },
         {
             title: "Total Posts",
@@ -39,7 +29,7 @@ export const OverviewTab = () => {
         },
         {
             title: "Total Categries",
-            value: data?.categories?.length?.toString(),
+            value: categories?.categories?.length?.toString(),
         },
 
     ]
@@ -47,7 +37,7 @@ export const OverviewTab = () => {
         <div className="w-full">
             <Stats stats={stats}/>
             <div className="grid gap-4 lg:grid-cols-3 grid-cols-1 w-full">
-                <RecentFeedback />
+                <RecentFeedback data={feedbacks}/>
                 <Card className="col-span-1 h-max">
                     <CardHeader>
                         <CardTitle>Recent Posts</CardTitle>

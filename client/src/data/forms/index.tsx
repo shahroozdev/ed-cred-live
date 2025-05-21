@@ -1,5 +1,5 @@
 import { Button } from "@/components/atoms";
-import { CategoryFiltersSchema } from "@/lib/schemas";
+import { CategoryFiltersSchema, FeedbackFilterSchema } from "@/lib/schemas";
 import { X } from "lucide-react";
 
 export const CategoryFilterForm = {
@@ -16,7 +16,9 @@ export const CategoryFilterForm = {
       variant="ghost"
       rounded={8}
       type="reset"
-    >Clear All</Button>
+    >
+      Clear All
+    </Button>
   ),
   arr: [
     {
@@ -31,7 +33,9 @@ export const CategoryFilterForm = {
       pStyle: "border-none flex-col items-start max-md:mb-2",
       style: "border-2 rounded-lg px-5 h-16 w-full",
       type: "date",
-      preNode: <h1 className="text-sm font-medium text-[#374151]">From Date</h1>,
+      preNode: (
+        <h1 className="text-sm font-medium text-[#374151]">From Date</h1>
+      ),
       placeHolder: "Select Date",
       inputName: "from_date",
     },
@@ -46,40 +50,40 @@ export const CategoryFilterForm = {
   ],
 };
 export const FeedbackFilterForm = {
-  schema: CategoryFiltersSchema,
+  schema: FeedbackFilterSchema,
   style:
     "!p-0 grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 w-full mb-5",
   btnText: "Apply Filters",
   btnIconColor: "#fff",
   btnDivClassName: "justify-end md:col-span-3 sm:col-span-2 mt-6",
-  extraBtn: (
-    <Button
-      icon={<X />}
-      background="#00000000"
-      variant="ghost"
-      rounded={8}
-      type="reset"
-    >Clear All</Button>
-  ),
+  resetBtn: true,
+  defaultValues:{category:"", subCategory:"", isDraft:undefined},
   arr: [
     {
-      type: "Category",
+      pStyle: "border-none flex-col items-start max-md:mb-2",
+      style: "border-2 rounded-lg px-5 h-16 w-full",
+      preNode: <h1 className="text-sm font-medium text-[#374151]">Category</h1>,
+      type: "category",
     },
     {
       pStyle: "border-none flex-col items-start max-md:mb-2",
       style: "border-2 rounded-lg px-5 h-16 w-full",
-      type: "date",
-      preNode: <h1 className="text-sm font-medium text-[#374151]">From Date</h1>,
-      placeHolder: "Select Date",
-      inputName: "from_date",
+      preNode: (
+        <h1 className="text-sm font-medium text-[#374151]">Sub Category</h1>
+      ),
+      type: "subCategory",
     },
     {
       pStyle: "border-none flex-col items-start max-md:mb-2",
-      style: "border-2 rounded-lg px-5 h-16 w-full",
-      type: "date",
-      preNode: <h1 className="text-sm font-medium text-[#374151]">To Date</h1>,
+      style: "border-2 rounded-lg px-5 h-12 w-full",
+      type: "select",
+      preNode: <h1 className="text-sm font-medium text-[#374151]">Status</h1>,
       placeHolder: "Select Date",
-      inputName: "to_date",
+      inputName: "isDraft",
+      options: [
+        { value: "true", label: "Draft" },
+        { value: "false", label: "Active" },
+      ],
     },
   ],
 };
