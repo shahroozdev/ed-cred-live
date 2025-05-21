@@ -3,12 +3,11 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getAllCategories } from "@/api/categories";
 import { fetchFeedbacks } from "@/api/feedback";
-import { Feedback } from "@/components/MainDashboard/RecentFeedbacks";
 import { Category } from "@/types/user";
-import Navbar from "@/components/Landing/Navbar";
 import { useQuery } from "@/hooks/generalHooks";
+import { Feedback } from "@/store/createFeedbackStore";
+import { imagesUrls } from "@/types";
 
 const CategoryCard = ({ category }: { category: any }) => {
   const router = useRouter();
@@ -24,14 +23,14 @@ const CategoryCard = ({ category }: { category: any }) => {
         onClick={() => router.push(`review/${category.id}/0`)}
       >
         <Image
-          src={`/uploads/categoryIcons/${category.name.toLowerCase()}.png`}
+          src={`/uploads/categoryIcons/${imagesUrls[category?.name]}.png`}
           width={100}
           height={200}
-          alt={category.name}
+          alt={category?.name}
           className="h-auto w-24"
         />
         <div className="text-center text-lg font-semibold capitalize">
-          {category.name}
+          {category?.name}
         </div>
       </div>
     </div>
@@ -41,10 +40,14 @@ const CategoryCard = ({ category }: { category: any }) => {
 const ReviewPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [feedbacksBySubcategory, setFeedbacksBySubcategory] = useState<{
-    [key: string]: Feedback[];
+    [key: string]: any[];
   }>({});
   const { data, isLoading, error } = useQuery({
     url: "/category",
+    key: "categories",
+  });
+  const { data:feedback} = useQuery({
+    url: "/feedback-form",
     key: "categories",
   });
   useEffect(() => {
@@ -53,16 +56,16 @@ const ReviewPage = () => {
             setCategories(data?.categories);
         }
 
-      const feedbackData = await fetchFeedbacks();
+      const feedbackData = feedback?.feedbacks
 
       // Group feedbacks by subcategory ID
-      const groupedFeedbacks: { [key: string]: Feedback[] } = {};
-      feedbackData.forEach((feedback: Feedback) => {
+      const groupedFeedbacks: { [key: string]: any[] } = {};
+      feedbackData?.forEach((feedback: any) => {
         const subcategoryId = feedback.subcategory.id ?? 0;
         if (!groupedFeedbacks[subcategoryId]) {
           groupedFeedbacks[subcategoryId] = [];
         }
-        groupedFeedbacks[subcategoryId].push(feedback);
+        groupedFeedbacks[subcategoryId]?.push(feedback);
       });
 
       setFeedbacksBySubcategory(groupedFeedbacks);
@@ -75,11 +78,11 @@ const ReviewPage = () => {
     <div
       className={cn(
         "bg-background text-foreground font-inter",
-        "flex min-h-screen w-full flex-col gap-20",
+        "flex min-h-screen max-w-[1400px] mx-auto w-full flex-col gap-20",
         "items-center justify-center overflow-hidden"
       )}
     >
-      <div className="flex max-w-3xl flex-col items-center justify-center gap-4 text-center">
+      <div className="flex flex-col items-center gap-4 text-center">
         <span
           className={cn(
             "bg-[#A1AF001A] font-normal text-[#439E5E] dark:bg-green-800/50",

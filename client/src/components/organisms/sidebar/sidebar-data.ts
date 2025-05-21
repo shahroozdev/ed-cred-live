@@ -31,6 +31,10 @@ export const data = {
                     title: "Create Feedback",
                     url: "/create",
                 },
+                {
+                    title: "All Responses",
+                    url: "/responses/all",
+                },
             ],
         },
         {

@@ -174,3 +174,18 @@ export interface Question {
     options?: any[];
     answer?: string | number | boolean;
 }
+
+export interface Feedback {
+    id: string;
+    title: string;
+    category: number;
+    subcategory: string;
+    status: "active" | "inactive";
+    details: {
+        name: boolean;
+        country: boolean;
+        dates: boolean;
+        salary: boolean;
+        web: boolean;
+    }
+}

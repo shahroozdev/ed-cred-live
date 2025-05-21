@@ -46,16 +46,16 @@ export class AuthController {
 
     @Get('users')
     @UseGuards(JwtAuthGuard)
-    async getUsers(@Req() req) {
+    async getUsers(@Req() req,  @Query() query?: Record<string, any>) {
         if (req.user.role !== "admin") {
             throw new ForbiddenException("You do not have permission to view the users");
         }
-        return this.authService.getUsers();
+        return await apiWrapper(() => this.authService.getUsers(query));
     }
 
     @Post('users/role')
     @UseGuards(JwtAuthGuard)
-    async setUserRole(@Req() req) {
+    async setUserRole(@Req() req,) {
         if (req.user.role !== "admin") {
             throw new ForbiddenException("You do not have permission to change a users role");
         }

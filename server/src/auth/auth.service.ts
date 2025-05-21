@@ -128,8 +128,24 @@ export class AuthService {
     return { name: user.username, ...user };
   }
 
-  async getUsers() {
-    const users = await this.userRepository.find({
+  async getUsers(
+    query?: Record<string, any>
+  ): Promise<response & { users: User[] }> {
+    const page = query?.page ?? 1;
+    const pageSize = query?.pageSize ?? 10;
+
+    const where: any = { role: UserRole.USER };
+    if (query.categoryId) {
+      where.category = { id: Number(query.categoryId) };
+    }
+    if (query.username) {
+      where.username = { username: query.username};
+    }
+    if (query.status) {
+      where.isVerified = { isVerified: query.status};
+    }
+    const [users, total] = await this.userRepository.findAndCount({
+      where,
       select: [
         "id",
         "username",
@@ -142,13 +158,25 @@ export class AuthService {
         "verificationDocumentUrl",
       ],
       relations: ["category"],
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      order: {
+        createdAt: "DESC",
+      },
     });
 
-    return users;
+    return {
+      status: 200,
+      message: "All Feedbacks List.",
+      users,
+      total,
+      currentPage: Number(page),
+      pageSize,
+    };
   }
 
   async updateUserRole(id: number, role: UserRole): Promise<response> {
-    const user = await this.userRepository.findOne({ where: { id} });
+    const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException("User not found");
     }
@@ -156,7 +184,10 @@ export class AuthService {
     return { status: 200, message: `User role is Updated as ${role}` };
   }
 
-  async updateUserCategory(userId: number, categoryId: number): Promise<response>  {
+  async updateUserCategory(
+    userId: number,
+    categoryId: number
+  ): Promise<response> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new NotFoundException("User not found");
@@ -171,7 +202,10 @@ export class AuthService {
 
     user.category = category;
     await this.userRepository.save(user);
-    return { status: 200, message: `User Category is Updated as ${category?.name}` };
+    return {
+      status: 200,
+      message: `User Category is Updated as ${category?.name}`,
+    };
   }
 
   async findUserById(userId: number) {

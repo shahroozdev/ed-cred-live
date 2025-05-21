@@ -15,6 +15,7 @@ export const action = ({
   btnText,
   view,
   key,
+  changeCategory
 }: {
   edit?: boolean;
   deleteBtn?: boolean;
@@ -23,6 +24,7 @@ export const action = ({
   btnText?: string;
   view?: boolean;
   key?: string;
+  changeCategory?:boolean;
 }) => {
   return {
     accessorKey: "actions",
@@ -46,6 +48,7 @@ export const action = ({
               </IconButton>
             </ConfirmationDeleteModal>
           )}
+          {changeCategory&&<IconButton bgColor="black" className="cursor-pointer text-white"><Pencil size={20}/></IconButton>}
         </div>
       );
     },
@@ -55,6 +58,7 @@ export const action = ({
 const getNestedValue = (obj: any, path: string, fallback = "--") => {
   try {
     const parts = path.replace(/\[(\d+)\]/g, ".$1").split(".");
+    console.log(parts, path)
     return (
       parts.reduce((acc, key) => {
         if (acc && typeof acc === "object") {
@@ -96,6 +100,7 @@ const customColummn = (values: {
       const extra = values.extra
         ? getNestedValue(row.original, values.extra)
         : null;
+        console.log(value,values.key,row.original.isVerified, 'value')
       return (
         <div
           className={`flex gap-3 items-center ${
@@ -116,6 +121,7 @@ const customColummn = (values: {
           </div>
            : values.key === "questions"?(<>{value?.length}</>)
            : values.key === "isDraft"?(<p className={`${value?'text-red-500':'text-green-500'}`}>{value?"draft":"active"}</p>)
+           : values.key === "isVerified"?(<p className={`${row?.original?.isVerified?'text-green-500 bg-green-300':'text-red-500 bg-red-300'} rounded-4xl px-2 py-1`}>{row?.original?.isVerified?"Verified":"Not Verified"}</p>)
            : (
             <div>
               <h1
@@ -173,6 +179,14 @@ export const feedbacksDashboardColumn = [
   customColummn({ key: "questions", label: "Question", width:100}),
   customColummn({ key: "isDraft", label: "Status" }),
   customColummn({ key: "createdAt", label: "Created At", type:'date', width:150}),
+  action({deleteBtn: true, deleteBtnLink:'/feedback-form', deleteModalText:'Want To Delete This Form?' })
+];
+export const usersAdminColumn = [
+  customColummn({ key: "username", label: "Username", width:200}),
+  customColummn({ key: "email", label: "Email", width:200}),
+  customColummn({ key: "category.name", label: "Category", width:200}),
+  customColummn({ key: "isVerified", label: "Status", width:150}),
+  customColummn({ key: "createdAt", label: "Joined On", type:'date', width:150}),
   action({deleteBtn: true, deleteBtnLink:'/feedback-form', deleteModalText:'Want To Delete This Form?' })
 ];
 
