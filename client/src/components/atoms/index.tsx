@@ -6,12 +6,13 @@ import { DateRangePicker } from "./dateChangePicker";
 import IconButton from "./iconButton";
 import CustomInput from "./input/Input";
 import MenuList from "./menu";
+import { PromoCard } from "./promocard";
 import QuestionInput from "./questionInput";
 import RatingInput from "./rattingInput";
 import SubCategorySelect from "./subCategorySelect";
 import TitleWrapper from "./titleWrapper";
-
 export {
+  PromoCard,
   CountryDropdown,
   DateRangePicker,
   RatingInput,

@@ -5,28 +5,23 @@ import { toast } from "sonner";
 import { Category } from "@/types/user";
 import { imagesUrls } from "@/types";
 import TitleWrapper from "@/components/atoms/titleWrapper";
-import { useQuery } from "@/hooks/generalHooks";
+import { useMutate, useQuery } from "@/hooks/generalHooks";
 import { Loader2 } from "lucide-react";
 
 const SignupCategorySelectPage = () => {
   const { data, isLoading, error } = useQuery({
-    url: "/category",
-    key: "categories",
+    url: "/subcategory",
+    key: "subcategories",
   });
-  const categories = data?.categories;
+  const categories = data?.subcategories;
+
   return (
     <TitleWrapper title={"Select Category"} desc="Please select a category you are a part of" notBackBtn>
-      <main className="w-full h-screen font-inter flex flex-col gap-10 justify-between">
+      <main className="w-full font-inter flex flex-col gap-10 justify-between">
         <div className="flex flex-col gap-4 w-full h-auto justify-center">
-          {/* <div className="w-lg text-center mb-10">
-            <div className="font-semibold text-3xl">Select Category</div>
-            <div className="font-semibold text-base">
-              Please select a category you are a part of
-            </div>
-          </div> */}
           <div className="grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6 px-4">
             {isLoading?<Loader2/>:categories?.map((category:any) => (
-              <Card category={category} key={category.id} />
+              <Card category={category} key={category?.id} />
             ))}
           </div>
         </div>
@@ -36,25 +31,16 @@ const SignupCategorySelectPage = () => {
 };
 
 const Card = ({ category }: { category: Category }) => {
+  const {MutateFunc} = useMutate()
   const router = useRouter();
   const selectCategory = async () => {
-    if (!category.id) {
-      console.error("Category ID is not defined");
-      return;
-    }
-
-    const response = await setUserCategory(category.id);
-
-    if (response.error) {
-      toast.error(response.message);
-      return;
-    }
-
-    if (response.requiresVerification) {
-      router.push("/user/verify/");
+    const res = await MutateFunc({url:'/users/category',method:'POST', tags:'', onSuccess:(result:any)=>{
+    if (result?.user?.requiresVerification) {
+      router.push("/verify");
     } else {
-      router.push("/user/welcome");
+      router.push("/welcome");
     }
+    }})
   };
 
   return (
@@ -64,7 +50,7 @@ const Card = ({ category }: { category: Category }) => {
     >
       <div>
         <img
-          src={`/uploads/categoryIcons/${imagesUrls[category?.name]}.png`}
+          src={`/uploads/categoryIcons/${imagesUrls[category?.name]??'pricipal'}.png`}
           width={200}
           height={300}
           alt={category.name}
@@ -79,38 +65,5 @@ const Card = ({ category }: { category: Category }) => {
   );
 };
 
-const CategoryCard = ({ category }: { category: Category }) => {
-  const router = useRouter();
-  const selectCategory = async () => {
-    if (!category.id) {
-      console.error("Category ID is not defined");
-      return;
-    }
-
-    const response = await setUserCategory(category.id);
-
-    if (response.error) {
-      toast.error(response.message);
-      return;
-    }
-
-    console.log(response.requiresVerification);
-
-    if (response.requiresVerification) {
-      router.push("/user/verify/");
-    } else {
-      router.push("/user/welcome");
-    }
-  };
-
-  return (
-    <div
-      className="p-4 border-2 border-muted rounded-md hover:border-primary transition-colors cursor-pointer"
-      onClick={selectCategory}
-    >
-      {category.name}
-    </div>
-  );
-};
 
 export default SignupCategorySelectPage;

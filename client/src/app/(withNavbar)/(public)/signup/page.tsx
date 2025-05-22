@@ -20,7 +20,7 @@ const SignupPage = () => {
 
   const onSubmit = async (data: SignupFormData) => {
     const res = await MutateFunc({
-      url: "auth/login",
+      url: "auth/signup",
       method: "POST",
       body: data,
       sendTo: "/signup/category/",

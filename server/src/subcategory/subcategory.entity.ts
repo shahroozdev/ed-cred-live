@@ -1,3 +1,4 @@
+import { User } from "src/auth/user.entity";
 import { Category } from "src/category/category.entity";
 import { FeedbackForm } from "src/feedback-form/entities/feedback-form.entity";
 import {
@@ -26,13 +27,15 @@ export class Subcategory {
 
   @DeleteDateColumn({ nullable: true })
   deletedAt?: Date; // <- Soft delete column
-
+  // There are multiple users in a category
+  @OneToMany(() => User, (user) => user.category)
+  users: User[];
   // A category can be linked with multiple feedback forms
   @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.subcategory)
   feedbackForms: FeedbackForm[];
 
-  @ManyToOne(() => Category, (category) => category.subCategories, {
-    onDelete: "CASCADE",
-  })
-  parentCategory: Category;
+  // @ManyToOne(() => Category, (category) => category.subCategories, {
+  //   onDelete: "CASCADE",
+  // })
+  // parentCategory: Category;
 }

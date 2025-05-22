@@ -38,14 +38,14 @@ export class Category {
   @Column({ default: "categoryIcons/default.png" })
   iconUrl: string;
 
-  // There are multiple users in a category
-  @OneToMany(() => User, (user) => user.category)
-  users: User[];
+  // // There are multiple users in a category
+  // @OneToMany(() => User, (user) => user.category)
+  // users: User[];
 
   // A category can be linked with multiple feedback forms
   @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)
   feedbackForms: FeedbackForm[];
 
-  @OneToMany(() => Subcategory, (subcategory) => subcategory.parentCategory)
-  subCategories: Subcategory[];
+  // @OneToMany(() => Subcategory, (subcategory) => subcategory.parentCategory)
+  // subCategories: Subcategory[];
 }

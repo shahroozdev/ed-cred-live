@@ -6,6 +6,7 @@ import { UserRole, Permission, SubscriptionPlan } from "./../../types/user";
 import { Category } from 'src/category/category.entity';
 import { FeedbackResponse } from 'src/feedback-response/entities/feedback-response.entity';
 import { Dispute } from 'src/dispute/dispute.entity';
+import { Subcategory } from 'src/subcategory/subcategory.entity';
 
 @Entity()
 export class User {
@@ -62,8 +63,8 @@ export class User {
 
     //NOTE: if we delete a category, what shall happen to the 
     // users of that category?
-    @ManyToOne(() => Category, (category) => category.users)
-    category: Category;
+    @ManyToOne(() => Subcategory, (subcategory) => subcategory.users)
+    category: Subcategory;
 
     @OneToMany(() => Dispute, (dispute) => dispute.disputedBy)
     disputes: Dispute[];

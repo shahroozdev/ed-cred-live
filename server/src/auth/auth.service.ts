@@ -11,17 +11,17 @@ import { Repository } from "typeorm";
 import * as bcrypt from "bcryptjs";
 import { User } from "./user.entity";
 import { UserRole } from "./../../types/user";
-import { Category } from "src/category/category.entity";
 import { randomBytes } from "crypto";
 import { MailerService } from "@nestjs-modules/mailer";
 import { response } from "types";
+import { Subcategory } from "src/subcategory/subcategory.entity";
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
+    @InjectRepository(Subcategory)
+    private categoryRepository: Repository<Subcategory>,
     private jwtService: JwtService,
     private mailerService: MailerService
   ) {}
@@ -175,13 +175,13 @@ export class AuthService {
     };
   }
 
-  async updateUserRole(id: number, role: UserRole): Promise<response> {
+  async updateUserRole(id: number, role: UserRole): Promise<response &{user:User}> {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException("User not found");
     }
     await this.userRepository.update(id, { role });
-    return { status: 200, message: `User role is Updated as ${role}` };
+    return { status: 200, message: `User role is Updated as ${role}`, user};
   }
 
   async updateUserCategory(

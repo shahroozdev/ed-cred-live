@@ -1,16 +1,11 @@
-"use client";
-import { Title } from "@/components/Common/Title";
+import { TitleWrapper } from "@/components/atoms";
 import CreatePost from "@/components/Posts/CreatePost";
 
 const Dashboard = () => {
     return(
-        <div className="font-inter flex flex-col mx-auto w-4xl mt-10">
-            <Title
-                title="Create Post"
-                desc=""
-            />
+    <TitleWrapper title="Create post" desc="">
             <CreatePost />
-        </div>
+        </TitleWrapper>
     )
 };
 export default Dashboard;

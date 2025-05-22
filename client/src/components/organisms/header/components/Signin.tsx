@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { loginSchema, LoginSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
 const Signin = () => {
   const { MutateFunc, isPending } = useMutate();
@@ -15,13 +16,13 @@ const Signin = () => {
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
-
+  const router = useRouter();
   const onSubmit = async (values: LoginSchema) => {
     const res = await MutateFunc({
       url: "auth/login",
       method: "POST",
       body: values,
-      sendTo: "/dashboard",
+      onSuccess:(res:any)=> router.push(res?.user?.role==="admin"?'/admin-dashboard':'/dashboard'),
     });
   };
 

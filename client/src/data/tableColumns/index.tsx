@@ -127,6 +127,8 @@ const customColummn = (values: {
             <p className="text-sm text-[#6B7280]">{time}</p>
           </div>
            : values.key === "questions"?(<>{value?.length}</>)
+           : values.key === "featured"?(<>{row.original.featured?"Yes":"No"}</>)
+           : values.key === "description"?(<p className="line-clamp-2">{value}</p>)
            : values.key === "isDraft"?(<p className={`${value?'text-red-500':'text-green-500'}`}>{value?"draft":"active"}</p>)
            : values.key === "isVerified"?(<p className={`${row?.original?.isVerified?'text-green-500 bg-green-300':'text-red-500 bg-red-300'} rounded-4xl px-2 py-1`}>{row?.original?.isVerified?"Verified":"Not Verified"}</p>)
            : (
@@ -195,6 +197,14 @@ export const usersAdminColumn = [
   customColummn({ key: "isVerified", label: "Status", width:150}),
   customColummn({ key: "createdAt", label: "Joined On", type:'date', width:150}),
   action({deleteBtn: true, deleteBtnLink:'/users', deleteModalText:'Want To Delete This user?', changeCategory:true })
+];
+export const postsAdminColumn = [
+  customColummn({ key: "title", label: "Title", width:200}),
+  customColummn({ key: "description", label: "Description", width:200}),
+  customColummn({ key: "featured", label: "Featured", width:200}),
+  customColummn({ key: "status", label: "Status", width:200}),
+  customColummn({ key: "createdAt", label: "Joined On", type:'date', width:150}),
+  action({deleteBtn: true, deleteBtnLink:'/posts', deleteModalText:'Want To Delete This Post?'})
 ];
 
 

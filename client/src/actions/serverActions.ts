@@ -19,7 +19,6 @@ export async function getServerSideDataWithFeatures(props:{url:string, key?:stri
 
       return data
     } catch (err: any) {
-      console.log(err, 'err')
       return null;
     }
   };

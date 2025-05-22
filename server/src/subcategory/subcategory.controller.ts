@@ -5,15 +5,17 @@ import { response } from 'types';
 import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
 import { CreateItemDto } from './dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiCustomResponse } from 'src/decorators/api-decorator';
 
 @Controller('subcategory')
 export class SubcategoryController {
     constructor(private readonly categoryService: SubcategoryService) {}
 
     @Post()
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
+    @ApiCustomResponse("createCategory")
     async createCategory(@Body() data:CreateItemDto): Promise<response & { subcategory?: Subcategory }> {
-        return await apiWrapper(() =>this.categoryService.createSubcategory(data.name, data.status, data.categoryId));
+        return await apiWrapper(() =>this.categoryService.createSubcategory(data.name, data.status));
     }
 
     @Get()

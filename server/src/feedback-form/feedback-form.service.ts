@@ -293,14 +293,14 @@ export class FeedbackFormService {
       throw new NotFoundException(`Category with ID ${categoryId} not found`);
 
     const subcategory = await this.subcategoryRepository.findOne({
-      where: { id: subcategoryId, parentCategory: {id:categoryId} },
+      where: { id: subcategoryId},
       relations: ['parentCategory'],
     });
     if (!subcategory)
       throw new NotFoundException(
         `Subcategory with ID ${subcategoryId} not found in Category ${categoryId}`
       );
-      console.log(subcategory)
+
     const forms = await this.feedbackFormRepository.find({
       where: { category:{id:categoryId}, subcategory:{id:subcategoryId} },
       relations: [

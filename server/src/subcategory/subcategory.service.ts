@@ -18,19 +18,19 @@ export class SubcategoryService {
   async createSubcategory(
     name: string,
     status: "active" | "draft",
-    categoryId: number
+    // categoryId: number
   ): Promise<response & { subcategory?: Subcategory }> {
-    const category = await this.categoryRepository.findOne({
-      where: { id: categoryId },
-    });
-    if (!category)
-      throw new NotFoundException(`Category with ID ${categoryId} not found`);
+    // const category = await this.categoryRepository.findOne({
+    //   where: { id: categoryId },
+    // });
+    // if (!category)
+    //   throw new NotFoundException(`Category with ID ${categoryId} not found`);
 
     const subcategory = this.subcategoryRepository.create({
       name,
       status,
       createdAt: new Date(),
-      parentCategory: category,
+      // parentCategory: category,
     });
     const savedSubcategory = await this.subcategoryRepository.save(subcategory);
 
@@ -47,7 +47,7 @@ export class SubcategoryService {
 
     const [subcategories, count] =
       await this.subcategoryRepository.findAndCount({
-        relations: ["parentCategory"],
+        // relations: ["parentCategory"],
         order: {
           createdAt: "DESC",
         },
@@ -89,7 +89,7 @@ export class SubcategoryService {
     const [subcategories, total] =
       await this.subcategoryRepository.findAndCount({
         where,
-        relations: ["parentCategory"],
+        // relations: ["parentCategory"],
         skip: (page - 1) * pageSize,
         take: pageSize,
         order: {

@@ -23,13 +23,14 @@ export function LoginForm({
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
+  const router = useRouter();
 
   const onSubmit = async (values: LoginSchema) => {
     const res = await MutateFunc({
       url: "auth/login",
       method: "POST",
       body: values,
-      sendTo:'/dashboard',
+      onSuccess:(res:any)=> router.push(res?.user?.role==="admin"?'/admin-dashboard':'/dashboard'),
     });
   };
 

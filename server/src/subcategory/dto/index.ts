@@ -7,6 +7,6 @@ export class CreateItemDto {
   @IsIn(['active', 'draft'])
   status: 'active' | 'draft';
 
-  @IsNumber()
-  categoryId: number;
+  // @IsNumber()
+  // categoryId: number;
 }

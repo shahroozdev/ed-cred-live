@@ -7,13 +7,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Category } from 'src/category/category.entity';
-import { CategoryModule } from 'src/category/category.module';
+import { Subcategory } from 'src/subcategory/subcategory.entity';
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
-        TypeOrmModule.forFeature([User, Category]),
+        TypeOrmModule.forFeature([User, Subcategory]),
         PassportModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
