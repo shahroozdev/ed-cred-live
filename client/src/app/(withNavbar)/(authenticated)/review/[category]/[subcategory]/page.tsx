@@ -1,8 +1,7 @@
 "use client"
 import { getFeedbackByCategory } from "@/api/feedback";
-import Navbar from "@/components/Landing/Navbar";
-import { Feedback } from "@/components/MainDashboard/RecentFeedbacks";
 import FeedbackForm from "@/components/Review/FeedbackForm";
+import { Feedback } from "@/types";
 import { LoaderIcon } from "lucide-react";
 import { use, useEffect, useState } from "react";
 

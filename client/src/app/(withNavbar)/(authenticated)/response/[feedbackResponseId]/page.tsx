@@ -2,7 +2,6 @@
 import React, { useState, useEffect, use } from "react";
 import { Loader } from "@/components/ui/loader";
 import { getRequest } from "@/api/config";
-import Navbar from "@/components/Landing/Navbar";
 import Image from "next/image";
 import { AppleIcon } from "lucide-react";
 import { v4 } from "uuid";

@@ -1,10 +1,11 @@
 "use client";
 import { Button, IconButton } from "@/components/atoms";
+import { ChangeCategoryModal } from "@/components/molecules";
 import ConfirmationDeleteModal from "@/components/molecules/confirmationModal/deleteModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Repeat1, Trash2 } from "lucide-react";
 import { ReactNode } from "react";
 
 export const action = ({
@@ -48,7 +49,14 @@ export const action = ({
               </IconButton>
             </ConfirmationDeleteModal>
           )}
-          {changeCategory&&<IconButton bgColor="black" className="cursor-pointer text-white"><Pencil size={20}/></IconButton>}
+          {changeCategory&&<ChangeCategoryModal data={data}
+              qkey={key}><IconButton
+            bgColor={`red`}
+            circle
+            className="text-white"
+          >
+             <Repeat1 />
+          </IconButton></ChangeCategoryModal>}
         </div>
       );
     },
@@ -187,7 +195,7 @@ export const usersAdminColumn = [
   customColummn({ key: "category.name", label: "Category", width:200}),
   customColummn({ key: "isVerified", label: "Status", width:150}),
   customColummn({ key: "createdAt", label: "Joined On", type:'date', width:150}),
-  action({deleteBtn: true, deleteBtnLink:'/feedback-form', deleteModalText:'Want To Delete This Form?' })
+  action({deleteBtn: true, deleteBtnLink:'/users', deleteModalText:'Want To Delete This user?', changeCategory:true })
 ];
 
 

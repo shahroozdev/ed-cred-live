@@ -7,7 +7,6 @@ import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { Question } from "@/store/questionStore";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Feedback } from "../MainDashboard/RecentFeedbacks";
 import { Input } from "../ui/input";
 import { createFeedbackResponse, CreateFeedbackResponseDto } from "@/api/feedback-response";
 import { format } from "date-fns"
@@ -25,6 +24,7 @@ import {
 } from "@/components/ui/select"
 import { useRouter } from "next/navigation";
 import { useUserProfile } from "@/hooks/useProfile";
+import { Feedback } from "@/types";
 
 const detailType = {
         schoolName:      "text",
@@ -38,7 +38,7 @@ const detailType = {
 }as any;
 
 
-export const FeedbackForm = ({ feedback, color = "red" }: { feedback: Feedback, color?: string }) => {
+export const FeedbackForm = ({ feedback, color = "red" }: { feedback: any, color?: string }) => {
     const [responses, setResponses] = useState<{ [key: string]: any }>({});
     const router = useRouter();
     const [details, setDetails] = useState<any>({});
@@ -74,7 +74,7 @@ const handleSubmit = async () => {
         }
     };
 
-    const questions = feedback.questions;
+    const questions = feedback?.questions;
 
     // TODO: Bring the salary option on the end
     return (
@@ -167,7 +167,7 @@ const handleSubmit = async () => {
                 {/*         /> */}
                 {/*     )} */}
             </div>
-            {questions.map((question, index) => (
+            {questions.map((question:any, index:number) => (
                 <div className={`outline-2 outline-muted flex ${question.type != "rating" ? "flex-col" : ""} w-full justify-between rounded-md p-4`} key={`feedback-question-${index}`}>
                     <p className="mb-2 font-medium">{question.text}</p>
                     <QuestionInput

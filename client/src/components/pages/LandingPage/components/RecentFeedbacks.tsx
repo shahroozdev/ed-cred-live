@@ -25,14 +25,14 @@ const Feedbacks = () => {
             </div>
             <div className="flex flex-col items-center justify-center gap-4 px-10 md:w-2/3 md:flex-row md:gap-14 md:p-0 ">
                 {
-                   feedbacks?.length>0&& feedbacks?.map((feedback, index) => <Card name={feedback?.details?.schoolName} desc={feedback?.details?.schoolCountry} review={feedback?.comments} color={colors[index]} key={`card-${index}`} />)
+                   feedbacks?.length>0&& feedbacks?.map((feedback:any, index:number) => <Card name={feedback?.details?.schoolName} desc={feedback?.details?.schoolCountry} review={feedback?.comments} color={colors[index]} key={`card-${index}`} />)
                 }
             </div>
         </div>
     )
 }
 
-const Card = ({ name, desc, review, color }) => {
+const Card = ({ name, desc, review, color }:any) => {
     return (
         <div className="flex h-full w-full flex-col items-center justify-center gap-4 rounded-3xl border border-[#E5F4F2] bg-white p-8 text-center shadow-lg md:w-1/4">
             <div className="flex flex-col items-center justify-center gap-1">

@@ -11,19 +11,9 @@ import {
 } from "@/components/ui/card";
 import { postFormDataRequest, postRequest } from "@/api/config";
 import { toast } from "sonner";
-import Footer from "@/components/Landing/Footer";
 import { useUserProfile } from "@/hooks/useProfile";
 import { Loader } from "@/components/ui/loader";
-import { Category } from "@/types/user";
 
-interface User {
-    id:         string;
-    username:   string
-    email:      string
-    category:   Category
-    isVerified: boolean;
-    verificationDocumentUrl: string | null;
-}
 
 const UserVerifyPage = () => {
     const { user }:any = useUserProfile();

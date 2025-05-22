@@ -8,7 +8,7 @@ import { revalidateWholeRoute } from "@/actions/serverActions";
 import { usePathname, useRouter } from "next/navigation";
 
 export interface ConfirmationModalProps {
-  text: string;
+  text?: string;
   children: ReactNode;
   url:string;
   qkey?:string;

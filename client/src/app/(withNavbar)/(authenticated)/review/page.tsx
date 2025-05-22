@@ -3,10 +3,8 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { fetchFeedbacks } from "@/api/feedback";
 import { Category } from "@/types/user";
 import { useQuery } from "@/hooks/generalHooks";
-import { Feedback } from "@/store/createFeedbackStore";
 import { imagesUrls } from "@/types";
 
 const CategoryCard = ({ category }: { category: any }) => {

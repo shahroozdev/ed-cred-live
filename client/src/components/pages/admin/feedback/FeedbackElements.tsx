@@ -19,10 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AppleIcon, CheckIcon, MinusIcon, PlusIcon, XIcon } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
-import { Question, useQuestionStore } from "@/store/questionStore";
-import { v4 as uuidv4 } from "uuid";
+import { MinusIcon, PlusIcon } from "lucide-react";
 import { GeneralFormSchema, QuestionFormSchema } from "@/lib/schemas";
 
 export const TitleInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
@@ -43,50 +40,6 @@ export const TitleInput = ({ form }: {form: UseFormReturn<z.infer<typeof General
     )
 }
 
-export const QuestionSelectInput = ({ form }: {form: UseFormReturn<z.infer<typeof QuestionFormSchema>>}) => {
-    return (
-        <FormField
-            control={form.control}
-            name="question"
-            render={({ field }) => (
-                <FormItem>
-                    <FormLabel>Question</FormLabel>
-                    <FormControl>
-                        <Textarea placeholder="Ask a question" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
-    )
-}
-
-
-export const StatusInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
-    return (
-        <FormField
-            control={form.control}
-            name="status"
-            render={({ field }) => (
-                <FormItem className="w-full">
-                    <FormLabel>Form Status</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select a subcategory" />
-                            </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="inactive">Inactive</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
-    )
-}
 
 export const SwitchInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
 
@@ -114,48 +67,6 @@ export const SwitchInput = ({ form }: {form: UseFormReturn<z.infer<typeof Genera
     )
 }
 
-export const TrueFalseInput = ({ form }: { form: UseFormReturn<z.infer<typeof QuestionFormSchema>> }) => {
-    return (
-        <div className="flex flex-col gap-2">
-            <Label>Correct Answer</Label>
-            <Select
-                onValueChange={(value) => form.setValue("questionCorrectAnswer", value)}
-                defaultValue={form.getValues("questionCorrectAnswer")?.toString()}
-            >
-                <SelectTrigger className="border p-2 rounded w-full">
-                    <SelectValue placeholder="Select an option" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="true"><CheckIcon />True</SelectItem>
-                    <SelectItem value="false"><XIcon />False</SelectItem>
-                </SelectContent>
-            </Select>
-        </div>
-    );
-};
-
-export const RatingInput = ({ form }: { form: UseFormReturn<z.infer<typeof QuestionFormSchema>> }) => {
-    return (
-        <div className="flex flex-col gap-2">
-            <Label>Rating Options</Label>
-            <Select
-                onValueChange={(value) => form.setValue("questionCorrectAnswer", value)}
-                defaultValue={form.getValues("questionCorrectAnswer")?.toString()}
-            >
-                <SelectTrigger className="border p-2 rounded w-full">
-                    <SelectValue placeholder="Select a rating" />
-                </SelectTrigger>
-                <SelectContent>
-                    {[1, 2, 3, 4, 5].map((num) => (
-                        <SelectItem key={num} value={num.toString()}>
-                            {num} {Array.from({length: num}).map(_ => <AppleIcon key={`apple-${uuidv4()}`} fill="green" stroke="green" />)}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-        </div>
-    );
-};
 
 export const MultipleChoiceInput = ({ form }: { form: UseFormReturn<z.infer<typeof QuestionFormSchema>> }) => {
     const { fields, append, remove } = useFieldArray({
@@ -229,7 +140,7 @@ export const QuestionTypeInput = ({ form }: { form: UseFormReturn<z.infer<typeof
     return(
         <FormField
             control={form.control}
-            name="questionType"
+            name="type"
             render={({ field }) => (
                 <FormItem className="w-full">
                     <FormLabel>Question Type</FormLabel>
@@ -253,40 +164,4 @@ export const QuestionTypeInput = ({ form }: { form: UseFormReturn<z.infer<typeof
     )
 }
 
-export const QuestionInput = ({ form }: { form: UseFormReturn<z.infer<typeof QuestionFormSchema>> }) => {
-  const questionType = form.watch("questionType");
 
-  return (
-        <div className="">
-            {questionType === "multiple_choice" && <MultipleChoiceInput form={form} />}
-            {questionType === "true_false" && <TrueFalseInput form={form} />}
-            {questionType === "rating" && <RatingInput form={form} />}
-            {questionType === "open_ended" && <div></div>}
-        </div>
-    );
-};
-
-export const AddQuestion = ({ form }: { form: UseFormReturn<z.infer<typeof QuestionFormSchema>> }) => {
-    const { addQuestion } = useQuestionStore();
-    const handleClick = () => {
-        const data = form.getValues();
-
-        const newQuestion: Question = {
-            id: uuidv4(),
-            type: data.questionType,
-            text: data.question,
-            options: data.questionType === "multiple_choice" ? data.questionOptions || [] : undefined,
-            answer: data.questionType !== "open_ended" ? data.questionCorrectAnswer : undefined,
-        };
-        addQuestion(newQuestion);
-
-        form.resetField("question");
-        form.resetField("questionOptions");
-    };
-
-    return(
-        <Button className="" variant={"default"} onClick={handleClick} disabled={!form.formState.isValid}>
-            <PlusIcon /> Add Question
-        </Button>
-    )
-}

@@ -3,15 +3,7 @@ import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import {
-  QuestionInput,
-  StatusInput,
-  SwitchInput,
-  TitleInput,
-  QuestionSelectInput,
-  QuestionTypeInput,
-} from "../FeedbackElements";
-
+import { SwitchInput,TitleInput} from "../FeedbackElements";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { ArrowUpFromLineIcon, ChevronDownIcon } from "lucide-react";
@@ -26,14 +18,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const FeedbackForm = () => {
   const { MutateFunc, isPending } = useMutate();
   const [questionsList, setQuestionsList] = useState<Question[] | []>([]);
-  //   const { questions } = useQuestionStore();
-  // const questionForm = useForm<z.infer<typeof QuestionFormSchema>>({
-  //   resolver: zodResolver(QuestionFormSchema),
-  //   defaultValues: {
-  //     text: "",
-  //     type: "rating",
-  //   },
-  // });
 
   const form = useForm<z.infer<typeof GeneralFormSchema>>({
     resolver: zodResolver(GeneralFormSchema),
@@ -85,18 +69,6 @@ const FeedbackForm = () => {
           className="flex w-full flex-col items-start justify-between gap-10"
         >
           <MetaDataInput form={form} loading={isPending} />
-          {/* <div className="flex w-full flex-col gap-4 rounded-md outline-muted p-6 outline-2 isolate shadow-sm">
-            <div className="">
-              <div className="text-2xl font-semibold">Questions</div>
-              <p className="text-muted-foreground mb-4 text-sm">
-                Ask the users questions.
-              </p>
-            </div>
-            <QuestionSelectInput form={questionForm} />
-            <QuestionTypeInput form={questionForm} />
-            <QuestionInput form={questionForm} />
-            <AddQuestion form={questionForm} />
-          </div> */}
         </form>
       </Form>
       <AddQuestion setQuestionsList={setQuestionsList} />
@@ -179,32 +151,6 @@ const MetaDataInput = ({
         </Button>
       </div>
     </div>
-  );
-};
-
-const SubmitButton = ({
-  form,
-}: {
-  form: UseFormReturn<z.infer<typeof GeneralFormSchema>>;
-}) => {
-  const { MutateFunc, isPending } = useMutate();
-  const handleFeedbackSave = async () => {
-    const data = form.getValues();
-    const feedback: any = {
-      id: uuidv4(),
-      ...data,
-    };
-    await MutateFunc({ url: "", method: "POST", body: feedback });
-    // toast("Feedback Saved successfully!");
-  };
-  return (
-    <Button
-      disabled={!form.formState.isValid}
-      onClick={handleFeedbackSave}
-      className="mt-2"
-    >
-      Save Metadata
-    </Button>
   );
 };
 
