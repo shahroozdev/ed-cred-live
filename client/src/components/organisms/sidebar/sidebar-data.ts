@@ -15,7 +15,7 @@ export const data = {
     navMain: [
         {
             title: "Overview",
-            url: "/dashboard",
+            url: "/admin-dashboard",
             icon: LayoutDashboard,
         },
         {
@@ -49,7 +49,7 @@ export const data = {
         },
         {
             title: "Review",
-            url: "/review",
+            url: "/review-admin",
             icon: ScanEye,
         },
         {

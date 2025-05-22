@@ -18,19 +18,16 @@ const ChangeCategoryModal = ({
   return (
     <Modal
       trigger={children}
-      notClose
-      className="w-xs"
+      className="w-max"
       open={open}
       setIsOpen={setIsOpen}
-      title={
-        <div className="flex flex-col gap-4 justify-center items-center">
-          <IconButton bgColor={`purpal`} circle className="text-white">
-            <Repeat1 />
-          </IconButton>
-        </div>
-      }
+      title={"Update User Category"}
     >
-      <UpdateThroughSelect user={data} type={"category"} />
+      <div className="relative z-10">
+        {" "}
+        {/* Add this wrapper */}
+        <UpdateThroughSelect user={data} type="category" />
+      </div>
     </Modal>
   );
 };

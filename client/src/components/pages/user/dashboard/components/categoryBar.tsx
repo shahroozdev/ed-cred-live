@@ -55,7 +55,7 @@ const CategoryCard = ({
         }
       >
         <Image
-          src={`/uploads/categoryIcons/${imagesUrls[category?.name]}.png`}
+          src={`/uploads/categoryIcons/${imagesUrls[category?.name]??"pricipal"}.png`}
           width={200}
           height={200}
           alt={category.name}

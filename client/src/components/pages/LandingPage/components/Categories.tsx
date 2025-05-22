@@ -3,6 +3,7 @@ import { useQuery } from "@/hooks/generalHooks";
 import Image from "next/image";
 import { imagesUrls } from "@/types";
 import { Slider } from "@/components/molecules";
+import { CategoryCard } from "@/components/atoms";
 
 const Categories = () => {
   const { data, isLoading, error } = useQuery({
@@ -33,37 +34,8 @@ const Categories = () => {
         spaceBetween={20}
         notShowArrow
       >
-        {(slide) => <Card title={slide?.name} />}
+        {(slide) => <CategoryCard title={slide?.name} desc="Lorem Ipsum is simply dummy text of the printing."/>}
       </Slider>
-      {/* <div className="flex w-full flex-wrap items-center justify-center gap-8 px-10 md:w-2/3 md:flex-nowrap md:px-0">
-        {categories &&
-          categories.map((category, index) => (
-            <Card title={category?.name} key={`card-${index}`} />
-          ))}
-      </div> */}
-    </div>
-  );
-};
-
-export const Card = ({ title }:{title:string}) => {
-
-  return (
-    <div className="flex items-center justify-center gap-4 rounded-3xl border border-[#E5F4F2] bg-background p-4 text-center shadow-md flex-col h-[270px] min-h-[270px] max-h-[270px]">
-      <div>
-        <Image
-          src={`/uploads/categoryIcons/${imagesUrls[title]}.png`}
-          width={100}
-          height={100}
-          alt={title}
-          className="w-[100px] h-[100px] object-cover"
-        />
-      </div>
-      <div className="text-left md:text-center">
-        <div className="text-xl font-[600]">{title}</div>
-      </div>
-      <div className="text-base text-[#2D2D2D] line-clamp-2">
-        Lorem Ipsum is simply dummy text of the printing.
-      </div>
     </div>
   );
 };

@@ -51,8 +51,7 @@ export const action = ({
           )}
           {changeCategory&&<ChangeCategoryModal data={data}
               qkey={key}><IconButton
-            bgColor={`red`}
-            circle
+            bgColor={`purple`}
             className="text-white"
           >
              <Repeat1 />

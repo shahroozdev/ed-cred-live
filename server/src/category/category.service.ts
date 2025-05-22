@@ -42,7 +42,7 @@ export class CategoryService {
   async getAllCategories(): Promise<response & { categories?: Category[] }> {
 
   const [categories, count] = await this.categoryRepository.findAndCount({
-    relations: ["feedbackForms"],
+    relations: ["feedbackForms", "feedbackForms.subcategory"],
     order: {
       createdAt: "DESC",
     },

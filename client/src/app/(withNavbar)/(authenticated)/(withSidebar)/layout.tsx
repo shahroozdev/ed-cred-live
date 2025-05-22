@@ -11,7 +11,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <div className="flex h-full w-full overflow-hidden">
-        {user.role === "admin" ? <SideMenu /> : <></>}
+        {user&&user?.role === "admin" ? <SideMenu /> : <></>}
         <SidebarInset className="flex-1 overflow-auto">{children}</SidebarInset>
       </div>
     </>

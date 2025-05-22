@@ -2,23 +2,25 @@
 import { useState, useEffect } from "react";
 import { TimerIcon } from "lucide-react";
 import { getRequest } from "@/api/config";
-import { ReviewCard } from "@/components/Common/ReviewCard";
+
 import {
   CategoryBar,
   ClearFilters,
   FilterBar,
   SearchBar,
 } from "@/components/pages/user/dashboard/components";
+import { ReviewCard } from "./components/ReviewCard";
+import { useQuery } from "@/hooks/generalHooks";
 
 const UserDashboardPage = () => {
   const [reviews, setReviews] = useState<any[]>([]);
   const [filteredReviews, setFilteredReviews] = useState<any[]>([]);
+  const {data, isLoading} = useQuery({url:"/feedback-form/groups", key:"formGroups"})
 
   useEffect(() => {
     const setup = async () => {
-      const res = await getRequest("/feedback-form/groups");
-      if (!res) return;
-      const reviews = await res.json();
+      if (!data) return;
+      const reviews = data;
 
       const filteredReviews: any[] = [];
       reviews.forEach((review: any) => {
@@ -47,7 +49,7 @@ const UserDashboardPage = () => {
 
     setup();
   }, []);
-
+console.log(data)
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 6;
 

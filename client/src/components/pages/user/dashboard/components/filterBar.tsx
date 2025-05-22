@@ -1,11 +1,10 @@
 'use client'
-
-import { CountryDropdown } from '@/components/Review/FeedbackForm';
 import { FilterIcon, AppleIcon, FilterXIcon } from "lucide-react";
 import React, { useState } from 'react'
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import SchoolSearch from './schoolSearch';
 import { Button } from '@/components/ui/button';
+import { CountryDropdown } from "@/components/atoms";
 
 
 export const ClearFilters = ({ clearFilters }: { clearFilters: () => void }) => {

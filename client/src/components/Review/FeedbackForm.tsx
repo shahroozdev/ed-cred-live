@@ -1,48 +1,21 @@
 "use client";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { AppleIcon, OctagonAlertIcon } from "lucide-react";
+import { OctagonAlertIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
-import { Question } from "@/store/questionStore";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "../ui/input";
-import { createFeedbackResponse, CreateFeedbackResponseDto } from "@/api/feedback-response";
-import { format } from "date-fns"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { createFeedbackResponse } from "@/api/feedback-response";
 import { Button } from "@/components/ui/button"
-import { CalendarIcon } from "lucide-react"
-import { DateRange } from "react-day-picker"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { useRouter } from "next/navigation";
-import { useUserProfile } from "@/hooks/useProfile";
-import { Feedback } from "@/types";
+import { CountryDropdown, DateRangePicker, QuestionInput } from "../atoms";
+import { detailType } from "@/data/constant";
 
-const detailType = {
-        schoolName:      "text",
-        schoolWebsite:   "url",
-        schoolCountry:   "dropdown",
-        reportingPeriod: "date-range",
-        pricipalName:    "text",
-        pricipalDivison: "text",
-        directorName:    "text",
-        salary:          "number",
-}as any;
-
-
-export const FeedbackForm = ({ feedback, color = "red" }: { feedback: any, color?: string }) => {
+const FeedbackForm = ({ feedback, color = "red" }: { feedback: any, color?: string }) => {
     const [responses, setResponses] = useState<{ [key: string]: any }>({});
     const router = useRouter();
     const [details, setDetails] = useState<any>({});
-    const { user } = useUserProfile();
 
     const handleResponseChange = (id: string, value: any) => {
         setResponses((prev) => ({ ...prev, [id]: value }));
@@ -60,7 +33,6 @@ const handleSubmit = async () => {
                 })),
                 comments: responses["comments"] || "",
                 submittedAt: new Date().toISOString(),
-                authorId: user?.id,
             };
 
             await createFeedbackResponse(feedbackResponse);
@@ -78,7 +50,7 @@ const handleSubmit = async () => {
 
     // TODO: Bring the salary option on the end
     return (
-        <div className="w-4xl mx-auto mb-20 flex max-w-4xl flex-col gap-4 py-10">
+        <div className="w-full flex  flex-col gap-4 py-10 px-4">
             <div className="outline-muted rounded-md p-6 outline-2 flex flex-col w-full mt-10 gap-4">
                 {
                     Object.keys(feedback.details).map((detail, i) => {
@@ -206,152 +178,5 @@ const handleSubmit = async () => {
         </div>
     );
 };
-
-// Dynamically renders the correct input type based on the question type
-const QuestionInput = ({ question, color, onChange }: { question: Question, color: string, onChange: (value: any) => void }) => {
-    switch (question.type) {
-        case "rating":
-            return <RatingInput color={color} onChange={onChange} />;
-        case "multiple_choice":
-            return (
-                <RadioGroup onValueChange={(value) => onChange(value)} className="ml-auto">
-                    {question.options?.map((option, i) => (
-                        <Label key={i} className="flex items-center gap-2">
-                            <RadioGroupItem value={option.value} />
-                            {option.value}
-                        </Label>
-                    ))}
-                </RadioGroup>
-            );
-        case "true_false":
-            return (
-                <RadioGroup onValueChange={(value) => onChange(value === "true")}>
-                    <Label className="flex items-center gap-2">
-                        <RadioGroupItem value="true" /> True
-                    </Label>
-                    <Label className="flex items-center gap-2">
-                        <RadioGroupItem value="false" /> False
-                    </Label>
-                </RadioGroup>
-            );
-        case "open_ended":
-            return <Textarea onChange={(e) => onChange(e.target.value)} />;
-        default:
-            return null;
-    }
-};
-
-// Rating Input Component
-const RatingInput = ({ color, onChange }: { color: string, onChange: (value: number) => void }) => {
-    const [rating, setRating] = useState(0);
-    const [hoverRating, setHoverRating] = useState(0);
-
-    const handleRating = (value: number) => {
-        setRating(value);
-        onChange(value);
-    };
-
-    return (
-        <div className="flex items-center justify-center gap-2">
-            {Array.from({ length: 10 }).map((_, i) => {
-                const isActive = rating >= 10 - i;
-                const isHovered = hoverRating >= 10 - i;
-
-                return (
-                    <AppleIcon
-                        key={`apple-${i}`}
-                        className={cn(
-                            colorVariants[color] || "text-gray-400 fill-gray-400 hover:fill-gray-300",
-                            isActive ? "fill-current" : isHovered ? "fill-opacity-70" : "fill-opacity-30"
-                        )}
-                        onMouseOver={() => setHoverRating(10 - i)}
-                        onMouseLeave={() => setHoverRating(0)}
-                        onClick={() => handleRating(10 - i)}
-                    />
-                );
-            })}
-        </div>
-    );
-};
-
-// Color Variants for Rating Icons
-const colorVariants: Record<string, string> = {
-    red: "text-red-400 fill-red-400 hover:fill-red-300",
-    blue: "text-blue-400 fill-blue-400 hover:fill-blue-300",
-    green: "text-green-400 fill-green-400 hover:fill-green-300",
-    yellow: "text-yellow-400 fill-yellow-400 hover:fill-yellow-300",
-};
-
-export function DateRangePicker({
-    date,
-    setDate,
-}: {
-        date: DateRange | undefined
-        setDate: (range: DateRange | undefined) => void
-    }) {
-    const formatted =
-        date?.from && date?.to
-            ? `${format(date.from, "LLL dd, y")} - ${format(date.to, "LLL dd, y")}`
-            : "Pick a date range"
-
-    return (
-        <div className="w-full">
-            <Popover>
-                <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start text-left font-normal">
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {formatted}
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                    <Calendar
-                        mode="range"
-                        selected={date}
-                        onSelect={setDate}
-                        numberOfMonths={2}
-                    />
-                </PopoverContent>
-            </Popover>
-        </div>
-    )
-}
-
-
-export const CountryDropdown = ({ value, onChange }: { value: string, onChange: (val: string) => void }) => {
-    const countries = [
-        "United States",
-        "Canada",
-        "United Kingdom",
-        "Germany",
-        "France",
-        "India",
-        "China",
-        "Japan",
-        "Australia",
-        "Brazil",
-        "South Korea",
-        "Russia",
-        "Mexico",
-        "Italy",
-        "Spain",
-        "South Africa",
-        "Saudi Arabia",
-    ]
-
-    return (
-        <Select value={value} onValueChange={onChange}>
-            <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select country" />
-            </SelectTrigger>
-            <SelectContent>
-                {countries.map((country) => (
-                    <SelectItem key={country} value={country}>
-                        {country}
-                    </SelectItem>
-                ))}
-            </SelectContent>
-        </Select>
-    )
-}
 
 export default FeedbackForm;

@@ -55,7 +55,7 @@ export class FeedbackFormController {
     );
   }
 
-  @Get("category/:categoryId/subcategory/:subcategoryId")
+  @Get("/:categoryId/:subcategoryId")
   async getByCategoryAndSubcategory(
     @Param("categoryId", ParseIntPipe) categoryId: number,
     @Param("subcategoryId", ParseIntPipe) subcategoryId: number

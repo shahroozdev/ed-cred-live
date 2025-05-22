@@ -28,7 +28,7 @@ export class Subcategory {
   deletedAt?: Date; // <- Soft delete column
 
   // A category can be linked with multiple feedback forms
-  @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)
+  @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.subcategory)
   feedbackForms: FeedbackForm[];
 
   @ManyToOne(() => Category, (category) => category.subCategories, {

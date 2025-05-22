@@ -20,7 +20,7 @@ export class FeedbackResponseService {
     ) {}
 
     // Create a new feedback response
-    async createResponse(dto: CreateFeedbackResponseDto): Promise<FeedbackResponse> {
+    async createResponse(dto: CreateFeedbackResponseDto, authorId:number): Promise<FeedbackResponse> {
         const feedbackForm = await this.feedbackFormRepository.findOne({
             where: { id: Number(dto.feedbackFormId) },
         });
@@ -30,7 +30,7 @@ export class FeedbackResponseService {
         }
 
         const user = await this.userRepository.findOne({
-            where: { id: Number(dto.authorId) },
+            where: { id: Number(authorId) },
         });
 
         if (!user) {
