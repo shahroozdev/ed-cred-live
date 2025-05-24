@@ -3,7 +3,6 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, Ma
 import { ForumReply } from 'src/forum-reply/entities/forum-reply.entity';
 import { FeedbackForm } from 'src/feedback-form/entities/feedback-form.entity';
 import { UserRole, Permission, SubscriptionPlan } from "./../../types/user";
-import { Category } from 'src/category/category.entity';
 import { FeedbackResponse } from 'src/feedback-response/entities/feedback-response.entity';
 import { Dispute } from 'src/dispute/dispute.entity';
 import { Subcategory } from 'src/subcategory/subcategory.entity';

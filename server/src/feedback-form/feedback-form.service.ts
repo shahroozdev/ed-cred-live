@@ -222,6 +222,57 @@ export class FeedbackFormService {
       pageSize,
     };
   }
+  async findAllBySubcategory(
+    id:number,
+    query?: Record<string, any>
+  ): Promise<response & { feedbacks?: FeedbackForm[] }> {
+    const page = query?.page ?? 1;
+    const pageSize = query?.pageSize ?? 10;
+    // Fetch user and category
+    const user = await this.userRepository.findOne({ where: { id } , relations:["category"]});
+    if (!user)
+      throw new NotFoundException(`User with ID ${id} not found`)
+
+    const where: any = {};
+    where.subcategory = { id: user.category.id};
+    // Filter by name (case-insensitive)
+    if (query.name) {
+      where.name = ILike(`%${query.query}%`);
+    }
+    // Filter by isDraft
+    if (query.isDraft !== undefined) {
+      where.isDraft = query.isDraft === "true" || query.isDraft === true;
+    }
+
+    // Filter by categoryId
+    if (query.categoryId) {
+      where.category = { id: Number(query.categoryId) };
+    }
+
+    const [feedbacks, total] = await this.feedbackFormRepository.findAndCount({
+      where,
+      relations: [
+        "category",
+        "subcategory",
+        "responses",
+        "responses.author",
+        "responses.feedbackForm.category",
+      ],
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      order: {
+        createdAt: "DESC",
+      },
+    });
+    return {
+      status: 200,
+      message: "All Feedbacks List.",
+      feedbacks,
+      total,
+      currentPage: Number(page),
+      pageSize,
+    };
+  }
 
   async findOne(id: number): Promise<FeedbackForm> {
     const feedbackForm = await this.feedbackFormRepository.findOne({

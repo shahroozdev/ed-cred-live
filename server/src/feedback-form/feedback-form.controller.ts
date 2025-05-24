@@ -37,6 +37,11 @@ export class FeedbackFormController {
   async findAll(@Query() query?: Record<string, any>) {
     return await apiWrapper(() => this.feedbackFormService.findAll(query));
   }
+  @Get('/bySubcategory')
+  @UseGuards(JwtAuthGuard)
+  async findAllBySubcategory(@Req() req, @Query() query?: Record<string, any>, ) {
+    return await apiWrapper(() => this.feedbackFormService.findAllBySubcategory(req.user.id, query));
+  }
 
   @Get("/groups")
   findAllGroups() {

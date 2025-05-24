@@ -12,8 +12,6 @@ const Dashboard = () => {
     >
       <div className="w-full mt-10">
         <FeedbackForm />
-        {/* <QuestionsList /> */}
-        {/* <PublishFeedback /> */}
       </div>
     </TitleWrapper>
   );

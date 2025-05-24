@@ -11,26 +11,27 @@ import { Repository } from "typeorm";
 import * as bcrypt from "bcryptjs";
 import { User } from "./user.entity";
 import { UserRole } from "./../../types/user";
-import { randomBytes } from "crypto";
-import { MailerService } from "@nestjs-modules/mailer";
+// import { randomBytes } from "crypto";
 import { response } from "types";
 import { Subcategory } from "src/subcategory/subcategory.entity";
+import { MailService } from "src/mail/mail.service";
+import { CreateUserDto } from "./dto";
+import { randomBytes } from "crypto";
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Subcategory)
-    private categoryRepository: Repository<Subcategory>,
+    private subcategoryRepository: Repository<Subcategory>,
     private jwtService: JwtService,
-    private mailerService: MailerService
+    private mailService: MailService
   ) {}
 
   async signup(
-    username: string,
-    email: string,
-    password: string
-  ): Promise<response & { token?: string; user?: User }> {
+    dto: CreateUserDto
+  ): Promise<response & { token?: string; user?: Partial<User> }> {
+    const { password: hash, username, email } = dto;
     const existingUser = await this.userRepository.findOne({
       where: [{ username }, { email }],
     });
@@ -44,14 +45,7 @@ export class AuthService {
       }
     }
 
-    if (password.length < 8) {
-      throw new BadRequestException({
-        message: "Weak password",
-        reason: "Password must be at least 8 characters",
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(hash, 10);
     const newUser = this.userRepository.create({
       username,
       email,
@@ -59,7 +53,7 @@ export class AuthService {
       role: UserRole.USER, // default role is USER
       permissions: [], // no permissions allowed
     });
-    await this.userRepository.save(newUser);
+    const user = await this.userRepository.save(newUser);
 
     const token = this.jwtService.sign({
       id: newUser.id,
@@ -70,12 +64,12 @@ export class AuthService {
       subscription: newUser.subscription,
       permissions: newUser.permissions,
     });
-
+    const { password, ...rest } = user;
     return {
       status: 200,
       message: "Sign Up Successfully.",
       token,
-      user: newUser,
+      user: rest,
     };
   }
 
@@ -139,10 +133,10 @@ export class AuthService {
       where.category = { id: Number(query.categoryId) };
     }
     if (query.username) {
-      where.username = { username: query.username};
+      where.username = { username: query.username };
     }
     if (query.status) {
-      where.isVerified = { isVerified: query.status};
+      where.isVerified = { isVerified: query.status };
     }
     const [users, total] = await this.userRepository.findAndCount({
       where,
@@ -175,25 +169,28 @@ export class AuthService {
     };
   }
 
-  async updateUserRole(id: number, role: UserRole): Promise<response &{user:User}> {
+  async updateUserRole(
+    id: number,
+    role: UserRole
+  ): Promise<response & { user: User }> {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException("User not found");
     }
     await this.userRepository.update(id, { role });
-    return { status: 200, message: `User role is Updated as ${role}`, user};
+    return { status: 200, message: `User role is Updated as ${role}`, user };
   }
 
   async updateUserCategory(
     userId: number,
     categoryId: number
-  ): Promise<response> {
+  ): Promise<response & { user: Partial<User> }> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new NotFoundException("User not found");
     }
 
-    const category = await this.categoryRepository.findOne({
+    const category = await this.subcategoryRepository.findOne({
       where: { id: categoryId },
     });
     if (!category) {
@@ -201,10 +198,12 @@ export class AuthService {
     }
 
     user.category = category;
-    await this.userRepository.save(user);
+    const updatedUser = await this.userRepository.save(user);
+    const { password, ...rest } = updatedUser;
     return {
       status: 200,
       message: `User Category is Updated as ${category?.name}`,
+      user: rest,
     };
   }
 
@@ -229,7 +228,7 @@ export class AuthService {
     };
   }
 
-  async handleVerification(userId: number, action: "approve" | "reject") {
+  async handleVerification(userId: number, action: "approve" | "reject"):Promise<response> {
     const user = await this.userRepository.findOneBy({ id: userId });
     if (!user) throw new Error("User not found");
 
@@ -239,59 +238,38 @@ export class AuthService {
       user.verificationDocumentUrl = null;
     }
 
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+
+    return {status:200, message:"User Status Updated."}
   }
 
-  async sendVerificationEmail(email: string): Promise<boolean> {
+  async sendVerificationEmail(email: string): Promise<response> {
     const user = await this.userRepository.findOne({ where: { email } });
-    if (!user) return false;
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
 
     const token = randomBytes(32).toString("hex");
     user.emailVerificationToken = token;
     await this.userRepository.save(user);
 
-    const verifyUrl = `http://${process.env.BASE_URL}/verify?token=${token}`;
-
+    await this.mailService.sendUserConfirmation(user);
     // TODO: Make this editable by the admin user
-    await this.mailerService.sendMail({
-      to: user.email,
-      subject: "Verify Your Email - Ed-Cred",
-      html: `
-            <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 40px;">
-              <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
-                <h2 style="color: #1e40af;">Welcome to Ed-Cred 👋</h2>
-                <p style="color: #333333; font-size: 16px;">
-                  Thank you for signing up! Please verify your email address to activate your account.
-                </p>
-                <div style="text-align: center; margin: 30px 0;">
-                  <a href="${verifyUrl}" style="background-color: #1e40af; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold;">
-                    Verify Email
-                  </a>
-                </div>
-                <p style="color: #777777; font-size: 14px;">
-                  If you didn’t request this, you can ignore this email.
-                </p>
-                <hr style="margin: 30px 0; border: none; border-top: 1px solid #eaeaea;" />
-                <p style="color: #999999; font-size: 12px;">
-                  © ${new Date().getFullYear()} Ed-Cred. All rights reserved.
-                </p>
-              </div>
-            </div>
-          `,
-    });
 
-    return true;
+    return {status:200, message:'Verification Email Sent Successfully.'};
   }
 
-  async verifyEmail(token: string): Promise<boolean> {
+  async verifyEmail(token: string): Promise<response> {
     const user = await this.userRepository.findOne({
       where: { emailVerificationToken: token },
     });
-    if (!user) return false;
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
 
     user.isVerified = true;
     user.emailVerificationToken = null;
     await this.userRepository.save(user);
-    return true;
+    return { status: 200, message: 'Email is verified successfuly.' };
   }
 }

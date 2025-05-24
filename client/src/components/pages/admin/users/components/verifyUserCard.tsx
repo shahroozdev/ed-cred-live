@@ -1,85 +1,64 @@
 "use client";
-import { postRequest } from "@/api/config";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
-import React, { useState } from "react";
+import { Button } from "@/components/atoms";
+import Modal from "@/components/molecules/modal";
+import { useMutate } from "@/hooks/generalHooks";
+import Image from "next/image";
 
-const VerifyUserCard = ({ user }: { user: any }) => {
+import React, { ReactNode, useState } from "react";
+
+const VerifyUserCard = ({
+  user,
+  children,
+}: {
+  user: any;
+  children: ReactNode;
+}) => {
   const [open, setOpen] = useState(false);
+  const {MutateFunc, isPending} = useMutate()
   const verifyUser = async (userId: number, action: "approve" | "reject") => {
-    const res = await postRequest(
-      "auth/verify-user",
-      JSON.stringify({ userId: userId, action: action })
-    );
-  };
+    const res = await MutateFunc({url:"/auth/verify-user", method:'POST', body:{ userId: userId, action: action }, onSuccess:()=>setOpen(false)})
+    };
+
   return (
-    <>
-      {user?.verificationDocumentUrl && !user.isVerified && (
-        <>
-          <Separator className="my-4" />
+    <Modal
+      trigger={children}
+      className="w-max min-w-88"
+      open={open}
+      setIsOpen={setOpen}
+      title={"Verify User Documents"}
+    >
+      <div className="relative z-10">
+        {user?.verificationDocumentUrl && !user.isVerified ? (
           <div className="flex flex-col gap-4 items-center">
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <img
-                  src={user.verificationDocumentUrl}
+                <Image
+                  src={process.env.BASE_URL+user.verificationDocumentUrl}
                   width={200}
-                  height={"auto"}
+                  height={200}
                   alt="verification-document"
                   className="cursor-pointer hover:opacity-80 transition"
-                  onClick={() => setOpen(true)}
                 />
-              </DialogTrigger>
-              <DialogContent className="max-w-4xl">
-                <DialogTitle>User Verification Document</DialogTitle>
-                <img
-                  src={user.verificationDocumentUrl}
-                  alt="verification-document-full"
-                  className="w-full h-auto rounded"
-                />
-
-                <div className="flex items-center gap-4 w-full">
-                  <Button
-                    onClick={() => verifyUser(user.id, "reject")}
-                    className="flex-grow"
-                    variant="destructive"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={() => verifyUser(user.id, "approve")}
-                    className="flex-grow"
-                  >
-                    Verify
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-
             <div className="flex items-center gap-4 w-full">
               <Button
+                loading={isPending}
                 onClick={() => verifyUser(user.id, "reject")}
-                className="flex-grow"
-                variant="destructive"
+                className="flex-grow bg-red-500 text-white hover:text-red-500 hover:border-red-500"
               >
                 Cancel
               </Button>
               <Button
+               loading={isPending}
                 onClick={() => verifyUser(user.id, "approve")}
-                className="flex-grow"
+                className="flex-grow bg-green-500 text-white"
               >
                 Verify
               </Button>
             </div>
           </div>
-        </>
-      )}
-    </>
+        ) : (
+          <>No Document Uploaded Yet By User.</>
+        )}
+      </div>
+    </Modal>
   );
 };
 

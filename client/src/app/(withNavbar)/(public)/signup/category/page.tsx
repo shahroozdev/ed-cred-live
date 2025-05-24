@@ -14,7 +14,7 @@ const SignupCategorySelectPage = () => {
     key: "subcategories",
   });
   const categories = data?.subcategories;
-
+console.log(categories)
   return (
     <TitleWrapper title={"Select Category"} desc="Please select a category you are a part of" notBackBtn>
       <main className="w-full font-inter flex flex-col gap-10 justify-between">
@@ -33,12 +33,13 @@ const SignupCategorySelectPage = () => {
 const Card = ({ category }: { category: Category }) => {
   const {MutateFunc} = useMutate()
   const router = useRouter();
-  const selectCategory = async () => {
-    const res = await MutateFunc({url:'/users/category',method:'POST', tags:'', onSuccess:(result:any)=>{
-    if (result?.user?.requiresVerification) {
-      router.push("/verify");
-    } else {
+  const selectCategory = async (id:number|undefined) => {
+    const res = await MutateFunc({url:'/auth/users/category',method:'POST', body:{categoryId:id}, tags:'', onSuccess:(result:any)=>{
+      console.log(result)
+    if (result?.user?.isVerified) {
       router.push("/welcome");
+    } else {
+      router.push("/verify");
     }
     }})
   };
@@ -46,14 +47,14 @@ const Card = ({ category }: { category: Category }) => {
   return (
     <div
       className="flex items-center sm:justify-center justify-start gap-4 rounded-3xl border border-[#E5F4F2] bg-white p-8 text-center shadow-lg sm:flex-col hover:shadow-xl"
-      onClick={() => selectCategory()}
+      onClick={() => selectCategory(category?.id)}
     >
       <div>
         <img
           src={`/uploads/categoryIcons/${imagesUrls[category?.name]??'pricipal'}.png`}
           width={200}
           height={300}
-          alt={category.name}
+          alt={category?.name}
           className="w-[100px] h-[100px]"
         />
       </div>

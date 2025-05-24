@@ -2,8 +2,15 @@
 import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { SwitchInput,TitleInput} from "../FeedbackElements";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { SwitchInput, TitleInput } from "../FeedbackElements";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { ArrowUpFromLineIcon, ChevronDownIcon } from "lucide-react";
@@ -13,11 +20,18 @@ import { useMutate } from "@/hooks/generalHooks";
 import { Question } from "@/types";
 import AddQuestion from "./addQuestion";
 import QuestionsList from "./QuestionsList";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const FeedbackForm = () => {
   const { MutateFunc, isPending } = useMutate();
   const [questionsList, setQuestionsList] = useState<Question[] | []>([]);
+  const [isError, setIsError] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof GeneralFormSchema>>({
     resolver: zodResolver(GeneralFormSchema),
@@ -41,18 +55,17 @@ const FeedbackForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof GeneralFormSchema>) => {
-    console.log({
-      ...data,
-      subCategoryId: Number(data?.subCategoryId),
-      categoryId: Number(data?.categoryId),
-      questions: questionsList,
-    });
+    if (questionsList?.length < 1) {
+      setIsError(true);
+      return;
+    }
+    setIsError(false);
     await MutateFunc({
       url: "/feedback-form",
       method: "POST",
       body: {
         ...data,
-        isDraft:data?.isDraft==="active"?false:true,
+        isDraft: data?.isDraft === "active" ? false : true,
         subCategoryId: Number(data?.subCategoryId),
         categoryId: Number(data?.categoryId),
         questions: questionsList,
@@ -69,6 +82,11 @@ const FeedbackForm = () => {
           className="flex w-full flex-col items-start justify-between gap-10"
         >
           <MetaDataInput form={form} loading={isPending} />
+          {isError && (
+            <p className="text-red-500">
+              At least one question must be provided.
+            </p>
+          )}
         </form>
       </Form>
       <AddQuestion setQuestionsList={setQuestionsList} />

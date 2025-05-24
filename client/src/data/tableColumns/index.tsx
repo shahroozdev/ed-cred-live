@@ -2,10 +2,11 @@
 import { Button, IconButton } from "@/components/atoms";
 import { ChangeCategoryModal } from "@/components/molecules";
 import ConfirmationDeleteModal from "@/components/molecules/confirmationModal/deleteModal";
+import VerifyUserCard from "@/components/pages/admin/users/components/verifyUserCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
-import { Eye, Pencil, Repeat1, Trash2 } from "lucide-react";
+import { Eye, Pencil, Repeat1, Trash2, UserCheck } from "lucide-react";
 import { ReactNode } from "react";
 
 export const action = ({
@@ -16,7 +17,8 @@ export const action = ({
   btnText,
   view,
   key,
-  changeCategory
+  changeCategory,
+  verifyDocument,
 }: {
   edit?: boolean;
   deleteBtn?: boolean;
@@ -25,7 +27,8 @@ export const action = ({
   btnText?: string;
   view?: boolean;
   key?: string;
-  changeCategory?:boolean;
+  changeCategory?: boolean;
+  verifyDocument?: boolean;
 }) => {
   return {
     accessorKey: "actions",
@@ -35,27 +38,48 @@ export const action = ({
       const data = row.original;
       return (
         <div className="flex gap-4">
-          {btnText && <Button rounded={8} variant="primary" >{btnText}</Button>}
-          {edit &&<IconButton bgColor="black" className="cursor-pointer text-white"><Pencil size={20}/></IconButton> }
-          {view && <Eye size={20}/>}
+          {btnText && (
+            <Button rounded={8} variant="primary">
+              {btnText}
+            </Button>
+          )}
+          {edit && (
+            <IconButton bgColor="black" className="cursor-pointer text-white">
+              <Pencil size={20} />
+            </IconButton>
+          )}
+          {view && <Eye size={20} />}
           {deleteBtn && (
             <ConfirmationDeleteModal
-              text={deleteModalText||''}
+              text={deleteModalText || ""}
               url={`${deleteBtnLink}/${data?.id}`}
               qkey={key}
             >
               <IconButton bgColor="red" className="cursor-pointer text-white">
-                <Trash2 size={20}/>
+                <span title={"Delete"}>
+                  <Trash2 size={20} />
+                </span>
               </IconButton>
             </ConfirmationDeleteModal>
           )}
-          {changeCategory&&<ChangeCategoryModal data={data}
-              qkey={key}><IconButton
-            bgColor={`purple`}
-            className="text-white"
-          >
-             <Repeat1 />
-          </IconButton></ChangeCategoryModal>}
+          {changeCategory && (
+            <ChangeCategoryModal data={data} qkey={key}>
+              <IconButton bgColor={`purple`} className="text-white">
+                <span title={"Change Category"}>
+                  <Repeat1 />
+                </span>
+              </IconButton>
+            </ChangeCategoryModal>
+          )}
+          {verifyDocument && (
+            <VerifyUserCard user={data}>
+              <IconButton bgColor={`green`} className="text-white">
+                <span title={"Verify Document"}>
+                  <UserCheck />
+                </span>
+              </IconButton>
+            </VerifyUserCard>
+          )}
         </div>
       );
     },
@@ -65,7 +89,6 @@ export const action = ({
 const getNestedValue = (obj: any, path: string, fallback = "--") => {
   try {
     const parts = path.replace(/\[(\d+)\]/g, ".$1").split(".");
-    console.log(parts, path)
     return (
       parts.reduce((acc, key) => {
         if (acc && typeof acc === "object") {
@@ -99,15 +122,14 @@ const customColummn = (values: {
       const value: any = getNestedValue(row.original, values.key) || "--"; // Ensure value exists
       let date;
       let time;
-      if(values?.type==="date"){
-        date = dayjs(value).format("YYYY MMM, DD")
+      if (values?.type === "date") {
+        date = dayjs(value).format("YYYY MMM, DD");
         time = dayjs(value).format("hh:mm A");
       }
       const avatarSrc = row.original.avatar || "/assets/images/img.png";
       const extra = values.extra
         ? getNestedValue(row.original, values.extra)
         : null;
-        console.log(value,values.key,row.original.isVerified, 'value')
       return (
         <div
           className={`flex gap-3 items-center ${
@@ -121,17 +143,32 @@ const customColummn = (values: {
               <AvatarFallback>NA</AvatarFallback>
             </Avatar>
           )}
-          {values.type==="date"?
-          <div>
-            <p className="text-[#111827]">{date}</p>
-            <p className="text-sm text-[#6B7280]">{time}</p>
-          </div>
-           : values.key === "questions"?(<>{value?.length}</>)
-           : values.key === "featured"?(<>{row.original.featured?"Yes":"No"}</>)
-           : values.key === "description"?(<p className="line-clamp-2">{value}</p>)
-           : values.key === "isDraft"?(<p className={`${value?'text-red-500':'text-green-500'}`}>{value?"draft":"active"}</p>)
-           : values.key === "isVerified"?(<p className={`${row?.original?.isVerified?'text-green-500 bg-green-300':'text-red-500 bg-red-300'} rounded-4xl px-2 py-1`}>{row?.original?.isVerified?"Verified":"Not Verified"}</p>)
-           : (
+          {values.type === "date" ? (
+            <div>
+              <p className="text-[#111827]">{date}</p>
+              <p className="text-sm text-[#6B7280]">{time}</p>
+            </div>
+          ) : values.key === "questions" ? (
+            <>{value?.length}</>
+          ) : values.key === "featured" ? (
+            <>{row.original.featured ? "Yes" : "No"}</>
+          ) : values.key === "description" ? (
+            <p className="line-clamp-2">{value}</p>
+          ) : values.key === "isDraft" ? (
+            <p className={`${row?.original?.isDraft ? "text-red-500" : "text-green-500"}`}>
+              {row?.original?.isDraft ? "draft" : "active"}
+            </p>
+          ) : values.key === "isVerified" ? (
+            <p
+              className={`${
+                row?.original?.isVerified
+                  ? "text-green-500 bg-green-300"
+                  : "text-red-500 bg-red-300"
+              } rounded-4xl px-2 py-1`}
+            >
+              {row?.original?.isVerified ? "Verified" : "Not Verified"}
+            </p>
+          ) : (
             <div>
               <h1
                 className={cn(
@@ -166,50 +203,95 @@ const customColummn = (values: {
   };
 };
 
-
 export const studentMaterialColumn = [
-  customColummn({ key: "name", label: "Category", width:200}),
+  customColummn({ key: "name", label: "Category", width: 200 }),
   customColummn({ key: "status", label: "Status" }),
-  customColummn({ key: "requiresVerification", label: "Requires Verification", width:250 }),
-  customColummn({ key: "createdAt", label: "Created At", type:'date', width:150}),
-  action({ edit: true, deleteBtn: true, deleteBtnLink:'/category', deleteModalText:'Want To Delete This Category?'})
+  customColummn({
+    key: "requiresVerification",
+    label: "Requires Verification",
+    width: 250,
+  }),
+  customColummn({
+    key: "createdAt",
+    label: "Created At",
+    type: "date",
+    width: 150,
+  }),
+  action({
+    edit: true,
+    deleteBtn: true,
+    deleteBtnLink: "/category",
+    deleteModalText: "Want To Delete This Category?",
+  }),
 ];
 export const subCategoryColumn = [
-  customColummn({ key: "name", label: "Sub Category", width:200}),
-  customColummn({ key: "parentCategory.name", label: "Category", width:200}),
+  customColummn({ key: "name", label: "Sub Category", width: 200 }),
+  // customColummn({ key: "parentCategory.name", label: "Category", width: 200 }),
   customColummn({ key: "status", label: "Status" }),
-  customColummn({ key: "createdAt", label: "Created At", type:'date', width:150}),
-  action({ edit: true, deleteBtn: true, deleteBtnLink:'/subcategory', deleteModalText:'Want To Delete This SubCategory?' })
+  customColummn({
+    key: "createdAt",
+    label: "Created At",
+    type: "date",
+    width: 150,
+  }),
+  action({
+    edit: true,
+    deleteBtn: true,
+    deleteBtnLink: "/subcategory",
+    deleteModalText: "Want To Delete This SubCategory?",
+  }),
 ];
 export const feedbacksDashboardColumn = [
-  customColummn({ key: "title", label: "Title", width:200}),
-  customColummn({ key: "category.name", label: "Category", width:200}),
-  customColummn({ key: "subcategory.name", label: "Subcategory", width:200}),
-  customColummn({ key: "questions", label: "Question", width:100}),
+  customColummn({ key: "title", label: "Title", width: 200 }),
+  customColummn({ key: "category.name", label: "Category", width: 200 }),
+  customColummn({ key: "subcategory.name", label: "Subcategory", width: 200 }),
+  customColummn({ key: "questions", label: "Question", width: 100 }),
   customColummn({ key: "isDraft", label: "Status" }),
-  customColummn({ key: "createdAt", label: "Created At", type:'date', width:150}),
-  action({deleteBtn: true, deleteBtnLink:'/feedback-form', deleteModalText:'Want To Delete This Form?' })
+  customColummn({
+    key: "createdAt",
+    label: "Created At",
+    type: "date",
+    width: 150,
+  }),
+  action({
+    deleteBtn: true,
+    deleteBtnLink: "/feedback-form",
+    deleteModalText: "Want To Delete This Form?",
+  }),
 ];
 export const usersAdminColumn = [
-  customColummn({ key: "username", label: "Username", width:200}),
-  customColummn({ key: "email", label: "Email", width:200}),
-  customColummn({ key: "category.name", label: "Category", width:200}),
-  customColummn({ key: "isVerified", label: "Status", width:150}),
-  customColummn({ key: "createdAt", label: "Joined On", type:'date', width:150}),
-  action({deleteBtn: true, deleteBtnLink:'/users', deleteModalText:'Want To Delete This user?', changeCategory:true })
+  customColummn({ key: "username", label: "Username", width: 200 }),
+  customColummn({ key: "email", label: "Email", width: 200 }),
+  customColummn({ key: "category.name", label: "Category", width: 200 }),
+  customColummn({ key: "isVerified", label: "Status", width: 150 }),
+  customColummn({
+    key: "createdAt",
+    label: "Joined On",
+    type: "date",
+    width: 150,
+  }),
+  action({
+    deleteBtn: true,
+    deleteBtnLink: "/users",
+    deleteModalText: "Want To Delete This user?",
+    changeCategory: true,
+    verifyDocument: true,
+  }),
 ];
 export const postsAdminColumn = [
-  customColummn({ key: "title", label: "Title", width:200}),
-  customColummn({ key: "description", label: "Description", width:200}),
-  customColummn({ key: "featured", label: "Featured", width:200}),
-  customColummn({ key: "status", label: "Status", width:200}),
-  customColummn({ key: "createdAt", label: "Joined On", type:'date', width:150}),
-  action({deleteBtn: true, deleteBtnLink:'/posts', deleteModalText:'Want To Delete This Post?'})
+  customColummn({ key: "title", label: "Title", width: 200 }),
+  customColummn({ key: "description", label: "Description", width: 200 }),
+  customColummn({ key: "featured", label: "Featured", width: 200 }),
+  customColummn({ key: "status", label: "Status", width: 200 }),
+  customColummn({
+    key: "createdAt",
+    label: "Joined On",
+    type: "date",
+    width: 150,
+  }),
+  action({
+    deleteBtn: true,
+    deleteBtnLink: "/posts",
+    deleteModalText: "Want To Delete This Post?",
+  }),
 ];
-
-
-
-
-
-
-

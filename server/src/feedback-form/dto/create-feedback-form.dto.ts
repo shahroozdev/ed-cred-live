@@ -40,6 +40,7 @@ export class Question {
   options?: any[];
 
   @IsString()
+  @IsOptional()
   answer?: string;
 }
 

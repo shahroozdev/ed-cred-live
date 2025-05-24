@@ -8,12 +8,14 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Subcategory } from 'src/subcategory/subcategory.entity';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
         TypeOrmModule.forFeature([User, Subcategory]),
         PassportModule,
+        MailModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
             inject: [ConfigService],

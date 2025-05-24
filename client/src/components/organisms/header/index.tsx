@@ -5,10 +5,10 @@ import { AdminNavbar } from "./components/AdminNavbar";
 const Header = ({ user }: { user: any }) => {
   return (
     <>
-      {user.role !== "admin" ? (
-        <Navbar user={user} />
-      ) : (
+      {user?.role === "admin" ? (
         <AdminNavbar user={user} />
+      ) : (
+        <Navbar user={user} />
       )}
     </>
   );

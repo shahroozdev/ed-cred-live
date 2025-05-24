@@ -24,8 +24,6 @@ const ChangeCategoryModal = ({
       title={"Update User Category"}
     >
       <div className="relative z-10">
-        {" "}
-        {/* Add this wrapper */}
         <UpdateThroughSelect user={data} type="category" />
       </div>
     </Modal>

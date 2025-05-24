@@ -4,7 +4,7 @@ import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 
 const ReviewPage = async () => {
   const data = await getServerSideDataWithFeatures({
-    url: "/feedback-form?subcategoryId=2",
+    url: "/feedback-form/bySubcategory",
     key: "feedbackFormForReview",
   });
 console.log(data)
@@ -30,18 +30,18 @@ console.log(data)
         </div>
 
         <div className="flex max-w-5xl flex-row flex-wrap items-center justify-center gap-8">
-          {/* {categories?.map(
-            (category: Record<any, any>) =>
-              category?.feedbackForms?.length > 0 && (
+          {data?.feedbacks?.map(
+            (feedback: Record<any, any>) =>
+              feedback?.category && (
                 <Link
-                  href={`/review/${category.id}/${category?.feedbackForms[0]?.subcategory?.id}`}
-                  key={category?.id}
+                  href={`/review/${feedback?.category?.id}/${feedback?.subcategory?.id}`}
+                  key={feedback?.category?.id}
                   className="min-w-[270px] h-full cursor-pointer hover:scale-110 !p-5 transition-all duration-300 ease-in-out"
                 >
-                  <CategoryCard title={category.name} />
+                  <CategoryCard title={feedback?.category?.name} />
                 </Link>
               )
-          )} */}
+          )}
         </div>
       </div>
     </TitleWrapper>

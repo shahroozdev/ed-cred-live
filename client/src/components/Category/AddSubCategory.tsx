@@ -25,7 +25,7 @@ import { Button, CategorySelect } from "../atoms";
 const FormSchema = z.object({
   name: z.string().min(2, "The category must be at least 2 characters"),
   status: z.enum(["active", "draft"]),
-  categoryId: z.string(),
+  // categoryId: z.string(),
 });
 
 export const AddSubCategory = () => {
@@ -35,7 +35,7 @@ export const AddSubCategory = () => {
     defaultValues: {
       name: "",
       status: "active",
-      categoryId: "", // Include this!
+      // categoryId: "", // Include this!
     },
   });
 
@@ -44,7 +44,7 @@ export const AddSubCategory = () => {
     await MutateFunc({
       url: "/subcategory",
       method: "POST",
-      body: { ...data, categoryId: Number(data?.categoryId) },
+      body: data,
       tags: "subcategories",
       onSuccess: () => form.reset(),
     });
@@ -100,7 +100,7 @@ export const AddSubCategory = () => {
               </FormItem>
             )}
           />
-          <CategorySelect control={form.control} />
+          {/* <CategorySelect control={form.control} /> */}
 
           <Button type="submit" className="self-end" loading={isPending}>
             Submit
