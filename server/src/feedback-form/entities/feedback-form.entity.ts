@@ -1,9 +1,10 @@
 import { User } from "src/auth/user.entity";
 import { Category } from "src/category/category.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { FeedbackDetails, Question } from "../dto/create-feedback-form.dto";
+import { FeedbackDetails } from "../dto/create-feedback-form.dto";
 import { FeedbackResponse } from "src/feedback-response/entities/feedback-response.entity";
 import { Subcategory } from "src/subcategory/subcategory.entity";
+import { Question } from "src/question/entities/question.entity";
 
 @Entity()
 export class FeedbackForm {
@@ -31,7 +32,7 @@ export class FeedbackForm {
     @Column({ type: "jsonb" })
     details: FeedbackDetails;
 
-    @Column({ type: "jsonb" })
+    @OneToMany(() => Question, (question) => question.feedbackForm, { cascade: true })
     questions: Question[];
 
     // Mapping responses to feedback form

@@ -1,16 +1,44 @@
 import {
   IsArray,
-  IsBoolean,
-  IsDateString,
   IsNumber,
   IsObject,
   IsOptional,
   IsString,
   ValidateNested,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+} from "class-validator";
+import { Type } from "class-transformer";
 
 class FeedbackDetailDto {
+  @IsOptional()
+  @IsString()
+  schoolName?: string;
+
+  @IsOptional()
+  @IsString()
+  schoolWebsite?: string;
+
+  @IsOptional()
+  @IsString()
+  schoolCountry?: string;
+
+  @IsOptional()
+  @IsString()
+  reportingPeriod?: string;
+
+  // For the category principal
+  @IsOptional()
+  @IsString()
+  pricipalName?: string;
+
+  @IsOptional()
+  @IsString()
+  pricipalDivison?: string;
+
+  // For the category director
+  @IsOptional()
+  @IsString()
+  directorName?: string;
+
   @IsOptional()
   @IsString()
   name?: string;
@@ -33,19 +61,19 @@ class FeedbackDetailDto {
 }
 
 class FeedbackAnswerDto {
+  @IsNumber()
+  questionId: number;
+
   @IsString()
-  questionId: string;
+  question:string;
 
   @IsOptional()
   answer: string | string[] | boolean | number;
 }
 
 export class CreateFeedbackResponseDto {
-  @IsString()
-  id: string;
-
-  @IsString()
-  feedbackFormId: string;
+  @IsNumber()
+  feedbackFormId: number;
 
   @IsObject()
   @ValidateNested()
@@ -60,9 +88,4 @@ export class CreateFeedbackResponseDto {
   @IsOptional()
   @IsString()
   comments?: string;
-
-  @IsDateString()
-  submittedAt: string;
-
 }
-

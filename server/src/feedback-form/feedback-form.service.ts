@@ -8,6 +8,7 @@ import { Category } from "src/category/category.entity";
 import { Subcategory } from "src/subcategory/subcategory.entity";
 import { FeedbackResponse } from "src/feedback-response/entities/feedback-response.entity";
 import { response } from "types";
+import { Question } from "src/question/entities/question.entity";
 
 @Injectable()
 export class FeedbackFormService {
@@ -18,6 +19,9 @@ export class FeedbackFormService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
 
+    @InjectRepository(Question)
+    private readonly questionRepository: Repository<Question>,
+
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
 
@@ -25,49 +29,66 @@ export class FeedbackFormService {
     private readonly subcategoryRepository: Repository<Subcategory>
   ) {}
 
-  async create(
-    createFeedbackFormDto: CreateFeedbackFormDto,
-    authorId: number
-  ): Promise<response & { feedback: FeedbackForm }> {
-    const { categoryId, subCategoryId, ...rest } = createFeedbackFormDto;
+async create(
+  createFeedbackFormDto: CreateFeedbackFormDto,
+  authorId: number,
+): Promise<response & { feedback?: FeedbackForm }> {
+  const { categoryId, subCategoryId, questions, ...rest } = createFeedbackFormDto;
 
-    // Fetch user and category
-    const user = await this.userRepository.findOne({ where: { id: authorId } });
-    if (!user)
-      throw new NotFoundException(`User with ID ${authorId} not found`);
+  const user = await this.userRepository.findOne({ where: { id: authorId } });
+  if (!user)
+    throw new NotFoundException(`User with ID ${authorId} not found`);
 
-    const category = await this.categoryRepository.findOne({
-      where: { id: categoryId },
+  const category = await this.categoryRepository.findOne({ where: { id: categoryId } });
+  if (!category)
+    throw new NotFoundException(`Category with ID ${categoryId} not found`);
+
+  const subcategory = await this.subcategoryRepository.findOne({ where: { id: subCategoryId } });
+  if (!subcategory)
+    throw new NotFoundException(`SubCategory with ID ${subCategoryId} not found`);
+
+  // Create the feedback form first (without questions)
+  const feedbackForm = this.feedbackFormRepository.create({
+    ...rest,
+    category,
+    subcategory,
+    author: user,
+  });
+  const savedForm = await this.feedbackFormRepository.save(feedbackForm);
+
+  // Map and save each question individually
+  const questionEntities = questions.map((q) => {
+    return this.questionRepository.create({
+      ...q,
+      feedbackForm: savedForm, // set relation
     });
-    if (!category)
-      throw new NotFoundException(`Category with ID ${categoryId} not found`);
+  });
+  await this.questionRepository.save(questionEntities); // bulk insert
 
-    const subcategory = await this.subcategoryRepository.findOne({
-      where: { id: subCategoryId },
-    });
-    if (!subcategory)
-      throw new NotFoundException(
-        `SubCategory with ID ${subCategoryId} not found`
-      );
+  // Reload feedbackForm with questions
+  const fullFeedback = await this.feedbackFormRepository.findOne({
+    where: { id: savedForm.id },
+    relations: ['questions'], // include related questions
+  });
 
-    // Create new FeedbackForm
-    const feedbackForm = this.feedbackFormRepository.create({
-      ...rest,
-      category,
-      subcategory,
-      author: user,
-    });
-    const feedback = await this.feedbackFormRepository.save(feedbackForm);
-    return {
-      status: 200,
-      message: "Feedback Form Created Successfully.",
-      feedback,
-    };
-  }
+  return {
+    status: 200,
+    message: 'Feedback Form Created Successfully.',
+    feedback: fullFeedback!,
+  };
+}
 
-  async getGroupedResponsesBySchool() {
-    const forms = await this.feedbackFormRepository.find({
+  async getGroupedResponsesBySchool(query?:Record<string, any>) {
+        const page = query?.page ?? 1;
+    const pageSize = query?.pageSize ?? 10;
+
+    const where: any = {};
+    if (query.name) {
+      where.feedbackForm.title = ILike(`%${query.name}%`);
+    }
+    const [forms, total] = await this.feedbackFormRepository.findAndCount({
       relations: [
+        "questions",
         "category",
         "subcategory",
         "responses",
@@ -201,6 +222,7 @@ export class FeedbackFormService {
     const [feedbacks, total] = await this.feedbackFormRepository.findAndCount({
       where,
       relations: [
+        "questions",
         "category",
         "subcategory",
         "responses",
@@ -235,6 +257,7 @@ export class FeedbackFormService {
 
     const where: any = {};
     where.subcategory = { id: user.category.id};
+    where.isDraft = false;
     // Filter by name (case-insensitive)
     if (query.name) {
       where.name = ILike(`%${query.query}%`);
@@ -252,6 +275,7 @@ export class FeedbackFormService {
     const [feedbacks, total] = await this.feedbackFormRepository.findAndCount({
       where,
       relations: [
+        "questions",
         "category",
         "subcategory",
         "responses",
@@ -278,6 +302,7 @@ export class FeedbackFormService {
     const feedbackForm = await this.feedbackFormRepository.findOne({
       where: { id },
       relations: [
+        "questions",
         "author",
         "category",
         "subcategory",

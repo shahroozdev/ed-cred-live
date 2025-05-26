@@ -23,6 +23,7 @@ import { FeedbackForm } from "./feedback-form/entities/feedback-form.entity";
 import { Dispute } from "./dispute/dispute.entity";
 import { MailModule } from "./mail/mail.module";
 import { MulterModule } from "@nestjs/platform-express";
+import { QuestionModule } from './question/question.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { MulterModule } from "@nestjs/platform-express";
         dest: "./upload",
       }),
     }),
+    QuestionModule,
   ],
   controllers: [SearchController],
   providers: [SearchService],

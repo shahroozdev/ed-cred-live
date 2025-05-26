@@ -42,16 +42,17 @@ export class FeedbackResponse {
 
   @Column("jsonb")
   answers: {
-    questionId: string;
+    questionId: number;
+    question: string;
     answer: string | string[] | boolean | number;
   }[];
 
   @Column({ type: "text", nullable: true })
   comments?: string;
 
-  @CreateDateColumn()
-  submittedAt: Date;
-
   @OneToMany(() => Dispute, (dispute) => dispute.disputedBy)
   disputes: Dispute[];
+
+  @CreateDateColumn()
+  submittedAt: Date;
 }

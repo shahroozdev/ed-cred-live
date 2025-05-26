@@ -16,7 +16,7 @@ const UserDashboardPage = () => {
   const [reviews, setReviews] = useState<any[]>([]);
   const [filteredReviews, setFilteredReviews] = useState<any[]>([]);
   const {data, isLoading} = useQuery({url:"/feedback-form/groups", key:"formGroups"})
-
+// console.log(data, 'data')
   useEffect(() => {
     const setup = async () => {
       if (!data) return;
@@ -48,7 +48,7 @@ const UserDashboardPage = () => {
     };
 
     setup();
-  }, []);
+  }, [data]);
 console.log(data)
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 6;

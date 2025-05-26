@@ -6,7 +6,6 @@
   "license": "MIT",
   "scripts": {
     "build": "nest build",
-    "postbuild": "xcopy src\\mail\\templates dist\\src\\mail\\templates /E /I /Y",
     "start": "ts-node src/index.ts",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

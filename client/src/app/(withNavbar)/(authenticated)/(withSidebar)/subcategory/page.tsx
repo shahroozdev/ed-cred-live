@@ -1,8 +1,7 @@
-import { AddSubCategory } from "@/components/Category/AddSubCategory";
-import { SubCategoryTable } from "@/components/Category/SubcategoryTable";
-
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
+import { AddSubCategory } from "@/components/pages/admin/Category/AddSubCategory";
+import { SubCategoryTable } from "@/components/pages/admin/Category/SubcategoryTable";
 
 const CategoryPage = async ({ searchParams }: { searchParams: any }) => {
   const params = await searchParams;

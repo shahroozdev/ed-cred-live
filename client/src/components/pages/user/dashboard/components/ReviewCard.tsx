@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { AppleIcon, ExternalLinkIcon } from "lucide-react";
 import { v4 } from "uuid";
+import { imagesUrls } from "@/types";
 
 export const ReviewCard = ({ response, hideRating=false } : { response: any, hideRating?: boolean}) => {
     const router = useRouter();
@@ -12,7 +13,7 @@ export const ReviewCard = ({ response, hideRating=false } : { response: any, hid
         }>
             <div className="flex gap-4">
                 <Image
-                    src={`/uploads/categoryIcons/${response.feedbackForm.category.name.toLowerCase()}.png`}
+                    src={`/uploads/categoryIcons/${imagesUrls[response?.feedbackForm?.category?.name]??"pricipal"}.png`}
                     width={200} height={200} alt={''} className="w-12 h-auto object-contain" />
                 {response.details?.pricipalName ?
                     <div className="flex flex-col leading-snug gap-0">
@@ -34,7 +35,7 @@ export const ReviewCard = ({ response, hideRating=false } : { response: any, hid
                 !hideRating && <RatingBar rating={response.rating} />
             }
             <div className="text-ellipsis line-clamp-1 italic">{response.comments}</div>
-            <a className="text-base text-muted-foreground font-normal flex gap-2 items-center mt-auto" href={`https://www.${response.details.schoolWebsite}`}>
+            <a className="text-base text-muted-foreground font-normal flex gap-2 items-center mt-auto" href={`${response.details.schoolWebsite}`}>
                 {response.details.schoolWebsite}
                 <ExternalLinkIcon stroke="gray" size={16} />
             </a>

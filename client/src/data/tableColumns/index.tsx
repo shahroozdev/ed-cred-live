@@ -6,7 +6,15 @@ import VerifyUserCard from "@/components/pages/admin/users/components/verifyUser
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
-import { Eye, Pencil, Repeat1, Trash2, UserCheck } from "lucide-react";
+import {
+  Check,
+  Eye,
+  Pencil,
+  Repeat1,
+  Trash2,
+  UserCheck,
+  X,
+} from "lucide-react";
 import { ReactNode } from "react";
 
 export const action = ({
@@ -19,6 +27,8 @@ export const action = ({
   key,
   changeCategory,
   verifyDocument,
+  accept,
+  reject,
 }: {
   edit?: boolean;
   deleteBtn?: boolean;
@@ -29,6 +39,8 @@ export const action = ({
   key?: string;
   changeCategory?: boolean;
   verifyDocument?: boolean;
+  accept?: boolean;
+  reject?: boolean;
 }) => {
   return {
     accessorKey: "actions",
@@ -37,16 +49,56 @@ export const action = ({
     cell: ({ row }: any) => {
       const data = row.original;
       return (
-        <div className="flex gap-4">
+        <div className="flex gap-1">
           {btnText && (
             <Button rounded={8} variant="primary">
               {btnText}
             </Button>
           )}
+          {accept && (
+            <ConfirmationDeleteModal
+              text={"Want to Accept This Response."}
+              url={`/feedback-responses/${data?.id}/accept`}
+              type="PATCH"
+              qkey={key}
+            >
+              <IconButton
+                bgColor="green"
+                className="cursor-pointer text-white px-2"
+              >
+                <span title={"Accept Document"}>
+                  <Check size={20} />
+                </span>
+              </IconButton>
+            </ConfirmationDeleteModal>
+          )}
           {edit && (
-            <IconButton bgColor="black" className="cursor-pointer text-white">
-              <Pencil size={20} />
+            <IconButton
+              bgColor="black"
+              className="cursor-pointer text-white px-2"
+            >
+              {" "}
+              <span title={"Edit"}>
+                <Pencil size={20} />
+              </span>
             </IconButton>
+          )}
+          {reject && (
+            <ConfirmationDeleteModal
+              text={"Want to Reject This Response."}
+              url={`/feedback-responses/${data?.id}/reject`}
+               type="PATCH"
+              qkey={key}
+            >
+              <IconButton
+                bgColor="red"
+                className="cursor-pointer text-white px-2"
+              >
+                <span title={"Reject Documment"}>
+                  <X size={20} />
+                </span>
+              </IconButton>
+            </ConfirmationDeleteModal>
           )}
           {view && <Eye size={20} />}
           {deleteBtn && (
@@ -155,7 +207,11 @@ const customColummn = (values: {
           ) : values.key === "description" ? (
             <p className="line-clamp-2">{value}</p>
           ) : values.key === "isDraft" ? (
-            <p className={`${row?.original?.isDraft ? "text-red-500" : "text-green-500"}`}>
+            <p
+              className={`${
+                row?.original?.isDraft ? "text-red-500" : "text-green-500"
+              }`}
+            >
               {row?.original?.isDraft ? "draft" : "active"}
             </p>
           ) : values.key === "isVerified" ? (
@@ -293,5 +349,32 @@ export const postsAdminColumn = [
     deleteBtn: true,
     deleteBtnLink: "/posts",
     deleteModalText: "Want To Delete This Post?",
+  }),
+];
+
+export const feedbacksResponsesColumn = [
+  customColummn({ key: "feedbackForm.title", label: "Title", width: 200 }),
+  customColummn({
+    key: "feedbackForm.category.name",
+    label: "Category",
+    width: 200,
+  }),
+  customColummn({
+    key: "feedbackForm.subcategory.name",
+    label: "Subcategory",
+    width: 200,
+  }),
+  customColummn({ key: "questions", label: "Question", width: 100 }),
+  customColummn({ key: "feedbackForm.isDraft", label: "Status" }),
+  customColummn({
+    key: "submittedAt",
+    label: "Created At",
+    type: "date",
+    width: 150,
+  }),
+  action({
+    accept: true,
+    edit: true,
+    reject: true,
   }),
 ];

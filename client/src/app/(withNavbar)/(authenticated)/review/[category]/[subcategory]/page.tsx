@@ -1,6 +1,6 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
-import FeedbackForm from "@/components/Review/FeedbackForm";
+import FeedbackForm from "@/components/pages/common/review/FeedbackForm"
 
 export default async function ReivewPage({
   params,
@@ -15,8 +15,8 @@ export default async function ReivewPage({
   const feedbacks = data?.feedbacks;
   return (
     <TitleWrapper
-      title="Review"
-      desc="Select the type of review you will submit"
+      title="Feedback"
+      desc="Give feedback here."
       notBackBtn
     >
       <div className="w-full">
@@ -28,11 +28,8 @@ export default async function ReivewPage({
             </p>
           </div>
         ) : (
-          // feedbacks.length <= 0 ?
-          //     <LoaderIcon className="animate-spin" />
-          //     :
           <div className="w-full flex h-full flex-col items-start">
-            {feedbacks.map((feedback: Record<string, any>) => (
+            {feedbacks?.map((feedback: Record<string, any>) => (
               <div key={feedback.id} className="w-full">
                 <div className="flex flex-col items-center justify-center bg-[#F5F8F3] py-16">
                   <div className="text-4xl font-semibold">{feedback.title}</div>

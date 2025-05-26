@@ -9,11 +9,13 @@ import {
   Patch,
   Req,
   UseGuards,
+  Query,
 } from "@nestjs/common";
 import { FeedbackResponseService } from "./feedback-response.service";
 import { CreateFeedbackResponseDto } from "./dto/create-feedback-response.dto";
 import { apiWrapper } from "src/decorators/globalErrorHandlerClass";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { query } from "express";
 
 @Controller("feedback-responses")
 export class FeedbackResponseController {
@@ -28,13 +30,17 @@ export class FeedbackResponseController {
     @Req() req,
     @Body() createFeedbackResponseDto: CreateFeedbackResponseDto
   ) {
-    return await this.feedbackResponseService.createResponse(
+    return await apiWrapper(()=>this.feedbackResponseService.createResponse(
       createFeedbackResponseDto,
       req?.user?.id
-    );
+    ));
   }
 
   // Get all feedback responses for a specific form
+  @Get()
+  async findAll(@Query() query?: Record<string, any>) {
+    return await this.feedbackResponseService.getResponses(query);
+  }
   @Get("form/:formId")
   async findAllByForm(@Param("formId") formId: string) {
     return await this.feedbackResponseService.getResponsesByForm(formId);
@@ -70,9 +76,9 @@ export class FeedbackResponseController {
   //     return { message: 'Feedback response deleted successfully' };
   // }
 
-  @Patch(":id/accept")
-  async acceptFeedback(@Param("id") id: string) {
-    return this.feedbackResponseService.acceptFeedback(id);
+  @Patch(":id/:type")
+  async acceptFeedback(@Param("id") id: string, @Param("type") type: "accept"|"reject") {
+    return this.feedbackResponseService.acceptFeedback(id, type);
   }
 
   @Delete(":id")

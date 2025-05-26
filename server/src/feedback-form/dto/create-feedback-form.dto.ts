@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { CreateQuestionDto } from "src/question/dto/create-question.dto";
 
 // Optional details toggles
 export class FeedbackDetails {
@@ -63,6 +64,6 @@ export class CreateFeedbackFormDto {
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => Question)
-  questions: Question[];
+  @Type(() => CreateQuestionDto)
+  questions: CreateQuestionDto[];
 }

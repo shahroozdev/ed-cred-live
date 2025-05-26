@@ -2,20 +2,22 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  identifier: z.string().email({ message: "Invalid email" }),
+  identifier: z.string().min(2, "Field is Required."),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
+    .min(8, { message: "Password must be at least 8 characters" }),
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;
 
-export const signupSchema = z.object({
+export const signupSchema = z
+  .object({
     email: z.string().email("Invalid email address"),
     username: z.string().min(2, "Username must be at least 2 characters"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
-  }).refine((data) => data.password === data.confirmPassword, {
+  })
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
@@ -67,3 +69,31 @@ export const GeneralFormSchema = z.object({
   }),
   questions: z.array(QuestionFormSchema),
 });
+
+export const feedbackCreateResponseSchema = (feedback: Record<string, any>) => {
+  const detailsFields = Object.keys(feedback.details).filter(
+    (key) => feedback.details[key]
+  );
+  return z.object({
+    details: z.object(
+      detailsFields?.reduce((acc: any, curr: any) => {
+        acc[curr] = z.string().min(1, "Field is required.");
+        return acc;
+      }, {})
+    ),
+    answers: z
+      .array(
+        z.object({
+          questionId: z.any(),
+          answer: z.union([
+            z.string().min(1, "Answer is required."),
+            z.number().min(1, "Answer is required."),
+            z.boolean(),
+          ]),
+          question: z.string(),
+        })
+      )
+      .min(feedback.questions.length, "All questions must be answered."),
+      comment:z.string()
+  });
+};

@@ -3,7 +3,7 @@ import React, { ReactNode, useState } from "react";
 import Modal from "../modal";
 import { Button, IconButton } from "@/components/atoms";
 import { useMutate } from "@/hooks/generalHooks";
-import { Trash2 } from "lucide-react";
+import { ShieldAlert, Trash2 } from "lucide-react";
 import { revalidateWholeRoute } from "@/actions/serverActions";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -12,19 +12,23 @@ export interface ConfirmationModalProps {
   children: ReactNode;
   url:string;
   qkey?:string;
+  type?:"POST" | "PUT" | "DELETE" | "PATCH";
+  body?:any
 }
 
 const ConfirmationDeleteModal = ({
   text,
   children,
   url,
-  qkey
+  qkey,
+  type,
+  body,
 }: ConfirmationModalProps) => {
   const [open, setIsOpen] = useState(false);
     const {MutateFunc} = useMutate();
     const path = usePathname()
     const onDelete=async()=>{
-      await MutateFunc({url, method:'DELETE', tags:qkey, onSuccess:async()=>await revalidateWholeRoute(path)})
+      await MutateFunc({url, method:type||'DELETE', ...(body?{body}:{}), tags:qkey, onSuccess:async()=>await revalidateWholeRoute(path)})
       setIsOpen(false)
     }
   return (
@@ -37,11 +41,11 @@ const ConfirmationDeleteModal = ({
       title={
         <div className="flex flex-col gap-4 justify-center items-center">
           <IconButton
-            bgColor={`red`}
+            bgColor={type !=="DELETE"?`yellow`:`red`}
             circle
             className="text-white"
           >
-             <Trash2 />
+             {type !=="DELETE"?<ShieldAlert />:<Trash2 />}
           </IconButton>
         </div>
       }

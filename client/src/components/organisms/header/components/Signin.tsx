@@ -38,7 +38,7 @@ const Signin = () => {
           <input
             className="input w-full p-3 border border-gray-300 rounded-lg"
             {...register("identifier")}
-            type="email"
+            type="text"
             required
             placeholder="Enter Email or Username"
           />
