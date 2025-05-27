@@ -10,8 +10,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMutate } from "@/hooks/generalHooks";
-import { Button, CategorySelect } from "../atoms";
+import { Button, CategorySelect } from "@/components/atoms";
 
 const FormSchema = z.object({
   name: z.string().min(2, "The category must be at least 2 characters"),

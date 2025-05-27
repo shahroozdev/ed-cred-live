@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "@/components/Common/Header";
-import TermsOFUse from "@/components/Termsofuse/TermsOfUse";
+import TermsOFUse from "@/components/pages/common/Termsofuse/TermsOfUse";
 
 
 const TermsOfUsePage = () => {

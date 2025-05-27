@@ -2,13 +2,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useCategoryStore } from "@/store/categoryStore";
-import { Checkbox } from "../ui/checkbox";
-import { Button } from "../atoms";
 import { useMutate } from "@/hooks/generalHooks";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/atoms";
 
 const FormSchema = z.object({
     name: z.string().min(2, "The category must be at least 2 characters"),

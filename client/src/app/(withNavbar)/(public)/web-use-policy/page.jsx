@@ -1,6 +1,5 @@
 import Header from '@/components/Common/Header';
-import WebsitePolicy from '@/components/WebPolicy/WebPolicy';
-import React from 'react';
+import WebsitePolicy from '@/components/pages/common/WebPolicy/WebPolicy';
 
 const WebUsePolicyPage = () => {
     return (

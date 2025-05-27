@@ -1,5 +1,5 @@
 "use client";
-import TableWithFilter from "../molecules/tableWithFilters";
+import TableWithFilter from "@/components/molecules/tableWithFilters";
 import { CategoryFilterForm } from "@/data/forms";
 import { subCategoryColumn } from "@/data/tableColumns";
 

@@ -8,7 +8,7 @@ import RatingInput from "../rattingInput";
 const QuestionInput = ({ question, color, onChange }: { question: Question, color: string, onChange: (value: any) => void }) => {
     switch (question.type) {
         case "rating":
-            return <RatingInput color={color} onChange={onChange} />;
+            return <RatingInput value={0} color={color} onChange={onChange} />;
         case "multiple_choice":
             return (
                 <RadioGroup onValueChange={(value) => onChange(value)} className="ml-auto">

@@ -24,6 +24,7 @@ import { Dispute } from "./dispute/dispute.entity";
 import { MailModule } from "./mail/mail.module";
 import { MulterModule } from "@nestjs/platform-express";
 import { QuestionModule } from './question/question.module';
+import { PackagesModule } from './packages/packages.module';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { QuestionModule } from './question/question.module';
       }),
     }),
     QuestionModule,
+    PackagesModule,
   ],
   controllers: [SearchController],
   providers: [SearchService],

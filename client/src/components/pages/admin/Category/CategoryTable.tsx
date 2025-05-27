@@ -1,6 +1,6 @@
 "use client";
 import { studentMaterialColumn } from "@/data/tableColumns";
-import TableWithFilter from "../molecules/tableWithFilters";
+import TableWithFilter from "@/components/molecules/tableWithFilters";
 import { CategoryFilterForm } from "@/data/forms";
 
 export const CategoryTable = ({ data }: { data: Record<any, any> | null }) => {
