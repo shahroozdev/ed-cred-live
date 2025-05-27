@@ -1,26 +1,18 @@
 "use client";
 import { useState, useEffect } from "react";
 import { TimerIcon } from "lucide-react";
-import { getRequest } from "@/api/config";
-
-import {
-  CategoryBar,
-  ClearFilters,
-  FilterBar,
-  SearchBar,
-} from "@/components/pages/user/dashboard/components";
+import { CategoryBar, ClearFilters, FilterBar, SearchBar } from "@/components/pages/user/dashboard/components";
 import { ReviewCard } from "./components/ReviewCard";
-import { useQuery } from "@/hooks/generalHooks";
 
-const UserDashboardPage = () => {
+const UserDashboardPage = ({data}:{data:Record<string, any>}) => {
   const [reviews, setReviews] = useState<any[]>([]);
   const [filteredReviews, setFilteredReviews] = useState<any[]>([]);
-  const {data, isLoading} = useQuery({url:"/feedback-form/groups", key:"formGroups"})
+  // const {data, isLoading} = useQuery({url:"/feedback-form/groups", key:"formGroups"})
 // console.log(data, 'data')
-  useEffect(() => {
-    const setup = async () => {
-      if (!data) return;
-      const reviews = data;
+useEffect(() => {
+  const setup = async () => {
+    if (!data) return;
+    const reviews = data?.result;
 
       const filteredReviews: any[] = [];
       reviews.forEach((review: any) => {
@@ -146,7 +138,7 @@ console.log(data)
             }}
             schools={(() => {
               let schools = new Set<string>();
-              reviews.forEach((response: any) =>
+              data?.result?.forEach((response: any) =>
                 schools.add(response.details.schoolName)
               );
               return schools;

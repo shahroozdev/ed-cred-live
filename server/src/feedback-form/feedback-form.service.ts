@@ -83,8 +83,8 @@ async create(
     const pageSize = query?.pageSize ?? 10;
 
     const where: any = {};
-    if (query.name) {
-      where.feedbackForm.title = ILike(`%${query.name}%`);
+    if (query?.name) {
+      where.feedbackForm.title = ILike(`%${query?.name}%`);
     }
     const [forms, total] = await this.feedbackFormRepository.findAndCount({
       relations: [
@@ -190,7 +190,14 @@ async create(
       return new Date(latestB).getTime() - new Date(latestA).getTime();
     });
 
-    return combinedResults;
+  return {
+      status: 200,
+      message: "All Categories List.",
+      result:combinedResults,
+      total,
+      currentPage: Number(page),
+      pageSize,
+    };;
   }
 
   async findAll(

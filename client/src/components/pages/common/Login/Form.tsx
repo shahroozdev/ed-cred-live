@@ -1,13 +1,10 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Button } from "../atoms";
-import { useForm } from "react-hook-form";
+import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import { loginSchema, LoginSchema } from "@/lib/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutate } from "@/hooks/generalHooks";
 import Link from "next/link";
 
@@ -16,13 +13,7 @@ export function LoginForm({
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
   const { MutateFunc, isPending } = useMutate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
-  });
+
   const router = useRouter();
 
   const onSubmit = async (values: LoginSchema) => {
@@ -30,15 +21,19 @@ export function LoginForm({
       url: "auth/login",
       method: "POST",
       body: values,
-      onSuccess:(res:any)=> router.push(res?.user?.role==="admin"?'/admin-dashboard':'/dashboard'),
+      onSuccess: (res: any) =>
+        router.push(
+          res?.user?.role === "admin" ? "/admin-dashboard" : "/dashboard"
+        ),
     });
   };
 
   return (
-    <form
+    <FormTemplate
+      onSubmit={onSubmit}
       className={cn("flex flex-col gap-6", className)}
-      {...props}
-      onSubmit={handleSubmit(onSubmit)}
+      schema={loginSchema}
+      defaultValues={{ identifier: "", password: "" }}
     >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Login to your account</h1>
@@ -46,42 +41,38 @@ export function LoginForm({
           Enter your credentials to login
         </p>
       </div>
-      <div className="grid gap-6">
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            placeholder="user@gmail.com"
-            required
-            {...register("identifier")}
-          />
-          {errors.identifier && (
-            <p className="text-sm text-red-500">
-              {errors?.identifier?.message}
-            </p>
+      <div className="grid gap-2">
+        <FormFeilds
+          fieldProps={{ name: "identifier", className: "grid gap-2" }}
+          label={{ text: "Email/Username" }}
+        >
+          {(field) => (
+            <Input
+              placeholder="user@gmail.com"
+              value={field.value}
+              onChange={field.onChange}
+            />
           )}
-        </div>
-        <div className="grid gap-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
-            <Link
-              href="/forgot-password"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </Link>
-          </div>
-          <Input
-            id="password"
-            type="password"
-            placeholder="Enter Password"
-            required
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className="text-sm text-red-500">{errors?.password?.message}</p>
+        </FormFeilds>
+        <FormFeilds
+          fieldProps={{ name: "password", className: "grid gap-2" }}
+          label={{ text: "Password" }}
+        >
+          {(field) => (
+            <Input
+              type="password"
+              placeholder="Password"
+              value={field.value}
+              onChange={field.onChange}
+            />
           )}
-        </div>
+        </FormFeilds>
+        <Link
+          href="/forgot-password"
+          className="ml-auto text-sm underline-offset-4 hover:underline"
+        >
+          Forgot your password?
+        </Link>
 
         <Button type="submit" className="w-full" loading={isPending}>
           Login
@@ -108,6 +99,6 @@ export function LoginForm({
           Sign up
         </Link>
       </div>
-    </form>
+    </FormTemplate>
   );
 }

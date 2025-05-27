@@ -44,8 +44,8 @@ export class FeedbackFormController {
   }
 
   @Get("/groups")
-  findAllGroups() {
-    return this.feedbackFormService.getGroupedResponsesBySchool();
+  findAllGroups( @Query() query?: Record<string, any>) {
+    return this.feedbackFormService.getGroupedResponsesBySchool(query);
   }
 
   @Get(":id")
