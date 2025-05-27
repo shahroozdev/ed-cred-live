@@ -9,6 +9,7 @@ client/.DS_Store  # macOS
 client/.turbo/
 client/yarn.lock
 client/npm-debug.log*
+client/.env
 
 server/node_modules/
 server/dist/
