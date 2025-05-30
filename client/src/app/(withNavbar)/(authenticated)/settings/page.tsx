@@ -37,6 +37,7 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
+import { TitleWrapper } from "@/components/atoms"
 
 function CardAction({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -141,7 +142,11 @@ const activeSessions = [
 
 export default function SettingsPage() {
     return (
-        <div className="@container/page flex flex-1 flex-col gap-8 p-6">
+            <TitleWrapper
+              title="Setting"
+              //  desc="Select the type of review you will submit"
+              notBackBtn
+            >
             <Tabs defaultValue="account" className="gap-6">
                 <div
                     data-slot="dashboard-header"
@@ -444,7 +449,7 @@ export default function SettingsPage() {
                     </Card>
                 </TabsContent>
             </Tabs>
-        </div>
+        </TitleWrapper>
     )
 }
 

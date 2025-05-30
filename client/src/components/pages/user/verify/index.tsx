@@ -14,6 +14,7 @@ import { Button } from "@/components/atoms";
 const Verify = ({ user }: { user: Record<string, any> }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [verificationFile, setVerificationFile] = useState<File | null>(null);
+  const [url, setUrl] = useState<string>("");
   const { MutateFunc, isPending } = useMutate();
 
   async function sendVerificationCode() {
@@ -27,11 +28,10 @@ const Verify = ({ user }: { user: Record<string, any> }) => {
 
   async function uploadVerificationDocument() {
     if (!verificationFile || !user) return;
-
     const res = await MutateFunc({
       url: "/auth/upload-verification",
       method: "POST",
-      body: {file:verificationFile, userId:user?.id},
+      body: { file: verificationFile, userId: user?.id },
       allowMulti: true,
     });
   }
@@ -66,7 +66,10 @@ const Verify = ({ user }: { user: Record<string, any> }) => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button loading={isPending} onClick={() => sendVerificationCode()}>
+                  <Button
+                    loading={isPending}
+                    onClick={() => sendVerificationCode()}
+                  >
                     Send Verification Code
                   </Button>
                 </CardContent>
@@ -90,17 +93,17 @@ const Verify = ({ user }: { user: Record<string, any> }) => {
                   <div className="flex flex-col gap-2">
                     {verificationFile ? (
                       // TODO: show the document if they have uploaded one
-                      <img
-                        src={verificationFile.name}
-                        width="200"
-                        height="200"
-                      />
+                      <img src={url} width="200" height="200" />
                     ) : (
                       <Input
                         type="file"
-                        onChange={(e) =>
-                          setVerificationFile(e.target.files?.[0] ?? null)
-                        }
+                        onChange={(e) => {
+                          setVerificationFile(e.target.files?.[0] ?? null);
+                          const file: any = e.target.files?.[0];
+                          const blob = new Blob([file], { type: file.type });
+                          const blobUrl = URL.createObjectURL(blob);
+                          setUrl(blobUrl);
+                        }}
                       />
                     )}
                     <Button

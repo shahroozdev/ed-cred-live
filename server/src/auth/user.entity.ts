@@ -1,11 +1,12 @@
-import { ForumQuestion } from 'src/forum-question/entities/forum-question.entity';
+import { ForumQuestion } from '../forum-question/entities/forum-question.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, ManyToOne } from 'typeorm';
-import { ForumReply } from 'src/forum-reply/entities/forum-reply.entity';
-import { FeedbackForm } from 'src/feedback-form/entities/feedback-form.entity';
+import { ForumReply } from '../forum-reply/entities/forum-reply.entity';
+import { FeedbackForm } from '../feedback-form/entities/feedback-form.entity';
 import { UserRole, Permission, SubscriptionPlan } from "./../../types/user";
-import { FeedbackResponse } from 'src/feedback-response/entities/feedback-response.entity';
-import { Dispute } from 'src/dispute/dispute.entity';
-import { Subcategory } from 'src/subcategory/subcategory.entity';
+import { FeedbackResponse } from '../feedback-response/entities/feedback-response.entity';
+import { Dispute } from '../dispute/dispute.entity';
+import { Subcategory } from '../subcategory/subcategory.entity';
+import { UserPackage } from 'src/packages/entities/user.packages.entity';
 
 @Entity()
 export class User {
@@ -79,4 +80,7 @@ export class User {
 
     @OneToMany(() => FeedbackResponse, (form) => form.author)
     feedbackFormsResponses: FeedbackResponse[];
+
+    @OneToMany(() => UserPackage, (UserPackage) => UserPackage.user)
+    UserPackage: UserPackage[];
 }

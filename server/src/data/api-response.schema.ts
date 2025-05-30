@@ -1,3 +1,4 @@
+import { uploadVerificationDocument } from "./responses/auth";
 import { createCategory } from "./responses/categories";
 import { createFeedbackForm } from "./responses/feedback";
 import { createSubcategory } from "./responses/subcategories";
@@ -9,4 +10,6 @@ export const ApiSchemas = {
   createFeedbackForm,
   //subcategories
   createSubcategory,
+  //auth
+  uploadVerificationDocument,
 };

@@ -12,7 +12,7 @@ const SchoolForm = ({
   feedback: Record<string, any>;
 }) => {
   return (
-    <div className="outline-muted rounded-md p-6 outline-2 flex flex-col w-full mt-10 gap-4">
+    <div className="outline-muted rounded-md p-6 outline-2 flex flex-col w-full gap-4">
       {Object.keys(feedback.details).map((detail, i) => {
         if (!feedback.details[detail]) return null;
 

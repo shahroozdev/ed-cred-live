@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FeedbackResponse } from 'src/feedback-response/entities/feedback-response.entity';
+import { FeedbackResponse } from '../feedback-response/entities/feedback-response.entity';
 import { Repository } from 'typeorm';
-import { FeedbackForm } from "src/feedback-form/entities/feedback-form.entity";
-import { Category } from 'src/category/category.entity';
+import { FeedbackForm } from "../feedback-form/entities/feedback-form.entity";
+import { Category } from '../category/category.entity';
 
 @Injectable()
 export class SearchService {

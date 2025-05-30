@@ -81,6 +81,8 @@ export const useMutate = () => {
     const data = value?.allowMulti
       ? appendDataToFormData(value?.body)
       : value?.body;
+
+      console.log(data)
     try {
       const res = await mutateData({
         method: value?.method,

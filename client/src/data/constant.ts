@@ -8,7 +8,7 @@ export const colorVariants: Record<string, string> = {
 
 export const detailType = {
         schoolName:      "text",
-        schoolWebsite:   "url",
+        schoolWebsite:   "text",
         schoolCountry:   "dropdown",
         reportingPeriod: "date-range",
         pricipalName:    "text",

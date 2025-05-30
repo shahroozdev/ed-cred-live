@@ -13,8 +13,8 @@ import { User } from "./user.entity";
 import { UserRole } from "./../../types/user";
 // import { randomBytes } from "crypto";
 import { response } from "types";
-import { Subcategory } from "src/subcategory/subcategory.entity";
-import { MailService } from "src/mail/mail.service";
+import { Subcategory } from "../subcategory/subcategory.entity";
+import { MailService } from "../mail/mail.service";
 import { CreateUserDto } from "./dto";
 import { randomBytes } from "crypto";
 
@@ -114,6 +114,7 @@ export class AuthService {
         "subscription",
         "isVerified",
         "verificationDocumentUrl",
+        "profilePictureUrl",
       ],
       relations: ["category"],
     });
@@ -150,6 +151,7 @@ export class AuthService {
         "subscription",
         "createdAt",
         "verificationDocumentUrl",
+        "profilePictureUrl",
       ],
       relations: ["category"],
       skip: (page - 1) * pageSize,
@@ -228,7 +230,10 @@ export class AuthService {
     };
   }
 
-  async handleVerification(userId: number, action: "approve" | "reject"):Promise<response> {
+  async handleVerification(
+    userId: number,
+    action: "approve" | "reject"
+  ): Promise<response> {
     const user = await this.userRepository.findOneBy({ id: userId });
     if (!user) throw new Error("User not found");
 
@@ -240,7 +245,7 @@ export class AuthService {
 
     await this.userRepository.save(user);
 
-    return {status:200, message:"User Status Updated."}
+    return { status: 200, message: "User Status Updated." };
   }
 
   async sendVerificationEmail(email: string): Promise<response> {
@@ -256,7 +261,7 @@ export class AuthService {
     await this.mailService.sendUserConfirmation(user);
     // TODO: Make this editable by the admin user
 
-    return {status:200, message:'Verification Email Sent Successfully.'};
+    return { status: 200, message: "Verification Email Sent Successfully." };
   }
 
   async verifyEmail(token: string): Promise<response> {
@@ -270,6 +275,37 @@ export class AuthService {
     user.isVerified = true;
     user.emailVerificationToken = null;
     await this.userRepository.save(user);
-    return { status: 200, message: 'Email is verified successfuly.' };
+    return { status: 200, message: "Email is verified successfuly." };
+  }
+
+  async updateProfile(
+    id: number,
+    updateProfileDto?: any,
+    file?: string
+  ): Promise<response> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+    });
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    const updatedData: Partial<User> = {};
+
+    // ✅ Merge DTO fields if present
+    if (updateProfileDto?.username)
+      updatedData.username = updateProfileDto.username;
+    if (updateProfileDto?.email) updatedData.email = updateProfileDto.email;
+
+    // ✅ Add file URL if present
+    if (file) updatedData.profilePictureUrl = file;
+
+    // ✅ Only update if something is changing
+    if (Object.keys(updatedData).length === 0) {
+      throw new BadRequestException("Nothing to update");
+    }
+
+    await this.userRepository.update(id, updatedData);
+    return { status: 200, message: "Profile data is updated successfully." };
   }
 }

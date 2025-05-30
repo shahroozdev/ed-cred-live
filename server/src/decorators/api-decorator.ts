@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
-import { ApiSchemas } from 'src/data/api-response.schema';
+import { ApiSchemas } from '../data/api-response.schema';
 
 
 export function ApiCustomResponse(key: keyof typeof ApiSchemas) {

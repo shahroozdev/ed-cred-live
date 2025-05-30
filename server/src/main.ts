@@ -6,9 +6,13 @@ import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as basicAuth from "express-basic-auth";
 import { existsSync, mkdirSync } from "fs";
+import { UploadExceptionFilter } from "./decorators/globalErrorHandlerClass/uploadErrorGlobal";
+import { json, urlencoded } from "express";
+// import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    // bodyParser: true,
     abortOnError: false,
   });
   app.enableCors();
@@ -21,7 +25,8 @@ async function bootstrap() {
   app.useStaticAssets(uploadsPath, {
     prefix: "/uploads/",
   });
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new UploadExceptionFilter());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   app.use(
     ["/docs", "/docs-json"], // Protect Swagger UI and JSON endpoint
@@ -40,7 +45,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("docs", app, document);
-
+  app.use(json({ limit: "500mb" }));
+  app.use(urlencoded({ extended: true, limit: "500mb" }));
   await app.listen(process.env.PORT ?? 6969);
 }
 bootstrap();

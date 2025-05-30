@@ -20,7 +20,7 @@ export default async function ReivewPage({
       notBackBtn
     >
       <div className="w-full">
-        {feedbacks.length <= 0 ? (
+        {feedbacks?.length <= 0 ? (
           <div className="text-center text-4xl font-semibold">
             <div className="text-8xl">404</div>
             <p className="text-lg">
@@ -31,7 +31,7 @@ export default async function ReivewPage({
           <div className="w-full flex h-full flex-col items-start">
             {feedbacks?.map((feedback: Record<string, any>) => (
               <div key={feedback.id} className="w-full">
-                <div className="flex flex-col items-center justify-center bg-[#F5F8F3] py-16">
+                <div className="flex flex-col items-center justify-center bg-background py-16">
                   <div className="text-4xl font-semibold">{feedback.title}</div>
                 </div>
 

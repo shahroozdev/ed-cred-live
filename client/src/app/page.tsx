@@ -6,7 +6,7 @@ import { About, Categories, Feedbacks, Discussions, Header } from "@/components/
 const HomePage = async() => {
     const user = await getServerSideDataWithFeatures({url:'/auth/profile', key:'profile'})
   return (
-    <div className="min-h-screen h-full bg-background relative">
+    <div className="w-screen min-h-screen bg-background relative">
       <Navbar user={user}/>
       <Header />
       <Categories />

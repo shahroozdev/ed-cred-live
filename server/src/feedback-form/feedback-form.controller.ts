@@ -13,9 +13,9 @@ import {
 import { FeedbackFormService } from "./feedback-form.service";
 import { CreateFeedbackFormDto } from "./dto/create-feedback-form.dto";
 import { FeedbackForm } from "./entities/feedback-form.entity";
-import { apiWrapper } from "src/decorators/globalErrorHandlerClass";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { ApiCustomResponse } from "src/decorators/api-decorator";
+import { apiWrapper } from "../decorators/globalErrorHandlerClass";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { ApiCustomResponse } from "../decorators/api-decorator";
 
 @Controller("feedback-form")
 export class FeedbackFormController {

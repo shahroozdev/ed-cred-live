@@ -1,5 +1,5 @@
-import { User } from "src/auth/user.entity";
-import { ForumReply } from "src/forum-reply/entities/forum-reply.entity";
+import { User } from "../../auth/user.entity";
+import { ForumReply } from "../../forum-reply/entities/forum-reply.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

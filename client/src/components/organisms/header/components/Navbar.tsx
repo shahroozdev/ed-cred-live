@@ -5,11 +5,12 @@ import LoginRegistrationModal from "./loginRegistrationModal";
 import { UserBubble } from "./UserBubble";
 import { UserProfile } from "@/types/user";
 import DrawerBtn from "../../sidebar/mobileSidebar";
+import { ThemeToggle } from "@/components/Common/ThemeToggle";
 
 
 const Navbar = ({ user }: { user: UserProfile }) => {
   return (
-    <div className="sticky top-0 left-0 flex h-[70px] min-w-screen w-full max-w-screen items-center justify-center bg-background shadow-md px-8 z-10 text-[var(--mt-pre-color)]">
+    <div className="!sticky !top-0 left-0 flex h-[70px] w-full items-center justify-center bg-background shadow-md px-8 z-10 text-[var(--mt-pre-color)]">
       <div className="w-full flex items-center justify-between py-4">
         <div className="flex items-center justify-center gap-2 md:gap-4">
           <Image
@@ -29,6 +30,7 @@ const Navbar = ({ user }: { user: UserProfile }) => {
             // userCategoryId={user && user?.category ? user.category.id : 0}
             />
           </div>
+          <ThemeToggle />
           {user?.name ? (
             <UserBubble user={user} />
           ) : (

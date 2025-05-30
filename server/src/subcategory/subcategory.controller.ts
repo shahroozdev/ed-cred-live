@@ -2,10 +2,10 @@ import { Controller, Post, Get, Delete, Body, Param, Query, UseGuards } from '@n
 import { SubcategoryService } from './subcategory.service';
 import { Subcategory } from './subcategory.entity';
 import { response } from 'types';
-import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
+import { apiWrapper } from '../decorators/globalErrorHandlerClass';
 import { CreateItemDto } from './dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { ApiCustomResponse } from 'src/decorators/api-decorator';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiCustomResponse } from '../decorators/api-decorator';
 
 @Controller('subcategory')
 export class SubcategoryController {

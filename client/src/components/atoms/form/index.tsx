@@ -60,9 +60,13 @@ const FormTemplate = ({
     resolver: zodResolver(schema),
     defaultValues: defaultValues,
   });
+  const onError = (errors:any) => {
+  console.log("Validation Errors", errors);
+  console.log(form.getValues())
+};
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
+      <form onSubmit={form.handleSubmit(onSubmit, onError)} className={className}>
         {children}
       </form>
     </Form>

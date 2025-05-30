@@ -29,7 +29,7 @@ export async function getServerSideDataWithFeatures(props:{url:string, key?:stri
     const token = cookieStore.get('token')?.value
     const headers={
         Authorization: `Bearer ${token}`,
-        ...(value?.allowMulti?{"Content-Type": "multipart/form-data"}:{"Content-Type": "application/json"}),
+        ...(value?.allowMulti?{"Content-Type":"multipart/form-data"}:{"Content-Type": "application/json"}),
         "x-Requested-With": "XMLHttpRequest"
     }
     const methodHandlers = {

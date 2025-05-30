@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ILike, Repository } from "typeorm";
 import { FeedbackResponse } from "./entities/feedback-response.entity";
-import { FeedbackForm } from "src/feedback-form/entities/feedback-form.entity";
+import { FeedbackForm } from "../feedback-form/entities/feedback-form.entity";
 import { CreateFeedbackResponseDto } from "./dto/create-feedback-response.dto";
-import { User } from "src/auth/user.entity";
+import { User } from "../auth/user.entity";
 import { response } from "types";
 
 @Injectable()
@@ -23,7 +23,8 @@ export class FeedbackResponseService {
   // Create a new feedback response
   async createResponse(
     dto: CreateFeedbackResponseDto,
-    authorId: number
+    authorId: number,
+    attachments?:string[]
   ): Promise<response & { feedbackResponse?: FeedbackResponse }> {
     const feedbackForm = await this.feedbackFormRepository.findOne({
       where: { id: Number(dto.feedbackFormId) },
@@ -47,6 +48,7 @@ export class FeedbackResponseService {
       answers: dto.answers,
       comments: dto.comments,
       author: user,
+      attachments
     });
 
     const feedbackResponse = await this.feedbackResponseRepository.save(

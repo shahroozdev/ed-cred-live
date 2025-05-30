@@ -224,6 +224,16 @@ const customColummn = (values: {
             >
               {row?.original?.isVerified ? "Verified" : "Not Verified"}
             </p>
+          ) : values.key === "accepted" ? (
+            <p
+              className={`${
+                row?.original?.accepted
+                  ? "text-green-500 bg-green-300"
+                  : "text-red-500 bg-red-300"
+              } rounded-4xl px-2 py-1`}
+            >
+              {row?.original?.accepted ? "Accepted" : "Rejected"}
+            </p>
           ) : (
             <div>
               <h1
@@ -365,7 +375,7 @@ export const feedbacksResponsesColumn = [
     width: 200,
   }),
   customColummn({ key: "questions", label: "Question", width: 100 }),
-  customColummn({ key: "feedbackForm.isDraft", label: "Status" }),
+  customColummn({ key: "accepted", label: "Status" , width: 120 }),
   customColummn({
     key: "submittedAt",
     label: "Created At",

@@ -13,7 +13,6 @@ import { FeedbackResponseModule } from "./feedback-response/feedback-response.mo
 import { SubcategoryModule } from "./subcategory/subcategory.module";
 import { Subcategory } from "./subcategory/subcategory.entity";
 import { RoleModule } from "./role/role.module";
-// import { MailerModule } from '@nestjs-modules/mailer';
 import { SearchController } from "./search/search.controller";
 import { SearchService } from "./search/search.service";
 import { SearchModule } from "./search/search.module";
@@ -23,8 +22,10 @@ import { FeedbackForm } from "./feedback-form/entities/feedback-form.entity";
 import { Dispute } from "./dispute/dispute.entity";
 import { MailModule } from "./mail/mail.module";
 import { MulterModule } from "@nestjs/platform-express";
-import { QuestionModule } from './question/question.module';
-import { PackagesModule } from './packages/packages.module';
+import { QuestionModule } from "./question/question.module";
+import { PackagesModule } from "./packages/packages.module";
+import { Package } from "./packages/entities/package.entity";
+import { UserPackage } from "./packages/entities/user.packages.entity";
 
 @Module({
   imports: [
@@ -43,6 +44,8 @@ import { PackagesModule } from './packages/packages.module';
       FeedbackResponse,
       FeedbackForm,
       Dispute,
+      Package,
+      UserPackage
     ]),
     AuthModule,
     PostModule,
@@ -55,10 +58,8 @@ import { PackagesModule } from './packages/packages.module';
     RoleModule,
     SearchModule,
     MailModule,
-    MulterModule.registerAsync({
-      useFactory: () => ({
-        dest: "./upload",
-      }),
+    MulterModule.register({
+      dest: "./upload",
     }),
     QuestionModule,
     PackagesModule,

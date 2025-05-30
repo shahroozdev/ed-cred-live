@@ -1,10 +1,10 @@
-import { User } from "src/auth/user.entity";
-import { Category } from "src/category/category.entity";
+import { User } from "../../auth/user.entity";
+import { Category } from "../../category/category.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { FeedbackDetails } from "../dto/create-feedback-form.dto";
-import { FeedbackResponse } from "src/feedback-response/entities/feedback-response.entity";
-import { Subcategory } from "src/subcategory/subcategory.entity";
-import { Question } from "src/question/entities/question.entity";
+import { FeedbackResponse } from "../../feedback-response/entities/feedback-response.entity";
+import { Subcategory } from "../../subcategory/subcategory.entity";
+import { Question } from "../../question/entities/question.entity";
 
 @Entity()
 export class FeedbackForm {

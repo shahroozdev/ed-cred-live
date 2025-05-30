@@ -1,6 +1,5 @@
-import { User } from "src/auth/user.entity";
-import { Category } from "src/category/category.entity";
-import { FeedbackForm } from "src/feedback-form/entities/feedback-form.entity";
+import { User } from "../auth/user.entity";
+import { FeedbackForm } from "../feedback-form/entities/feedback-form.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,

@@ -24,11 +24,11 @@ export const data = {
       icon: MessageSquareQuote,
       items: [
         {
-          title: "All Feedback",
+          title: "All Feedback Forms",
           url: "/",
         },
         {
-          title: "Create Feedback",
+          title: "Create Feedback Form",
           url: "/create",
         },
         {

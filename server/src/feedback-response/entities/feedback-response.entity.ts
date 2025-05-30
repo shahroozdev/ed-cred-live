@@ -6,9 +6,9 @@ import {
   CreateDateColumn,
   OneToMany,
 } from "typeorm";
-import { FeedbackForm } from "src/feedback-form/entities/feedback-form.entity";
-import { User } from "src/auth/user.entity";
-import { Dispute } from "src/dispute/dispute.entity";
+import { FeedbackForm } from "../../feedback-form/entities/feedback-form.entity";
+import { User } from "../../auth/user.entity";
+import { Dispute } from "../../dispute/dispute.entity";
 
 @Entity()
 export class FeedbackResponse {
@@ -42,7 +42,7 @@ export class FeedbackResponse {
 
   @Column("jsonb")
   answers: {
-    questionId: number;
+    questionId: number| string;
     question: string;
     answer: string | string[] | boolean | number;
   }[];
@@ -55,4 +55,7 @@ export class FeedbackResponse {
 
   @CreateDateColumn()
   submittedAt: Date;
+
+  @Column({type:"text", nullable:true})
+  attachments?:string[];
 }

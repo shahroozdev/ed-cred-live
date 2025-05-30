@@ -4,7 +4,7 @@ import { UpdateForumQuestionDto } from './dto/update-forum-question.dto';
 import { ForumQuestion } from './entities/forum-question.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class ForumQuestionService {

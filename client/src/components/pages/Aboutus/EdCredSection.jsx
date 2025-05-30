@@ -3,12 +3,12 @@ import Image from 'next/image';
 
 const EdCredSection = () => {
     return (
-        <div className="max-w-[1400px] w-full mx-auto px-6 md:px-12 py-16 pb-34 bg-background">
-            <div className="text-sm flex flex-col md:flex-row items-start md:items-center gap-10">
+        <div className="max-w-[1400px] w-full h-full mx-auto px-6 md:px-12 bg-background">
+            <div className="text-sm flex flex-col lg:flex-row items-start md:items-center gap-10">
                 {/* Text Section */}
-                <div className="md:w-2/3 text-[var(--mt-pre-color)]">
+                <div className="lg:w-2/3 text-[var(--mt-pre-color)]">
                     <p className="mb-4">
-                        At Ed-Cred, we believe in the power of transparency and the importance of honest feedback in the education community. Our platform allows individuals to share their experiences and insights about educational professionals, schools, and institutions, helping others make informed decisions.
+                        At <b>Ed-Cred</b>, we believe in the power of transparency and the importance of honest feedback in the education community. Our platform allows individuals to share their experiences and insights about educational professionals, schools, and institutions, helping others make informed decisions.
                     </p>
                     <p className="mb-4">
                         We are dedicated to creating a space where reviews are unbiased, thoughtful, and respectful. Ed-Cred is committed to maintaining the integrity of our platform by ensuring all reviews are thoroughly moderated, with a focus on providing accurate and reliable information.
@@ -28,9 +28,9 @@ const EdCredSection = () => {
                 </div>
 
                 {/* Image Section */}
-                <div className="relative flex justify-center bottom-20 left-20 ">
+                <div className="min-h-[450px] relative flex justify-center lg:bottom-20 ">
                     {/* Larger Image */}
-                    <div className="relative w-5 h-56 md:w-55 md:h-55 md:-right-20">
+                    <div className="relative w-56 h-56 md:w-55 md:h-55 -right-20">
                         <Image
                             src="/images/AboutUs/Papers.jpeg"
                             alt="Educational setting"
@@ -41,7 +41,7 @@ const EdCredSection = () => {
                     </div>
 
                     {/* Overlapping Smaller Image */}
-                    <div className="absolute w-40 h-40 md:w-50 md:h-60 top-28  md:top-40 ">
+                    <div className="absolute w-50 h-60 top-28 md:top-40 ">
                         <Image
                             src="/images/AboutUs/meeting.jpeg"
                             alt="Learning environment"

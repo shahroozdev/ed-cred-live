@@ -1,5 +1,6 @@
 import Button from "./button/Button";
 import CategoryCard from "./categoryCard";
+import { SubCategoryCard } from "./categoryCard/subCategory";
 import CategorySelect from "./categorySelect";
 import { CountryDropdown } from "./coutnrySelect";
 import { DateRangePicker } from "./dateChangePicker";
@@ -12,7 +13,10 @@ import QuestionInput from "./questionInput";
 import RatingInput from "./rattingInput";
 import SubCategorySelect from "./subCategorySelect";
 import TitleWrapper from "./titleWrapper";
+import UploadProfilePic from "./uploadProfilePic";
 export {
+  UploadProfilePic,
+  SubCategoryCard,
   FormFeilds,
   FormTemplate,
   PromoCard,

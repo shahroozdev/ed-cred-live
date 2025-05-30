@@ -10,12 +10,18 @@ import {
   Req,
   UseGuards,
   Query,
+  UploadedFiles,
+  // UseInterceptors,
+  // UploadedFiles,
 } from "@nestjs/common";
 import { FeedbackResponseService } from "./feedback-response.service";
-import { CreateFeedbackResponseDto } from "./dto/create-feedback-response.dto";
-import { apiWrapper } from "src/decorators/globalErrorHandlerClass";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
-import { query } from "express";
+// import { CreateFeedbackResponseDto } from "./dto/create-feedback-response.dto";
+import { apiWrapper } from "../decorators/globalErrorHandlerClass";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { UploadFile } from "../decorators/upload-file-decorator";
+import { ApiConsumes } from "@nestjs/swagger";
+import { parseNestedFormData } from "src/utils/utils";
+// import { AnyFilesInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 
 @Controller("feedback-responses")
 export class FeedbackResponseController {
@@ -26,14 +32,29 @@ export class FeedbackResponseController {
   // Create a new feedback response
   @Post()
   @UseGuards(JwtAuthGuard)
+  @ApiConsumes("multipart/form-data")
+  @UploadFile("attachments", { folder: "forms-attachments", multiple: true })
   async create(
+    @UploadedFiles() attachments: Array<Express.Multer.File>,
     @Req() req,
-    @Body() createFeedbackResponseDto: CreateFeedbackResponseDto
+    @Body() body: any
   ) {
-    return await apiWrapper(()=>this.feedbackResponseService.createResponse(
-      createFeedbackResponseDto,
-      req?.user?.id
-    ));
+    req.on("error", (err) => {
+      console.error("Stream error:", err); // <- Catch hidden stream errors
+    });
+    // Optional: Log attachment info
+    console.log(attachments, req.body, "attachments");
+    const urls =
+      attachments?.map(
+        (file) => `/uploads/forms-attachments/${file.filename}`
+      ) ?? [];
+    return await apiWrapper(() =>
+      this.feedbackResponseService.createResponse(
+        parseNestedFormData(body),
+        req?.user?.id,
+        urls
+      )
+    );
   }
 
   // Get all feedback responses for a specific form
@@ -77,7 +98,10 @@ export class FeedbackResponseController {
   // }
 
   @Patch(":id/:type")
-  async acceptFeedback(@Param("id") id: string, @Param("type") type: "accept"|"reject") {
+  async acceptFeedback(
+    @Param("id") id: string,
+    @Param("type") type: "accept" | "reject"
+  ) {
     return this.feedbackResponseService.acceptFeedback(id, type);
   }
 

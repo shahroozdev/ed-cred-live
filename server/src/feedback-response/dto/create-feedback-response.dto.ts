@@ -61,19 +61,19 @@ class FeedbackDetailDto {
 }
 
 class FeedbackAnswerDto {
-  @IsNumber()
-  questionId: number;
+  @IsString()
+  questionId: string;
 
   @IsString()
-  question:string;
+  question: string;
 
   @IsOptional()
   answer: string | string[] | boolean | number;
 }
 
 export class CreateFeedbackResponseDto {
-  @IsNumber()
-  feedbackFormId: number;
+  @IsString()
+  feedbackFormId: string;
 
   @IsObject()
   @ValidateNested()
@@ -88,4 +88,8 @@ export class CreateFeedbackResponseDto {
   @IsOptional()
   @IsString()
   comments?: string;
+  
+  @IsArray()
+  @IsOptional()
+  attachments?: any[];
 }

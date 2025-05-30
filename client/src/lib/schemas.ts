@@ -73,10 +73,20 @@ export const GeneralFormSchema = z.object({
   }),
   questions: z.array(QuestionFormSchema),
 });
-
+export const imageSchema = z
+  .any()
+  .refine((file) => file instanceof File, {
+    message: "File is required",
+  })
+  .refine((file) => file?.type?.startsWith("image/"), {
+    message: "Only image files are allowed",
+  })
+  .refine((file) => file?.size <= 2 * 1024 * 1024, {
+    message: "Max file size is 2MB",
+  });
 export const feedbackCreateResponseSchema = (feedback: Record<string, any>) => {
-  const detailsFields = Object.keys(feedback.details).filter(
-    (key) => feedback.details[key]
+  const detailsFields = Object.keys(feedback?.details).filter(
+    (key) => feedback?.details[key]
   );
   return z.object({
     details: z.object(
@@ -98,6 +108,7 @@ export const feedbackCreateResponseSchema = (feedback: Record<string, any>) => {
         })
       )
       .min(feedback.questions.length, "All questions must be answered."),
-      comment:z.string()
+      comments:z.string(),
+      attachments:z.any().optional()
   });
 };

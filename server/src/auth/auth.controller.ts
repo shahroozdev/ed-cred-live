@@ -10,25 +10,24 @@ import {
   UseInterceptors,
   BadRequestException,
   Query,
-  NotFoundException,
   Param,
   Res,
   HttpStatus,
+  Put,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
-import { extname, join } from "path";
-import { Roles } from "src/decorators/roles.decorator";
+import { Roles } from "../decorators/roles.decorator";
 import { UserRole } from "types/user";
-import { RolesGuard } from "src/guards/roles.guard";
-import { apiWrapper } from "src/decorators/globalErrorHandlerClass";
+import { RolesGuard } from "../guards/roles.guard";
+import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { response } from "types";
 import { User } from "./user.entity";
 import { CreateUserDto, LoginUserDto } from "./dto";
 import { Response } from "express";
-import { UploadFile } from "src/decorators/upload-file-decorator";
+import { ApiConsumes } from "@nestjs/swagger";
+import { UploadFile } from "../decorators/upload-file-decorator";
+import { ApiCustomResponse } from "src/decorators/api-decorator";
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -95,16 +94,19 @@ export class AuthController {
   }
 
   @Post("upload-verification")
-  @UploadFile("file","verification-documents")
+  @UseGuards(JwtAuthGuard)
+  @ApiConsumes("multipart/form-data")
+  @ApiCustomResponse("uploadVerificationDocument")
+  @UploadFile("file", { folder: "verification-documents" })
   async uploadVerification(
     @UploadedFile() file: Express.Multer.File,
-    @Body("userId") userId: number
+    @Req() req
   ) {
     const url = file
       ? `/uploads/verification-documents/${file?.filename}`
       : null;
-    return apiWrapper(() =>
-      this.authService.saveVerificationDocument(userId, url)
+    return await apiWrapper(() =>
+      this.authService.saveVerificationDocument(req?.user?.id, url)
     );
   }
 
@@ -143,5 +145,17 @@ export class AuthController {
     //     throw new NotFoundException('Invalid or expired token');
     // }
     // return { message: 'Email verified successfully' };
+  }
+
+  @Put("/profile")
+  @UseGuards(JwtAuthGuard)
+  @UploadFile("file", { folder: "profile-images" })
+  async updateProfile( @UploadedFile() file: Express.Multer.File,@Req() req, updateProfileDto: any) {
+        const url = file
+      ? `/uploads/profile-images/${file?.filename}`
+      : null;
+    return await apiWrapper(() =>
+      this.authService.updateProfile(req.user.id, updateProfileDto, url)
+    );
   }
 }

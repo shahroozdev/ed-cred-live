@@ -7,8 +7,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Subcategory } from 'src/subcategory/subcategory.entity';
-import { MailModule } from 'src/mail/mail.module';
+import { Subcategory } from '../subcategory/subcategory.entity';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
     imports: [

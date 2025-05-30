@@ -18,9 +18,9 @@ const inter = Geist({
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning >
       <body
-        className={`${inter.variable} antialiased max-w-screen min-w-screen w-full overflow-x-hidden bg-background relative`}
+        className={`${inter.variable} antialiased min-h-screen w-screen overflow-x-hidden bg-background relative`}
         suppressHydrationWarning
       >
         <ThemeProvider
@@ -29,7 +29,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider>{children}</SidebarProvider>
+          <SidebarProvider>
+            {children}
+            </SidebarProvider>
         </ThemeProvider>
         <Toaster />
       </body>

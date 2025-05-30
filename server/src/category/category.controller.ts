@@ -10,10 +10,10 @@ import {
 import { CategoryService } from "./category.service";
 import { Category } from "./category.entity";
 import { CreateCategoryDto } from "./dto";
-import { apiWrapper } from "src/decorators/globalErrorHandlerClass";
+import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { response } from "types";
-import { ApiCustomResponse } from "src/decorators/api-decorator";
-import { GetCategoryFilter } from "./types";
+import { ApiCustomResponse } from "../decorators/api-decorator";
+
 
 @Controller("category")
 export class CategoryController {

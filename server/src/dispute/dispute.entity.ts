@@ -6,8 +6,8 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { User } from 'src/auth/user.entity';
-import { FeedbackResponse } from 'src/feedback-response/entities/feedback-response.entity';
+import { User } from '../auth/user.entity';
+import { FeedbackResponse } from '../feedback-response/entities/feedback-response.entity';
 
 @Entity()
 export class Dispute {
