@@ -7,7 +7,6 @@ import { adminForumColumn } from "@/data/tableColumns";
 
 const ForumPage = async() => {
     const data = await getServerSideDataWithFeatures({url:'/forum-question', key:'forumList'})
-    console.log(data)
   return (
     <TitleWrapper title="All Forums">
       <AskQuestionCard />

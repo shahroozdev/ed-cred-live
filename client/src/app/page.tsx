@@ -5,6 +5,7 @@ import { About, Categories, Feedbacks, Discussions, Header } from "@/components/
 
 const HomePage = async() => {
     const user = await getServerSideDataWithFeatures({url:'/auth/profile', key:'profile'})
+    const data = await getServerSideDataWithFeatures({url:'/forum-question?pageSize=3', key:'forumList'})
   return (
     <div className="w-screen min-h-screen bg-background relative">
       <Navbar user={user}/>
@@ -13,7 +14,7 @@ const HomePage = async() => {
       <About />
       {/* <Metrics /> */}
       <Feedbacks />
-      <Discussions />
+      <Discussions data={data}/>
       <Footer />
     </div>
   );

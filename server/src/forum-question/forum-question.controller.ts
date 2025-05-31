@@ -29,7 +29,7 @@ export class ForumQuestionController {
   @UploadFile("featuredImage", { folder: "forum-images" })
   async create(@UploadedFile() featredImage: Express.Multer.File,@Req() req, @Body() createForumQuestionDto: CreateForumQuestionDto) {
         const url = featredImage
-      ? `/uploads/verification-documents/${featredImage?.filename}`
+      ? `/uploads/forum-images/${featredImage?.filename}`
       : null;
     return await apiWrapper(() =>
       this.forumQuestionService.create(createForumQuestionDto, req.user.id, url)
