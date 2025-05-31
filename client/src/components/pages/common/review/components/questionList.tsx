@@ -14,11 +14,11 @@ const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {
     if (feedback?.questions) {
       feedback?.questions.forEach((q: any) => {
         if (!fields.find((f: any) => f.questionId === q.id)) {
-          append({ questionId: q.id, answer: "", question: q?.text });
+          append({ questionId: q?.id, answer: "", question: q?.text });
         }
       });
     }
-  }, [feedback?.questions]);
+  }, [feedback?.questions?.length]);
   console.log(feedback, 'feedback')
   return (
     <>
