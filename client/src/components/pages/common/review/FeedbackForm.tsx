@@ -7,7 +7,6 @@ import QuestionList from "./components/questionList";
 import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import { feedbackCreateResponseSchema } from "@/lib/schemas";
 import { useMutate } from "@/hooks/generalHooks";
-import { Input } from "@/components/ui/input";
 import { ChangeEvent } from "react";
 import UploadFiles from "@/components/atoms/uploadFiles";
 
@@ -58,7 +57,12 @@ const FeedbackForm = ({ feedback }: { feedback: Record<string, any> }) => {
             acc[crr] = "";
             return acc;
           }, {}),
-        answers: [],
+        answers:
+          feedback?.questions?.map((q: any) => ({
+            questionId: q.id,
+            question: q.text,
+            answer: "",
+          })) ?? [],
         comments: "",
         attachments: [],
       }}
@@ -106,7 +110,7 @@ const FeedbackForm = ({ feedback }: { feedback: Record<string, any> }) => {
           />
         )}
       </FormFeilds> */}
-      <UploadFiles/>
+      <UploadFiles />
       {/* AI Review Warning */}
       <div
         className={cn(
@@ -138,8 +142,8 @@ const FeedbackForm = ({ feedback }: { feedback: Record<string, any> }) => {
         rejected and not published. Any uploaded documents will be securely
         stored for verification purposes only, not posted publicly, and will be
         transferred to an external hard drive for protection. By uploading
-        documents, you grant Ed-Cred permission to view your name or your
-        child{"’"}s name solely for verification purposes. All other student names
+        documents, you grant Ed-Cred permission to view your name or your child
+        {"’"}s name solely for verification purposes. All other student names
         must be redacted to maintain confidentiality.
       </div>
 

@@ -10,16 +10,16 @@ const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {
   const { fields, append } = useFieldArray({
     name: "answers",
   });
-  useEffect(() => {
-    if (feedback?.questions) {
-      feedback?.questions.forEach((q: any) => {
-        if (!fields.find((f: any) => f.questionId === q.id)) {
-          append({ questionId: q?.id, answer: "", question: q?.text });
-        }
-      });
-    }
-  }, [feedback?.questions?.length]);
-  console.log(feedback, 'feedback')
+  // useEffect(() => {
+  //   if (feedback?.questions) {
+  //     feedback?.questions.forEach((q: any) => {
+  //       if (!fields.find((f: any) => f.questionId === q.id)) {
+  //         append({ questionId: q?.id, answer: "", question: q?.text });
+  //       }
+  //     });
+  //   }
+  // }, [feedback?.questions?.length]);
+  // console.log(feedback, 'feedback')
   return (
     <>
       {fields.map((field: any, index: number) => {
