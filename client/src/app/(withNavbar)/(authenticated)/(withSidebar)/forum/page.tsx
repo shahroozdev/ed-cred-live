@@ -1,26 +1,18 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
 import { AskQuestionCard } from "@/components/Forum/AskQuestionCard";
-import { RecentQuestions } from "@/components/Forum/RecentQuestions";
-import TableWithFilter from "@/components/molecules/tableWithFilters";
-import { adminForumColumn } from "@/data/tableColumns";
+import ViewALLForums from "@/components/pages/admin/forum/viewAll";
 
-const ForumPage = async() => {
-    const data = await getServerSideDataWithFeatures({url:'/forum-question', key:'forumList'})
+
+const ForumPage = async () => {
+  const data = await getServerSideDataWithFeatures({
+    url: "/forum-question",
+    key: "forumList",
+  });
   return (
     <TitleWrapper title="All Forums">
       <AskQuestionCard />
-      <TableWithFilter
-        noFilter
-        title="Forum List"
-        tableData={data?.forums}
-        tableColumn={adminForumColumn}
-        tablePagination={true}
-        // searchBar
-        total={data?.total}
-        currentPage={data?.currentPage}
-        pageSize={data?.pageSize}
-      />
+      <ViewALLForums data={data} />
     </TitleWrapper>
   );
 };

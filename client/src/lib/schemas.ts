@@ -126,3 +126,7 @@ export const ForumSchema = z.object({
       message: "Only image files are allowed",
     }),
 });
+
+export const replySchema = z.object({
+  text:z.string().min(5, "Minimum 5 Charters Required.")
+})

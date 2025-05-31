@@ -100,7 +100,7 @@ export const useMutate = () => {
         await removeCookie("user");
         await removeCookie("token");
         router.push("/login");
-        toast.error("Ypur Session is expired now. Please login again.");
+        toast.error("Your Session is expired now. Please login again.");
       } else {
         toast.error(res?.message || "Something went wrong");
       }

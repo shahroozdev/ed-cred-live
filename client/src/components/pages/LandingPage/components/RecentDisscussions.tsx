@@ -1,3 +1,4 @@
+import HTMLContent from "@/components/atoms/htmlContent";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +19,7 @@ const Card = ({ title, featureImageUrl, text, id }: any) => {
       <div className="text-xl font-[600] line-clamp-2 min-h-[55px] px-2">
         {title}
       </div>
-      <div className="font-[400] line-clamp-5 px-2">{text}</div>
+      <HTMLContent value={text} className="line-clamp-5 !px-2 !py-0 !overflow-y-hidden" />
       <Link
         href={`/forum/questions/${id}`}
         className="group flex gap-2 px-2 py-2 rounded-md transition-all duration-300 ease-in-out bg-[#439e5e] border-[1px] border-[#439e5e] hover:bg-background hover:text-[#439e5e]  text-white"

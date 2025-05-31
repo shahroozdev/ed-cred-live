@@ -81,11 +81,11 @@ export class AuthService {
       where: [{ email: identifier }, { username: identifier }],
     });
 
-    if (!user) throw new UnauthorizedException("Invalid credentials");
+    if (!user) throw new BadRequestException("Invalid credentials");
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid)
-      throw new UnauthorizedException("Invalid credentials");
+      throw new BadRequestException("Invalid credentials");
 
     // Sign the JWT claims
     const token = this.jwtService.sign({

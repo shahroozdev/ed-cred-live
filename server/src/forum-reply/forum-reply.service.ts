@@ -5,6 +5,7 @@ import { ForumReply } from './entities/forum-reply.entity';
 import { CreateForumReplyDto } from './dto/create-forum-reply.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { ForumQuestion } from 'src/forum-question/entities/forum-question.entity';
+import { response } from 'types';
 
 @Injectable()
 export class ForumReplyService {
@@ -18,14 +19,17 @@ export class ForumReplyService {
         private readonly authService: AuthService,
     ) {}
 
-    async create(createForumReplyDto: CreateForumReplyDto): Promise<ForumReply> {
-        const { authorId, questionId, text } = createForumReplyDto;
+    async create(createForumReplyDto: CreateForumReplyDto, authorId:number): Promise<response> {
+        const {questionId, text } = createForumReplyDto;
 
         if (!text) {
             throw new BadRequestException('Reply text cannot be empty!');
         }
 
         const author = await this.authService.findUserById(authorId);
+        if (!author) {
+            throw new NotFoundException(`User with id ${questionId} not found`);
+        }
         const question = await this.forumQuestionRepository.findOne({ where: { id: questionId } });
 
         if (!question) {
@@ -39,7 +43,8 @@ export class ForumReplyService {
             createdAt: new Date(),
         });
 
-        return await this.forumReplyRepository.save(forumReply);
+        await this.forumReplyRepository.save(forumReply);
+        return {status:200, message:'Comment Sent Successfully.'}
     }
 
     async findAll(): Promise<ForumReply[]> {

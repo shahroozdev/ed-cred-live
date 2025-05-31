@@ -1,90 +1,28 @@
-"use client";
-import { API_BASE_URL } from "@/api/config";
-import { useRouter } from "next/navigation";
-import { useEffect, use, useState } from "react";
-import { Separator } from "@/components/ui/separator";
-import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { getProfile } from "@/api/auth";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
-import Image from "next/image";
+import ForumDetailComponent from "@/components/pages/admin/forum/detail";
 
-interface Reply {
-  id: number;
-  text: string;
-  author: { username: string };
-  createdAt: Date;
-}
 
-interface Question {
-  id: number;
-  title: string;
-  text: string;
-  author: { username: string };
-  replies: Reply[];
-  createdAt: Date;
-}
 
-export default function PostPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = use(params);
-  const [question, setQuestion] = useState<Question>();
-  const [answer, setAnswer] = useState<string>("");
 
-  const router = useRouter();
-  const getQuestion = async () => {
-    const response = await fetch(`${API_BASE_URL}/forum-question/${id}`);
-    const body = await response.json();
-    if (!response.ok) {
-      router.push("/not-found");
-      return;
-    }
-    setQuestion(body);
-  };
-
-  useEffect(() => {
-    getQuestion();
-  }, [id]);
-
-  const reply = async () => {
-    if (answer === "") return;
-    const user = await getProfile();
-    const response = await fetch(`${API_BASE_URL}/forum-reply`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        text: answer,
-        questionId: question?.id,
-        authorId: user.id,
-      }),
-    });
-
-    const body = await response.json();
-    if (!response.ok) {
-      toast("Something went wrong", body.message);
-      return;
-    }
-
-    toast("Reply sumbitted!", body.message);
-    getQuestion();
-    setAnswer("");
-  };
-
+export default async function PostPage({params}: {params: Promise<{ id: string }>}) {
+  const {id} = await params;
+  const question = await getServerSideDataWithFeatures({url:`/forum-question/${id}`, key:'forumDetail'})
+    console.log(question)
   return (
     <TitleWrapper title={"Form Detail"}>
-      <div className="max-w-2xl mx-auto mt-10">
+        <ForumDetailComponent question={question}/>
+      {/* <div className="max-w-2xl mx-auto mt-10">
         <div className="w-full min-h-[400px] h-[400px] max-h-[400px]">
           <Image
-            src={process.env.BASE_URL||""}
+            src={"/images/no-image.png"}
             width={500}
             height={200}
-            alt={question?.title||""}
+            alt={question?.title || ""}
             className="w-full h-full rounded-3xl"
+            onError={(event: any) => {
+              event.target.srcset = "/images/no-image.png";
+            }}
           />
         </div>
         <div className="font-semibold text-3xl">{question?.title}</div>
@@ -146,7 +84,7 @@ export default function PostPage({
             <Button disabled={answer === ""}>answer</Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </TitleWrapper>
   );
 }

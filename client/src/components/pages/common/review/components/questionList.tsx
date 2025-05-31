@@ -1,4 +1,5 @@
-import { FormFeilds, QuestionInput, RatingInput } from "@/components/atoms";
+"use client"
+import { FormFeilds, RatingInput } from "@/components/atoms";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,14 +11,15 @@ const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {
     name: "answers",
   });
   useEffect(() => {
-    if (feedback.questions) {
-      feedback.questions.forEach((q: any) => {
+    if (feedback?.questions) {
+      feedback?.questions.forEach((q: any) => {
         if (!fields.find((f: any) => f.questionId === q.id)) {
           append({ questionId: q.id, answer: "", question: q?.text });
         }
       });
     }
-  }, [feedback.questions]);
+  }, [feedback?.questions]);
+  console.log(feedback, 'feedback')
   return (
     <>
       {fields.map((field: any, index: number) => {

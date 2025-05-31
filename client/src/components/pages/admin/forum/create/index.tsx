@@ -1,6 +1,7 @@
 "use client";
 import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import UploadFilePreview from "@/components/atoms/uploadAndPreview";
+import QuillEditor from "@/components/molecules/editor";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutate } from "@/hooks/generalHooks";
@@ -23,7 +24,7 @@ const CreateForum = () => {
         {(field) => <Input {...field} onChange={field.onChange} />}
       </FormFeilds>
       <FormFeilds fieldProps={{ name: "text" }} label={{ text: "Question" }}>
-        {(field) => <Textarea {...field} onChange={field.onChange} />}
+        {(field) => <QuillEditor value={field.value}  onChange={field.onChange}  className="w-full mb-10" />}
       </FormFeilds>
       <UploadFilePreview inputName={"featuredImage"} label={"Featured Image"}/>
       <Button

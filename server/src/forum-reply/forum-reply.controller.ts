@@ -1,14 +1,17 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { ForumReplyService } from './forum-reply.service';
 import { CreateForumReplyDto } from './dto/create-forum-reply.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
 
 @Controller('forum-reply')
 export class ForumReplyController {
     constructor(private readonly forumReplyService: ForumReplyService) {}
 
     @Post()
-    create(@Body() createForumReplyDto: CreateForumReplyDto) {
-        return this.forumReplyService.create(createForumReplyDto);
+    @UseGuards(JwtAuthGuard)
+    async create(@Req() req, @Body() createForumReplyDto: CreateForumReplyDto) {
+        return apiWrapper(()=>this.forumReplyService.create(createForumReplyDto, req.user.id));
     }
 
     @Get()

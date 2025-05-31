@@ -38,7 +38,7 @@ const SignupPage = () => {
           <input
             {...register("email")}
             className="w-full p-3 border rounded-md"
-            placeholder="haseeb@high-house.com"
+            placeholder="abc@xyz.com"
           />
           {errors.email && (
             <p className="text-red-600">{errors.email.message}</p>
@@ -50,7 +50,7 @@ const SignupPage = () => {
           <input
             {...register("username")}
             className="w-full p-3 border rounded-md"
-            placeholder="Haseeb Khalid"
+            placeholder="John etc."
           />
           {errors.username && (
             <p className="text-red-600">{errors.username.message}</p>

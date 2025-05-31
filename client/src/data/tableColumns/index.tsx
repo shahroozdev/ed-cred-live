@@ -1,5 +1,6 @@
 "use client";
 import { Button, IconButton } from "@/components/atoms";
+import HTMLContent from "@/components/atoms/htmlContent";
 import { ChangeCategoryModal } from "@/components/molecules";
 import ConfirmationDeleteModal from "@/components/molecules/confirmationModal/deleteModal";
 import VerifyUserCard from "@/components/pages/admin/users/components/verifyUserCard";
@@ -60,7 +61,9 @@ export const action = ({
               <span
                 title={"Delete"}
                 onClick={() =>
-                  setQuestionsList((prev) => prev.filter((_) => _?.text !== data?.text))
+                  setQuestionsList((prev) =>
+                    prev.filter((_) => _?.text !== data?.text)
+                  )
                 }
               >
                 <Trash2 size={20} />
@@ -182,7 +185,7 @@ const customColummn = (values: {
   width?: number;
   showExtraNode?: boolean;
   type?: string;
-  ellipses?:boolean;
+  ellipses?: boolean;
 }) => {
   return {
     accessorKey: values?.key,
@@ -203,9 +206,9 @@ const customColummn = (values: {
         : null;
       return (
         <div
-          className={`flex gap-3 items-center ${values?.ellipses && "line-clamp-2"}${
-            values.showExtraNode && "cursor-pointer"
-          }`}
+          className={`flex gap-3 items-center ${
+            values?.ellipses && "line-clamp-2"
+          }${values.showExtraNode && "cursor-pointer"}`}
         >
           {values?.children && values?.children}
           {values.avatar && (
@@ -223,8 +226,13 @@ const customColummn = (values: {
             <>{value?.length}</>
           ) : values.key === "featured" ? (
             <>{row.original.featured ? "Yes" : "No"}</>
-          ) : values.key === "description"|| values.key === "text" ? (
-            <p className="line-clamp-2">{value}</p>
+          ) : values.key === "description" ? (
+            <p className="!line-clamp-2 ">{value}</p>
+          ) : values.key === "text" ? (
+            <HTMLContent
+              value={value}
+              className="line-clamp-2 !overflow-hidden !p-0"
+            />
           ) : values.key === "isDraft" ? (
             <p
               className={`${
@@ -413,18 +421,13 @@ export const adminQuestionColumn = [
   customColummn({ key: "type", label: "Question Type" }),
 ];
 export const adminForumColumn = [
-  customColummn({ key: "title", label: "Title" }),
-  customColummn({ key: "text", label: "Question" , ellipses:true}),
-    customColummn({
-    key: "createdAt",
-    label: "Created At",
-    type: "date",
-    width: 150,
-  }),
+  customColummn({ key: "title", label: "Title", width:200 }),
+  customColummn({ key: "text", label: "Question", ellipses: true }),
+  customColummn({  key: "createdAt",  label: "Created At",  type: "date"}),
   action({
     deleteBtn: true,
     deleteBtnLink: "/feedback-question",
     deleteModalText: "Want To Delete This Forum?",
-    key:"forumList"
+    key: "forumList",
   }),
 ];
