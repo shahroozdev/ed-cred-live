@@ -5,6 +5,7 @@ import { ForumQuestion } from './entities/forum-question.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthService } from '../auth/auth.service';
+import { response } from 'types';
 
 @Injectable()
 export class ForumQuestionService {
@@ -18,24 +19,22 @@ export class ForumQuestionService {
         private authService: AuthService,
     ) {}
 
-    async create(createForumQuestionDto: CreateForumQuestionDto): Promise<ForumQuestion> {
-        // Find the user from the `usersRepository` who asked the question
-        // based on their id. We have the id on the client side and must 
-        // be sent with every create request.
-        // If the user is not found, it is handled within the `authService`.
-        const user = await this.authService.findUserById(createForumQuestionDto.authorId);
-        if (!createForumQuestionDto.text || !createForumQuestionDto.title) {
+    async create(createForumQuestionDto: CreateForumQuestionDto, authorId:number, url:string): Promise<response> {
+        const user = await this.authService.findUserById(authorId);
+        if (!user) {
             console.log(createForumQuestionDto);
-            throw new BadRequestException(`the question title and text can not be null!`);
+            throw new BadRequestException(`User Not found.`);
         }
         const forumQuestion = this.forumQuestionRepository.create({
             text: createForumQuestionDto.text,
             title: createForumQuestionDto.title,
+            featureImageUrl:url,
             author: user,
-            createdAt: new Date(),
         });
 
-        return await this.forumQuestionRepository.save(forumQuestion);
+        const forum= await this.forumQuestionRepository.save(forumQuestion);
+
+        return {status:200, message:"Forum Created Successfully."}
     }
 
     // Returns all the questions in the `repository` along with their author names.

@@ -11,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { SwitchInput, TitleInput } from "../FeedbackElements";
-import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { ArrowUpFromLineIcon, ChevronDownIcon } from "lucide-react";
 import { Button, CategorySelect, SubCategorySelect } from "@/components/atoms";
@@ -90,6 +89,15 @@ const FeedbackForm = () => {
         </form>
       </Form>
       <AddQuestion setQuestionsList={setQuestionsList} />
+      <Button
+        icon={<ArrowUpFromLineIcon />}
+        variant={"primary"}
+        className="w-full font-normal"
+        type="submit"
+        loading={isPending}
+      >
+        Publish Feedback
+      </Button>
       <QuestionsList
         questionsList={questionsList}
         setQuestionsList={setQuestionsList}
@@ -158,15 +166,6 @@ const MetaDataInput = ({
           )}
         />
         <SwitchInput form={form} />
-        <Button
-          icon={<ArrowUpFromLineIcon />}
-          variant={"primary"}
-          className="w-full font-normal"
-          type="submit"
-          loading={loading}
-        >
-          Publish Feedback
-        </Button>
       </div>
     </div>
   );

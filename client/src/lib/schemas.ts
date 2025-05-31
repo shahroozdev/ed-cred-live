@@ -112,3 +112,17 @@ export const feedbackCreateResponseSchema = (feedback: Record<string, any>) => {
       attachments:z.any().optional()
   });
 };
+
+
+export const ForumSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }),
+  text: z.string().min(1, { message: "Text is required" }),
+  featuredImage: z
+    .any()
+    .refine((file) => file instanceof File, {
+      message: "Image file is required",
+    })
+    .refine((file) => file?.type?.startsWith("image/"), {
+      message: "Only image files are allowed",
+    }),
+});

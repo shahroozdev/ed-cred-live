@@ -13,6 +13,9 @@ export class ForumQuestion {
     @Column()
     text: string;
 
+    @Column({nullable:true})
+    featureImageUrl: string;
+
     @CreateDateColumn()
     createdAt: Date;
 

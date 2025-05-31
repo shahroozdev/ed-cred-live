@@ -6,6 +6,7 @@ import { getProfile } from "@/api/auth";
 import { API_BASE_URL } from "@/api/config";
 import { useRouter } from "next/navigation";
 import { TitleWrapper } from "@/components/atoms";
+import CreateForum from "@/components/pages/admin/forum/create";
 
 export default function CreateForumQuestionPage() {
   const [title, setTitle] = useState("");
@@ -59,7 +60,8 @@ export default function CreateForumQuestionPage() {
       title="Ask a Question"
       desc="Note that the questions you ask will be publically visible under your name! Kindly Don't ask irrelevant or inappropriate questions."
     >
-      <div className="outline-muted _outline-2 mx-auto my-auto mt-10 flex h-full max-w-2xl flex-col gap-2 rounded-md p-4">
+      <CreateForum/>
+      {/* <div className="outline-muted _outline-2 mx-auto my-auto mt-10 flex h-full max-w-2xl flex-col gap-2 rounded-md p-4">
         <input
           placeholder="question title"
           className="outline-muted focus:bg-muted focus:outline-muted-foreground rounded-md px-3 py-2 text-base outline-2"
@@ -79,7 +81,7 @@ export default function CreateForumQuestionPage() {
         <div className="mt-2 self-end">
           <Button onClick={handleSubmit}>Post Question</Button>
         </div>
-      </div>
+      </div> */}
     </TitleWrapper>
   );
 }

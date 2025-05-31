@@ -166,7 +166,7 @@ const AddQuestion = ({
         <div className="">
           {questionType === "multiple_choice" ? (
             <MultipleChoiceInput form={form} />
-          ):questionType === "rating" ? (<></>
+          ):(questionType === "rating" || questionType === "open_ended") ? (<></>
           ):<div className="flex flex-col gap-2">
               <FormField
                 control={form.control}

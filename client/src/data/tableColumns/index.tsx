@@ -5,6 +5,7 @@ import ConfirmationDeleteModal from "@/components/molecules/confirmationModal/de
 import VerifyUserCard from "@/components/pages/admin/users/components/verifyUserCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { Question } from "@/types";
 import dayjs from "dayjs";
 import {
   Check,
@@ -15,7 +16,7 @@ import {
   UserCheck,
   X,
 } from "lucide-react";
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export const action = ({
   edit,
@@ -29,6 +30,8 @@ export const action = ({
   verifyDocument,
   accept,
   reject,
+  children,
+  setQuestionsList,
 }: {
   edit?: boolean;
   deleteBtn?: boolean;
@@ -41,6 +44,8 @@ export const action = ({
   verifyDocument?: boolean;
   accept?: boolean;
   reject?: boolean;
+  children?: ReactNode;
+  setQuestionsList?: Dispatch<SetStateAction<Question[] | []>>;
 }) => {
   return {
     accessorKey: "actions",
@@ -50,6 +55,19 @@ export const action = ({
       const data = row.original;
       return (
         <div className="flex gap-1">
+          {setQuestionsList && (
+            <IconButton bgColor="red" className="cursor-pointer text-white">
+              <span
+                title={"Delete"}
+                onClick={() =>
+                  setQuestionsList((prev) => prev.filter((_) => _?.text !== data?.text))
+                }
+              >
+                <Trash2 size={20} />
+              </span>
+            </IconButton>
+          )}
+          {children && children}
           {btnText && (
             <Button rounded={8} variant="primary">
               {btnText}
@@ -87,7 +105,7 @@ export const action = ({
             <ConfirmationDeleteModal
               text={"Want to Reject This Response."}
               url={`/feedback-responses/${data?.id}/reject`}
-               type="PATCH"
+              type="PATCH"
               qkey={key}
             >
               <IconButton
@@ -375,7 +393,7 @@ export const feedbacksResponsesColumn = [
     width: 200,
   }),
   customColummn({ key: "questions", label: "Question", width: 100 }),
-  customColummn({ key: "accepted", label: "Status" , width: 120 }),
+  customColummn({ key: "accepted", label: "Status", width: 120 }),
   customColummn({
     key: "submittedAt",
     label: "Created At",
@@ -387,4 +405,9 @@ export const feedbacksResponsesColumn = [
     edit: true,
     reject: true,
   }),
+];
+
+export const adminQuestionColumn = [
+  customColummn({ key: "text", label: "Question", width: 300 }),
+  customColummn({ key: "type", label: "Question Type" }),
 ];

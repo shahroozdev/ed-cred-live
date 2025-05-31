@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { GeneralFormSchema, QuestionFormSchema } from "@/lib/schemas";
+import { detailHeading } from "@/data/constant";
 
 export const TitleInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
     return (
@@ -54,7 +55,7 @@ export const SwitchInput = ({ form }: {form: UseFormReturn<z.infer<typeof Genera
                         name={`details.${detail}` as any}
                         render={({ field }) => (
                             <FormItem className="flex items-center justify-between">
-                                <Label className="capitalize">{detail}</Label>
+                                <Label className="capitalize">{detailHeading[detail]}</Label>
                                 <FormControl>
                                     <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
