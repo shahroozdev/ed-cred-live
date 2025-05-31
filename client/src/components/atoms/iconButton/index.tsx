@@ -16,7 +16,7 @@ const IconButton = ({
     <div
       className={cn(
         circle ? "rounded-full" : "rounded-[8px]",
-        "w-8 h-8 flex justify-center items-center",
+        "w-8 h-8 flex justify-center items-center cursor-pointer",
         className
       )}
       style={{ backgroundColor: bgColor }}

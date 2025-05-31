@@ -9,6 +9,7 @@ import {
   UseGuards,
   UploadedFile,
   Req,
+  Query,
 } from "@nestjs/common";
 import { ForumQuestionService } from "./forum-question.service";
 import { CreateForumQuestionDto } from "./dto/create-forum-question.dto";
@@ -36,8 +37,8 @@ export class ForumQuestionController {
   }
 
   @Get()
-  findAll() {
-    return this.forumQuestionService.findAll();
+  findAll(@Query() query?: Record<string, any>) {
+    return this.forumQuestionService.findAll(query);
   }
 
   @Get(":id")
@@ -54,7 +55,7 @@ export class ForumQuestionController {
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.forumQuestionService.removeQuestion(+id);
+ async remove(@Param("id") id: string) {
+    return await apiWrapper(() => this.forumQuestionService.removeQuestion(+id));
   }
 }

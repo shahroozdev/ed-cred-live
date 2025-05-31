@@ -11,7 +11,7 @@ export const AskQuestionCard = () => {
     return(
         <div 
             style={{ display: close ? "none" : "flex" }}
-            className="outline-2 outline-primary p-4 rounded-md max-w-2xl flex flex-col mx-auto mt-10 relative"
+            className="outline-2 outline-primary p-4 rounded-md w-full flex flex-col relative mb-4"
         >
             <XIcon className="absolute right-4 top-4" onClick={() => setClose(true)} />
             <div className="text-3xl font-semibold mt-4">Want to ask a question?</div>

@@ -182,6 +182,7 @@ const customColummn = (values: {
   width?: number;
   showExtraNode?: boolean;
   type?: string;
+  ellipses?:boolean;
 }) => {
   return {
     accessorKey: values?.key,
@@ -202,7 +203,7 @@ const customColummn = (values: {
         : null;
       return (
         <div
-          className={`flex gap-3 items-center ${
+          className={`flex gap-3 items-center ${values?.ellipses && "line-clamp-2"}${
             values.showExtraNode && "cursor-pointer"
           }`}
         >
@@ -222,7 +223,7 @@ const customColummn = (values: {
             <>{value?.length}</>
           ) : values.key === "featured" ? (
             <>{row.original.featured ? "Yes" : "No"}</>
-          ) : values.key === "description" ? (
+          ) : values.key === "description"|| values.key === "text" ? (
             <p className="line-clamp-2">{value}</p>
           ) : values.key === "isDraft" ? (
             <p
@@ -410,4 +411,20 @@ export const feedbacksResponsesColumn = [
 export const adminQuestionColumn = [
   customColummn({ key: "text", label: "Question", width: 300 }),
   customColummn({ key: "type", label: "Question Type" }),
+];
+export const adminForumColumn = [
+  customColummn({ key: "title", label: "Title" }),
+  customColummn({ key: "text", label: "Question" , ellipses:true}),
+    customColummn({
+    key: "createdAt",
+    label: "Created At",
+    type: "date",
+    width: 150,
+  }),
+  action({
+    deleteBtn: true,
+    deleteBtnLink: "/feedback-question",
+    deleteModalText: "Want To Delete This Forum?",
+    key:"forumList"
+  }),
 ];
