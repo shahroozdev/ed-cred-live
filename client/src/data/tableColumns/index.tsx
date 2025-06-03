@@ -204,6 +204,7 @@ const customColummn = (values: {
       const extra = values.extra
         ? getNestedValue(row.original, values.extra)
         : null;
+      const status ={"Accepted":"", "Rejected":"", "Pending":""}
       return (
         <div
           className={`flex gap-3 items-center ${
@@ -254,12 +255,13 @@ const customColummn = (values: {
           ) : values.key === "accepted" ? (
             <p
               className={`${
-                row?.original?.accepted
+                row?.original?.status ==="Accepted"
                   ? "text-green-500 bg-green-300"
-                  : "text-red-500 bg-red-300"
+                  : row?.original?.status ==="Rejected"? "text-red-500 bg-red-300"
+                  :"text-orange-500 bg-orange-300"
               } rounded-4xl px-2 py-1`}
             >
-              {row?.original?.accepted ? "Accepted" : "Rejected"}
+              {row?.original?.status}
             </p>
           ) : (
             <div>

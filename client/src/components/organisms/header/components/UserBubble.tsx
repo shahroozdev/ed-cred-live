@@ -1,3 +1,4 @@
+'use client'
 import { removeCookie } from "@/actions/serverActions";
 import {
   DropdownMenu,
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { UserProfile } from "@/types/user";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export const UserBubble = ({ user }: { user: UserProfile }) => {
@@ -24,8 +26,18 @@ export const UserBubble = ({ user }: { user: UserProfile }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex items-center justify-center gap-4 hover:bg-muted-foreground/10 transition-colors px-3 rounded-md py-1">
-          <div className="w-8 h-8 bg-muted-foreground text-white font-semibold rounded-full flex items-center justify-center">
-            {user?.name?.slice(0, 2)}
+          <div suppressHydrationWarning className="w-8 h-8 bg-muted-foreground text-white font-semibold rounded-full flex items-center justify-center">
+            {user?.profilePictureUrl ? (
+              <Image
+                src={process.env.BASE_URL + user?.profilePictureUrl}
+                width={500}
+                height={500}
+                alt={`${user?.name} | ED-Cred`}
+                className="w-full h-full rounded-full"
+              />
+            ) : (
+              user?.name?.slice(0, 2)
+            )}
           </div>
           <div className="capitalize text-base">{user?.name?.split(" ")}</div>
         </button>
@@ -43,13 +55,21 @@ export const UserBubble = ({ user }: { user: UserProfile }) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => router.push(user?.role==="admin"?"admin-dashboard":"/dashboard")}>
+          <DropdownMenuItem
+            onClick={() =>
+              router.push(
+                user?.role === "admin" ? "admin-dashboard" : "/dashboard"
+              )
+            }
+          >
             Dashboard
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push("/profile")}>
             Profile
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push("/settings")}>Settings</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/settings")}>
+            Settings
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => logout()}>Log out</DropdownMenuItem>

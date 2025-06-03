@@ -7,7 +7,7 @@ const AllResponsePage = async({ searchParams }: { searchParams: any }) => {
     const params = await searchParams;
     const queryParams = new URLSearchParams(params);
     const data = await getServerSideDataWithFeatures({url:`/feedback-responses?${queryParams.toString()}`, key:'feedbacksFormList'})
-
+      console.log(data)
   return (
    <TitleWrapper title="Feedbacks Responses">
       <TableWithFilter

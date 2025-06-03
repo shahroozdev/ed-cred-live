@@ -13,7 +13,6 @@ import { Stats } from "@/components/Common/Stats";
 
 export const OverviewTab = ({feedbacks, categories}:{feedbacks:Record<string, any>, categories:Record<string, any>}) => {
     const { posts } = usePostStore();
-
     const stats = [
         {
             title: "Total Feedbacks",
@@ -21,7 +20,7 @@ export const OverviewTab = ({feedbacks, categories}:{feedbacks:Record<string, an
         },
         {
             title: "Active Feedbacks",
-            value: feedbacks?.feedbacks?.filter((f:any) => f?.status === "active")?.length?.toString(),
+            value: feedbacks?.feedbacks?.filter((f:any) => f?.isDraft === false)?.length?.toString(),
         },
         {
             title: "Total Posts",

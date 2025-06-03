@@ -5,12 +5,8 @@ import { imagesUrls } from "@/types";
 import { Slider } from "@/components/molecules";
 import { CategoryCard } from "@/components/atoms";
 
-const Categories = () => {
-  const { data, isLoading, error } = useQuery({
-    url: "/category",
-    key: "categories",
-  });
-  const categories = data?.categories;
+const Categories = ({categories}:{categories:Record<string, any>}) => {
+
   const breakpoints = {
     640: { slidesPerView: 2 },
     768: { slidesPerView: 3 },

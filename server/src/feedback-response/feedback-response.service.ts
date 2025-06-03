@@ -257,6 +257,7 @@ export class FeedbackResponseService {
     });
     if (!response) throw new NotFoundException("Feedback not found");
     response.accepted =type ==="accept"? true:false;
+    response.status =type ==="accept"? "Accepted":"Rejected";
     await this.feedbackResponseRepository.save(response);
     return {
         status:200,

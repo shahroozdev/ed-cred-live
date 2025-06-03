@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { useRef } from "react";
-import { ThemeToggle } from "@/components/Common/ThemeToggle";
+import { ThemeToggle } from "@/components/atoms/themeToggle/ThemeToggle";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { removeCookie } from "@/actions/serverActions";

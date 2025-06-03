@@ -3,7 +3,7 @@ import { FormFeilds, RatingInput } from "@/components/atoms";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";
 
 const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {

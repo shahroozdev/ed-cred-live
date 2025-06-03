@@ -3,14 +3,14 @@ import { Input } from '@/components/ui/input';
 import { SearchIcon } from 'lucide-react';
 import React, { useState } from 'react'
 
-const SearchBar = ({ search }: { search: (term: string) => void }) => {
+const SearchBar = ({ search }: { search?: (term: string) => void }) => {
   const [searchTerm, setSearchTerm] = useState("");
   return (
     <form
-      className="w-full flex gap-2 py-4"
+      className="w-full flex gap-2 p-4 border-[1px] rounded-md"
       onSubmit={(e) => {
         e.preventDefault();
-        search(searchTerm);
+        search&&search(searchTerm);
       }}
     >
       <Input
@@ -20,7 +20,7 @@ const SearchBar = ({ search }: { search: (term: string) => void }) => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <button
-        className="bg-primary rounded-full p-2 w-12 h-12 flex items-center justify-center"
+        className="bg-primary rounded-full p-2 w-12 h-12 flex items-center cursor-pointer justify-center"
         type="submit"
       >
         <SearchIcon stroke="white" />

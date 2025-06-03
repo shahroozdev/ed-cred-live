@@ -5,7 +5,7 @@ import LoginRegistrationModal from "./loginRegistrationModal";
 import { UserBubble } from "./UserBubble";
 import { UserProfile } from "@/types/user";
 import DrawerBtn from "../../sidebar/mobileSidebar";
-import { ThemeToggle } from "@/components/Common/ThemeToggle";
+import { ThemeToggle } from "@/components/atoms/themeToggle/ThemeToggle";
 
 
 const Navbar = ({ user }: { user: UserProfile }) => {

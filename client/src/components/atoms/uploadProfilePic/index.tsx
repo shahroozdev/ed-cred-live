@@ -30,8 +30,8 @@ const UploadProfilePic = ({ children }: { children: ReactNode }) => {
         fieldProps={{ name: "file" }}
         label={{
           text: (
-            <div className="w-10 h-10 rounded-full flex justify-center items-center absolute right-2 top-0 bg-green-400 cursor-pointer">
-              <Pencil size={20} />
+            <div className="w-10 h-10 rounded-full flex justify-center items-center absolute right-2 top-0 bg-green-700 cursor-pointer">
+              <Pencil size={20}  stroke="white"/>
             </div>
           ),
         }}
