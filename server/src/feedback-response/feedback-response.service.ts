@@ -122,7 +122,7 @@ export class FeedbackResponseService {
   }> {
     const baseResponse = await this.feedbackResponseRepository.findOne({
       where: { id: responseId },
-      relations: ["feedbackForm", "feedbackForm.category", "author"],
+      relations: ["feedbackForm", "feedbackForm.category","feedbackForm.questions", "author"],
     });
 
     if (!baseResponse || !baseResponse.details) {
@@ -139,6 +139,7 @@ export class FeedbackResponseService {
       .createQueryBuilder("feedback_response")
       .leftJoinAndSelect("feedback_response.feedbackForm", "feedback_form")
       .leftJoinAndSelect("feedback_form.category", "category")
+      .leftJoinAndSelect("feedback_form.questions", "questions")
       .leftJoinAndSelect("feedback_response.author", "author")
       .leftJoinAndSelect("author.category", "author_category");
 

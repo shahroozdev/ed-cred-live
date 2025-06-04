@@ -11,6 +11,9 @@ export class Package {
   @Column()
   description: string;
 
+  @Column({ type: 'simple-array', nullable: true, default:'' })
+  features: string[];
+
   @Column({ type: 'int', default: 0 })
   viewFeedbackLimit: number;
 

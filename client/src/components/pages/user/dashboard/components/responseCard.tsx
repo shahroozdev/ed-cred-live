@@ -3,19 +3,19 @@ import { imagesUrls } from "@/types";
 import { AppleIcon, ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { v4 } from "uuid";
 
 const ResponseCard = ({
-  response,
-  hideRating = false,
+  response
 }: {
   response: any;
   hideRating?: boolean;
 }) => {
+  const router = useRouter();
   let totalRating = 0;
-  let totalResponses = 0;
-  response?.responses.forEach((res: any) =>
+  response?.responses&&response?.responses?.forEach((res: any) =>
     res.answers.forEach((answer: any) => {
       if (Number.isInteger(Number(answer.answer))) {
         totalRating += Number(answer.answer);
@@ -27,7 +27,7 @@ const ResponseCard = ({
   return (
     <div
       className="w-full border-2 border-muted rounded-md px-3 py-2 flex gap-2 shadow-md hover:scale-101 cursor-pointer transition-all duration-300 ease-in-out"
-      //   href={`/response/${response?.id}`}
+        onClick={()=>router.push(`/response/${response?.responses[0]?.id}`)}
     >
       <div className="md:block hidden w-32 h-32 p-4 border-r-[1px]">
         <Image
@@ -44,31 +44,31 @@ const ResponseCard = ({
         <div className="flex flex-col sm:flex-row justify-between w-full">
           <div>
             <div className="text-lg font-semibold capitalize">
-              {response?.groupType}
+              {response?.groupType||response?.responses[0]?.feedbackForm?.category?.name}
             </div>
-            {response.details?.schoolName ? (
+            {response?.details?.schoolName ||response?.responses[0]?.details?.schoolName ? (
               <div className="md:text-base text-sm font-normal">
-                School Name: {response?.details?.schoolName}
+                School Name: {response?.details?.schoolName ||response?.responses[0]?.details?.schoolName }
               </div>
             ) : (
               <></>
             )}
-            {response.details?.pricipalName ? (
+            {response?.details?.pricipalName || response?.responses[0]?.details?.pricipalName ? (
               <div className="md:text-base text-sm font-normal">
-                Principal Name: {response.details.pricipalName}
+                Principal Name: {response?.details?.pricipalName || response?.responses[0]?.details?.pricipalName }
               </div>
             ) : (
               <></>
             )}
-            {response.details?.directorName ? (
+            {response?.details?.directorName || response?.responses[0]?.details?.directorName  ? (
               <div className="md:text-base text-sm font-normal">
-                Director Name: {response.details.directorName}
+                Director Name: {response?.details?.directorName || response?.responses[0]?.details?.directorName }
               </div>
             ) : (
               <></>
             )}
             <div className="text-ellipsis line-clamp-1 italic">
-              {response.comments}
+              {response?.comments}
             </div>
           </div>
           <div className="flex flex-col justify-between">
@@ -78,15 +78,15 @@ const ResponseCard = ({
                 {response?.responses?.length > 1 ? "s" : ""}
               </div>
               <div className="md:text-base text-sm text-muted-foreground font-normal">
-                {response.details.schoolCountry}
+                {response?.details?.schoolCountry || response?.responses[0]?.details?.schoolCountry }
               </div>
               <a
-                href={response.details.schoolWebsite}
+                href={response?.details?.schoolWebsite || response?.responses[0]?.details?.schoolWebsite }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="md:text-base text-sm text-muted-foreground font-normal flex gap-2 items-center justify-end mt-auto"
               >
-                {response.details.schoolWebsite}
+                {response?.details?.schoolWebsite || response?.responses[0]?.details?.schoolWebsite }
                 <ExternalLinkIcon stroke="gray" size={16} />
               </a>
             </div>
@@ -101,7 +101,7 @@ const ResponseCard = ({
               stroke={i + 1 < averageRating ? "red" : "gray"}
             />
           ))}
-          <div className="text-base ml-2">{averageRating.toFixed(0)}/10</div>
+          <div className="text-base ml-2">{averageRating?.toFixed(0)}/10</div>
         </div>
       </div>
     </div>

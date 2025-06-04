@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react'
 
-const TitleWrapper = ({title, desc, children, notBackBtn}:{title:string, desc?:string, children:ReactNode, notBackBtn?:boolean}) => {
+const TitleWrapper = ({title, desc, children, notBackBtn}:{title:string, desc?:string|ReactNode, children:ReactNode, notBackBtn?:boolean}) => {
       const router = useRouter();
       return(
           <div className='max-w-[1400px] w-full mx-auto md:p-5 p-2'>

@@ -21,7 +21,7 @@ enum Permission {
 enum SubscriptionPlan {
     FREE       = "free",
     BASIC      = "basic",
-    PREMIUM    = "premium",
+    PRO    = "pro",
     ENTERPRISE = "enterprise",
 }
 

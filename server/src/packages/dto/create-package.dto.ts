@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+import { IsArray, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
 
 export class CreatePackageDto {
   @IsString()
@@ -8,6 +8,10 @@ export class CreatePackageDto {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  features: string[];
 
   @IsInt()
   @Min(0)

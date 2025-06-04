@@ -41,7 +41,7 @@ useEffect(() => {
 
     setup();
   }, [data]);
-console.log(data)
+
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 6;
 

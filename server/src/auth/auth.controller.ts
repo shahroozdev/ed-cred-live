@@ -150,12 +150,23 @@ export class AuthController {
   @Put("/profile")
   @UseGuards(JwtAuthGuard)
   @UploadFile("file", { folder: "profile-images" })
-  async updateProfile( @UploadedFile() file: Express.Multer.File,@Req() req, updateProfileDto: any) {
-        const url = file
-      ? `/uploads/profile-images/${file?.filename}`
-      : null;
+  async updateProfile(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req,
+    updateProfileDto: any
+  ) {
+    const url = file ? `/uploads/profile-images/${file?.filename}` : null;
     return await apiWrapper(() =>
       this.authService.updateProfile(req.user.id, updateProfileDto, url)
+    );
+  }
+
+  @Put("/update-package")
+  @UseGuards(JwtAuthGuard)
+  @ApiCustomResponse("updateUserPackage")
+  async updatePackage(@Req() req, @Body("packageName") packageName: string) {
+    return await apiWrapper(() =>
+      this.authService.updatePackage(req.user.id, packageName)
     );
   }
 }

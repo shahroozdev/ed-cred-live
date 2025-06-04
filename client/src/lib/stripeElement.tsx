@@ -3,16 +3,19 @@ import React, { useEffect, useState } from "react";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { convertToCents } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { Button } from "@/components/atoms";
 import { Loader2 } from "lucide-react";
+import { useMutate } from "@/hooks/generalHooks";
 
 
 // Create a new CheckoutForm component to handle the payment submission
-const CheckoutForm = ({ clientSecret ,form}: {clientSecret: string, form:any }) => {
+const CheckoutForm = ({ clientSecret, amount}: {clientSecret: string, amount:number}) => {
   const stripe = useStripe();
   const elements = useElements();
   const pathname = usePathname();
+  const params = useParams();
+  const {MutateFunc, isPending} = useMutate();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
 
@@ -22,7 +25,6 @@ const CheckoutForm = ({ clientSecret ,form}: {clientSecret: string, form:any }) 
     if (!stripe || !elements) {
       return;
     }
-
     setIsProcessing(true);
     setPaymentError(null);
 
@@ -49,7 +51,7 @@ const CheckoutForm = ({ clientSecret ,form}: {clientSecret: string, form:any }) 
     }
 
     if (paymentIntent && paymentIntent.status === 'succeeded') {
-      form.submit();
+      await MutateFunc({url:'auth/update-package', method:'PUT', body:{packageName:params.subscription}, sendTo:'/dashboard'})
     }
   };
 
@@ -60,19 +62,20 @@ const CheckoutForm = ({ clientSecret ,form}: {clientSecret: string, form:any }) 
       <PaymentElement />
       {paymentError && <div className="text-red-500 mt-2">{paymentError}</div>}
       <Button 
-        type="primary"
-        htmlType="submit" 
-        disabled={!stripe || isProcessing}
+        variant="primary"
+        type="submit" 
+        disabled={!stripe || isProcessing || isPending}
+        loading={isPending || isProcessing}
         className="w-full rounded mt-4 bg-green-500 text-white py-2 px-4"
       >
-        {isProcessing ? 'Processing...' : 'Check out'}
+        {isProcessing ? 'Processing...' : 'Check out'} ( ${amount})
 
       </Button>
     </form>
   );
 };
 
-const StripeElement = ({ amount ,form}: { amount: number,form:any }) => {
+const StripeElement = ({ amount }: { amount: number}) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -137,7 +140,7 @@ const StripeElement = ({ amount ,form}: { amount: number,form:any }) => {
               <Loader2 />
             </div>
           ) : (
-            <CheckoutForm clientSecret={clientSecret} form={form}/>
+            <CheckoutForm clientSecret={clientSecret} amount={amount}/>
           )}
         </Elements>
       )}

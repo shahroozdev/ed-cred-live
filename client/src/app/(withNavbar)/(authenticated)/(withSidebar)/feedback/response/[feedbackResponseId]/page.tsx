@@ -4,12 +4,13 @@ import { Loader } from "@/components/ui/loader";
 import { getRequest } from "@/api/config";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@/hooks/generalHooks";
 
 export default function FeedbackResponseViewPage({ params }: { params: Promise<{ feedbackResponseId: string }> }) {
 
     const { feedbackResponseId } = use(params);
     const [feedback, setFeedback] = useState<any|null>(null);
-
+    const {data, isLoading} = useQuery({url:`/feedback-responses/response/${feedbackResponseId}`, key:'singleResponse'})
     useEffect(() => {
 
         const fetchFeedback = async() => {
@@ -23,15 +24,15 @@ export default function FeedbackResponseViewPage({ params }: { params: Promise<{
         fetchFeedback();
     }, [feedbackResponseId]);
 
+    console.log(data)
     return(
         <div className="w-full h-full min-h-screen flex items-center justify-center text-black">
             {
-                feedback ? <FeedbackView {...feedback} /> : <Loader />
+                isLoading ? <Loader/> :<FeedbackView {...feedback} />
             }
         </div>
     )
 }
-
 
 type FeedbackViewProps = {
     feedbackForm: any;
@@ -42,8 +43,8 @@ type FeedbackViewProps = {
         schoolCountry:   any;
         reportingPeriod: any;
         pricipalName:    any;
-        pricipalDivison: any;
         directorName:    any;
+        pricipalDivison: any;
     };
     answers: {
         questionId: string;

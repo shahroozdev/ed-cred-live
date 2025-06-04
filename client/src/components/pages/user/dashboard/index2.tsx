@@ -33,7 +33,7 @@ const DashboardView2 = ({ data }: { data: Record<string, any> }) => {
             </div>
           )}
         </aside>
-        <aside className="lg:block hidden border-[1px] rounded-md p-4 mt-4 w-[300px] shadow-xl">
+        <aside className="lg:block hidden border-[1px] rounded-md mt-4 w-[300px] shadow-xl">
           <FilterForm />
         </aside>
       </section>

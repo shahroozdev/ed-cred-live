@@ -11,7 +11,8 @@ import { PackagesService } from './packages.service';
 import { CreatePackageDto } from './dto/create-package.dto';
 import { UpdatePackageDto } from './dto/update-package.dto';
 import { CreateUserPackageDto } from './dto/create-user-package.dto';
-import { apiWrapper } from '../decorators/globalErrorHandlerClass';
+import { ApiCustomResponse } from 'src/decorators/api-decorator';
+import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
 
 
 @Controller('packages')
@@ -21,6 +22,7 @@ export class PackagesController {
   // ────────────────────── PACKAGE ROUTES ──────────────────────
 
   @Post()
+  @ApiCustomResponse('createPackage')
   async createPackage(@Body() createPackageDto: CreatePackageDto) {
     return await apiWrapper(() =>
       this.packagesService.createPackage(createPackageDto),

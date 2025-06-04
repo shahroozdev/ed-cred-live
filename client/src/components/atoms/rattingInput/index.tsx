@@ -9,15 +9,17 @@ const RatingInput = ({
   value = 0,
   color,
   onChange,
+  disabled,
 }: {
   value: any;
   color: string;
   onChange: (value: number) => void;
+  disabled?:boolean;
 }) => {
   const [hoverRating, setHoverRating] = useState(0);
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-end gap-2">
       {Array.from({ length: 10 }).map((_, i) => {
         const ratingValue = 10 - i;
         const isActive = value >= ratingValue;
@@ -26,7 +28,7 @@ const RatingInput = ({
         return (
           <AppleIcon
             key={`apple-${i}`}
-            className={cn(
+            className={cn("w-4 h-4 md:w-6 md:h-6",
               colorVariants[color] ||
                 "text-gray-400 fill-gray-400 hover:fill-gray-300",
               isActive
@@ -37,7 +39,7 @@ const RatingInput = ({
             )}
             onMouseOver={() => setHoverRating(10 - i)}
             onMouseLeave={() => setHoverRating(0)}
-            onClick={() => onChange(10 - i)}
+            onClick={() => !disabled&&onChange(10 - i)}
           />
         );
       })}

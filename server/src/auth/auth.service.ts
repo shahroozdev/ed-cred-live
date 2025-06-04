@@ -10,7 +10,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import * as bcrypt from "bcryptjs";
 import { User } from "./user.entity";
-import { UserRole } from "./../../types/user";
+import { SubscriptionPlan, UserRole } from "./../../types/user";
 // import { randomBytes } from "crypto";
 import { response } from "types";
 import { Subcategory } from "../subcategory/subcategory.entity";
@@ -84,8 +84,7 @@ export class AuthService {
     if (!user) throw new BadRequestException("Invalid credentials");
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid)
-      throw new BadRequestException("Invalid credentials");
+    if (!isPasswordValid) throw new BadRequestException("Invalid credentials");
 
     // Sign the JWT claims
     const token = this.jwtService.sign({
@@ -307,5 +306,39 @@ export class AuthService {
 
     await this.userRepository.update(id, updatedData);
     return { status: 200, message: "Profile data is updated successfully." };
+  }
+  async updatePackage(id: number, packageName?: string): Promise<response> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+    });
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    const plans = {
+      basic: SubscriptionPlan.BASIC,
+      pro: SubscriptionPlan.PRO,
+      enterprise: SubscriptionPlan.ENTERPRISE,
+    };
+    const expires = new Date();
+    expires.setMonth(expires.getMonth() + 1); // Adds 1 month
+    const updatedData: Partial<User> = {
+      subscription: {
+        status: "subscribed",
+        plan: plans[packageName.toLowerCase()], // optional: normalize input
+        expiresAt: expires,
+      },
+    };
+
+    // ✅ Only update if something is changing
+    if (Object.keys(updatedData).length === 0) {
+      throw new BadRequestException("Nothing to update");
+    }
+
+    await this.userRepository.update(id, updatedData);
+    return {
+      status: 200,
+      message: "User package has been subscribed successfully.",
+    };
   }
 }

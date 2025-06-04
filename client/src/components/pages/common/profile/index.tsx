@@ -48,6 +48,10 @@ const ProfileComponent = ({user}:{user:Record<string, any>}) => {
           <div>{user?.subscription?.status}</div>
         </div>
         <div className="text-base flex gap-4">
+          Package:
+          <div className='capitalize'>{user?.subscription?.plan}</div>
+        </div>
+        <div className="text-base flex gap-4">
           Role:
           <div>{user.role}</div>
         </div>

@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 // import { useEffect } from "react";
 import { useFieldArray } from "react-hook-form";
 
-const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {
+const QuestionList = ({feedback, disabled}: {feedback: Record<string, any>; disabled?:boolean}) => {
   const { fields, append } = useFieldArray({
     name: "answers",
   });
@@ -23,7 +23,7 @@ const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {
   return (
     <>
       {fields.map((field: any, index: number) => {
-        const question = feedback.questions.find(
+        const question = feedback?.questions?.find(
           (q: any) => q.id === field.questionId
         );
         if (!question) return null;
@@ -32,12 +32,12 @@ const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {
 
         return (
           <div
-            className={`outline-2 outline-muted flex ${
+            className={`outline-2 outline-muted flex md:flex-row flex-col ${
               question.type != "rating" ? "flex-col" : ""
             } w-full justify-between rounded-md p-4`}
             key={`feedback-question-${index}`}
           >
-            <p className="mb-2 font-medium">{question?.text}</p>
+            <p className="mb-2 font-medium md:text-base text-sm">{question?.text}</p>
 
             <FormFeilds
               key={field.id}
@@ -51,6 +51,7 @@ const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {
                       //@ts-ignore
                       value={fieldProps.value ?? ""}
                       onChange={fieldProps.onChange}
+                      disabled={disabled}
                     />
                   );
                 } else if (
@@ -62,6 +63,7 @@ const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {
                       //@ts-ignore
                       value={fieldProps.value ?? ""}
                       onValueChange={fieldProps.onChange}
+                      disabled={disabled}
                     >
                       {question.options.map((opt: any, idx: number) => (
                         <Label key={idx} className="flex items-center gap-2">
@@ -78,6 +80,7 @@ const QuestionList = ({feedback}: {feedback: Record<string, any>;}) => {
                       value={fieldProps.value ?? ""}
                       onChange={fieldProps.onChange}
                       placeholder="Your answer"
+                      disabled={disabled}
                     />
                   );
                 }

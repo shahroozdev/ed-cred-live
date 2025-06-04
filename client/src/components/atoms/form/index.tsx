@@ -14,7 +14,7 @@ import {
   useForm,
   useFormContext,
 } from "react-hook-form";
-import { ZodType } from "zod";
+import { z, ZodType } from "zod";
 
 export const FormFeilds = ({
   children,
@@ -53,11 +53,11 @@ const FormTemplate = ({
   onSubmit: (value: any) => void;
   children: ReactNode;
   className?: string;
-  schema: ZodType<any, any, any>;
+  schema?: ZodType<any, any, any>;
   defaultValues?: Record<string, any>;
 }) => {
   const form = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema||z.any()),
     defaultValues: defaultValues,
   });
   const onError = (errors:any) => {
