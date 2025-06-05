@@ -9,6 +9,4 @@ export class CreateUserPackageDto {
   @IsNotEmpty()
   packageId: number;
 
-  @IsDateString()
-  expiresAt: string; // ISO format, e.g., "2025-06-30T23:59:59Z"
 }

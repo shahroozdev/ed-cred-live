@@ -1,0 +1,43 @@
+<div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 40px;">
+  <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+
+    <h2 style="color: #1e40af;">Subscription Confirmed 🎉</h2>
+
+    <p style="font-size: 16px; color: #333333;">
+      Hello {{name}},
+    </p>
+
+    <p style="font-size: 16px; color: #333333;">
+      Thank you for subscribing to the <strong>{{planTitle}}</strong> plan on Ed-Cred.
+    </p>
+
+    <ul style="color: #333333; font-size: 15px; padding-left: 20px;">
+      <li><strong>Plan:</strong> {{planTitle}}</li>
+      <li><strong>Price:</strong> ${{planPrice}} / {{billingCycle}}</li>
+      <li><strong>Start Date:</strong> {{startDate}}</li>
+    </ul>
+
+    <h3 style="color: #1e40af; margin-top: 30px;">Included Features</h3>
+    <ul style="color: #555555; font-size: 15px; padding-left: 20px;">
+      {{#each features}}
+        <li>✅ {{this}}</li>
+      {{/each}}
+    </ul>
+
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="{{manageUrl}}" style="background-color: #1e40af; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+        Manage Subscription
+      </a>
+    </div>
+
+    <p style="color: #777777; font-size: 14px;">
+      This is an automated message. Please do not reply to this email.
+    </p>
+
+    <hr style="margin: 30px 0; border: none; border-top: 1px solid #eaeaea;" />
+
+    <p style="color: #999999; font-size: 12px;">
+      © {{year}} Ed-Cred. All rights reserved.
+    </p>
+  </div>
+</div>

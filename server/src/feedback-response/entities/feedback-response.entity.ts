@@ -5,10 +5,13 @@ import {
   ManyToOne,
   CreateDateColumn,
   OneToMany,
+  OneToOne,
 } from "typeorm";
 import { FeedbackForm } from "../../feedback-form/entities/feedback-form.entity";
 import { User } from "../../auth/user.entity";
 import { Dispute } from "../../dispute/dispute.entity";
+import { School } from "src/school/entities/school.entity";
+import { Employee } from "src/school/entities/employee.entity";
 
 @Entity()
 export class FeedbackResponse {
@@ -42,7 +45,9 @@ export class FeedbackResponse {
     pricipalDivison: string;
     directorName: string;
   };
-
+  @ManyToOne(()=> Employee)
+  employee:Employee;
+  
   @Column("jsonb")
   answers: {
     questionId: number| string;

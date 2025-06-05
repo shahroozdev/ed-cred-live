@@ -17,7 +17,7 @@ export default async function FeedbacksPage({ searchParams }: { searchParams: an
         }, 
         {
             title: "Active Feedbacks",
-            value: feedbacks?.filter((s:any) => s?.status === "active")?.length?.toString(),
+            value: data?.activeCount,
         }
     ];
 

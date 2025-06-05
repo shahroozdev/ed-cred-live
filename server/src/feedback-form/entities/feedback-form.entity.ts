@@ -29,7 +29,7 @@ export class FeedbackForm {
     @Column({ default: true })
     isDraft: boolean;
 
-    @Column({ type: "jsonb" })
+    @Column({ type: "jsonb" , nullable:true})
     details: FeedbackDetails;
 
     @OneToMany(() => Question, (question) => question.feedbackForm, { cascade: true })

@@ -1,4 +1,5 @@
 // import { User } from "../auth/user.entity";
+import { Employee } from "src/school/entities/employee.entity";
 import { FeedbackForm } from "../feedback-form/entities/feedback-form.entity";
 // import { Subcategory } from "src/subcategory/subcategory.entity";
 import {
@@ -45,6 +46,9 @@ export class Category {
   // A category can be linked with multiple feedback forms
   @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)
   feedbackForms: FeedbackForm[];
+
+  @OneToMany(() => Employee, (employee) => employee.category)
+  employees: Employee[];
 
   // @OneToMany(() => Subcategory, (subcategory) => subcategory.parentCategory)
   // subCategories: Subcategory[];

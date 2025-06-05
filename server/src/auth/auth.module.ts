@@ -9,13 +9,18 @@ import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Subcategory } from '../subcategory/subcategory.entity';
 import { MailModule } from '../mail/mail.module';
+import { Package } from '../packages/entities/package.entity';
+import { UserPackage } from '../packages/entities/user.packages.entity';
+import { PackagesModule } from '../packages/packages.module';
+import { PackagesService } from '../packages/packages.service';
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
-        TypeOrmModule.forFeature([User, Subcategory]),
+        TypeOrmModule.forFeature([User, Subcategory, Package, UserPackage]),
         PassportModule,
         MailModule,
+        PackagesModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
@@ -25,7 +30,7 @@ import { MailModule } from '../mail/mail.module';
             }),
         }),
     ],
-    providers: [AuthService, JwtStrategy],
+    providers: [AuthService, JwtStrategy, PackagesService],
     controllers: [AuthController],
     exports: [AuthService],
 })

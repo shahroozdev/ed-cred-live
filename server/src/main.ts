@@ -8,6 +8,8 @@ import * as basicAuth from "express-basic-auth";
 import { existsSync, mkdirSync } from "fs";
 import { UploadExceptionFilter } from "./decorators/globalErrorHandlerClass/uploadErrorGlobal";
 import { json, urlencoded } from "express";
+import * as dotenv from 'dotenv';
+dotenv.config();
 // import * as bodyParser from 'body-parser';
 
 async function bootstrap() {

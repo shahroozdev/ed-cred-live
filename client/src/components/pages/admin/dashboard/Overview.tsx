@@ -20,7 +20,7 @@ export const OverviewTab = ({feedbacks, categories}:{feedbacks:Record<string, an
         },
         {
             title: "Active Feedbacks",
-            value: feedbacks?.feedbacks?.filter((f:any) => f?.isDraft === false)?.length?.toString(),
+            value: feedbacks?.activeCount,
         },
         {
             title: "Total Posts",

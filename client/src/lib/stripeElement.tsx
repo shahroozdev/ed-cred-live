@@ -51,10 +51,10 @@ const CheckoutForm = ({ clientSecret, amount}: {clientSecret: string, amount:num
     }
 
     if (paymentIntent && paymentIntent.status === 'succeeded') {
-      await MutateFunc({url:'auth/update-package', method:'PUT', body:{packageName:params.subscription}, sendTo:'/dashboard'})
+      await MutateFunc({url:'auth/update-package', method:'PUT', body:{packageId:Number(params?.subscription)}, })
     }
   };
-
+// sendTo:'/dashboard'
 
 
   return (

@@ -29,57 +29,64 @@ export class FeedbackFormService {
     private readonly subcategoryRepository: Repository<Subcategory>
   ) {}
 
-async create(
-  createFeedbackFormDto: CreateFeedbackFormDto,
-  authorId: number,
-): Promise<response & { feedback?: FeedbackForm }> {
-  const { categoryId, subCategoryId, questions, ...rest } = createFeedbackFormDto;
+  async create(
+    createFeedbackFormDto: CreateFeedbackFormDto,
+    authorId: number
+  ): Promise<response & { feedback?: FeedbackForm }> {
+    const { categoryId, subCategoryId, questions, ...rest } =
+      createFeedbackFormDto;
 
-  const user = await this.userRepository.findOne({ where: { id: authorId } });
-  if (!user)
-    throw new NotFoundException(`User with ID ${authorId} not found`);
+    const user = await this.userRepository.findOne({ where: { id: authorId } });
+    if (!user)
+      throw new NotFoundException(`User with ID ${authorId} not found`);
 
-  const category = await this.categoryRepository.findOne({ where: { id: categoryId } });
-  if (!category)
-    throw new NotFoundException(`Category with ID ${categoryId} not found`);
-
-  const subcategory = await this.subcategoryRepository.findOne({ where: { id: subCategoryId } });
-  if (!subcategory)
-    throw new NotFoundException(`SubCategory with ID ${subCategoryId} not found`);
-
-  // Create the feedback form first (without questions)
-  const feedbackForm = this.feedbackFormRepository.create({
-    ...rest,
-    category,
-    subcategory,
-    author: user,
-  });
-  const savedForm = await this.feedbackFormRepository.save(feedbackForm);
-
-  // Map and save each question individually
-  const questionEntities = questions.map((q) => {
-    return this.questionRepository.create({
-      ...q,
-      feedbackForm: savedForm, // set relation
+    const category = await this.categoryRepository.findOne({
+      where: { id: categoryId },
     });
-  });
-  await this.questionRepository.save(questionEntities); // bulk insert
+    if (!category)
+      throw new NotFoundException(`Category with ID ${categoryId} not found`);
 
-  // Reload feedbackForm with questions
-  const fullFeedback = await this.feedbackFormRepository.findOne({
-    where: { id: savedForm.id },
-    relations: ['questions'], // include related questions
-  });
+    const subcategory = await this.subcategoryRepository.findOne({
+      where: { id: subCategoryId },
+    });
+    if (!subcategory)
+      throw new NotFoundException(
+        `SubCategory with ID ${subCategoryId} not found`
+      );
 
-  return {
-    status: 200,
-    message: 'Feedback Form Created Successfully.',
-    feedback: fullFeedback!,
-  };
-}
+    // Create the feedback form first (without questions)
+    const feedbackForm = this.feedbackFormRepository.create({
+      ...rest,
+      category,
+      subcategory,
+      author: user,
+    });
+    const savedForm = await this.feedbackFormRepository.save(feedbackForm);
 
-  async getGroupedResponsesBySchool(query?:Record<string, any>) {
-        const page = query?.page ?? 1;
+    // Map and save each question individually
+    const questionEntities = questions.map((q) => {
+      return this.questionRepository.create({
+        ...q,
+        feedbackForm: savedForm, // set relation
+      });
+    });
+    await this.questionRepository.save(questionEntities); // bulk insert
+
+    // Reload feedbackForm with questions
+    const fullFeedback = await this.feedbackFormRepository.findOne({
+      where: { id: savedForm.id },
+      relations: ["questions"], // include related questions
+    });
+
+    return {
+      status: 200,
+      message: "Feedback Form Created Successfully.",
+      feedback: fullFeedback!,
+    };
+  }
+
+  async getGroupedResponsesBySchool(query?: Record<string, any>) {
+    const page = query?.page ?? 1;
     const pageSize = query?.pageSize ?? 10;
 
     const where: any = {};
@@ -190,19 +197,19 @@ async create(
       return new Date(latestB).getTime() - new Date(latestA).getTime();
     });
 
-  return {
+    return {
       status: 200,
       message: "All Categories List.",
-      result:combinedResults,
+      result: combinedResults,
       total,
       currentPage: Number(page),
       pageSize,
-    };;
+    };
   }
 
   async findAll(
     query?: Record<string, any>
-  ): Promise<response & { feedbacks?: FeedbackForm[] }> {
+  ): Promise<response & { feedbacks?: FeedbackForm[] , activeCount?:number}> {
     const page = query?.page ?? 1;
     const pageSize = query?.pageSize ?? 10;
 
@@ -226,6 +233,9 @@ async create(
     if (query.subCategoryId) {
       where.subcategory = { id: Number(query.subCategoryId) };
     }
+    const [, activeCount] = await this.feedbackFormRepository.findAndCount({
+      where: { isDraft: false },
+    });
     const [feedbacks, total] = await this.feedbackFormRepository.findAndCount({
       where,
       relations: [
@@ -247,23 +257,26 @@ async create(
       message: "All Feedbacks List.",
       feedbacks,
       total,
+      activeCount,
       currentPage: Number(page),
       pageSize,
     };
   }
   async findAllBySubcategory(
-    id:number,
+    id: number,
     query?: Record<string, any>
   ): Promise<response & { feedbacks?: FeedbackForm[] }> {
     const page = query?.page ?? 1;
     const pageSize = query?.pageSize ?? 10;
     // Fetch user and category
-    const user = await this.userRepository.findOne({ where: { id } , relations:["category"]});
-    if (!user)
-      throw new NotFoundException(`User with ID ${id} not found`)
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ["category"],
+    });
+    if (!user) throw new NotFoundException(`User with ID ${id} not found`);
 
     const where: any = {};
-    where.subcategory = { id: user.category.id};
+    where.subcategory = { id: user.category.id };
     where.isDraft = false;
     // Filter by name (case-insensitive)
     if (query.name) {
@@ -376,8 +389,8 @@ async create(
       throw new NotFoundException(`Category with ID ${categoryId} not found`);
 
     const subcategory = await this.subcategoryRepository.findOne({
-      where: { id: subcategoryId},
-      relations: ['parentCategory'],
+      where: { id: subcategoryId },
+      relations: ["parentCategory"],
     });
     if (!subcategory)
       throw new NotFoundException(
@@ -385,7 +398,10 @@ async create(
       );
 
     const forms = await this.feedbackFormRepository.find({
-      where: { category:{id:categoryId}, subcategory:{id:subcategoryId} },
+      where: {
+        category: { id: categoryId },
+        subcategory: { id: subcategoryId },
+      },
       relations: [
         "author",
         "category",

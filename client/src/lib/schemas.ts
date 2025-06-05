@@ -14,14 +14,12 @@ export const forgetPasswordSchema = z.object({
 export type LoginSchema = z.infer<typeof loginSchema>;
 export type ForgetPasswordSchema = z.infer<typeof forgetPasswordSchema>;
 
-export const signupSchema = z
-  .object({
+export const signupSchema = z.object({
     email: z.string().email("Invalid email address"),
     username: z.string().min(2, "Username must be at least 2 characters"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
+  }).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
@@ -56,21 +54,21 @@ export const GeneralFormSchema = z.object({
   categoryId: z.string().min(1, "Category is required"),
   subCategoryId: z.string().min(1, "Subcategory is required"),
   isDraft: z.enum(["active", "inactive"]),
-  details: z.object({
-    // common
-    salary: z.boolean(),
-    schoolName: z.boolean(),
-    schoolWebsite: z.boolean(),
-    schoolCountry: z.boolean(),
-    reportingPeriod: z.boolean(),
+  // details: z.object({
+  //   // common
+  //   salary: z.boolean(),
+  //   schoolName: z.boolean(),
+  //   schoolWebsite: z.boolean(),
+  //   schoolCountry: z.boolean(),
+  //   reportingPeriod: z.boolean(),
 
-    // for the category pricipal
-    pricipalName: z.boolean(),
-    pricipalDivison: z.boolean(),
+  //   // for the category pricipal
+  //   pricipalName: z.boolean(),
+  //   pricipalDivison: z.boolean(),
 
-    // for the category director
-    directorName: z.boolean(),
-  }),
+  //   // for the category director
+  //   directorName: z.boolean(),
+  // }),
   questions: z.array(QuestionFormSchema),
 });
 export const imageSchema = z
@@ -130,3 +128,16 @@ export const ForumSchema = z.object({
 export const replySchema = z.object({
   text:z.string().min(5, "Minimum 5 Charters Required.")
 })
+
+export const postSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  body: z.string().min(1, "Body is required"),
+  image: z
+    .instanceof(File)
+    .refine((file) => file.type.startsWith("image/"), {
+      message: "Image must be a valid image file",
+    }),
+  featured: z.boolean(),
+  status: z.boolean(),
+});

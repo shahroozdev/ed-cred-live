@@ -7,7 +7,6 @@ import {
   UseGuards,
   UploadedFile,
   ForbiddenException,
-  UseInterceptors,
   BadRequestException,
   Query,
   Param,
@@ -23,7 +22,7 @@ import { RolesGuard } from "../guards/roles.guard";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { response } from "types";
 import { User } from "./user.entity";
-import { CreateUserDto, LoginUserDto } from "./dto";
+import { CreateUserDto, LoginUserDto, SubscribeDto } from "./dto";
 import { Response } from "express";
 import { ApiConsumes } from "@nestjs/swagger";
 import { UploadFile } from "../decorators/upload-file-decorator";
@@ -164,9 +163,9 @@ export class AuthController {
   @Put("/update-package")
   @UseGuards(JwtAuthGuard)
   @ApiCustomResponse("updateUserPackage")
-  async updatePackage(@Req() req, @Body("packageName") packageName: string) {
+  async updatePackage(@Req() req, @Body() dto: SubscribeDto) {
     return await apiWrapper(() =>
-      this.authService.updatePackage(req.user.id, packageName)
+      this.authService.updatePackage(req.user.id, dto.packageId)
     );
   }
 }

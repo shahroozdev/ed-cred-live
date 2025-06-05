@@ -38,16 +38,16 @@ const FeedbackForm = () => {
       title: "",
       categoryId: "",
       subCategoryId: "",
-      details: {
-        salary: false,
-        schoolName: false,
-        schoolWebsite: false,
-        schoolCountry: false,
-        reportingPeriod: false,
-        pricipalName: false,
-        pricipalDivison: false,
-        directorName: false,
-      },
+      // details: {
+      //   salary: false,
+      //   schoolName: false,
+      //   schoolWebsite: false,
+      //   schoolCountry: false,
+      //   reportingPeriod: false,
+      //   pricipalName: false,
+      //   pricipalDivison: false,
+      //   directorName: false,
+      // },
       isDraft: "inactive",
       questions: questionsList,
     },
@@ -73,11 +73,15 @@ const FeedbackForm = () => {
     });
   };
 
+  const onError = (errors: any) => {
+    console.log("Validation Errors", errors);
+    console.log(form.getValues());
+  };
   return (
     <div className="flex flex-col gap-5 items-center justify-between">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit, onError)}
           className="flex w-full flex-col items-start justify-between gap-10"
         >
           <MetaDataInput form={form} loading={isPending} />
@@ -86,18 +90,18 @@ const FeedbackForm = () => {
               At least one question must be provided.
             </p>
           )}
+          <Button
+            icon={<ArrowUpFromLineIcon />}
+            variant={"primary"}
+            className="w-full font-normal"
+            type="submit"
+            loading={isPending}
+          >
+            Publish Feedback
+          </Button>
         </form>
       </Form>
       <AddQuestion setQuestionsList={setQuestionsList} />
-      <Button
-        icon={<ArrowUpFromLineIcon />}
-        variant={"primary"}
-        className="w-full font-normal"
-        type="submit"
-        loading={isPending}
-      >
-        Publish Feedback
-      </Button>
       <QuestionsList
         questionsList={questionsList}
         setQuestionsList={setQuestionsList}
@@ -116,12 +120,12 @@ const MetaDataInput = ({
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div className="outline-muted relative flex w-full flex-col gap-4 rounded-md p-6 outline-2 isolate shadow-sm">
-      <ChevronDownIcon
+      {/* <ChevronDownIcon
         className={`absolute right-6 top-6 transition-transform ${
           collapsed ? "rotate-0" : "rotate-180"
         }`}
         onClick={() => setCollapsed((s) => !s)}
-      />
+      /> */}
       <div
         className={`${
           collapsed ? "opacity-100" : "opacity-0"
@@ -165,7 +169,7 @@ const MetaDataInput = ({
             </FormItem>
           )}
         />
-        <SwitchInput form={form} />
+        {/* <SwitchInput form={form} /> */}
       </div>
     </div>
   );

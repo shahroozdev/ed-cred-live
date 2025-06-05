@@ -16,7 +16,7 @@ import { RoleModule } from "./role/role.module";
 import { SearchController } from "./search/search.controller";
 import { SearchService } from "./search/search.service";
 import { SearchModule } from "./search/search.module";
-import { Post } from "./posts/post.entity";
+import { Post } from "./posts/entities/post.entity";
 import { FeedbackResponse } from "./feedback-response/entities/feedback-response.entity";
 import { FeedbackForm } from "./feedback-form/entities/feedback-form.entity";
 import { Dispute } from "./dispute/dispute.entity";
@@ -26,6 +26,7 @@ import { QuestionModule } from "./question/question.module";
 import { PackagesModule } from "./packages/packages.module";
 import { Package } from "./packages/entities/package.entity";
 import { UserPackage } from "./packages/entities/user.packages.entity";
+import { SchoolModule } from './school/school.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { UserPackage } from "./packages/entities/user.packages.entity";
     }),
     QuestionModule,
     PackagesModule,
+    SchoolModule,
   ],
   controllers: [SearchController],
   providers: [SearchService],

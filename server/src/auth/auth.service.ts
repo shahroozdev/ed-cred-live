@@ -17,15 +17,24 @@ import { Subcategory } from "../subcategory/subcategory.entity";
 import { MailService } from "../mail/mail.service";
 import { CreateUserDto } from "./dto";
 import { randomBytes } from "crypto";
+import { UserPackage } from "../packages/entities/user.packages.entity";
+import { Package } from "../packages/entities/package.entity";
+import { PackagesService } from "src/packages/packages.service";
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+    @InjectRepository(Package)
+    private packageRepository: Repository<Package>,
+    @InjectRepository(UserPackage)
+    private userPackageRepository: Repository<UserPackage>,
     @InjectRepository(Subcategory)
     private subcategoryRepository: Repository<Subcategory>,
     private jwtService: JwtService,
-    private mailService: MailService
+    private mailService: MailService,
+    private packagesService: PackagesService
   ) {}
 
   async signup(
@@ -307,25 +316,30 @@ export class AuthService {
     await this.userRepository.update(id, updatedData);
     return { status: 200, message: "Profile data is updated successfully." };
   }
-  async updatePackage(id: number, packageName?: string): Promise<response> {
+  async updatePackage(id: number, packageId: number): Promise<response> {
     const user = await this.userRepository.findOne({
       where: { id },
     });
     if (!user) {
       throw new NotFoundException("User not found");
     }
-
+    const Package = await this.packageRepository.findOne({
+      where: { id: packageId },
+    });
+    if (!Package) {
+      throw new NotFoundException("Package not found");
+    }
     const plans = {
-      basic: SubscriptionPlan.BASIC,
-      pro: SubscriptionPlan.PRO,
-      enterprise: SubscriptionPlan.ENTERPRISE,
+      Basic: SubscriptionPlan.BASIC,
+      Pro: SubscriptionPlan.PRO,
+      Enterprise: SubscriptionPlan.ENTERPRISE,
     };
     const expires = new Date();
     expires.setMonth(expires.getMonth() + 1); // Adds 1 month
     const updatedData: Partial<User> = {
       subscription: {
         status: "subscribed",
-        plan: plans[packageName.toLowerCase()], // optional: normalize input
+        plan: plans[Package?.title], // optional: normalize input
         expiresAt: expires,
       },
     };
@@ -336,6 +350,12 @@ export class AuthService {
     }
 
     await this.userRepository.update(id, updatedData);
+    const userPackage= await this.packagesService.createUserPackage({
+      userId:user.id,
+      packageId:Package.id,
+    });
+    console.log(userPackage)
+    await this.mailService.sendSubscriptionConfirmation(user, Package);
     return {
       status: 200,
       message: "User package has been subscribed successfully.",

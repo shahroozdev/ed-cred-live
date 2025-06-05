@@ -17,7 +17,8 @@ export class CreatePostDto {
     @IsString()
     image?: string;
 
-    body: any;
+    @IsOptional()
+    body: string;
 }
 
 export class UpdatePostDto extends CreatePostDto {}
