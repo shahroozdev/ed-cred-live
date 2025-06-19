@@ -1,29 +1,18 @@
-"use client";
-import React, { useEffect } from "react";
-import { usePostStore } from "@/store/usePostStore";
-import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { TitleWrapper } from "@/components/atoms";
+import { getServerSideDataWithFeatures } from "@/actions/serverActions";
+import Image from "next/image";
 
-export default function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = React.use(params);
-    const { selectedPost, fetchPost, loading } = usePostStore();
-    const router = useRouter();
+export default async function PostPage({params}:{params: Promise<{ slug:string}>}) {
+    const { slug } = await params;
+    const data = await getServerSideDataWithFeatures({url:`/posts/${slug}`, key:'post'});
 
-    useEffect(() => {
-        fetchPost(slug);
-    }, [slug, fetchPost]);
-
-    if (loading) return <div className="text-center p-4">Loading...</div>;
-    if (!selectedPost) return <div className="text-center p-4">Post not found.</div>;
-
+    if (!data) return <div className="text-center p-4">Post not found.</div>;
+    const selectedPost = data;
     return (
-        <div>
-            <div className="max-w-2xl mx-auto p-6">
-                <button onClick={() => router.back()} className="mb-6 text-blue-500 hover:underline">
-                    ← Back to Posts
-                </button>
+        <TitleWrapper title="Post Detail" notBackBtn>
+            <div className="w-full mx-auto p-6">
                 <h1 className="text-3xl font-bold">{selectedPost.title}</h1>
-                <p className="mt-4">{selectedPost.description}</p>
                 <p className="text-gray-500 mt-2">
                     {new Intl.DateTimeFormat("en-US", {
                         day: "numeric",
@@ -32,8 +21,9 @@ export default function PostPage({ params }: { params: Promise<{ slug: string }>
                     }).format(new Date(selectedPost.createdAt ?? ""))}
                 </p>
                 <Separator className="my-4" />
-                <div dangerouslySetInnerHTML={{__html: selectedPost.body}}></div>
+                <Image src={process.env.BASE_URL+selectedPost.image} width={1000} height={500} alt={selectedPost.title} className="w-full max-h-[500px] object-cover rounded-2xl mb-4"/>
+                <div dangerouslySetInnerHTML={{__html: selectedPost.body}} />
             </div>
-        </div>
+        </TitleWrapper>
     );
 }

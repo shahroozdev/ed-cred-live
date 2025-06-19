@@ -8,9 +8,14 @@ import { appendDataToFormData } from "@/lib/utils";
 import { QueryProps } from "@/types";
 // import { QueryProps } from "@/types/entities";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import { toast } from "sonner";
 
+export const SafariContext = createContext<boolean>(false);
+
+export const useSafari = () => {
+  return useContext(SafariContext);
+};
 export async function MutateFunc(value: {
   url: string;
   method: "POST" | "PUT" | "DELETE";

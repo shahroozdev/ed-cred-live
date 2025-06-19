@@ -13,11 +13,15 @@ const Dashboard = async ({ searchParams }: { searchParams: any }) => {
     url: `/category`,
     key: "CategoriesList",
   });
+  const posts = await getServerSideDataWithFeatures({
+    url: `/posts`,
+    key: "posts",
+  });
   return (
     <TitleWrapper title={"Dasboard"} notBackBtn>
       <div className="font-inter flex flex-col">
         <div className="flex-1 space-y-4 p-8 pt-6">
-          <OverviewTab feedbacks={feedbacks} categories={categories} />
+          <OverviewTab feedbacks={feedbacks} categories={categories} posts={posts}/>
         </div>
       </div>
     </TitleWrapper>

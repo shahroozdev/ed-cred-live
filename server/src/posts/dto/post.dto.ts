@@ -1,24 +1,40 @@
-import { IsString, IsEnum, IsBoolean, IsOptional } from 'class-validator';
+import { IsString, IsEnum, IsBoolean, IsOptional } from "class-validator";
 
 export class CreatePostDto {
-    @IsString()
-    title: string;
+  @IsString()
+  title: string;
 
-    @IsString()
-    description: string;
+  @IsEnum(["active", "draft"])
+  status: "active" | "draft";
 
-    @IsEnum(['active', 'draft'])
-    status: 'active' | 'draft';
+  @IsBoolean()
+  featured: boolean;
 
-    @IsBoolean()
-    featured: boolean;
+  @IsOptional()
+  @IsString()
+  image?: string;
 
-    @IsOptional()
-    @IsString()
-    image?: string;
-
-    @IsOptional()
-    body: string;
+  @IsOptional()
+  body: string;
 }
 
-export class UpdatePostDto extends CreatePostDto {}
+export class UpdatePostDto {
+  @IsOptional()
+  @IsString()
+  title: string;
+  
+  @IsOptional()
+  @IsEnum(["active", "draft"])
+  status: "active" | "draft";
+
+  @IsOptional()
+  @IsString()
+  featured: string;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
+
+  @IsOptional()
+  body: string;
+}

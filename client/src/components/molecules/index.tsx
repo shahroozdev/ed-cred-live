@@ -1,4 +1,5 @@
 import ChangeCategoryModal from "./changeCategoryModal";
+import CustomModal from "./customModal";
 import Slider from "./slider";
 
-export {Slider, ChangeCategoryModal}
+export {Slider, ChangeCategoryModal, CustomModal}

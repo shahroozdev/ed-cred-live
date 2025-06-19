@@ -1,7 +1,6 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
-import UserDashboardPage from "@/components/pages/user/dashboard";
-import DashboardView2 from "@/components/pages/user/dashboard/index2";
+import DashboardView2 from "@/components/pages/common/user/dashboard/index2";
 import React from "react";
 
 const PageDashboard = async() => {
@@ -11,7 +10,6 @@ const PageDashboard = async() => {
     });
   return (
     <TitleWrapper title={"Dasboard"} notBackBtn>
-      {/* <UserDashboardPage data={data}/> */}
       <DashboardView2  data={data}/>
     </TitleWrapper>
   );

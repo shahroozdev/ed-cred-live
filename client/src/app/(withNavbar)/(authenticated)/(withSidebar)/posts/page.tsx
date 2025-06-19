@@ -12,20 +12,18 @@ const PostListingPage = async () => {
   const stats = [
     {
       title: "Total Posts",
-      value: posts?.length?.toString(),
+      value: posts?.total,
     },
     {
       title: "Active Posts",
-      value: posts
-        ?.filter((post: any) => post.status === "active")
-        .length.toString(),
+      value: posts?.activeTotal,
     },
     {
       title: "Featured Posts",
-      value: posts?.filter((post: any) => post.featured).length.toString(),
+      value: posts?.featuredTotal,
     },
   ];
-  console.log(posts)
+
   return (
     <TitleWrapper title="Recent posts" desc="">
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -40,13 +38,13 @@ const PostListingPage = async () => {
         //   form={FeedbackFilterForm}
           noFilter
           title="Recent Posts"
-          tableData={posts}
+          tableData={posts?.posts}
           tableColumn={postsAdminColumn}
           tablePagination={true}
           searchBar
-        //   total={data?.total}
-        //   currentPage={data?.currentPage}
-        //   pageSize={data?.pageSize}
+          total={posts?.total}
+          currentPage={posts?.currentPage}
+          pageSize={posts?.pageSize}
         />
       </div>
     </TitleWrapper>

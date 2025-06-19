@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Card = ({ title, featureImageUrl, text, id }: any) => {
-  console.log(process.env.BASE_URL + featureImageUrl);
+
   return (
     <div className="flex flex-col items-start h-[500px] overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out justify-start gap-6 rounded-3xl border border-[#E5F4F2] bg-background p-2 text-left shadow-lg">
       <div className="w-full min-h-[200px] h-[200px] max-h-[200px]">
@@ -31,28 +31,8 @@ const Card = ({ title, featureImageUrl, text, id }: any) => {
 };
 
 const Discussions = ({ data }: { data: Record<string, any> }) => {
-  const DiscussionCards = [
-    {
-      title: "Excepteur sint occaecat cupidatat non proident",
-      image: "1.png",
-      description:
-        "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci veli",
-    },
-    {
-      title: "Excepteur sint occaecat cupidatat non proident",
-      image: "2.png",
-      description:
-        "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci veli",
-    },
-    {
-      title: "Excepteur sint occaecat cupidatat non proident",
-      image: "3.png",
-      description:
-        "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci veli",
-    },
-  ];
   return (
-    <div className="relative flex h-auto w-full flex-col items-center justify-center gap-14 py-20 md:py-40 max-w-[1200px] m-auto">
+    <div className="relative flex h-auto w-full flex-col items-center justify-center gap-14 mb-20 max-w-[1200px] m-auto">
       <div className="flex flex-col items-center justify-center gap-4">
         <div className="w-max rounded-full bg-[#A1AF001A] px-4 py-2 font-sans text-sm font-[400] tracking-widest text-[#439E5E] md:text-base">
           LATEST INSIGHTS

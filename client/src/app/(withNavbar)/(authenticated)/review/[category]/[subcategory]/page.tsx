@@ -15,7 +15,7 @@ export default async function ReivewPage({
   const feedbacks = data?.feedbacks;
   return (
     <TitleWrapper
-      title="Feedback"
+      title="Feedback Review Form"
       desc="Give feedback here."
       notBackBtn
     >
@@ -30,11 +30,10 @@ export default async function ReivewPage({
         ) : (
           <div className="w-full flex h-full flex-col items-start">
             {feedbacks?.map((feedback: Record<string, any>) => (
-              <div key={feedback.id} className="w-full">
-                <div className="flex flex-col items-center justify-center bg-background py-16">
-                  <div className="text-4xl font-semibold">{feedback.title}</div>
+              <div key={feedback?.id} className="w-full">
+                <div className="flex flex-col items-start justify-start bg-background">
+                  <div className="text-2xl font-semibold">{feedback?.title}</div>
                 </div>
-
                 <FeedbackForm feedback={feedback} />
               </div>
             ))}

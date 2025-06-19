@@ -1,6 +1,7 @@
 import { TitleWrapper } from "@/components/atoms";
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
-import GroupedResponseView from "@/components/pages/user/review/groupReview";
+import GroupedResponseView from "@/components/pages/common/user/review/groupReview";
+
 
 export default async function FeedbackResponseViewPage({
   params,

@@ -230,6 +230,15 @@ body {
 .minimal-tiptap-editor .ProseMirror .selection::selection {
     background: transparent;
 }
+.video-react-big-play-button{
+    @apply !top-1/2 !left-1/2 !-mt-3 !-ml-6 ;
+}
+.video-react{
+    max-height: 400px !important;
+    height: 400px !important;   
+    object-fit: contain !important;
+    padding-top: 0px !important;
+}
 
 :root {
     --mt-overlay: rgba(251, 251, 251, 0.75);
@@ -322,3 +331,4 @@ body {
     --hljs-selector-tag: #e8c785;
     --hljs-number: #b6e7b6;
 }
+

@@ -8,8 +8,10 @@ import React from "react";
 import { v4 } from "uuid";
 
 const ResponseCard = ({
-  response
+  response,
+  mobile
 }: {
+  mobile?:boolean;
   response: any;
   hideRating?: boolean;
 }) => {
@@ -41,7 +43,7 @@ const ResponseCard = ({
         />
       </div>
       <div className="w-full">
-        <div className="flex flex-col sm:flex-row justify-between w-full">
+        <div className={`flex ${mobile?'flex-col':'flex-col sm:flex-row'} justify-between w-full`}>
           <div>
             <div className="text-lg font-semibold capitalize">
               {response?.groupType||response?.responses[0]?.feedbackForm?.category?.name}
@@ -93,15 +95,15 @@ const ResponseCard = ({
           </div>
         </div>
         <div className="flex gap-1 items-center justify-end">
-          {Array.from({ length: 10 }).map((_, i) => (
+          {Array.from({ length: 5 }).map((_, i) => (
             <AppleIcon
               key={v4()}
               size={16}
-              fill={i + 1 < averageRating ? "red" : "gray"}
-              stroke={i + 1 < averageRating ? "red" : "gray"}
+              fill={i + 1 <= averageRating ? "red" : "gray"}
+              stroke={i + 1 <= averageRating ? "red" : "gray"}
             />
           ))}
-          <div className="text-base ml-2">{averageRating?.toFixed(0)}/10</div>
+          <div className="text-base ml-2">{averageRating?.toFixed(0)}/5</div>
         </div>
       </div>
     </div>

@@ -6,6 +6,9 @@ import { FeedbackForm } from "../feedback-form/entities/feedback-form.entity";
 import { CreateFeedbackResponseDto } from "./dto/create-feedback-response.dto";
 import { User } from "../auth/user.entity";
 import { response } from "types";
+import { School } from "../school/entities/school.entity";
+import { Branch } from "../school/entities/branch.entity";
+import { Employee } from "../school/entities/employee.entity";
 
 @Injectable()
 export class FeedbackResponseService {
@@ -17,7 +20,16 @@ export class FeedbackResponseService {
     private readonly feedbackFormRepository: Repository<FeedbackForm>,
 
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly userRepository: Repository<User>,
+
+    @InjectRepository(School)
+    private readonly schoolRepository: Repository<School>,
+
+    @InjectRepository(Branch)
+    private readonly brachRepository: Repository<Branch>,
+
+    @InjectRepository(Employee)
+    private readonly employeeRepository: Repository<Employee>,
   ) {}
 
   // Create a new feedback response
@@ -112,7 +124,7 @@ export class FeedbackResponseService {
   async findOneResponse(id: string) {
     return await this.feedbackResponseRepository.find({
       where: { id: id },
-      relations: ["feedbackForm"],
+      relations: ["feedbackForm","feedbackForm.questions"],
     });
   }
 

@@ -2,10 +2,12 @@ import React, { ChangeEvent, useState } from "react";
 import { FormFeilds } from "../form";
 import Image from "next/image";
 import { useFormContext } from "react-hook-form";
+import DynamicView from "./dynamicView";
+import { toast } from "sonner";
 
 const UploadFiles = ({ inputName }: { inputName?: string }) => {
   const [attachments, setAttachments] = useState<File[]>([]);
-  const {setValue} = useFormContext();
+  const { setValue } = useFormContext();
   const maxSize = 5 * 1024 * 1024; // 5MB
   const attachmentSizeLimiter = (
     e: ChangeEvent<HTMLInputElement>,
@@ -18,7 +20,7 @@ const UploadFiles = ({ inputName }: { inputName?: string }) => {
       0
     );
     if (totalSize > maxSize) {
-      alert("Total file size exceeds 5MB limit.");
+      toast.error("Total file size exceeds 5MB limit.");
       e.target.value = ""; // Reset the file input
       return;
     } else {
@@ -33,7 +35,7 @@ const UploadFiles = ({ inputName }: { inputName?: string }) => {
     const updatedFiles = [...attachments];
     updatedFiles.splice(index, 1);
     setAttachments(updatedFiles);
-    setValue(inputName||'attachments', updatedFiles);
+    setValue(inputName || "attachments", updatedFiles);
   };
   return (
     <>
@@ -60,7 +62,7 @@ const UploadFiles = ({ inputName }: { inputName?: string }) => {
           <input
             type="file"
             multiple
-            accept=".jpg,.jpeg,.png,.gif,.mp4,.mov,.pdf,.doc,.docx"
+            accept=".jpg,.jpeg,.png,.gif,.mp4,.mov,.pdf,.doc,.docx,.mp3"
             // {...field}
             onChange={(e) => {
               attachmentSizeLimiter(e, field);
@@ -71,22 +73,24 @@ const UploadFiles = ({ inputName }: { inputName?: string }) => {
       </FormFeilds>
 
       {/* Attachments Preview */}
-      <div className="mt-2 space-y-1 text-sm flex flex-wrap gap-2">
-        {attachments.map((item: any, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-between h-[30px] max-w-36 border-[1px] shadow-2xl border-foreground px-3 py-1 rounded"
-          >
-            <span className="truncate">{item?.name}</span>
-            <button
-              type="button"
-              className="text-red-500 ml-2 cursor-pointer"
-              onClick={() => removeAttachment(index)}
+      <div className="my-4 space-y-4 text-sm grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
+        {attachments.map((file: any, index) => {
+          console.log(file, 'item')
+          return (
+            <div
+              key={index}
+              className="relative flex items-start justify-start max-h-48 border-foreground py-1 rounded"
             >
-              ×
-            </button>
-          </div>
-        ))}
+             <DynamicView file={file}/>
+              <span
+                className="text-white ml-2 cursor-pointer absolute z-1 -top-[2px] -right-1 w-4 h-4 rounded-full flex justify-center items-center bg-red-500"
+                onClick={() => removeAttachment(index)}
+              >
+                ×
+              </span>
+            </div>
+          );
+        })}
       </div>
     </>
   );

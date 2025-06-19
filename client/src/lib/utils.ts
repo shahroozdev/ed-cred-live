@@ -1,3 +1,4 @@
+import { types } from "@/data/constant";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -67,3 +68,11 @@ export const getAllParam = (data: any) => {
 export const convertToCents = (amount:number) => {
   return Math.round(amount * 100);
 }
+
+export const sortByType = (data: any[] ) => {
+    const audio = data?.filter((key: any) => types["audio"].includes(key?.folder_path?.split(".").pop()));
+    const videos = data?.filter((key: any) => types["video"].includes(key?.folder_path?.split(".").pop()));
+    const docs = data?.filter((key: any) => types["doc"].includes(key?.folder_path?.split(".").pop()));
+    const image = data?.filter((key: any) => types["image"].includes(key?.folder_path?.split(".").pop()));
+    return {audio, videos, docs, image};
+};

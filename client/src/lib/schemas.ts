@@ -8,18 +8,20 @@ export const loginSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters" }),
 });
 export const forgetPasswordSchema = z.object({
-    email: z.string().email("Invalid email address")
+  email: z.string().email("Invalid email address"),
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;
 export type ForgetPasswordSchema = z.infer<typeof forgetPasswordSchema>;
 
-export const signupSchema = z.object({
+export const signupSchema = z
+  .object({
     email: z.string().email("Invalid email address"),
     username: z.string().min(2, "Username must be at least 2 characters"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
-  }).refine((data) => data.password === data.confirmPassword, {
+  })
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
@@ -82,17 +84,16 @@ export const imageSchema = z
   .refine((file) => file?.size <= 2 * 1024 * 1024, {
     message: "Max file size is 2MB",
   });
-export const feedbackCreateResponseSchema = (feedback: Record<string, any>) => {
-  const detailsFields = Object.keys(feedback?.details).filter(
-    (key) => feedback?.details[key]
-  );
+export const feedbackCreateResponseSchema = (feedback:any) => {
   return z.object({
-    details: z.object(
-      detailsFields?.reduce((acc: any, curr: any) => {
-        acc[curr] = z.string().min(1, "Field is required.");
-        return acc;
-      }, {})
-    ),
+    details: z.object({
+      revieweeName: z.string().min(1, "Field is required."),
+      schoolName: z.string().min(1, "Field is required."),
+      schoolCountry: z.string().min(1, "Field is required."),
+      schoolWebsite: z.string().optional(),
+      schoolDivison: z.string().min(1, "Field is required."),
+      reportingPeriod: z.string().optional(),
+    }),
     answers: z
       .array(
         z.object({
@@ -106,11 +107,13 @@ export const feedbackCreateResponseSchema = (feedback: Record<string, any>) => {
         })
       )
       .min(feedback.questions.length, "All questions must be answered."),
-      comments:z.string(),
-      attachments:z.any().optional()
+    comments: z.string(),
+    attachments: z.any().optional(),
+    agreeTerms: z.boolean().refine(val => val === true, {
+      message: "You must agree to the terms.",
+    }),
   });
 };
-
 
 export const ForumSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -126,18 +129,16 @@ export const ForumSchema = z.object({
 });
 
 export const replySchema = z.object({
-  text:z.string().min(5, "Minimum 5 Charters Required.")
-})
+  text: z.string().min(5, "Minimum 5 Charters Required."),
+});
 
 export const postSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  // description: z.string().min(1, "Description is required"),
   body: z.string().min(1, "Body is required"),
-  image: z
-    .instanceof(File)
-    .refine((file) => file.type.startsWith("image/"), {
-      message: "Image must be a valid image file",
-    }),
+  image: z.instanceof(File).refine((file) => file.type.startsWith("image/"), {
+    message: "Image must be a valid image file",
+  }),
   featured: z.boolean(),
   status: z.boolean(),
 });

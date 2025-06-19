@@ -40,7 +40,7 @@ const ResponseView = ({ response }: any) => {
             )}
             <div className="md:text-base text-sm font-normal flex">
               <div className="flex gap-1 items-center justify-end">
-                {Array.from({ length: 10 }).map((_, i) => (
+                {Array.from({ length: 5 }).map((_, i) => (
                   <AppleIcon
                     key={v4()}
                     size={16}
@@ -49,7 +49,7 @@ const ResponseView = ({ response }: any) => {
                   />
                 ))}
                 <div className="text-base ml-2">
-                  {averageRating?.toFixed(0)}/10
+                  {averageRating?.toFixed(0)}/5
                 </div>
               </div>
             </div>

@@ -7,12 +7,10 @@ import {
 } from "@/components/ui/card";
 import { RecentFeedback } from "./RecentFeedbacks";
 import { RecentPosts } from "./RecentPosts";
-import { usePostStore } from "@/store/usePostStore";
 import { Stats } from "@/components/Common/Stats";
 
 
-export const OverviewTab = ({feedbacks, categories}:{feedbacks:Record<string, any>, categories:Record<string, any>}) => {
-    const { posts } = usePostStore();
+export const OverviewTab = ({feedbacks, categories, posts}:{feedbacks:Record<string, any>, categories:Record<string, any>, posts:Record<string, any>}) => {
     const stats = [
         {
             title: "Total Feedbacks",
@@ -24,7 +22,7 @@ export const OverviewTab = ({feedbacks, categories}:{feedbacks:Record<string, an
         },
         {
             title: "Total Posts",
-            value: posts?.length?.toString(),
+            value: posts?.total,
         },
         {
             title: "Total Categries",

@@ -58,6 +58,9 @@ export class FeedbackResponse {
   @Column({ type: "text", nullable: true })
   comments?: string;
 
+  @Column({default:false})
+  agreeTerms: boolean;
+
   @OneToMany(() => Dispute, (dispute) => dispute.disputedBy)
   disputes: Dispute[];
 

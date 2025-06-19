@@ -1,5 +1,6 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { Header } from "@/components/organisms";
+import BrowserDetect from "@/lib/BrowserDetect";
 import { ReactNode } from "react";
 
 const WithNavabarLayout = async ({ children }: { children: ReactNode }) => {
@@ -11,7 +12,7 @@ const WithNavabarLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <div className="relative w-screen">
       <Header user={user} />
-      {children}
+      <BrowserDetect>{children}</BrowserDetect>
     </div>
   );
 };

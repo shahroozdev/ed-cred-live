@@ -1,48 +1,49 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "../ui/textarea";
-// import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { savePost } from "@/api/posts";
-import { toast } from "sonner";
-// import UnlayerEditor from "./UnlayerEditor";
 import QuillEditor from "../molecules/editor";
 import { useMutate } from "@/hooks/generalHooks";
 import { Button, FormFeilds, FormTemplate } from "../atoms";
 import UploadFilePreview from "../atoms/uploadAndPreview";
 import { postSchema } from "@/lib/schemas";
+import { Dispatch, SetStateAction } from "react";
 
-export default function CreatePost() {
-
+export default function CreatePost({
+  data: defaultValues,
+  setIsOpen
+}: {
+  data?: Record<string, any>;
+  setIsOpen?:Dispatch<SetStateAction<boolean>>
+}) {
   const { MutateFunc, isPending } = useMutate();
 
   async function onSubmit(data: any) {
     await MutateFunc({
-      url: "/posts",
+      url: defaultValues ? `/posts/${defaultValues?.id}`:"/posts",
       tags: "posts",
-      method: "POST",
-      body:data,
-      allowMulti:true,
+      method: defaultValues ? "PUT" : "POST",
+      body: {...data, status:data?.status?"active":"draft"},
+      allowMulti: true,
       sendTo: "/posts",
+      onSuccess:()=>setIsOpen&&setIsOpen(false)
     });
   }
-
+  console.log(defaultValues);
   return (
     <FormTemplate
       onSubmit={onSubmit}
       schema={postSchema}
       className="space-y-8 w-full overflow-hidden px-5"
       defaultValues={{
-        title: "",
-        descripion: "",
-        body: "",
+        title: defaultValues?.title || "",
+        body: defaultValues?.body || "",
         image: null,
-        featured: false,
-        status: false,
+        featured: defaultValues?.featured || false,
+        status: defaultValues
+          ? defaultValues?.status === "active"
+            ? true
+            : false
+          : false,
       }}
     >
       <div className="space-y-4">
@@ -57,14 +58,6 @@ export default function CreatePost() {
               className="w-full"
               onChange={field.onChange}
             />
-          )}
-        </FormFeilds>
-        <FormFeilds
-          fieldProps={{ name: "description" }}
-          label={{ text: "Post Description", className: "space-y-0.5" }}
-        >
-          {(field) => (
-            <Textarea {...field} className="w-full" onChange={field.onChange} />
           )}
         </FormFeilds>
         <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">

@@ -9,7 +9,7 @@ const TitleWrapper = ({title, desc, children, notBackBtn}:{title:string, desc?:s
               {!notBackBtn&&<button onClick={() => router.push('/admin-dashboard')} className="text-left text-blue-500 hover:underline mb-4">
                   ← Back to Dashboard
               </button>}
-              <div className="text-3xl font-semibold">{title}</div>
+              <div className="text-3xl font-semibold underline italic">{title}</div>
               <div className="font-base text-muted-foreground mb-8">{desc}</div>
               {children}
           </div>

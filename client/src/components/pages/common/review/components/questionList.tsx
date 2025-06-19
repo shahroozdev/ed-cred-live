@@ -10,18 +10,11 @@ const QuestionList = ({feedback, disabled}: {feedback: Record<string, any>; disa
   const { fields, append } = useFieldArray({
     name: "answers",
   });
-  // useEffect(() => {
-  //   if (feedback?.questions) {
-  //     feedback?.questions.forEach((q: any) => {
-  //       if (!fields.find((f: any) => f.questionId === q.id)) {
-  //         append({ questionId: q?.id, answer: "", question: q?.text });
-  //       }
-  //     });
-  //   }
-  // }, [feedback?.questions?.length]);
-  // console.log(feedback, 'feedback')
+
   return (
     <>
+    <h3 className="font-bold text-xl">Questions:</h3>
+
       {fields.map((field: any, index: number) => {
         const question = feedback?.questions?.find(
           (q: any) => q.id === field.questionId

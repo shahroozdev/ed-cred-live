@@ -4,8 +4,8 @@
 "use client";
 import { getProfile } from "@/api/auth";
 import { API_BASE_URL } from "@/api/config";
-import FeedbackForm from "@/components/Dashboard/FeedbackForm";
-import QuestionsList from "@/components/Dashboard/QuestionsList";
+// import FeedbackForm from "@/components/Dashboard/FeedbackForm";
+// import QuestionsList from "@/components/Dashboard/QuestionsList";
 import { Button } from "@/components/ui/button";
 import { useFeedbackStore } from "@/store/createFeedbackStore";
 import { useQuestionStore } from "@/store/questionStore";
@@ -24,8 +24,8 @@ const Dashboard = () => {
           title="Create Feedback Form"
           desc="You can create a feedback form. The category refers to the added and the subcategory refers to the users role."
         />
-        <FeedbackForm />
-        <QuestionsList />
+        {/* <FeedbackForm />
+        <QuestionsList /> */}
         <PublishFeedback />
       </div>
     </div>

@@ -16,6 +16,26 @@ export const detailType = {
   directorName: "text",
   salary: "number",
 } as any;
+export const detailObjectsArray = [
+  { name: "revieweeName", type: "text", placeholder: "Enter Reviewee name" },
+  { name: "schoolName", type: "text", placeholder: "Enter school name" },
+  {
+    name: "schoolCountry",
+    type: "dropdown",
+    placeholder: "Enter school country",
+  },
+  { name: "schoolWebsite", type: "text", placeholder: "Enter school website" },
+  {
+    name: "schoolDivison",
+    type: "text",
+    placeholder: "Enter principal division",
+  },
+  {
+    name: "reportingPeriod",
+    type: "date-range",
+    placeholder: "Enter reporting period",
+  },
+] as any;
 
 export const detailHeading = {
   salary: "Salary",
@@ -26,4 +46,25 @@ export const detailHeading = {
   pricipalName: "Principal Name",
   pricipalDivison: "Principal Division",
   directorName: "Director Name",
+} as any;
+
+export const types = {
+  all: ".jpg,.jpeg,.png,.mp4,.mov,.webm,.quicktime,.m4v,.M4V,.mp3,.audio/mpeg,.m4a,.x-m4a,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.MOV, application/vnd.ms-excel,application/vnd.ms-powerpoint,.ppt,.pptx,.PNG,.JPEG,.JPG,.xlxs,.xls,.csv,text/csv,.xlsx,",
+  image: ".jpg,.jpeg,.png,.PNG,.JPEG,.JPG,",
+  video: ".mp4,.webm,.mov,.quicktime,.MOV,.m4v,.M4V,",
+  audio: ".mp3,.m4a,.x-m4a,.audio/mpeg,",
+  doc: ".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/vnd.ms-powerpoint,.ppt,.pptx,.xls,.xlxs,.csv,text/csv,.xlsx,",
+  docImg:
+    ".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/vnd.ms-powerpoint,.ppt,.xls,.xlxs,.csv,text/csv,.xlsx,.pptx,",
+  comment:
+    ".jpg,.jpeg,.png,.PNG,.JPEG,.JPG,.pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xls,.xlxs,.csv,text/csv,.xlsx,",
+  pdfImg: ".jpg,.jpeg,.png,.pdf,",
+  extensions:
+    ".jpg, .jpeg, .png, .mp4, .webm, .mpeg, .mp3, .m4a, .mov, .pdf, .doc, .docx, .ppt, .pptx, .xlxs, .xls, .csv, .xlsx,",
+  viewExtension:
+    ".jpg,.jpeg,.png,.mp4,.webm,.m4v,.M4V,.mpeg,.mov,.mp3,.m4a,.pdf,.doc,.docx,.ppt,.pptx,.xlxs,.xls,.csv,.xlsx,",
+  videoView: ".mp4,.webm,.mov,.m4v,.M4V,",
+  imageView: ".jpg,.jpeg,.png,",
+  audioView: ".mp3,.m4a,",
+  docView: ".pdf,.doc,.docx,.ppt,.pptx,.xlxs,.xls,.csv,.xlsx,",
 } as any;

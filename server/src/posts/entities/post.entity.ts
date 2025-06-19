@@ -8,9 +8,6 @@ export class Post {
     @Column()
     title: string;
 
-    @Column()
-    description: string;
-
     @Column({ type: 'enum', enum: ['active', 'draft'] })
     status: 'active' | 'draft';
 

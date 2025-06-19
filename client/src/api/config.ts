@@ -22,7 +22,7 @@ export const request = async (route: string) => {
 export const getRequest = async (route: string) => {
     const token = localStorage.getItem("token");
     if (!token) {
-        toast.error("Can not find the token, please log in again!");
+        toast.error(`Can not find the token, please log in again! ${route}`);
         return null;
     }
 
