@@ -7,12 +7,14 @@ import { v4 } from "uuid";
 
 const ResponseView = ({ response }: any) => {
   let totalRating =0;
+  let count=0;
       response.answers.forEach((answer: any) => {
       if (Number.isInteger(Number(answer.answer))) {
         totalRating += Number(answer.answer);
+        count++
       }
     })
-  const averageRating = Math.round(totalRating / response?.answers?.length);
+  const averageRating = Math.round(totalRating / count);
 
   return (
     <div className="w-full px-3 py-2 flex gap-2 cursor-pointer ">
@@ -55,7 +57,7 @@ const ResponseView = ({ response }: any) => {
             </div>
             {response?.comments ? (
               <div className="md:text-base text-sm font-normal">
-                <b>Comments:</b> {response?.comments}
+                <b>Comment:</b> {response?.comments}
               </div>
             ) : (
               <></>

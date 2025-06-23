@@ -63,12 +63,14 @@ export class FeedbackResponseService {
       }
     })
     let totalRating = 0;
+    let count =0;
       dto.answers.forEach((answer: any) => {
         if (Number.isInteger(Number(answer.answer))) {
           totalRating += Number(answer.answer);
+          count++
         }
       })
-    const averageRating = Math.round(totalRating / dto.answers?.length);
+    const averageRating = Math.round(totalRating / count);
     const school = await this.schoolRepository.findOne({
       where: { name: ILike(`%${dto.details.schoolName}%`) },
       relations: ["branches", "branches.employees","branches.employees.category"],

@@ -21,12 +21,12 @@ const QuestionList = ({feedback, disabled}: {feedback: Record<string, any>; disa
         );
         if (!question) return null;
 
-        const inputType = question.type;
-
+        const inputType = question?.type;
+        console.log(inputType, 'type')
         return (
           <div
-            className={`outline-2 outline-muted flex md:flex-row flex-col ${
-              question.type != "rating" ? "flex-col" : ""
+            className={`outline-2 outline-muted flex  ${
+              question.type === "rating" ? "md:flex-row flex-col" : "flex-col"
             } w-full justify-between rounded-md p-4`}
             key={`feedback-question-${index}`}
           >
@@ -74,6 +74,7 @@ const QuestionList = ({feedback, disabled}: {feedback: Record<string, any>; disa
                       onChange={fieldProps.onChange}
                       placeholder="Your answer"
                       disabled={disabled}
+                      className="border-[1px] border-foreground"
                     />
                   );
                 }

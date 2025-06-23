@@ -2,7 +2,6 @@
 import { imagesUrls } from "@/types";
 import { AppleIcon, ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { v4 } from "uuid";
@@ -25,7 +24,7 @@ const ResponseCard = ({
       count++;
     }
   });
-  const averageRating = count > 0 ? totalRating / count : 0;
+  const averageRating = count > 0 ? Math.round(totalRating / count) : 0;
   console.log(response, averageRating, count);
   return (
     <div
@@ -70,7 +69,7 @@ const ResponseCard = ({
               <b>Reviewee Name:</b> {response?.name}
             </div>
             {response?.responses[0]?.comments ? (
-              <div className="text-ellipsis line-clamp-1 italic">
+              <div className="text-ellipsis line-clamp-1 italic font-light opacity-70">
                 &ldquo;{response?.responses[0]?.comments}
               </div>
             ) : (
