@@ -18,7 +18,7 @@ const ResponseView = ({ response }: any) => {
     <div className="w-full px-3 py-2 flex gap-2 cursor-pointer ">
       <div className="md:block hidden w-32 h-24 px-2 border-r-[1px]">
         <Image
-          src={`/images/Review.png`}
+          src={`/images/verifiedStamp.png`}
           width={600}
           height={600}
           alt={""}
@@ -29,11 +29,11 @@ const ResponseView = ({ response }: any) => {
         <div className="flex flex-col sm:flex-row justify-between w-full">
           <div>
             <div className="md:text-base text-sm font-normal">
-              Submitted on: {dayjs(response?.submittedAt).format("MMM DD, YY")}
+              <b>Submitted on:</b> {dayjs(response?.submittedAt).format("MMM DD, YY")}
             </div>
             {response?.details?.reportingPeriod ? (
               <div className="md:text-base text-sm font-normal">
-                Reporting Period: {response?.details?.reportingPeriod}
+                <b>Reporting Period:</b> {response?.details?.reportingPeriod}
               </div>
             ) : (
               <></>
@@ -44,8 +44,8 @@ const ResponseView = ({ response }: any) => {
                   <AppleIcon
                     key={v4()}
                     size={16}
-                    fill={i + 1 < averageRating ? "red" : "gray"}
-                    stroke={i + 1 < averageRating ? "red" : "gray"}
+                    fill={i + 1 <= averageRating ? "red" : "gray"}
+                    stroke={i + 1 <= averageRating ? "red" : "gray"}
                   />
                 ))}
                 <div className="text-base ml-2">
@@ -55,7 +55,7 @@ const ResponseView = ({ response }: any) => {
             </div>
             {response?.comments ? (
               <div className="md:text-base text-sm font-normal">
-                Comments: {response?.comments}
+                <b>Comments:</b> {response?.comments}
               </div>
             ) : (
               <></>

@@ -17,20 +17,20 @@ const ResponseCard = ({
 }) => {
   const router = useRouter();
   let totalRating = 0;
-  response?.responses &&
-    response?.responses?.forEach((res: any) =>
-      res.answers.forEach((answer: any) => {
-        if (Number.isInteger(Number(answer.answer))) {
-          totalRating += Number(answer.answer);
-        }
-      })
-    );
-  const averageRating = Math.round(totalRating / response?.responses?.length);
-  console.log(response);
+  let count = 0;
+
+  response?.responses?.forEach((res: any) => {
+    if (res?.avgRatting) {
+      totalRating += Number(res?.avgRatting);
+      count++;
+    }
+  });
+  const averageRating = count > 0 ? totalRating / count : 0;
+  console.log(response, averageRating, count);
   return (
     <div
       className="w-full border-2 border-muted rounded-md px-3 py-2 flex gap-2 shadow-md hover:scale-101 cursor-pointer transition-all duration-300 ease-in-out"
-      onClick={() => router.push(`/response/${response?.responses[0]?.id}`)}
+      onClick={() => router.push(`/response/${response?.id}`)}
     >
       {/* <div className="w-full h-full absolute flex justify-center items-center"> */}
       {/* </div>  */}
@@ -59,9 +59,9 @@ const ResponseCard = ({
           } justify-between w-full`}
         >
           <div>
-            <div className="text-lg font-semibold capitalize">
-              {response?.groupType ||
-                response?.responses[0]?.feedbackForm?.category?.name}
+            <div className="capitalize">
+              <b>Category:</b>
+              {response?.category?.name}
             </div>
             <div className="md:text-base text-sm font-normal">
               <b>School Name:</b> {response?.branch?.name}
@@ -69,13 +69,17 @@ const ResponseCard = ({
             <div className="md:text-base text-sm font-normal">
               <b>Reviewee Name:</b> {response?.name}
             </div>
-            <div className="text-ellipsis line-clamp-1 italic">
-              {response?.responses[0]?.comments}
-            </div>
+            {response?.responses[0]?.comments ? (
+              <div className="text-ellipsis line-clamp-1 italic">
+                &ldquo;{response?.responses[0]?.comments}
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="flex flex-col justify-between">
             <div className="text-right">
-              <div className="md:text-base text-sm flex gap-1 items-center">
+              <div className="md:text-base text-sm flex gap-1 items-center justify-end">
                 {response?.responses?.length} review
                 {response?.responses?.length > 1 ? "s" : ""}
                 <Image

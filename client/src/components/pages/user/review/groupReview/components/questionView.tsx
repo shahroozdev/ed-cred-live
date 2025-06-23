@@ -17,7 +17,7 @@ const QuestionView = ({ response }: { response: Record<string, any> }) => {
       }}
     >
       <div className="p-4 border-t-muted bg-gray-200 mx-2 rounded">
-        <h3 className="text-xl font-semibold mb-4">Questions:</h3>
+        {/* <h3 className="text-xl font-semibold mb-4">Questions:</h3> */}
         <QuestionList feedback={response?.feedbackForm} disabled />
       </div>
     </FormTemplate>

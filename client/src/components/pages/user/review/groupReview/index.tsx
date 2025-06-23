@@ -13,6 +13,7 @@ const GroupedResponseView = ({data}:{data:Record<string, any>}) => {
           desc: <QuestionView response={item} />,
         }))
       : [];
+
   return (
     <>
       <ResponseCard response={data} />

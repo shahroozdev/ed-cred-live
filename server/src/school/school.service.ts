@@ -227,7 +227,7 @@ export class SchoolService {
   async findOneEmployee(id: number): Promise<Employee> {
     const employee = await this.employeeRepository.findOne({
       where: { id },
-      relations: ["branch", "branch.school"],
+      relations: ["branch", "branch.school", "responses", "category", "responses.feedbackForm","responses.feedbackForm.questions"],
     });
 
     if (!employee) throw new NotFoundException(`Employee ID ${id} not found`);

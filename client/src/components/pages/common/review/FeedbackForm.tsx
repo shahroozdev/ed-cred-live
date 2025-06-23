@@ -8,7 +8,6 @@ import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import { feedbackCreateResponseSchema } from "@/lib/schemas";
 import { useMutate } from "@/hooks/generalHooks";
 import UploadFiles from "@/components/atoms/uploadFiles";
-import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 
 const FeedbackForm = ({

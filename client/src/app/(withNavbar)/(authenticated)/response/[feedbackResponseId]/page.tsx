@@ -10,7 +10,7 @@ export default async function FeedbackResponseViewPage({
 }) {
   const { feedbackResponseId } = await params;
   const data = await getServerSideDataWithFeatures({
-    url: `/feedback-responses/${feedbackResponseId}`,
+    url: `/school/employee/${feedbackResponseId}`,
     key: "singleResponse",
   });
   return (

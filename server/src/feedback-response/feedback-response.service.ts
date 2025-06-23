@@ -71,7 +71,7 @@ export class FeedbackResponseService {
     const averageRating = Math.round(totalRating / dto.answers?.length);
     const school = await this.schoolRepository.findOne({
       where: { name: ILike(`%${dto.details.schoolName}%`) },
-      relations: ["branches", "branches.employees"],
+      relations: ["branches", "branches.employees","branches.employees.category"],
     });
     let newSchool: School;
     let newBranch: Branch;
@@ -98,8 +98,8 @@ export class FeedbackResponseService {
     } else {
       const branch = school?.branches?.find(
         (branch) =>
-          branch?.country === dto?.details?.country &&
-          branch?.division === dto?.details?.divison
+          branch?.country.toLowerCase() === dto?.details?.country.toLowerCase() &&
+          branch?.division.toLowerCase() === dto?.details?.divison.toLowerCase()
       );
       if (branch) {
         newBranch = branch;
@@ -114,7 +114,7 @@ export class FeedbackResponseService {
         await this.brachRepository.save(newBranch);
       }
       const employee = newBranch?.employees?.find(
-        (employee) => employee?.name === dto?.details?.revieweeName && employee?.category?.id === category?.id
+        (employee) => employee?.name.toLowerCase() === dto?.details?.revieweeName?.toLowerCase() && employee?.category?.id === category?.id
       );
       if (employee) {
         newEmployee = employee;
