@@ -4,7 +4,7 @@ import { CreateEmployeeDto, UpdateEmployeeDto } from "./dto/employee.dto";
 import { CreateSchoolDto, UpdateSchoolDto } from "./dto/school.dto";
 import { School } from "./entities/school.entity";
 import { Branch } from "./entities/branch.entity";
-import { Like, Repository } from "typeorm";
+import { ILike, Like, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateBranchDto, UpdateBranchDto } from "./dto/branch.dto";
 import { Category } from "src/category/category.entity";
@@ -44,8 +44,15 @@ export class SchoolService {
   async findAllBranches(
     query?: Record<string, any>
   ): Promise<response & { branches?: Branch[] }> {
-    const {page = 1, pageSize=10, school, categoryId, country, search} = query
-
+    const {
+      page = 1,
+      pageSize = 10,
+      school,
+      categoryId,
+      country,
+      ratting,
+      search,
+    } = query;
 
     const where: any = {
       employees: {
@@ -54,14 +61,37 @@ export class SchoolService {
         },
       },
     };
-    if(school){
-      where.name= Like(`%${school}%`)
+    if (school) {
+      where.name = Like(`%${school}%`);
     }
-    if(categoryId){
-      where.employee.category.id = categoryId;
+    if (categoryId) {
+      where.employees = {
+        ...(where.employees || {}),
+        category: { id: Number(categoryId) },
+      };
     }
-    if(country){
+    if (country) {
       where.country = country;
+    }
+
+    if (ratting) {
+      where.employees = {
+        ...(where.employees || {}),
+        responses: {
+          ...(where.employees?.responses || {}),
+          avgRatting: Number(ratting),
+        },
+      };
+    }
+
+    // Flexible search across multiple fields
+    if (search) {
+      where.OR = [
+        { country: ILike(`%${search}%`) },
+        { employees: { name: ILike(`%${search}%`) } },
+        { employees: { category: { name: ILike(`%${search}%`) } } },
+        { employees: { responses: { form: { name: ILike(`%${search}%`) } } } },
+      ];
     }
     const [branches, total] = await this.branchRepository.findAndCount({
       where,

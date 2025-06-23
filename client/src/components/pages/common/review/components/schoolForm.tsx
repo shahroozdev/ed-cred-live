@@ -11,7 +11,7 @@ const SchoolForm = ({
 }: {
   feedback: Record<string, any>;
 }) => {
-  if (!feedback?.details) return null;
+  // if (!feedback?.details) return null;
   return (
     <div className="outline-muted rounded-md p-6 outline-2 flex flex-col w-full gap-4">
       <h3 className="font-bold">Meta Form:</h3>

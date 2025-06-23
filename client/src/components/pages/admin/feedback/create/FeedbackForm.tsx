@@ -146,7 +146,7 @@ const MetaDataInput = ({
         <TitleInput form={form} />
         <div className="grid gap-2 grid-cols-2">
           <CategorySelect control={form.control} inputName="categoryId" />
-          <SubCategorySelect control={form.control} inputName="subCategoryId" />
+          <SubCategorySelect control={form.control} inputName="subCategoryId" label="Subcategory"/>
         </div>
         <FormField
           control={form.control}
