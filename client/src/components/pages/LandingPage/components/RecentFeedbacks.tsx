@@ -3,12 +3,13 @@ import { useQuery } from "@/hooks/generalHooks";
 import { Slider } from "@/components/molecules";
 import ResponseCard from "../../user/dashboard/components/responseCard";
 
-const Feedbacks = () => {
+const Feedbacks = ({reviews}:{reviews:Record<string, any>}) => {
   const res = useQuery({
     url: "/feedback-form/groups",
     key: "feedbackFormForGroups",
   });
-  const feedbacks = res?.data?.result;
+  
+  const feedbacks = reviews?.branches?.flatMap((item:any)=>(item?.employees));
   const breakpoints = {
     640: { slidesPerView: 1 },
     768: { slidesPerView: 2 },

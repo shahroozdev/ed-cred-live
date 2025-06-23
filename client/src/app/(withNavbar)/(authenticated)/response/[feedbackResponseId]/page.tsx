@@ -13,10 +13,15 @@ export default async function FeedbackResponseViewPage({
     url: `/school/employee/${feedbackResponseId}`,
     key: "singleResponse",
   });
+  const related = await getServerSideDataWithFeatures({
+    url: `/school/branch?school=${data?.branch?.name}`,
+    key: "RelatedReviews",
+  });
+
   return (
     <>
       <TitleWrapper title={data?.responses[0]?.feedbackForm?.title} notBackBtn>
-        <GroupedResponseView data={data} />
+        <GroupedResponseView data={data} related={related}/>
       </TitleWrapper>
     </>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { SearchBar } from "./components";
-import { FilterXIcon, TimerIcon } from "lucide-react";
+import { TimerIcon } from "lucide-react";
 import FilterDrawer from "./components/filterDrawer";
 import ResponseCard from "./components/responseCard";
 import FilterForm from "./components/filterForm";

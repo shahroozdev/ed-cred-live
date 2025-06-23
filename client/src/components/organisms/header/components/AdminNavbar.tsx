@@ -23,7 +23,7 @@ import DrawerBtn from "../../sidebar/mobileSidebar";
 
 export const AdminNavbar = ({ user }: { user: any }) => {
   return (
-    <div className="bg-background sticky top-0 z-10 border-b max-w-screen">
+    <div className="bg-background sticky top-0 z-10 border-b-[1px] max-w-screen">
       <div className="flex h-16 items-center px-4 ">
         {/* <MainNav className="mx-2" /> */}
         <div className="ml-auto flex items-center space-x-4">

@@ -5,6 +5,7 @@ import {
   CountryDropdown,
   FormFeilds,
   FormTemplate,
+  ResetBtn,
   SchoolSelect,
 } from "@/components/atoms";
 import { Input } from "@/components/ui/input";
@@ -22,6 +23,7 @@ const FilterForm = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+  
   const onSubmit = (values: Record<string, any>) => {
     const searchParams = new URLSearchParams();
     Object.keys(values).map((key) =>
@@ -31,14 +33,13 @@ const FilterForm = ({
     setIsOpen && setIsOpen(false);
   };
   const defaultValues: Record<string, any> = {
-    categoryId: undefined,
-    country: undefined,
-    school: undefined,
+    categoryId: searchParams.get("categoryId") || "", // could be null, use ""
+    country: searchParams.get("country") || "",
+    school: searchParams.get("school") || "",
+    ratting: searchParams.get("ratting") || "",
   };
 
-  searchParams.forEach((value, key) => {
-    defaultValues[key] = value;
-  });
+  console.log(defaultValues, 'default');
   return (
     <FormTemplate
       onSubmit={onSubmit}
@@ -51,7 +52,11 @@ const FilterForm = ({
         label={{ text: "Filter by Category" }}
       >
         {(field) => (
-          <CategorySelect2 value={field.value} onValueChange={field.onChange} />
+          <CategorySelect2
+            {...field}
+            value={field.value}
+            onValueChange={field.onChange}
+          />
         )}
       </FormFeilds>
       <FormFeilds
@@ -59,7 +64,11 @@ const FilterForm = ({
         label={{ text: "Filter by  Country" }}
       >
         {(field) => (
-          <CountryDropdown value={field.value} onChange={field.onChange} />
+          <CountryDropdown
+            {...field}
+            value={field.value}
+            onValueChange={field.onChange}
+          />
         )}
       </FormFeilds>
       <FormFeilds
@@ -67,7 +76,11 @@ const FilterForm = ({
         label={{ text: "Filter by School" }}
       >
         {(field) => (
-          <SchoolSelect value={field.value} onValueChange={field.onChange} />
+          <SchoolSelect
+            {...field}
+            value={field.value}
+            onValueChange={field.onChange}
+          />
         )}
       </FormFeilds>
       <FormFeilds
@@ -83,8 +96,8 @@ const FilterForm = ({
               className="h-auto flex flex-wrap gap-2"
             >
               {Array.from({ length: 5 }, (_, i) => (
-                <ToggleGroupItem value={String(i+1)} key={i}>
-                  {i+1} <AppleIcon fill="red" stroke="red" />
+                <ToggleGroupItem value={String(i + 1)} key={i}>
+                  {i + 1} <AppleIcon fill="red" stroke="red" />
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
@@ -92,17 +105,7 @@ const FilterForm = ({
         )}
       </FormFeilds>
       <div className="flex gap-2">
-        <Button
-          variant="ghost"
-          type="reset"
-          loading={isPending}
-          onClick={() => {
-           startTransition(()=> router.push("?"))
-            setIsOpen && setIsOpen(false);
-          }}
-        >
-          Reset
-        </Button>
+        <ResetBtn setIsOpen={setIsOpen} />
         <Button variant="primary" type="submit" loading={isPending}>
           Apply
         </Button>

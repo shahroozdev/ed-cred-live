@@ -10,7 +10,7 @@ import { ThemeToggle } from "@/components/atoms/themeToggle/ThemeToggle";
 
 const Navbar = ({ user }: { user: UserProfile }) => {
   return (
-    <div className="!sticky !top-0 left-0 flex h-[70px] w-full items-center justify-center bg-background shadow-md sm:px-8 px-2 z-10 text-[var(--mt-pre-color)]">
+    <div className="!sticky !top-0 left-0 flex h-[70px] w-full items-center justify-center bg-background border-b-[1px] shadow-md sm:px-8 px-2 z-10 text-[var(--mt-pre-color)]">
       <div className="w-full flex items-center justify-between py-4">
         <div className="flex items-center justify-center gap-2 md:gap-4">
           <Image

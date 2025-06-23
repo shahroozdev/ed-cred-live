@@ -1,31 +1,55 @@
-'use client'
-import { Input } from '@/components/ui/input';
-import { SearchIcon } from 'lucide-react';
-import React, { useState } from 'react'
+"use client";
+import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
+import { Input } from "@/components/ui/input";
+import { SearchIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useState, useTransition } from "react";
+import { z } from "zod";
 
-const SearchBar = ({ search }: { search?: (term: string) => void }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const SearchBar = () => {
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  const onSubmit = (values: Record<string, any>) => {
+    const searchParams = new URLSearchParams();
+    Object.keys(values).map((key) =>
+      values[key] ? searchParams.set(key, values[key]) : {}
+    );
+    startTransition(() => router.push(`?${searchParams}`));
+  };
+  const defaultValues: Record<string, any> = {
+    search: searchParams.get("search") || "",
+  };
   return (
-    <form
+    <FormTemplate
+      onSubmit={onSubmit}
+      schema={z.any()}
       className="w-full flex gap-2 p-4 border-[1px] rounded-md"
-      onSubmit={(e) => {
-        e.preventDefault();
-        search&&search(searchTerm);
-      }}
+      defaultValues={defaultValues}
     >
-      <Input
-        type="text"
-        placeholder="Search for reviews"
-        className="rounded-full py-3 text-base h-12 px-4"
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button
-        className="bg-primary rounded-full p-2 w-12 h-12 flex items-center cursor-pointer justify-center"
-        type="submit"
+      <FormFeilds
+        fieldProps={{ name: "search", className:'w-full' }}
+        // label={{ text: "Filter by Category" }}
       >
-        <SearchIcon stroke="white" />
-      </button>
-    </form>
+        {(field) => (
+          <Input
+            type="text"
+            placeholder="Search for reviews"
+            className="rounded-full py-3 text-base h-12 px-4 w-full"
+            {...field}
+          />
+        )}
+      </FormFeilds>
+      <Button
+        className="bg-primary rounded-full p-2 w-12 h-12 flex items-center cursor-pointer justify-center group"
+        type="submit"
+        loading={isPending}
+      >
+        {!isPending&&<SearchIcon className="text-white group-hover:text-primary" />}
+      </Button>
+    </FormTemplate>
   );
 };
 

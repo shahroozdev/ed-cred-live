@@ -7,7 +7,7 @@ const Card = ({ title, featureImageUrl, text, id }: any) => {
 
   return (
     <div className="flex flex-col items-start h-[500px] overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out justify-start gap-6 rounded-3xl border border-[#E5F4F2] bg-background p-2 text-left shadow-lg">
-      <div className="w-full min-h-[200px] h-[200px] max-h-[200px]">
+      <div className="w-full min-h-[200px] h-[200px] max-h-[200px] border-[2px] rounded-3xl">
         <Image
           src={process.env.BASE_URL + featureImageUrl}
           width={500}

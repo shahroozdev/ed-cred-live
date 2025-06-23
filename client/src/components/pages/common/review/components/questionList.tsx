@@ -22,12 +22,12 @@ const QuestionList = ({feedback, disabled}: {feedback: Record<string, any>; disa
         if (!question) return null;
 
         const inputType = question?.type;
-        console.log(inputType, 'type')
+
         return (
           <div
             className={`outline-2 outline-muted flex  ${
               question.type === "rating" ? "md:flex-row flex-col" : "flex-col"
-            } w-full justify-between rounded-md p-4`}
+            } w-full justify-between rounded-md mb-2 shadow-md p-4`}
             key={`feedback-question-${index}`}
           >
             <p className="mb-2 font-medium md:text-base text-sm">{question?.text}</p>

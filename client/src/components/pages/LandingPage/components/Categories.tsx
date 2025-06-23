@@ -30,7 +30,7 @@ const Categories = ({categories}:{categories:Record<string, any>}) => {
         spaceBetween={20}
         notShowArrow
       >
-        {(slide) => <CategoryCard title={slide?.name} desc="Lorem Ipsum is simply dummy text of the printing."/>}
+        {(slide) => <CategoryCard title={slide?.name} desc=""/>}
       </Slider>
     </div>
   );

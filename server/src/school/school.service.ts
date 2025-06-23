@@ -53,7 +53,7 @@ export class SchoolService {
       ratting,
       search,
     } = query;
-
+    // console.log(school, categoryId, country, ratting, search, 'filters');
     const where: any = {
       employees: {
         responses: {
@@ -62,7 +62,7 @@ export class SchoolService {
       },
     };
     if (school) {
-      where.name = Like(`%${school}%`);
+      where.name = ILike(`%${school}%`);
     }
     if (categoryId) {
       where.employees = {
@@ -227,7 +227,14 @@ export class SchoolService {
   async findOneEmployee(id: number): Promise<Employee> {
     const employee = await this.employeeRepository.findOne({
       where: { id },
-      relations: ["branch", "branch.school", "responses", "category", "responses.feedbackForm","responses.feedbackForm.questions"],
+      relations: [
+        "branch",
+        "branch.school",
+        "responses",
+        "category",
+        "responses.feedbackForm",
+        "responses.feedbackForm.questions",
+      ],
     });
 
     if (!employee) throw new NotFoundException(`Employee ID ${id} not found`);

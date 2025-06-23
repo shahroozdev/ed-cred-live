@@ -25,11 +25,12 @@ export const OverviewTab = ({feedbacks, categories, posts}:{feedbacks:Record<str
             value: posts?.total,
         },
         {
-            title: "Total Categries",
+            title: "Total Categories",
             value: categories?.categories?.length?.toString(),
         },
 
     ]
+    console.log(posts, 'posts')
     return(
         <div className="w-full">
             <Stats stats={stats}/>
@@ -40,7 +41,7 @@ export const OverviewTab = ({feedbacks, categories, posts}:{feedbacks:Record<str
                         <CardTitle>Recent Posts</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <RecentPosts />
+                        <RecentPosts posts={posts?.posts}/>
                     </CardContent>
                 </Card>
             </div>

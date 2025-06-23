@@ -16,9 +16,13 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { toast } from "sonner";
 
 export const SafariContext = createContext<boolean>(false);
+export const GlobalStore = createContext<any[]>([]);
 
 export const useSafari = () => {
   return useContext(SafariContext);
+};
+export const useGlobalStore = () => {
+  return useContext(GlobalStore);
 };
 export async function MutateFunc(value: {
   url: string;

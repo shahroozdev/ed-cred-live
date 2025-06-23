@@ -5,6 +5,9 @@ import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/Common/theme-provider";
 import { ReactNode } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { getServerSideDataWithFeatures } from "@/actions/serverActions";
+import { GlobalStore } from "@/hooks/generalHooks";
+import GlobalStoreProvider from "@/lib/GlobalStore";
 
 export const metadata = {
   title: "Ed-Cred",
@@ -21,7 +24,19 @@ const inter = Geist({
   variable: "--font-inter",
 });
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const categories = await getServerSideDataWithFeatures({
+    url: `/category`,
+    key: "categories",
+  });
+  const schools = await getServerSideDataWithFeatures({
+    url: "/school",
+    key: "schools",
+  });
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -39,7 +54,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider>{children}</SidebarProvider>
+          <SidebarProvider>
+            <GlobalStoreProvider
+              categories={categories?.categories}
+              schools={schools}
+            >
+              {children}
+            </GlobalStoreProvider>
+          </SidebarProvider>
         </ThemeProvider>
         <Toaster />
       </body>

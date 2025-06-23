@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useQuery } from "@/hooks/generalHooks";
+import { useGlobalStore, useQuery } from "@/hooks/generalHooks";
 import { SelectProps } from "@radix-ui/react-select";
 import React from "react";
 interface CategorySelect2Props extends SelectProps {}
@@ -15,10 +15,7 @@ const SchoolSelect = ({
   onValueChange,
   ...props
 }: CategorySelect2Props) => {
-  const { data: schools, isLoading: loading } = useQuery({
-    url: "/school",
-    key: "schools",
-  });
+  const [categories, schools] = useGlobalStore()
   return (
     <Select value={value} onValueChange={onValueChange} {...props}>
       <SelectTrigger className={`w-full`}>
@@ -27,7 +24,7 @@ const SchoolSelect = ({
       <SelectContent>
         {schools &&
           schools?.map((school: any, i: number) => (
-            <SelectItem key={i} value={school?.id?.toString() ?? ""}>
+            <SelectItem key={i} value={school?.name}>
               {school?.name}
             </SelectItem>
           ))}

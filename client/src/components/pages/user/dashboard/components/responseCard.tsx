@@ -9,10 +9,12 @@ import { v4 } from "uuid";
 const ResponseCard = ({
   response,
   mobile,
+  noImage,
 }: {
   mobile?: boolean;
   response: any;
   hideRating?: boolean;
+  noImage?:boolean;
 }) => {
   const router = useRouter();
   let totalRating = 0;
@@ -25,15 +27,15 @@ const ResponseCard = ({
     }
   });
   const averageRating = count > 0 ? Math.round(totalRating / count) : 0;
-  console.log(response, averageRating, count);
+
   return (
     <div
-      className="w-full border-2 border-muted rounded-md px-3 py-2 flex gap-2 shadow-md hover:scale-101 cursor-pointer transition-all duration-300 ease-in-out"
+      className="w-full border-2 border-muted rounded-md px-3 py-2 flex gap-2 shadow-md hover:scale-101 cursor-pointer min-h-[215px] transition-all duration-300 ease-in-out"
       onClick={() => router.push(`/response/${response?.id}`)}
     >
       {/* <div className="w-full h-full absolute flex justify-center items-center"> */}
       {/* </div>  */}
-      <div className="md:block hidden w-32 h-32 p-4 border-r-[1px]">
+      {!noImage?<div className="md:block hidden w-32 h-32 p-4 border-r-[1px]">
         <Image
           src={`/uploads/categoryIcons/${
             imagesUrls[response?.groupType] ?? "pricipal"
@@ -43,15 +45,15 @@ const ResponseCard = ({
           alt={""}
           className="w-full h-full object-contain"
         />
-      </div>
+      </div>:<></>}
       <div className="w-full relative">
-        <Image
+        {!noImage?<Image
           src={"/images/VerifiedStamp.png"}
           className=" h-full opacity-15 max-w-[200px] w-auto absolute right-[35%]"
           width={1000}
           height={500}
           alt=""
-        />
+        />:<></>}
         <div
           className={`flex ${
             mobile ? "flex-col" : "flex-col sm:flex-row"

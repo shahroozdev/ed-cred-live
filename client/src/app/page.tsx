@@ -7,6 +7,10 @@ const HomePage = async() => {
     const user = await getServerSideDataWithFeatures({url:'/auth/profile', key:'profile'})
     const data = await getServerSideDataWithFeatures({url:'/forum-question?pageSize=3', key:'forumList'})
     const categories = await getServerSideDataWithFeatures({url:'/category', key:'categories'})
+    const reviews = await getServerSideDataWithFeatures({
+      url: `/school/branch`,
+      key: "feedbackFormForGroups",
+    });
 
   return (
     <div className="w-screen min-h-screen bg-background relative">
@@ -15,7 +19,7 @@ const HomePage = async() => {
       <Categories categories={categories?.categories}/>
       <About />
       {/* <Metrics /> */}
-      <Feedbacks />
+      <Feedbacks  reviews={reviews}/>
       <Discussions data={data}/>
       <Footer />
     </div>

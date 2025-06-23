@@ -47,7 +47,7 @@ export function NavigationMenuItems() {
                 posts?.data?.posts?.map(
                   (post: Record<string, any>, index: number) => (
                     <ListItem key={index} href={`/posts/${post?.id}`}>
-                      <div className="font-semibold text-black">
+                      <div className="font-semibold text-foreground">
                         {post.title}
                       </div>
                       <HTMLContent

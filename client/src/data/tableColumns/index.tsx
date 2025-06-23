@@ -117,7 +117,7 @@ export const action = ({
     enableHiding: false,
     cell: ({ row }: any) => {
       const data = row.original;
-      console.log(data)
+      // console.log(data)
       return (
         <div className="flex gap-1">
           {statusUpdate&&<UpdateStatus data={data} values={statusUpdate}/>}

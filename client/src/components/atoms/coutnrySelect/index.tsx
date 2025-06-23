@@ -5,8 +5,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { SelectProps } from "@radix-ui/react-select"
 
-export const CountryDropdown = ({ value, onChange }: { value: string, onChange: (val: string) => void }) => {
+interface CategorySelect2Props extends SelectProps {}
+
+export const CountryDropdown = ({ value, onValueChange, ...props }: CategorySelect2Props) => {
     const countries = [
         "United States",
         "Canada",
@@ -28,7 +31,7 @@ export const CountryDropdown = ({ value, onChange }: { value: string, onChange: 
     ]
 
     return (
-        <Select value={value} onValueChange={onChange}>
+        <Select value={value} onValueChange={onValueChange} {...props}>
             <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select country" />
             </SelectTrigger>
