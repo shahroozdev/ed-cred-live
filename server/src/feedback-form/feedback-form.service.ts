@@ -100,6 +100,8 @@ export class FeedbackFormService {
         "subcategory",
         "responses",
         "responses.author",
+        "responses.employee",
+        "responses.employee.branch",
         "responses.feedbackForm",
         "responses.feedbackForm.category",
       ],
@@ -107,7 +109,8 @@ export class FeedbackFormService {
 
     const allResponses = forms.flatMap((form) =>
       form.responses.filter((response) => response.accepted)
-    );
+  );
+  // console.log(allResponses)
 
     const schoolGroups: Record<string, FeedbackResponse[]> = {};
     const principalGroups: Record<string, FeedbackResponse[]> = {};

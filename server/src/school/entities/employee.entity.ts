@@ -21,7 +21,8 @@ export class Employee {
   @Column()
   name: string;
 
-  @OneToOne(() => Category, (category) => category.employees)
+  @ManyToOne(() => Category, (category) => category.employees)
+  @JoinColumn()
   category: Category;
 
   @CreateDateColumn()

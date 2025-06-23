@@ -1,6 +1,6 @@
 import {
   IsArray,
-  IsNumber,
+  IsBoolean,
   IsObject,
   IsOptional,
   IsString,
@@ -15,33 +15,7 @@ class FeedbackDetailDto {
 
   @IsOptional()
   @IsString()
-  schoolWebsite?: string;
-
-  @IsOptional()
-  @IsString()
-  schoolCountry?: string;
-
-  @IsOptional()
-  @IsString()
-  reportingPeriod?: string;
-
-  // For the category principal
-  @IsOptional()
-  @IsString()
-  pricipalName?: string;
-
-  @IsOptional()
-  @IsString()
-  pricipalDivison?: string;
-
-  // For the category director
-  @IsOptional()
-  @IsString()
-  directorName?: string;
-
-  @IsOptional()
-  @IsString()
-  name?: string;
+  website?: string;
 
   @IsOptional()
   @IsString()
@@ -49,15 +23,15 @@ class FeedbackDetailDto {
 
   @IsOptional()
   @IsString()
-  dates?: string;
+  reportingPeriod?: string;
 
   @IsOptional()
   @IsString()
-  salary?: string;
+  revieweeName?: string;
 
   @IsOptional()
   @IsString()
-  web?: string;
+  divison?: string;
 }
 
 class FeedbackAnswerDto {
@@ -88,6 +62,9 @@ export class CreateFeedbackResponseDto {
   @IsOptional()
   @IsString()
   comments?: string;
+
+  @IsBoolean()
+  agreeTerms: boolean;
   
   @IsArray()
   @IsOptional()

@@ -56,7 +56,7 @@ interface UploadFileOptions {
   multiple?: boolean;
   maxSizeInMB?: number;
   maxCount?: number;
-  type?: ("image" | "video" | "doc")[];
+  type?: ("image" | "video" | "doc" | "audio" | "all")[];
 }
 
 const mimeTypeMap = {
@@ -69,6 +69,30 @@ const mimeTypeMap = {
     "application/vnd.ms-excel",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     "text/csv",
+  ],
+  audio: [
+    "audio/mpeg",
+    "audio/ogg",
+    "audio/wav",
+  ],
+  all: [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+    "video/mp4",
+    "video/quicktime",
+    "video/x-msvideo",
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "text/csv",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "audio/mpeg",
+    "audio/ogg",
+    "audio/wav",
   ],
 };
 

@@ -20,13 +20,13 @@ export const detailObjectsArray = [
   { name: "revieweeName", type: "text", placeholder: "Enter Reviewee name" },
   { name: "schoolName", type: "text", placeholder: "Enter school name" },
   {
-    name: "schoolCountry",
+    name: "country",
     type: "dropdown",
     placeholder: "Enter school country",
   },
-  { name: "schoolWebsite", type: "text", placeholder: "Enter school website" },
+  { name: "website", type: "text", placeholder: "Enter school website" },
   {
-    name: "schoolDivison",
+    name: "divison",
     type: "text",
     placeholder: "Enter principal division",
   },

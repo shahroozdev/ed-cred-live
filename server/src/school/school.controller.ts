@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from "@nestjs/common";
 import { SchoolService } from "./school.service";
 import { CreateSchoolDto, UpdateSchoolDto } from "./dto/school.dto";
@@ -29,8 +30,8 @@ export class SchoolController {
 
   @Get("branch")
   @ApiCustomResponse("getAllBranchesSwagger")
-  async findAllBranches() {
-    return await apiWrapper(() => this.schoolService.findAllBranches());
+  async findAllBranches(@Query() query?:Record<string, string>) {
+    return await apiWrapper(() => this.schoolService.findAllBranches(query));
   }
 
   @Get("branch/:id")

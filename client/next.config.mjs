@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverActions: {
+    bodySizeLimit: "10mb", // or whatever limit you want
+  },
   env: {
     BASE_URL: process.env.BASE_URL,
   },

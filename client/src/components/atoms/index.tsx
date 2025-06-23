@@ -12,11 +12,14 @@ import MenuList from "./menu";
 import { PromoCard } from "./promocard";
 import QuestionInput from "./questionInput";
 import RatingInput from "./rattingInput";
+import SchoolSelect from "./schoolSelect";
 import SubCategorySelect from "./subCategorySelect";
 import { ThemeToggle } from "./themeToggle/ThemeToggle";
 import TitleWrapper from "./titleWrapper";
 import UploadProfilePic from "./uploadProfilePic";
+
 export {
+  SchoolSelect,
   CategorySelect2,
   ThemeToggle,
   UploadProfilePic,

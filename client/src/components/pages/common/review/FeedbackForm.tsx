@@ -27,7 +27,7 @@ const FeedbackForm = ({
       url: "/feedback-responses",
       method: "POST",
       body,
-      // sendTo: "/dashboard",
+      sendTo: "/dashboard",
       allowMulti: true,
     });
   };
@@ -42,9 +42,9 @@ const FeedbackForm = ({
         details: {
           revieweeName: defaultValues?.details?.revieweeName || "",
           schoolName: defaultValues?.details?.schoolName || "",
-          schoolCountry: defaultValues?.details?.schoolCountry || "",
-          schoolWebsite: defaultValues?.details?.schoolWebsite || "",
-          schoolDivison: defaultValues?.details?.schoolDivison || "",
+          country: defaultValues?.details?.country || "",
+          website: defaultValues?.details?.website || "",
+          divison: defaultValues?.details?.divison || "",
           reportingPeriod: defaultValues?.details?.reportingPeriod || "",
         },
         answers:
@@ -128,7 +128,12 @@ const FeedbackForm = ({
       >
         {(field) => (
           <div className="flex gap-2 items-center">
-            <Checkbox {...field} onChange={field.onChange} />
+            <input
+              type={"checkbox"}
+              {...field}
+              onChange={field.onChange}
+              className="peer accent-primary h-4 w-4 border border-gray-300 rounded-md"
+            />
             <span>
               I agree to the{" "}
               <Link

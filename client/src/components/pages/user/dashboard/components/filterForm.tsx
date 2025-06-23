@@ -5,26 +5,36 @@ import {
   CountryDropdown,
   FormFeilds,
   FormTemplate,
+  SchoolSelect,
 } from "@/components/atoms";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { AppleIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useTransition } from "react";
 import { z } from "zod";
 
-const FilterForm = ({setIsOpen}:{setIsOpen?: Dispatch<SetStateAction<boolean>>}) => {
+const FilterForm = ({
+  setIsOpen,
+}: {
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
+}) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
   const onSubmit = (values: Record<string, any>) => {
     const searchParams = new URLSearchParams();
     Object.keys(values).map((key) =>
       values[key] ? searchParams.set(key, values[key]) : {}
     );
-    router.push(`?${searchParams}`);
-    setIsOpen&&setIsOpen(false)
+    startTransition(() => router.push(`?${searchParams}`));
+    setIsOpen && setIsOpen(false);
   };
-  const defaultValues: Record<string, any> = {};
+  const defaultValues: Record<string, any> = {
+    categoryId: undefined,
+    country: undefined,
+    school: undefined,
+  };
 
   searchParams.forEach((value, key) => {
     defaultValues[key] = value;
@@ -57,11 +67,7 @@ const FilterForm = ({setIsOpen}:{setIsOpen?: Dispatch<SetStateAction<boolean>>})
         label={{ text: "Filter by School" }}
       >
         {(field) => (
-          <Input
-            value={field.value}
-            onChange={field.onChange}
-            placeholder="Enter School Name"
-          />
+          <SchoolSelect value={field.value} onValueChange={field.onChange} />
         )}
       </FormFeilds>
       <FormFeilds
@@ -76,9 +82,9 @@ const FilterForm = ({setIsOpen}:{setIsOpen?: Dispatch<SetStateAction<boolean>>})
               onValueChange={field.onChange}
               className="h-auto flex flex-wrap gap-2"
             >
-              {Array.from({ length: 10 }, (_, i) => (
-                <ToggleGroupItem value={String(10 - i)} key={i}>
-                  {10 - i} <AppleIcon fill="red" stroke="red" />
+              {Array.from({ length: 5 }, (_, i) => (
+                <ToggleGroupItem value={String(i+1)} key={i}>
+                  {i+1} <AppleIcon fill="red" stroke="red" />
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
@@ -86,10 +92,18 @@ const FilterForm = ({setIsOpen}:{setIsOpen?: Dispatch<SetStateAction<boolean>>})
         )}
       </FormFeilds>
       <div className="flex gap-2">
-        <Button variant="ghost" type="reset" onClick={() => {router.push("?");setIsOpen&&setIsOpen(false)}}>
+        <Button
+          variant="ghost"
+          type="reset"
+          loading={isPending}
+          onClick={() => {
+           startTransition(()=> router.push("?"))
+            setIsOpen && setIsOpen(false);
+          }}
+        >
           Reset
         </Button>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" loading={isPending}>
           Apply
         </Button>
       </div>

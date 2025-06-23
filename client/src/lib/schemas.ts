@@ -89,9 +89,9 @@ export const feedbackCreateResponseSchema = (feedback:any) => {
     details: z.object({
       revieweeName: z.string().min(1, "Field is required."),
       schoolName: z.string().min(1, "Field is required."),
-      schoolCountry: z.string().min(1, "Field is required."),
-      schoolWebsite: z.string().optional(),
-      schoolDivison: z.string().min(1, "Field is required."),
+      country: z.string().min(1, "Field is required."),
+      website: z.string().optional(),
+      divison: z.string().min(1, "Field is required."),
       reportingPeriod: z.string().optional(),
     }),
     answers: z
@@ -109,8 +109,8 @@ export const feedbackCreateResponseSchema = (feedback:any) => {
       .min(feedback.questions.length, "All questions must be answered."),
     comments: z.string(),
     attachments: z.any().optional(),
-    agreeTerms: z.boolean().refine(val => val === true, {
-      message: "You must agree to the terms.",
+    agreeTerms: z.literal(true, {
+      errorMap: () => ({ message: "You must agree to the terms." }),
     }),
   });
 };

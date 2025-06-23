@@ -1,9 +1,13 @@
 "use client";
 import {
   getServerSideDataWithFeatures,
+  getStringCookie,
   mutateData,
   removeCookie,
+  revalidateTags,
+  revalidateWholeRoute,
 } from "@/actions/serverActions";
+import apiClient from "@/lib/apiClient";
 import { appendDataToFormData } from "@/lib/utils";
 import { QueryProps } from "@/types";
 // import { QueryProps } from "@/types/entities";
@@ -88,14 +92,23 @@ export const useMutate = () => {
       : value?.body;
 
     try {
-      const res = await mutateData({
-        method: value?.method,
-        url: value?.url,
-        body: data,
-        revalidatePage: !value?.tags ? path : "",
-        ...(value?.tags ? { revalidateTags: value?.tags } : {}),
-        ...(value?.allowMulti ? { allowMulti: value?.allowMulti } : {}),
-      });
+      const res = value?.allowMulti
+        ? await mutateDataClient({
+            method: value?.method,
+            url: value?.url,
+            body: data,
+            revalidatePage: !value?.tags ? path : "",
+            ...(value?.tags ? { revalidateTags: value?.tags } : {}),
+            ...(value?.allowMulti ? { allowMulti: value?.allowMulti } : {}),
+          })
+        : await mutateData({
+            method: value?.method,
+            url: value?.url,
+            body: data,
+            revalidatePage: !value?.tags ? path : "",
+            ...(value?.tags ? { revalidateTags: value?.tags } : {}),
+            ...(value?.allowMulti ? { allowMulti: value?.allowMulti } : {}),
+          });
       if (res?.status === 200) {
         value?.onSuccess && value.onSuccess(res);
         toast.success(res?.message);
@@ -142,7 +155,51 @@ export const useQuery = ({ url, key }: QueryProps) => {
 
   return { isLoading, error, data };
 };
+export async function mutateDataClient(value: {
+  url: string;
+  method: "POST" | "PUT" | "DELETE" | "PATCH";
+  revalidatePage?: string;
+  revalidateTags?: string | string[];
+  body?: any;
+  allowMulti?: boolean;
+}) {
+  const token = await getStringCookie("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    ...(value?.allowMulti
+      ? { "Content-Type": "multipart/form-data" }
+      : { "Content-Type": "application/json" }),
+    "x-Requested-With": "XMLHttpRequest",
+  };
+  const methodHandlers = {
+    POST: () => apiClient.post({ url: value?.url, data: value?.body, headers }),
+    PUT: () => apiClient.put({ url: value?.url, data: value?.body, headers }),
+    PATCH: () =>
+      apiClient.patch({ url: value?.url, data: value?.body, headers }),
+    DELETE: () => apiClient.delete({ url: value?.url, headers }),
+  } as any;
 
+  if (!["POST", "PUT", "DELETE", "PATCH"].includes(value?.method)) {
+    throw new Error(`Invalid method: ${value?.method}`);
+  }
+  let success = false;
+  try {
+    const response = await methodHandlers[value?.method]?.();
+    success = true;
+    return response;
+  } catch (err: any) {
+    return err?.response?.data;
+  } finally {
+    if (success) {
+      if (value?.revalidatePage) {
+        await revalidateWholeRoute(value?.revalidatePage);
+      }
+      if (value?.revalidateTags) {
+        await revalidateTags(value?.revalidateTags);
+      }
+    }
+  }
+}
 export const useSearchParamsQueries = () => {
   const searchParams = useSearchParams();
   return Array.from(searchParams.entries())

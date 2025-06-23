@@ -33,7 +33,7 @@ export class FeedbackResponseController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiConsumes("multipart/form-data")
-  @UploadFile("attachments", { folder: "forms-attachments", multiple: true })
+  @UploadFile("attachments", { folder: "forms-attachments", multiple: true, maxSizeInMB:10,  type : ["all"] })
   async create(
     @UploadedFiles() attachments: Array<Express.Multer.File>,
     @Req() req,

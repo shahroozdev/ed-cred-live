@@ -61,6 +61,9 @@ export class FeedbackResponse {
   @Column({default:false})
   agreeTerms: boolean;
 
+  @Column({nullable:true})
+  avgRatting: number;
+
   @OneToMany(() => Dispute, (dispute) => dispute.disputedBy)
   disputes: Dispute[];
 

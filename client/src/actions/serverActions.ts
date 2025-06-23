@@ -73,7 +73,12 @@ export async function getServerSideDataWithFeatures(props:{url:string, key?:stri
   export const revalidateWholeRoute=async(url:string)=>{
     await revalidatePath(url)
   }
-
+  export const revalidateTags = async(tags:string|string[])=>{
+    const keys =Array.isArray(tags) ? tags : [tags];
+    for (const tag of keys) {
+      revalidateTag(tag);
+    }
+  }
   export const getCookie = async <T>  (key: string): Promise<T | null | undefined>=> {
       // Check if running on the server or client
       const cookieStore = await cookies()

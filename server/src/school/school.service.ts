@@ -4,10 +4,11 @@ import { CreateEmployeeDto, UpdateEmployeeDto } from "./dto/employee.dto";
 import { CreateSchoolDto, UpdateSchoolDto } from "./dto/school.dto";
 import { School } from "./entities/school.entity";
 import { Branch } from "./entities/branch.entity";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateBranchDto, UpdateBranchDto } from "./dto/branch.dto";
 import { Category } from "src/category/category.entity";
+import { response } from "types";
 
 @Injectable()
 export class SchoolService {
@@ -40,10 +41,51 @@ export class SchoolService {
     return await this.branchRepository.save(branch);
   }
 
-  async findAllBranches(): Promise<Branch[]> {
-    return await this.branchRepository.find({
-      relations: ["school", "employees"],
+  async findAllBranches(
+    query?: Record<string, any>
+  ): Promise<response & { branches?: Branch[] }> {
+    const {page = 1, pageSize=10, school, categoryId, country, search} = query
+
+
+    const where: any = {
+      employees: {
+        responses: {
+          accepted: true,
+        },
+      },
+    };
+    if(school){
+      where.name= Like(`%${school}%`)
+    }
+    if(categoryId){
+      where.employee.category.id = categoryId;
+    }
+    if(country){
+      where.country = country;
+    }
+    const [branches, total] = await this.branchRepository.findAndCount({
+      where,
+      relations: [
+        "school",
+        "employees",
+        "employees.responses",
+        "employees.branch",
+        "employees.category",
+      ],
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      order: {
+        createdAt: "DESC",
+      },
     });
+    return {
+      status: 200,
+      message: "All Branches List.",
+      branches,
+      total,
+      currentPage: Number(page),
+      pageSize,
+    };
   }
 
   async findOneBranch(id: number): Promise<Branch> {

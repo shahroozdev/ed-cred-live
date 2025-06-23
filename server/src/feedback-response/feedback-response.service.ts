@@ -9,6 +9,7 @@ import { response } from "types";
 import { School } from "../school/entities/school.entity";
 import { Branch } from "../school/entities/branch.entity";
 import { Employee } from "../school/entities/employee.entity";
+import { Category } from "src/category/category.entity";
 
 @Injectable()
 export class FeedbackResponseService {
@@ -30,28 +31,101 @@ export class FeedbackResponseService {
 
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>,
+
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>
   ) {}
 
   // Create a new feedback response
   async createResponse(
     dto: CreateFeedbackResponseDto,
     authorId: number,
-    attachments?:string[]
+    attachments?: string[]
   ): Promise<response & { feedbackResponse?: FeedbackResponse }> {
     const feedbackForm = await this.feedbackFormRepository.findOne({
       where: { id: Number(dto.feedbackFormId) },
+      relations: ["category"],
     });
 
     if (!feedbackForm) {
       throw new NotFoundException("Feedback form not found");
     }
-
     const user = await this.userRepository.findOne({
       where: { id: Number(authorId) },
     });
 
     if (!user) {
       throw new NotFoundException("User not found");
+    }
+    const category = await this.categoryRepository.findOne({
+      where:{
+        id:feedbackForm.category.id
+      }
+    })
+    let totalRating = 0;
+      dto.answers.forEach((answer: any) => {
+        if (Number.isInteger(Number(answer.answer))) {
+          totalRating += Number(answer.answer);
+        }
+      })
+    const averageRating = Math.round(totalRating / dto.answers?.length);
+    const school = await this.schoolRepository.findOne({
+      where: { name: ILike(`%${dto.details.schoolName}%`) },
+      relations: ["branches", "branches.employees"],
+    });
+    let newSchool: School;
+    let newBranch: Branch;
+    let newEmployee: Employee;
+    if (!school) {
+      newSchool = this.schoolRepository.create({
+        name: dto.details.schoolName,
+      });
+      await this.schoolRepository.save(newSchool);
+      newBranch = this.brachRepository.create({
+        name: dto?.details?.schoolName,
+        country: dto?.details?.country,
+        division: dto?.details?.divison,
+        website: dto?.details?.website,
+        school: newSchool,
+      });
+      await this.brachRepository.save(newBranch);
+      newEmployee = this.employeeRepository.create({
+        name: dto?.details?.revieweeName,
+        category:category,
+        branch: newBranch,
+      });
+      await this.employeeRepository.save(newEmployee);
+    } else {
+      const branch = school?.branches?.find(
+        (branch) =>
+          branch?.country === dto?.details?.country &&
+          branch?.division === dto?.details?.divison
+      );
+      if (branch) {
+        newBranch = branch;
+      } else {
+        newBranch = this.brachRepository.create({
+          name: dto?.details?.schoolName,
+          country: dto?.details?.country,
+          division: dto?.details?.divison,
+          website: dto?.details?.website,
+          school,
+        });
+        await this.brachRepository.save(newBranch);
+      }
+      const employee = newBranch?.employees?.find(
+        (employee) => employee?.name === dto?.details?.revieweeName && employee?.category?.id === category?.id
+      );
+      if (employee) {
+        newEmployee = employee;
+      } else {
+        newEmployee = this.employeeRepository.create({
+          name: dto?.details?.revieweeName,
+          category:category,
+          branch: newBranch,
+        });
+        await this.employeeRepository.save(newEmployee);
+      }
     }
 
     const feedbackResponseObject = this.feedbackResponseRepository.create({
@@ -60,7 +134,10 @@ export class FeedbackResponseService {
       answers: dto.answers,
       comments: dto.comments,
       author: user,
-      attachments
+      avgRatting:averageRating,
+      agreeTerms: dto.agreeTerms,
+      employee: newEmployee,
+      attachments,
     });
 
     const feedbackResponse = await this.feedbackResponseRepository.save(
@@ -86,7 +163,12 @@ export class FeedbackResponseService {
     const [responses, total] =
       await this.feedbackResponseRepository.findAndCount({
         where,
-        relations: ["feedbackForm", "feedbackForm.category", "feedbackForm.subcategory", "feedbackForm.questions"],
+        relations: [
+          "feedbackForm",
+          "feedbackForm.category",
+          "feedbackForm.subcategory",
+          "feedbackForm.questions",
+        ],
         skip: (page - 1) * pageSize,
         take: pageSize,
         order: {
@@ -124,7 +206,7 @@ export class FeedbackResponseService {
   async findOneResponse(id: string) {
     return await this.feedbackResponseRepository.find({
       where: { id: id },
-      relations: ["feedbackForm","feedbackForm.questions"],
+      relations: ["feedbackForm", "feedbackForm.questions"],
     });
   }
 
@@ -134,13 +216,17 @@ export class FeedbackResponseService {
   }> {
     const baseResponse = await this.feedbackResponseRepository.findOne({
       where: { id: responseId },
-      relations: ["feedbackForm", "feedbackForm.category","feedbackForm.questions", "author"],
+      relations: [
+        "feedbackForm",
+        "feedbackForm.category",
+        "feedbackForm.questions",
+        "author",
+      ],
     });
 
     if (!baseResponse || !baseResponse.details) {
       return { responses: [], related: [] };
     }
-
     const details = baseResponse.details;
     const pricipalName = details?.pricipalName?.trim();
     const schoolName = details?.schoolName?.trim();
@@ -264,18 +350,21 @@ export class FeedbackResponseService {
     }
   }
 
-  async acceptFeedback(id: string, type:"accept"|"reject"): Promise<response> {
+  async acceptFeedback(
+    id: string,
+    type: "accept" | "reject"
+  ): Promise<response> {
     const response = await this.feedbackResponseRepository.findOne({
       where: { id },
     });
     if (!response) throw new NotFoundException("Feedback not found");
-    response.accepted =type ==="accept"? true:false;
-    response.status =type ==="accept"? "Accepted":"Rejected";
+    response.accepted = type === "accept" ? true : false;
+    response.status = type === "accept" ? "Accepted" : "Rejected";
     await this.feedbackResponseRepository.save(response);
     return {
-        status:200,
-        message:`Feedback Response ${type==="accept"?"Accepted":"Rejected"} Successfully.`
-    }
+      status: 200,
+      message: `Feedback Response ${type === "accept" ? "Accepted" : "Rejected"} Successfully.`,
+    };
   }
 
   async deleteFeedback(id: string): Promise<void> {

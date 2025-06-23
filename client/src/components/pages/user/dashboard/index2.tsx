@@ -6,7 +6,9 @@ import ResponseCard from "./components/responseCard";
 import FilterForm from "./components/filterForm";
 
 const DashboardView2 = ({ data }: { data: Record<string, any> }) => {
-  // console.log(data)
+
+  const responsesGroup = data?.branches?.flatMap((item:Record<string, any>)=>(item?.employees))??[]
+
   return (
     <div>
       <SearchBar />
@@ -21,19 +23,19 @@ const DashboardView2 = ({ data }: { data: Record<string, any> }) => {
             <FilterDrawer />
             </div>
           </div>
-          {data?.result?.length === 0 ? (
+          {data?.branches?.length === 0 ? (
             <div className="w-full h-full text-center col-span-3">
               No reviews found
             </div>
           ) : (
             <div className="space-y-4">
-              {data?.result?.map((review: any, i: number) => (
+              {responsesGroup?.map((review: any, i: number) => (
                 <ResponseCard response={review} key={i} />
               ))}
             </div>
           )}
         </aside>
-        <aside className="lg:block hidden border-[1px] rounded-md mt-4 w-[300px] shadow-xl">
+        <aside className="lg:block hidden border-[1px] rounded-md mt-4 w-[300px] max-h-[500px] shadow-xl">
           <FilterForm />
         </aside>
       </section>

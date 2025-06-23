@@ -7,11 +7,11 @@ import { FeedbackForm } from 'src/feedback-form/entities/feedback-form.entity';
 import { User } from '../auth/user.entity';
 import { School } from '../school/entities/school.entity';
 import { Employee } from '../school/entities/employee.entity';
-import { SchoolModule } from '../school/school.module';
-import { Branch } from 'src/school/entities/branch.entity';
+import { Branch } from '../school/entities/branch.entity';
+import { Category } from '../category/category.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([FeedbackResponse, School, Employee, Branch, FeedbackForm, User])],
+    imports: [TypeOrmModule.forFeature([FeedbackResponse, School, Employee, Branch, FeedbackForm, User, Category])],
     controllers: [FeedbackResponseController],
     providers: [FeedbackResponseService],
     exports: [FeedbackResponseService],

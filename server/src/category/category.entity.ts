@@ -9,6 +9,7 @@ import {
   CreateDateColumn,
   OneToMany,
   DeleteDateColumn,
+  JoinColumn,
 } from "typeorm";
 
 export type Permission = "post" | "feedback" | "review";
@@ -47,7 +48,8 @@ export class Category {
   @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)
   feedbackForms: FeedbackForm[];
 
-  @OneToMany(() => Employee, (employee) => employee.category)
+  @OneToMany(() => Employee, (employee) => employee.category, {onDelete: "CASCADE"})
+  @JoinColumn()
   employees: Employee[];
 
   // @OneToMany(() => Subcategory, (subcategory) => subcategory.parentCategory)
