@@ -332,3 +332,11 @@ body {
     --hljs-number: #b6e7b6;
 }
 
+/* hide scrollbar but allow scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
