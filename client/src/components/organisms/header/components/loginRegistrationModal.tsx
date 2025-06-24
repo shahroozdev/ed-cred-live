@@ -23,10 +23,12 @@ const LoginRegistrationModal = () => {
         Sign-in
       </Button>
       <div
-        className="fixed bottom-0 left-0 flex h-[93vh] overflow-y-auto w-screen flex-col items-center justify-center gap-4 rounded-t-2xl bg-background text-[var(--mt-pre-color)] font-sans font-[400] shadow-inner z-[100] transition-all duration-300  p-6 sm:p-8"
-        style={{ bottom: open.status ? "0" : "-100%" }}
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
+  style={{ visibility: open.status ? "visible" : "hidden" }}
       >
+        <div className="w-full max-w-md max-h-[90vh] no-scrollbar overflow-y-auto p-6 rounded-2xl bg-background">
         {open.type==="signup"?<Signup/>:<Signin/>}
+        </div>
         <CircleXIcon
           onClick={() => setOpen({ status: false, type: "" })}
           size={40}
