@@ -18,7 +18,7 @@ const ResponseView = ({ response }: any) => {
 
   return (
     <div className="w-full px-3 py-2 flex gap-2 cursor-pointer ">
-      <div className="md:block hidden w-32 h-24 px-2 border-r-[1px]">
+      <div className="lg:block hidden w-32 h-24 px-2 border-r-[1px]">
         <Image
           src={`/images/verifiedStamp.png`}
           width={600}

@@ -40,7 +40,7 @@ const Modal = ({
             {title && <DialogTitle>{title}</DialogTitle>}{" "}
             {!notClose && (
               <div className="absolute top-0.5 right-0 cursor-pointer hover:bg-gray-200 rounded-md -mt-1 px-1 py-1 bg-gray-100 text-center">
-                <X className="w-4 h-4 " onClick={() => handleClose(false)} />
+                <X className="w-4 h-4 text-black" onClick={() => handleClose(false)} />
               </div>
             )}
           </div>

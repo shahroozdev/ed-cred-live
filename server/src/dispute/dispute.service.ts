@@ -6,6 +6,7 @@ import { FeedbackResponse } from '../feedback-response/entities/feedback-respons
 import { CreateDisputeDto } from './dto/create-dispute.dto';
 import { UpdateDisputeDto } from './dto/update-dispute.dto';
 import { User } from '../auth/user.entity';
+import { response } from 'types';
 
 @Injectable()
 export class DisputeService {
@@ -17,7 +18,7 @@ export class DisputeService {
         private readonly feedbackResponseRepository: Repository<FeedbackResponse>,
     ) {}
 
-    async createDispute(dto: CreateDisputeDto, feedbackResponseId: string, userId: number) {
+    async createDispute(dto: CreateDisputeDto, feedbackResponseId: string, userId: number, url?:string):Promise<response> {
 
         const feedbackResponse = await this.feedbackResponseRepository.findOne({
             where: { id: feedbackResponseId },
@@ -47,10 +48,14 @@ export class DisputeService {
             feedbackResponse,
             disputedBy: { id: userId } as User,
             reason: dto.reason,
-            additionalInfo: dto.additionalInfo,
+            attachment: url,
         });
 
-        return await this.disputeRepository.save(dispute);
+         await this.disputeRepository.save(dispute);
+         return {
+            status:200,
+            message:"A dispute on this response has been created successfully."
+         }
     }
 
     async getDispute(id: string) {
@@ -84,10 +89,41 @@ export class DisputeService {
         return await this.disputeRepository.save(dispute);
     }
 
-    async listDisputes() {
-        return await this.disputeRepository.find({
+    async listDisputes(  query?: Record<string, any>):Promise<response & {disputes?:Dispute[]}> {
+        const page = query?.page ?? 1;
+        const pageSize = query?.pageSize ?? 10;
+        const where: any = {};
+        const [disputes, total] = await this.disputeRepository.findAndCount({
+            where,
             relations: ['feedbackResponse', 'disputedBy', 'feedbackResponse.feedbackForm'],
+            skip: (page - 1) * pageSize,
+            take: pageSize,
             order: { createdAt: 'DESC' },
         });
+        return {
+            status: 200,
+            message: "All Feedback Responses List.",
+            disputes,
+            total,
+            currentPage: Number(page),
+            pageSize,
+          };
+    }
+
+    async getDisputeStats(){
+        const [resolvedDisputes, totalResolved] = await this.disputeRepository.findAndCount({
+            where:{status:'resolved'}
+        })
+        const [pendingDisputes, totalPending] = await this.disputeRepository.findAndCount({
+            where:{status:'pending'}
+        })
+        const [rejectedDisputes, totalRejected] = await this.disputeRepository.findAndCount({
+            where:{status:'rejected'}
+        })
+        return {
+            status:200,
+            message:"All Stats of Disputes",
+            disputesStats:{totalPending, totalRejected, totalResolved}
+        }
     }
 }

@@ -27,6 +27,7 @@ import { PackagesModule } from "./packages/packages.module";
 import { Package } from "./packages/entities/package.entity";
 import { UserPackage } from "./packages/entities/user.packages.entity";
 import { SchoolModule } from './school/school.module';
+import { DisputeModule } from "./dispute/dispute.module";
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { SchoolModule } from './school/school.module';
     QuestionModule,
     PackagesModule,
     SchoolModule,
+    DisputeModule
   ],
   controllers: [SearchController],
   providers: [SearchService],

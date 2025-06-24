@@ -111,8 +111,8 @@ export class SchoolController {
 
   @Get("employee/:id")
   @ApiCustomResponse("getSingleEmployeeSwagger")
-  async findOneEmployee(@Param("id") id: string) {
-    return await apiWrapper(() => this.schoolService.findOneEmployee(+id));
+  async findOneEmployee(@Param("id") id: string, @Query() query?:Record<string, any>) {
+    return await apiWrapper(() => this.schoolService.findOneEmployee(+id, query));
   }
 
   @Patch("employee/:id")

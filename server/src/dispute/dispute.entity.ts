@@ -23,8 +23,8 @@ export class Dispute {
     @Column('text')
     reason: string;
 
-    @Column({ type: 'text', nullable: true })
-    additionalInfo?: string;
+    @Column({type:"text", nullable:true})
+    attachment?:string;
 
     @Column({ default: 'pending' })
     status: 'pending' | 'reviewed' | 'resolved' | 'rejected';

@@ -30,7 +30,7 @@ const ResponseCard = ({
 
   return (
     <div
-      className="w-full border-2 border-muted rounded-md px-3 py-2 flex gap-2 shadow-md hover:scale-101 cursor-pointer min-h-[215px] transition-all duration-300 ease-in-out"
+      className="w-full border-2 border-muted rounded-md px-3 py-2 !text-sm flex gap-2 shadow-md hover:scale-101 cursor-pointer min-h-[215px] transition-all duration-300 ease-in-out"
       onClick={() => router.push(`/response/${response?.id}`)}
     >
       {/* <div className="w-full h-full absolute flex justify-center items-center"> */}
@@ -64,14 +64,14 @@ const ResponseCard = ({
               <b>Category:</b>
               {response?.category?.name}
             </div>
-            <div className="md:text-base text-sm font-normal">
+            <div className=" text-sm font-normal">
               <b>School Name:</b> {response?.branch?.name}
             </div>
-            <div className="md:text-base text-sm font-normal">
+            <div className=" text-sm font-normal">
               <b>Reviewee Name:</b> {response?.name}
             </div>
             {response?.responses[0]?.comments ? (
-              <div className="text-ellipsis line-clamp-1 italic font-light opacity-70">
+              <div className="text-sm text-ellipsis line-clamp-1 italic font-light opacity-70">
                 &ldquo;{response?.responses[0]?.comments}
               </div>
             ) : (
@@ -80,7 +80,7 @@ const ResponseCard = ({
           </div>
           <div className="flex flex-col justify-between">
             <div className="text-right">
-              <div className="md:text-base text-sm flex gap-1 items-center justify-end">
+              <div className="text-sm flex gap-1 items-center justify-end">
                 {response?.responses?.length} review
                 {response?.responses?.length > 1 ? "s" : ""}
                 <Image
@@ -90,7 +90,7 @@ const ResponseCard = ({
                   alt=""
                 />
               </div>
-              <div className="md:text-base text-sm text-muted-foreground font-normal">
+              <div className="text-sm text-muted-foreground font-normal">
                 {response?.branch?.country}
               </div>
               <a

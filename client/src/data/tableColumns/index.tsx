@@ -481,3 +481,14 @@ export const adminForumColumn = [
     key: "forumList",
   }),
 ];
+export const adminDisputeColumn = [
+  customColummn({ key: "disputedBy.username", label: "Disputed By", width: 100 }),
+  customColummn({ key: "feedbackResponse.feedbackForm.title", label: "Feedback Title", ellipses: true, width: 200 }),
+  customColummn({ key: "reason", label: "Reason", ellipses: true, width: 200 }),
+  customColummn({ key: "status", label: "Status", ellipses: true, width: 200 }),
+  customColummn({ key: "createdAt", label: "Created At", type: "date", width: 150 }),
+  action({
+    deleteBtn: {link:'/disputes', text:'Want To Delete This Dispute?'},
+    key: "disputes",
+  }),
+];

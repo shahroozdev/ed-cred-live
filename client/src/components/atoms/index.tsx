@@ -5,6 +5,7 @@ import CategorySelect from "./categorySelect";
 import CategorySelect2 from "./categorySelect/index2";
 import { CountryDropdown } from "./coutnrySelect";
 import { DateRangePicker } from "./dateChangePicker";
+import DisputeBtn from "./disputeBtn";
 import FormTemplate, { FormFeilds } from "./form";
 import IconButton from "./iconButton";
 import CustomInput from "./input/Input";
@@ -18,7 +19,9 @@ import SubCategorySelect from "./subCategorySelect";
 import { ThemeToggle } from "./themeToggle/ThemeToggle";
 import TitleWrapper from "./titleWrapper";
 import UploadProfilePic from "./uploadProfilePic";
+
 export {
+  DisputeBtn,
   ResetBtn,
   SchoolSelect,
   CategorySelect2,

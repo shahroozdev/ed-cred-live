@@ -29,7 +29,7 @@ export default async function PostPage({
           }).format(new Date(selectedPost.createdAt ?? ""))}
         </p>
         <Separator className="my-4" />
-        <Image
+       {selectedPost?.image? <Image
           src={
             selectedPost?.image
               ? process.env.BASE_URL + selectedPost?.image
@@ -39,7 +39,7 @@ export default async function PostPage({
           height={500}
           alt={selectedPost.title}
           className="w-full max-h-[500px] object-cover rounded-2xl mb-4"
-        />
+        />:<></>}
         <div dangerouslySetInnerHTML={{ __html: selectedPost.body }} />
       </div>
     </TitleWrapper>

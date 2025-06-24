@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode, useState } from "react";
+import React, { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import Modal from "../modal";
 
 const CustomModal = ({
@@ -7,7 +7,7 @@ const CustomModal = ({
   title,
   trigger,
 }: {
-  children: ReactNode;
+  children: (setIsOpen: Dispatch<SetStateAction<boolean>>) => ReactNode;
   title?: string;
   trigger?: ReactNode;
 }) => {
@@ -18,8 +18,9 @@ const CustomModal = ({
       open={isOpen}
       setIsOpen={setIsOpen}
       trigger={trigger}
+      className="max-h-[95vh] overflow-y-auto"
     >
-      {children}
+      {children(setIsOpen)}
     </Modal>
   );
 };

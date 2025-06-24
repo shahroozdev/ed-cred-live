@@ -1,11 +1,9 @@
 "use client";
 import React, { ChangeEvent, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import Button from "../button/Button";
 import Image from "next/image";
 import { FormFeilds } from "../form";
 
-const UploadFilePreview = ({ inputName, label }: { inputName: string, label?:string }) => {
+const UploadFilePreview = ({ inputName, label , allowTypes}: { inputName: string, label?:string, allowTypes?:string }) => {
   const [preview, setPreview] = useState<any>(null);
   const maxSize = 5 * 1024 * 1024; // 5MB
   const attachmentSizeLimiter = (
@@ -53,7 +51,7 @@ const UploadFilePreview = ({ inputName, label }: { inputName: string, label?:str
           <input
             type="file"
             multiple
-            accept=".jpg,.jpeg,.png,.gif"
+            accept={allowTypes||".jpg,.jpeg,.png,.gif"}
             // {...field}
             onChange={(e) => {
               attachmentSizeLimiter(e, field);
@@ -62,25 +60,8 @@ const UploadFilePreview = ({ inputName, label }: { inputName: string, label?:str
           />
         )}
       </FormFeilds>
+      <p className="text-[8px] text-thin opacity-70">(Maximum size limit: 5mb)</p>
     </>
-
-    // <div className="flex flex-col gap-2">
-    //   {preview ? (
-    //     // TODO: show the document if they have uploaded one
-    //     <img src={preview} width="200" height="200" />
-    //   ) : (
-    //     <Input
-    //       type="file"
-    //       onChange={(e) => {
-    //         setVerificationFile(e.target.files?.[0] ?? null);
-    //         const file: any = e.target.files?.[0];
-    //         const blob = new Blob([file], { type: file.type });
-    //         const blobUrl = URL.createObjectURL(blob);
-    //         preview(blobUrl);
-    //       }}
-    //     />
-    //   )}
-    // </div>
   );
 };
 

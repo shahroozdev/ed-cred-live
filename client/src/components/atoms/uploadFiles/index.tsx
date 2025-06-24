@@ -75,7 +75,6 @@ const UploadFiles = ({ inputName }: { inputName?: string }) => {
       {/* Attachments Preview */}
       <div className="my-4 space-y-4 text-sm grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
         {attachments.map((file: any, index) => {
-          console.log(file, 'item')
           return (
             <div
               key={index}

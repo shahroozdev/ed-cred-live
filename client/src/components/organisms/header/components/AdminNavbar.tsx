@@ -89,6 +89,7 @@ export function MainNav({ className, ...props }: MainNavProps) {
     { href: "/feedback", label: "Feedback" },
     { href: "/feedback/create", label: "Create Feedback" },
     { href: "/forum", label: "Forum" },
+    { href: "/disputes", label: "Disputes" },
     { href: "/users", label: "Manage users" },
     { href: "/review/", label: "Review" },
     { href: "/posts", label: "Posts" },

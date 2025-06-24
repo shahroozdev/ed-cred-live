@@ -9,15 +9,17 @@ import { Separator } from "@/components/ui/separator";
 const GroupedResponseView = ({
   data,
   related,
+  userId
 }: {
   data: Record<string, any>;
   related: Record<string, any>;
+  userId:number;
 }) => {
   const items =
     data?.responses?.length > 0
       ? data?.responses?.map((item: Record<string, any>) => ({
           title: <ResponseView response={item} />,
-          desc: <QuestionView response={item} />,
+          desc: <QuestionView response={item} userId={userId}/>,
         }))
       : [];
 

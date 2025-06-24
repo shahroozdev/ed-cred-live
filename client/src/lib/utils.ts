@@ -76,3 +76,19 @@ export const sortByType = (data: any[] ) => {
     const image = data?.filter((key: any) => types["image"].includes(key?.folder_path?.split(".").pop()));
     return {audio, videos, docs, image};
 };
+
+export const typeOfFile = (data: string | string[]) => {
+  const getType = (ext: string) => {
+    if (types.audio.includes(ext)) return 'audio';
+    if (types.video.includes(ext)) return 'video';
+    if (types.image.includes(ext)) return 'image';
+    if (types.document.includes(ext)) return 'application';
+    return 'unknown';
+  };
+
+  if (Array.isArray(data)) {
+    return data.map((item) => getType(item));
+  } else {
+    return getType(data);
+  }
+};

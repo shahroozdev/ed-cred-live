@@ -30,7 +30,7 @@ export const OverviewTab = ({feedbacks, categories, posts}:{feedbacks:Record<str
         },
 
     ]
-    console.log(posts, 'posts')
+
     return(
         <div className="w-full">
             <Stats stats={stats}/>

@@ -7,8 +7,9 @@ import { Branch } from "./entities/branch.entity";
 import { ILike, Like, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateBranchDto, UpdateBranchDto } from "./dto/branch.dto";
-import { Category } from "src/category/category.entity";
+import { Category } from "../category/category.entity";
 import { response } from "types";
+import { Dispute } from "../dispute/dispute.entity";
 
 @Injectable()
 export class SchoolService {
@@ -20,7 +21,9 @@ export class SchoolService {
     @InjectRepository(Branch)
     private readonly branchRepository: Repository<Branch>,
     @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>
+    private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(Dispute)
+    private readonly disputeRepository: Repository<Dispute>
   ) {}
   // ----------------- Branch Methods -----------------
 
@@ -88,6 +91,7 @@ export class SchoolService {
     if (search) {
       where.OR = [
         { country: ILike(`%${search}%`) },
+        { name: ILike(`%${search}%`) },
         { employees: { name: ILike(`%${search}%`) } },
         { employees: { category: { name: ILike(`%${search}%`) } } },
         { employees: { responses: { form: { name: ILike(`%${search}%`) } } } },
@@ -108,6 +112,7 @@ export class SchoolService {
         createdAt: "DESC",
       },
     });
+
     return {
       status: 200,
       message: "All Branches List.",
@@ -219,12 +224,14 @@ export class SchoolService {
   }
 
   async findAllEmployee(): Promise<Employee[]> {
+
     return await this.employeeRepository.find({
       relations: ["branch", "branch.school"],
     });
   }
 
-  async findOneEmployee(id: number): Promise<Employee> {
+  async findOneEmployee(id: number, query?:Record<string, any>): Promise<Employee> {
+    const {userId} = query;
     const employee = await this.employeeRepository.findOne({
       where: { id },
       relations: [
@@ -236,8 +243,23 @@ export class SchoolService {
         "responses.feedbackForm.questions",
       ],
     });
-
+    const disputes = userId?await this.disputeRepository
+    .createQueryBuilder("dispute")
+    .leftJoin("dispute.feedbackResponse", "feedbackResponse")
+    .leftJoin("dispute.disputedBy", "user")
+    .where("user.id = :userId", { userId })
+    .select(["dispute.id", "feedbackResponse.id"])
+    .getMany()
+    :null
+    const disputesResponsesIds=disputes?.flatMap((item)=>(item?.feedbackResponse?.id));
     if (!employee) throw new NotFoundException(`Employee ID ${id} not found`);
+    (employee.responses as any[]).forEach(element => {
+      if (disputesResponsesIds?.includes(element?.id)) {
+        element.is_disputed = true;
+      } else {
+        element.is_disputed = false;
+      }
+    });
     return employee;
   }
 

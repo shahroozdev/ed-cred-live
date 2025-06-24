@@ -1,9 +1,11 @@
 'use client'
-import { FormTemplate } from "@/components/atoms";
+import { DisputeBtn, FormTemplate } from "@/components/atoms";
 import QuestionList from "@/components/pages/common/review/components/questionList";
 import React from "react";
+import Attachments from "./attachments";
 
-const QuestionView = ({ response }: { response: Record<string, any> }) => {
+const QuestionView = ({ response, userId }: { response: Record<string, any>, userId:number }) => {
+  console.log(response, 'response')
   return (
     <FormTemplate
       onSubmit={() => {}}
@@ -17,8 +19,9 @@ const QuestionView = ({ response }: { response: Record<string, any> }) => {
       }}
     >
       <div className="p-4 border-t-muted mx-2 rounded">
-        {/* <h3 className="text-xl font-semibold mb-4">Questions:</h3> */}
+        {userId&&<DisputeBtn id={response?.id} disabled={response?.is_disputed}/>}
         <QuestionList feedback={response?.feedbackForm} disabled />
+        <Attachments attachments={response?.attachments}/>
       </div>
     </FormTemplate>
   );

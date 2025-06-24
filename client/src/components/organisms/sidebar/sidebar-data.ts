@@ -1,4 +1,5 @@
 import {
+  Flag,
   Layers,
   LayoutDashboard,
   MessageSquareQuote,
@@ -76,6 +77,11 @@ export const data = {
           url: "/create",
         },
       ],
+    },
+    {
+      title: "Disputes",
+      url: "/disputes",
+      icon: Flag,
     },
     {
       title: "Categories",

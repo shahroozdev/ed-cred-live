@@ -31,7 +31,6 @@ const FeedbackForm = ({
     });
   };
 
-  console.log(defaultValues, feedback, "feedback");
   return (
     <FormTemplate
       onSubmit={onSubmit}
