@@ -5,5 +5,5 @@ export class CreateDisputeDto {
     reason: string;
 
     @IsOptional()
-    additionalInfo?: any;
+    attachment?: any;
 }

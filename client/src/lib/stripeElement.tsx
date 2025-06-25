@@ -1,6 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { convertToCents } from "@/lib/utils";
 import { useParams, usePathname } from "next/navigation";
@@ -8,29 +13,36 @@ import { Button } from "@/components/atoms";
 import { Loader2 } from "lucide-react";
 import { useMutate } from "@/hooks/generalHooks";
 
-
 // Create a new CheckoutForm component to handle the payment submission
-const CheckoutForm = ({ clientSecret, amount}: {clientSecret: string, amount:number}) => {
+const CheckoutForm = ({
+  clientSecret,
+  amount,
+  form,
+}: {
+  clientSecret: string;
+  amount: number;
+  form?: any;
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const pathname = usePathname();
   const params = useParams();
-  const {MutateFunc, isPending} = useMutate();
+  const { MutateFunc, isPending } = useMutate();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!stripe || !elements) {
-      return;
-    }
+    const isValid = form ? await form.trigger() : true;
+    console.log(isValid, 'isVAlid')
+    if (!isValid) return;
+    if (!stripe || !elements) return;
     setIsProcessing(true);
     setPaymentError(null);
-
-    const {error} = await elements.submit();    
-    if(error){
-      setPaymentError(error.message || 'An error occurred during payment.');
+    const { error } = await elements.submit();
+    if (error) {
+      setPaymentError(error.message || "An error occurred during payment.");
       setIsProcessing(false);
       return;
     }
@@ -38,44 +50,64 @@ const CheckoutForm = ({ clientSecret, amount}: {clientSecret: string, amount:num
     const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
       elements,
       clientSecret: clientSecret,
-      redirect: 'if_required',
+      redirect: "if_required",
       confirmParams: {
         return_url: `${window.location.origin}${pathname}?paymentSuccess=true`,
       },
     });
-    
+
     if (confirmError) {
-      setPaymentError(confirmError.message || 'An error occurred during payment.');
+      setPaymentError(
+        confirmError.message || "An error occurred during payment."
+      );
       setIsProcessing(false);
       return;
     }
 
-    if (paymentIntent && paymentIntent.status === 'succeeded') {
-      await MutateFunc({url:'auth/update-package', method:'PUT', body:{packageId:Number(params?.subscription)}, })
+    if (paymentIntent && paymentIntent.status === "succeeded") {
+      if (form) {
+        form.submit();
+      } else {
+        await MutateFunc({
+          url: "auth/update-package",
+          method: "PUT",
+          body: { packageId: Number(params?.subscription) },
+        });
+      }
     }
   };
-// sendTo:'/dashboard'
-
+  // sendTo:'/dashboard'
 
   return (
-    <form onSubmit={handleSubmit} className="my-5">
-      <PaymentElement />
-      {paymentError && <div className="text-red-500 mt-2">{paymentError}</div>}
-      <Button 
-        variant="primary"
-        type="submit" 
-        disabled={!stripe || isProcessing || isPending}
-        loading={isPending || isProcessing}
-        className="w-full rounded mt-4 bg-green-500 text-white py-2 px-4"
-      >
-        {isProcessing ? 'Processing...' : 'Check out'} ( ${amount})
-
-      </Button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit} className="my-5">
+        <PaymentElement />
+        {paymentError && (
+          <div className="text-red-500 mt-2">{paymentError}</div>
+        )}
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={!stripe || isProcessing || isPending}
+          loading={isPending || isProcessing}
+          className="w-full rounded mt-4 bg-green-500 text-white py-2 px-4"
+        >
+          {isProcessing ? "Processing..." : "Check out"} ( ${amount})
+        </Button>
+      </form>
+      <div className="text-center mt-4 text-sm text-gray-500 flex items-center justify-center gap-1">
+        <span>Payments secured by</span>
+        <img
+          src="https://stripe.com/img/v3/home/social.png"
+          alt="Stripe"
+          className="h-5"
+        />
+      </div>
+    </>
   );
 };
 
-const StripeElement = ({ amount }: { amount: number}) => {
+const StripeElement = ({ amount, form }: { amount: number; form?: any }) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -113,7 +145,6 @@ const StripeElement = ({ amount }: { amount: number}) => {
           setClientSecret(data.clientSecret);
         }
       } catch (error: any) {
-
         setIsError(error.message || "Failed to initialize payment");
       } finally {
         setIsLoading(false);
@@ -140,7 +171,11 @@ const StripeElement = ({ amount }: { amount: number}) => {
               <Loader2 />
             </div>
           ) : (
-            <CheckoutForm clientSecret={clientSecret} amount={amount}/>
+            <CheckoutForm
+              clientSecret={clientSecret}
+              amount={amount}
+              form={form}
+            />
           )}
         </Elements>
       )}

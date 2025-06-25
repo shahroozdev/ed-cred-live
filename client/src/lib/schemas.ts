@@ -142,3 +142,23 @@ export const postSchema = z.object({
   featured: z.boolean(),
   status: z.boolean(),
 });
+export const disputeSchema = z.object({
+  reason: z.string().min(1, "Reason is required"),
+
+  attachment: z
+    .instanceof(File)
+    .optional()
+    .refine(
+      (file) =>
+        !file || ["image", "video", "audio", "application"].some((type) =>
+          file.type.startsWith(type)
+        ),
+      {
+        message: "Attachment must be an image, video, audio, or document file",
+      }
+    ),
+
+  agreeTerms: z.literal(true, {
+    errorMap: () => ({ message: "You must agree to the terms." }),
+  }),
+});

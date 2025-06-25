@@ -13,6 +13,7 @@ import {
   ControllerRenderProps,
   useForm,
   useFormContext,
+  UseFormReturn,
 } from "react-hook-form";
 import { z, ZodType } from "zod";
 
@@ -49,14 +50,16 @@ const FormTemplate = ({
   className,
   schema,
   defaultValues,
+  customForm
 }: {
   onSubmit: (value: any) => void;
   children: ReactNode;
   className?: string;
   schema?: ZodType<any, any, any>;
   defaultValues?: Record<string, any>;
+  customForm?:UseFormReturn<any, any, undefined>
 }) => {
-  const form = useForm({
+  const form = customForm?customForm:useForm({
     resolver: zodResolver(schema||z.any()),
     defaultValues: defaultValues,
   });

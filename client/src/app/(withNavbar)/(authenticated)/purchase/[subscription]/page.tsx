@@ -54,15 +54,6 @@ const PackagePurchase = async ({
                 <StripeElement amount={Number(Package!.price)} />
               </div>
             </div>
-            {/* Powered by Stripe */}
-            <div className="text-center mt-4 text-sm text-gray-500 flex items-center justify-center gap-1">
-              <span>Payments secured by</span>
-              <img
-                src="https://stripe.com/img/v3/home/social.png"
-                alt="Stripe"
-                className="h-5"
-              />
-            </div>
           </>
         ) : (
           // Custom 404
