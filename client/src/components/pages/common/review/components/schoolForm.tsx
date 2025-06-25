@@ -27,7 +27,7 @@ const SchoolForm = ({
               detail?.type === "dropdown" ? (
                 <CountryDropdown
                   value={field.value}
-                  onChange={field.onChange}
+                  onValueChange={field.onChange}
                 />
               ) : detail?.type === "date-range" ? (
                 <DateRangePicker date={field.value} setDate={field.onChange} />

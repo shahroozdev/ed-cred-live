@@ -51,7 +51,7 @@ const FilterBar = ({
         Filter by Country
         <CountryDropdown
           value={country}
-          onChange={(country) => {
+          onValueChange={(country) => {
             setFilter("schoolCountry", country);
             setCountry(country);
           }}
