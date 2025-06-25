@@ -38,7 +38,7 @@ const DisputeBtn = ({ id, disabled }: { id: number; disabled: boolean }) => {
           {"  Disputed"}
         </Button>
       ) : (
-        <Link href={`/create-disputes/${id}`}>
+        <Link href={`/create-dispute/${id}`}>
           <Button variant="ghost" icon={<Flag />}>
             {" "}
             {"  Dispute this Review"}
