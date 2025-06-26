@@ -11,7 +11,7 @@ import Link from "next/link";
 export function LoginForm({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"form">) {
+}: React.ComponentPropsWithoutRef<"form"> & {handleClose?:()=>void}) {
   const { MutateFunc, isPending } = useMutate();
 
   const router = useRouter();
@@ -22,6 +22,7 @@ export function LoginForm({
       method: "POST",
       body: values,
       onSuccess: (res: any) =>
+        props?.handleClose ? props.handleClose():
         router.push(
           res?.user?.role === "admin" ? "/admin-dashboard" : "/dashboard"
         ),
@@ -36,7 +37,7 @@ export function LoginForm({
       defaultValues={{ identifier: "", password: "" }}
     >
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login to your account</h1>
+        <h1 className="text-2xl font-bold">{props?.title||"Login to your account"}</h1>
         <p className="text-balance text-sm text-muted-foreground">
           Enter your credentials to login
         </p>

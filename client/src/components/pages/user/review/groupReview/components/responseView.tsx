@@ -1,6 +1,5 @@
-import { imagesUrls } from "@/types";
 import dayjs from "dayjs";
-import { AppleIcon, ExternalLinkIcon } from "lucide-react";
+import { AppleIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { v4 } from "uuid";

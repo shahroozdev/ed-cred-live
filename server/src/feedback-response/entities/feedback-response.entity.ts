@@ -4,13 +4,11 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
-  OneToMany,
-  OneToOne,
+  OneToMany
 } from "typeorm";
 import { FeedbackForm } from "../../feedback-form/entities/feedback-form.entity";
 import { User } from "../../auth/user.entity";
-import { Dispute } from "../../dispute/dispute.entity";
-import { School } from "src/school/entities/school.entity";
+import { Dispute } from "../../dispute/entities/dispute.entity";
 import { Employee } from "src/school/entities/employee.entity";
 
 @Entity()
@@ -64,7 +62,7 @@ export class FeedbackResponse {
   @Column({nullable:true})
   avgRatting: number;
 
-  @OneToMany(() => Dispute, (dispute) => dispute.disputedBy)
+  @OneToMany(() => Dispute, (dispute) => dispute.feedbackResponse)
   disputes: Dispute[];
 
   @CreateDateColumn()

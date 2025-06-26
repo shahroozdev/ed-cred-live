@@ -2,14 +2,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import Button from "../button/Button";
 import { Flag } from "lucide-react";
-import { CustomModal } from "@/components/molecules";
-import FormTemplate, { FormFeilds } from "../form";
-import { z } from "zod";
-import { Textarea } from "@/components/ui/textarea";
-import UploadFilePreview from "../uploadAndPreview";
 import { useMutate } from "@/hooks/generalHooks";
-import { types } from "@/data/constant";
-import CustomAccordion from "../accordian";
 import Link from "next/link";
 
 const DisputeBtn = ({ id, disabled }: { id: number; disabled: boolean }) => {
@@ -38,7 +31,7 @@ const DisputeBtn = ({ id, disabled }: { id: number; disabled: boolean }) => {
           {"  Disputed"}
         </Button>
       ) : (
-        <Link href={`/create-dispute/${id}`}>
+        <Link href={`/disputes/create/${id}`}>
           <Button variant="ghost" icon={<Flag />}>
             {" "}
             {"  Dispute this Review"}

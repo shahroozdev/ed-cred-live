@@ -7,6 +7,7 @@ const WithNavabarLayout = async ({ children }: { children: ReactNode }) => {
   const user = await getServerSideDataWithFeatures({
     url: "/auth/profile",
     key: "profile",
+    noRedirect:true,
   });
 
   return (

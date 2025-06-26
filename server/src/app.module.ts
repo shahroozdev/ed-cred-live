@@ -19,7 +19,10 @@ import { SearchModule } from "./search/search.module";
 import { Post } from "./posts/entities/post.entity";
 import { FeedbackResponse } from "./feedback-response/entities/feedback-response.entity";
 import { FeedbackForm } from "./feedback-form/entities/feedback-form.entity";
-import { Dispute } from "./dispute/dispute.entity";
+import { Dispute } from "./dispute/entities/dispute.entity";  
+import { School } from "./school/entities/school.entity";
+import { Employee } from "./school/entities/employee.entity";
+import { Branch } from "./school/entities/branch.entity";
 import { MailModule } from "./mail/mail.module";
 import { MulterModule } from "@nestjs/platform-express";
 import { QuestionModule } from "./question/question.module";
@@ -28,6 +31,7 @@ import { Package } from "./packages/entities/package.entity";
 import { UserPackage } from "./packages/entities/user.packages.entity";
 import { SchoolModule } from './school/school.module';
 import { DisputeModule } from "./dispute/dispute.module";
+import { DisputeTimeline } from "./dispute/entities/dispute.timeline.entity";
 
 @Module({
   imports: [
@@ -47,7 +51,11 @@ import { DisputeModule } from "./dispute/dispute.module";
       FeedbackForm,
       Dispute,
       Package,
-      UserPackage
+      UserPackage,
+      School,
+      Employee,
+      Branch,
+      DisputeTimeline
     ]),
     AuthModule,
     PostModule,

@@ -26,17 +26,21 @@ const inter = Geist({
 
 export default async function RootLayout({
   children,
+  Modal,
 }: {
   children: ReactNode;
+  Modal: ReactNode;
 }) {
-  const categories = await getServerSideDataWithFeatures({
-    url: `/category`,
-    key: "categories",
-  });
-  const schools = await getServerSideDataWithFeatures({
-    url: "/school",
-    key: "schools",
-  });
+  const categories = await fetch(process.env.BASE_URL + `/category`, {
+    next: {
+      tags: ["categories"],
+    },
+  }).then((res) => res.json());
+  const schools = await fetch(process.env.BASE_URL + "/school", {
+    next: {
+      tags: ["schools"],
+    },
+  }).then((res) => res.json());
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -60,6 +64,7 @@ export default async function RootLayout({
               schools={schools}
             >
               {children}
+              {Modal}
             </GlobalStoreProvider>
           </SidebarProvider>
         </ThemeProvider>

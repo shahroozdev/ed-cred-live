@@ -1,4 +1,4 @@
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { SideMenu } from "@/components/organisms";
@@ -7,6 +7,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   const user = await getServerSideDataWithFeatures({
     url: "/auth/profile",
     key: "profile",
+    noRedirect:true,
   });
   return (
     <>

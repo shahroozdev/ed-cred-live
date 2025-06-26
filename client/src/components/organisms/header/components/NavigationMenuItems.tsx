@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useQuery } from "@/hooks/generalHooks";
 import HTMLContent from "@/components/atoms/htmlContent";
+import { UserProfile } from "@/types/user";
 
-export function NavigationMenuItems() {
+export function NavigationMenuItems({user}:{user?:UserProfile}) {
   const posts = useQuery({
     url: "/posts",
     key: "posts",
@@ -61,6 +62,13 @@ export function NavigationMenuItems() {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
+        {user&&<NavigationMenuItem>
+          <Link href="/disputes/manage" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Dispute Management
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>}
         <NavigationMenuItem>
           <Link href="/contact" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>

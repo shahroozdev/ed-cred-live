@@ -24,9 +24,11 @@ const Modal = ({
   open,
   setIsOpen,
   className,
+  onClose
 }: ModalProps) => {
 
   const handleClose = (isOpen: boolean) => {
+    onClose&&onClose();
     setIsOpen(isOpen);
   };
   return (

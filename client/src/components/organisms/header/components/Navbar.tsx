@@ -26,7 +26,7 @@ const Navbar = ({ user }: { user: UserProfile }) => {
         <div className="flex items-center sm:gap-4 gap-2">
           {/* <MenuList/> */}
           <div className="lg:block hidden">
-            <NavigationMenuItems
+            <NavigationMenuItems user={user}
             // userCategoryId={user && user?.category ? user.category.id : 0}
             />
           </div>

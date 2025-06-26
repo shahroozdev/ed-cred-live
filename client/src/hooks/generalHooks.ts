@@ -135,7 +135,6 @@ export const useMutate = () => {
   }
   return { MutateFunc, isPending };
 };
-
 export const useQuery = ({ url, key }: QueryProps) => {
   const [data, setData] = useState<any>(null);
   const [isLoading, setLoading] = useState(false);

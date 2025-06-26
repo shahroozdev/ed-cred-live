@@ -89,6 +89,7 @@ export interface BaseUser {
 }
 
 export interface ModalProps {
+  onClose?: () => void;
   children: ReactNode;
   className?: string;
   title?: ReactNode;

@@ -42,12 +42,30 @@ import React, {
   useState,
 } from "react";
 
-export const UpdateStatus = ({data,values}:{data: Record<string, any>, values:{options?:{label:string, value:string}[],text?:string, link?:string, icon?:ReactNode, key?:string}}) => {
+export const UpdateStatus = ({
+  data,
+  values,
+}: {
+  data: Record<string, any>;
+  values: {
+    options?: { label: string; value: string }[];
+    text?: string;
+    link?: string;
+    icon?: ReactNode;
+    key?: string;
+  };
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const {MutateFunc, isPending} =useMutate()
-  const onSubmit=async(value:Record<string, any>)=>{
-    await MutateFunc({url:`${values?.link}/${data?.id}`||'', method:'PUT', body:{...value, id:data?.id}, tags:values?.key, onSuccess:()=>setIsOpen(false)})
-  }
+  const { MutateFunc, isPending } = useMutate();
+  const onSubmit = async (value: Record<string, any>) => {
+    await MutateFunc({
+      url: `${values?.link}/${data?.id}` || "",
+      method: "PUT",
+      body: { ...value, id: data?.id },
+      tags: values?.key,
+      onSuccess: () => setIsOpen(false),
+    });
+  };
 
   return (
     <>
@@ -55,28 +73,43 @@ export const UpdateStatus = ({data,values}:{data: Record<string, any>, values:{o
         title={"Update Status"}
         trigger={
           <IconButton bgColor={`purple`} className="text-white">
-            <span title={"Change Category"}>
-              {values?.icon||<Repeat1 />}
-            </span>
+            <span title={"Change Category"}>{values?.icon || <Repeat1 />}</span>
           </IconButton>
         }
         open={isOpen}
         setIsOpen={setIsOpen}
       >
-        <FormTemplate onSubmit={onSubmit} defaultValues={{status:data?.status}} className="space-y-2">
-          <FormFeilds fieldProps={{name:'status'}} label={{text:'Status'}}>
+        <FormTemplate
+          onSubmit={onSubmit}
+          defaultValues={{ status: data?.status }}
+          className="space-y-2"
+        >
+          <FormFeilds
+            fieldProps={{ name: "status" }}
+            label={{ text: "Status" }}
+          >
             {(field) => (
               <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger className="w-md">
                   <SelectValue placeholder={"Select Status"} />
                 </SelectTrigger>
                 <SelectContent>
-                  {values?.options?.map((item, idx)=>{return(<SelectItem key={idx} value={item.value}>{item.label}</SelectItem>)})}
+                  {values?.options?.map((item, idx) => {
+                    return (
+                      <SelectItem key={idx} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             )}
           </FormFeilds>
-          <div className="flex justify-end mr-4"><Button variant="primary" type="submit" loading={isPending}>Submit</Button></div>
+          <div className="flex justify-end mr-4">
+            <Button variant="primary" type="submit" loading={isPending}>
+              Submit
+            </Button>
+          </div>
         </FormTemplate>
       </Modal>
     </>
@@ -98,11 +131,17 @@ export const action = ({
   statusUpdate,
 }: {
   edit?: string;
-  editModal?: ReactElement
-  deleteBtn?: {text?:string, link?:string};
-  statusUpdate?: {options?:{label:string, value:string}[],text?:string, link?:string, icon?:ReactNode, key?:string};
+  editModal?: ReactElement;
+  deleteBtn?: { text?: string; link?: string };
+  statusUpdate?: {
+    options?: { label: string; value: string }[];
+    text?: string;
+    link?: string;
+    icon?: ReactNode;
+    key?: string;
+  };
   btnText?: string;
-  view?: boolean;
+  view?: string;
   key?: string;
   changeCategory?: boolean;
   verifyDocument?: boolean;
@@ -120,7 +159,7 @@ export const action = ({
       // console.log(data)
       return (
         <div className="flex gap-1">
-          {statusUpdate&&<UpdateStatus data={data} values={statusUpdate}/>}
+          {statusUpdate && <UpdateStatus data={data} values={statusUpdate} />}
           {setQuestionsList && (
             <IconButton bgColor="red" className="cursor-pointer text-white">
               <span
@@ -150,8 +189,10 @@ export const action = ({
               disabled={data?.accepted}
             >
               <IconButton
-                bgColor={data?.accepted?"gray":"green"}
-                className={`${data?.accepted?'cursor-not-allowed':'cursor-pointer'}  text-white px-2`}
+                bgColor={data?.accepted ? "gray" : "green"}
+                className={`${
+                  data?.accepted ? "cursor-not-allowed" : "cursor-pointer"
+                }  text-white px-2`}
               >
                 <span title={"Accept Document"}>
                   <Check size={20} />
@@ -170,10 +211,24 @@ export const action = ({
               </Link>
             </IconButton>
           )}
+          {view && (
+            <IconButton
+              bgColor="blue"
+              className="cursor-pointer text-white px-2"
+            >
+              {" "}
+              <Link href={`${view}/${data?.id}`} title={"View"}>
+                <Eye />
+              </Link>
+            </IconButton>
+          )}
           {editModal && (
             <EditModal data={data}>
-           {(modalData, setIsOpen) => {
-                return React.cloneElement(editModal  as any, { data: modalData , setIsOpen});
+              {(modalData, setIsOpen) => {
+                return React.cloneElement(editModal as any, {
+                  data: modalData,
+                  setIsOpen,
+                });
               }}
             </EditModal>
           )}
@@ -183,11 +238,15 @@ export const action = ({
               url={`/feedback-responses/${data?.id}/reject`}
               type="PATCH"
               qkey={key}
-              disabled={data?.status==="Rejected"}
+              disabled={data?.status === "Rejected"}
             >
               <IconButton
-                bgColor={data?.status==="Rejected" ?"gray":"red"}
-                className={`${data?.status==="Rejected" ?'cursor-not-allowed':'cursor-pointer'}  text-white px-2`}
+                bgColor={data?.status === "Rejected" ? "gray" : "red"}
+                className={`${
+                  data?.status === "Rejected"
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+                }  text-white px-2`}
               >
                 <span title={"Reject Documment"}>
                   <X size={20} />
@@ -195,7 +254,6 @@ export const action = ({
               </IconButton>
             </ConfirmationDeleteModal>
           )}
-          {view && <Eye size={20} />}
           {deleteBtn && (
             <ConfirmationDeleteModal
               text={deleteBtn?.text || ""}
@@ -303,7 +361,7 @@ const customColummn = (values: {
             <>{row.original.featured ? "Yes" : "No"}</>
           ) : values.key === "description" ? (
             <p className="!line-clamp-2 ">{value}</p>
-          ) : values.key === "text"||values?.key==="body" ? (
+          ) : values.key === "text" || values?.key === "body" ? (
             <HTMLContent
               value={value}
               className="line-clamp-2 !overflow-hidden !p-0"
@@ -340,14 +398,8 @@ const customColummn = (values: {
             </p>
           ) : (
             <div>
-              <p className={"text-sm"}>
-                {value}
-              </p>
-              {extra && (
-                <p className={"text-sm"}>
-                  {extra}
-                </p>
-              )}
+              <p className={"text-sm"}>{value}</p>
+              {extra && <p className={"text-sm"}>{extra}</p>}
             </div>
           )}
         </div>
@@ -371,8 +423,8 @@ export const studentMaterialColumn = [
     width: 150,
   }),
   action({
-    edit: '/category/edit',
-    deleteBtn: {link:'/category', text:'Want To Delete This Category?'}
+    edit: "/category/edit",
+    deleteBtn: { link: "/category", text: "Want To Delete This Category?" },
   }),
 ];
 export const subCategoryColumn = [
@@ -386,8 +438,11 @@ export const subCategoryColumn = [
     width: 150,
   }),
   action({
-    edit: '/subcategory/edit/',
-    deleteBtn: {link:'/subcategory', text:'Want To Delete This Subcategory?'},
+    edit: "/subcategory/edit/",
+    deleteBtn: {
+      link: "/subcategory",
+      text: "Want To Delete This Subcategory?",
+    },
   }),
 ];
 export const feedbacksDashboardColumn = [
@@ -403,7 +458,7 @@ export const feedbacksDashboardColumn = [
     width: 150,
   }),
   action({
-    deleteBtn: {link:'/feedback-form', text:'Want To Delete This Form?'}
+    deleteBtn: { link: "/feedback-form", text: "Want To Delete This Form?" },
   }),
 ];
 export const usersAdminColumn = [
@@ -418,7 +473,7 @@ export const usersAdminColumn = [
     width: 150,
   }),
   action({
-    deleteBtn: {link:'/users', text:'Want To Delete This user?'},
+    deleteBtn: { link: "/users", text: "Want To Delete This user?" },
     changeCategory: true,
     verifyDocument: true,
   }),
@@ -435,9 +490,16 @@ export const postsAdminColumn = [
     width: 150,
   }),
   action({
-    statusUpdate:{options:[{label:'Active', value:'active'}, {label:'Draft',value:'draft'}], link:'/posts', key:'posts'},
-    editModal:<CreatePost/>,
-    deleteBtn: {link:'/posts', text:'Want To Delete This Post?'},
+    statusUpdate: {
+      options: [
+        { label: "Active", value: "active" },
+        { label: "Draft", value: "draft" },
+      ],
+      link: "/posts",
+      key: "posts",
+    },
+    editModal: <CreatePost />,
+    deleteBtn: { link: "/posts", text: "Want To Delete This Post?" },
   }),
 ];
 
@@ -463,7 +525,7 @@ export const feedbacksResponsesColumn = [
   }),
   action({
     accept: true,
-    edit: '/feedback/responses/edit',
+    edit: "/feedback/responses/edit",
     reject: true,
   }),
 ];
@@ -477,18 +539,57 @@ export const adminForumColumn = [
   customColummn({ key: "text", label: "Question", ellipses: true }),
   customColummn({ key: "createdAt", label: "Created At", type: "date" }),
   action({
-    deleteBtn: {link:'/feedback-question', text:'Want To Delete This Forum?'},
+    deleteBtn: {
+      link: "/feedback-question",
+      text: "Want To Delete This Forum?",
+    },
     key: "forumList",
   }),
 ];
 export const adminDisputeColumn = [
-  customColummn({ key: "disputedBy.username", label: "Disputed By", width: 100 }),
-  customColummn({ key: "feedbackResponse.feedbackForm.title", label: "Feedback Title", ellipses: true, width: 200 }),
+  customColummn({
+    key: "disputedBy.username",
+    label: "Disputed By",
+    width: 100,
+  }),
+  customColummn({
+    key: "feedbackResponse.feedbackForm.title",
+    label: "Feedback Form Title",
+    ellipses: true,
+    width: 200,
+  }),
   customColummn({ key: "reason", label: "Reason", ellipses: true, width: 200 }),
   customColummn({ key: "status", label: "Status", ellipses: true, width: 200 }),
-  customColummn({ key: "createdAt", label: "Created At", type: "date", width: 150 }),
+  customColummn({
+    key: "createdAt",
+    label: "Created At",
+    type: "date",
+    width: 150,
+  }),
   action({
-    deleteBtn: {link:'/disputes', text:'Want To Delete This Dispute?'},
+    deleteBtn: { link: "/disputes", text: "Want To Delete This Dispute?" },
+    key: "disputes",
+    view: "/disputes/detail",
+  }),
+];
+export const userDisputeColumn = [
+  customColummn({
+    key: "feedbackResponse.feedbackForm.title",
+    label: "Feedback Form Title",
+    ellipses: true,
+    width: 200,
+  }),
+  customColummn({ key: "reason", label: "Reason", ellipses: true, width: 200 }),
+  customColummn({ key: "status", label: "Status", ellipses: true, width: 200 }),
+  customColummn({
+    key: "createdAt",
+    label: "Created At",
+    type: "date",
+    width: 150,
+  }),
+  action({
+    deleteBtn: { link: "/disputes", text: "Want To Delete This Dispute?" },
+    view: "/disputes/detail",
     key: "disputes",
   }),
 ];

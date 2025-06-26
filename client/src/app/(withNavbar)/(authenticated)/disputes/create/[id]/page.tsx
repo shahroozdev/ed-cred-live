@@ -1,5 +1,5 @@
 import { TitleWrapper } from '@/components/atoms'
-import CreateDispute from '@/components/pages/user/dispute/create'
+import CreateDispute from '@/components/pages/dispute/create'
 import React from 'react'
 
 const CreateDisputePage = () => {

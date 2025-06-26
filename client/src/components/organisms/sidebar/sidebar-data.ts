@@ -80,7 +80,7 @@ export const data = {
     },
     {
       title: "Disputes",
-      url: "/disputes",
+      url: "/disputes/view-all",
       icon: Flag,
     },
     {
@@ -97,6 +97,28 @@ export const data = {
       title: "Settings",
       url: "/settings",
       icon: Settings2,
+    },
+  ],
+  navUser: [
+    {
+      title: "Give Feedback",
+      url: "/feedback",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "Read Feedback",
+      url: "/dashboard",
+      icon: MessageSquareQuote,
+    },
+    {
+      title: "Contact Us",
+      url: "/contact",
+      icon: Phone,
+    },
+    {
+      title: "Disputes Management",
+      url: "/disputes/manage",
+      icon: Flag,
     },
   ],
   navCommon: [

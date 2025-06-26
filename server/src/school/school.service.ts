@@ -9,7 +9,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { CreateBranchDto, UpdateBranchDto } from "./dto/branch.dto";
 import { Category } from "../category/category.entity";
 import { response } from "types";
-import { Dispute } from "../dispute/dispute.entity";
+import { Dispute } from "../dispute/entities/dispute.entity";
+
 
 @Injectable()
 export class SchoolService {
@@ -243,11 +244,11 @@ export class SchoolService {
         "responses.feedbackForm.questions",
       ],
     });
-    const disputes = userId?await this.disputeRepository
+    const disputes = userId  && !isNaN(Number(userId))?await this.disputeRepository
     .createQueryBuilder("dispute")
     .leftJoin("dispute.feedbackResponse", "feedbackResponse")
     .leftJoin("dispute.disputedBy", "user")
-    .where("user.id = :userId", { userId })
+    .where("user.id = :userId", { userId: Number(userId) })
     .select(["dispute.id", "feedbackResponse.id"])
     .getMany()
     :null

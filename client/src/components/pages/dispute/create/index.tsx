@@ -44,7 +44,7 @@ const CreateDispute = () => {
         customForm={form}
         schema={disputeSchema}
         defaultValues={{}}
-        className="space-y-2"
+        className="space-y-2 border p-4 rounded-lg shadow-sm bg-gray-50 my-4"
       >
         <FormFeilds fieldProps={{ name: "reason" }} label={{ text: "Reason" }}>
           {(field) => (

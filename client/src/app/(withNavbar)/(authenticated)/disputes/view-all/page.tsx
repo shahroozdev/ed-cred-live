@@ -14,7 +14,7 @@ const FeedbackDisputePage = async () => {
     url: "/disputes/stats",
     key: "disputesStats",
   });
-  console.log(disputesStats);
+
   const stats = [
     {
       title: "Total Disputes",

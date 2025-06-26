@@ -4,8 +4,8 @@ import QuestionList from "@/components/pages/common/review/components/questionLi
 import React from "react";
 import Attachments from "./attachments";
 
-const QuestionView = ({ response, userId }: { response: Record<string, any>, userId:number }) => {
-  console.log(response, 'response')
+const QuestionView = ({ response, userId }: { response: Record<string, any>, userId?:number }) => {
+
   return (
     <FormTemplate
       onSubmit={() => {}}

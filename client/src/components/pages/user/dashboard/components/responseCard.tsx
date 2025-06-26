@@ -70,7 +70,7 @@ const ResponseCard = ({
             <div className=" text-sm font-normal">
               <b>Reviewee Name:</b> {response?.name}
             </div>
-            {response?.responses[0]?.comments ? (
+            {response?.responses?.[0]?.comments ? (
               <div className="text-sm text-ellipsis md:line-clamp-2 line-clamp-1 italic font-light opacity-70">
                 &ldquo;{response?.responses[0]?.comments}
               </div>

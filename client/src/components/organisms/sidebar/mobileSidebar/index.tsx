@@ -4,8 +4,6 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -16,16 +14,21 @@ import { data } from "../sidebar-data";
 import { useState } from "react";
 
 const DrawerBtn = ({ user }: { user: Record<string, any> }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <div className="block">
-      <Drawer direction="right" open={isOpen}>
-        <DrawerTrigger onClick={()=>setIsOpen(!isOpen)}>
+      <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
+        <DrawerTrigger onClick={() => setIsOpen(!isOpen)}>
           <Menu className="cursor-pointer" />
         </DrawerTrigger>
         <DrawerContent className="bg-background h-screen">
-          <DrawerClose className="text-right mr-4 mt-4  cursor-pointer" onClick={()=>setIsOpen(false)}>
-            <span className="text-[var(--mt-pre-color)] rounded-full px-2 py-1">X</span>
+          <DrawerClose
+            className="text-right mr-4 mt-4  cursor-pointer"
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="text-[var(--mt-pre-color)] rounded-full px-2 py-1">
+              X
+            </span>
           </DrawerClose>
           <DrawerHeader>
             <DrawerTitle>
@@ -41,7 +44,16 @@ const DrawerBtn = ({ user }: { user: Record<string, any> }) => {
               </div>
             </DrawerTitle>
           </DrawerHeader>
-          <NavMain items={user?.role ==="admin"? data?.navMain:data?.navCommon} setIsOpen={setIsOpen}/>
+          <NavMain
+            items={
+              user
+                ? user?.role === "admin"
+                  ? data?.navMain
+                  : data?.navUser
+                : data?.navCommon
+            }
+            setIsOpen={setIsOpen}
+          />
         </DrawerContent>
       </Drawer>
     </div>

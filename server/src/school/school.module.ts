@@ -7,7 +7,8 @@ import { Employee } from './entities/employee.entity';
 import { FeedbackResponse } from '../feedback-response/entities/feedback-response.entity';
 import { Branch } from './entities/branch.entity';
 import { Category } from '../category/category.entity';
-import { Dispute } from '../dispute/dispute.entity';
+import { Dispute } from '../dispute/entities/dispute.entity';
+
 
 @Module({
    imports: [TypeOrmModule.forFeature([School, Employee, Branch, FeedbackResponse, Category, Dispute])],
