@@ -8,5 +8,6 @@ export class CreateDisputeDto {
     attachment?: any;
 
     @IsString()
+    @IsOptional()
     agreeTerms:string
 }

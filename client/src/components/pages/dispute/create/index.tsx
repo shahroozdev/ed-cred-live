@@ -29,7 +29,6 @@ const CreateDispute = () => {
     },
   });
   const onSubmit = async (data: Record<string, any>) => {
-    console.log(data)
     await MutateFunc({
       url: `/disputes/create/${params?.id ?? 0}`,
       method: "POST",
@@ -57,7 +56,7 @@ const CreateDispute = () => {
           )}
         </FormFeilds>
         <UploadFilePreview
-          inputName={"attachments"}
+          inputName={"attachment"}
           label={"Attachment"}
           allowTypes={types["all"]}
         />

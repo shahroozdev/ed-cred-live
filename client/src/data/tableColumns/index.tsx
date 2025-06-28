@@ -129,6 +129,8 @@ export const action = ({
   children,
   setQuestionsList,
   statusUpdate,
+  resolve,
+  rejected
 }: {
   edit?: string;
   editModal?: ReactElement;
@@ -142,6 +144,8 @@ export const action = ({
   };
   btnText?: string;
   view?: string;
+  resolve?: {url?:string, key?:string};
+  rejected?: {url?:string, key?:string};
   key?: string;
   changeCategory?: boolean;
   verifyDocument?: boolean;
@@ -200,6 +204,27 @@ export const action = ({
               </IconButton>
             </ConfirmationDeleteModal>
           )}
+          {resolve && (
+            <ConfirmationDeleteModal
+              text={"Want to Accept This Response."}
+              url={resolve?.url+data?.id}
+              type="PATCH"
+              qkey={key}
+              body={{[resolve!.key as string]:'resolve'}}
+              disabled={data?.status === "Resolved"}
+            >
+              <IconButton
+                bgColor={data?.accepted ? "gray" : "green"}
+                className={`${
+                  data?.accepted ? "cursor-not-allowed" : "cursor-pointer"
+                }  text-white px-2`}
+              >
+                <span title={"Resolve"}>
+                  <Check size={20} />
+                </span>
+              </IconButton>
+            </ConfirmationDeleteModal>
+          )}
           {edit && (
             <IconButton
               bgColor="black"
@@ -232,28 +257,6 @@ export const action = ({
               }}
             </EditModal>
           )}
-          {reject && (
-            <ConfirmationDeleteModal
-              text={"Want to Reject This Response."}
-              url={`/feedback-responses/${data?.id}/reject`}
-              type="PATCH"
-              qkey={key}
-              disabled={data?.status === "Rejected"}
-            >
-              <IconButton
-                bgColor={data?.status === "Rejected" ? "gray" : "red"}
-                className={`${
-                  data?.status === "Rejected"
-                    ? "cursor-not-allowed"
-                    : "cursor-pointer"
-                }  text-white px-2`}
-              >
-                <span title={"Reject Documment"}>
-                  <X size={20} />
-                </span>
-              </IconButton>
-            </ConfirmationDeleteModal>
-          )}
           {deleteBtn && (
             <ConfirmationDeleteModal
               text={deleteBtn?.text || ""}
@@ -284,6 +287,51 @@ export const action = ({
                 </span>
               </IconButton>
             </VerifyUserCard>
+          )}
+          {reject && (
+            <ConfirmationDeleteModal
+              text={"Want to Reject This Response."}
+              url={`/feedback-responses/${data?.id}/reject`}
+              type="PATCH"
+              qkey={key}
+              disabled={data?.status === "Rejected"}
+            >
+              <IconButton
+                bgColor={data?.status === "Rejected" ? "gray" : "red"}
+                className={`${
+                  data?.status === "Rejected"
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+                }  text-white px-2`}
+              >
+                <span title={"Reject Documment"}>
+                  <X size={20} />
+                </span>
+              </IconButton>
+            </ConfirmationDeleteModal>
+          )}
+          {rejected && (
+            <ConfirmationDeleteModal
+              text={"Want to Reject This Response."}
+              url={rejected+data?.id}
+              type="PATCH"
+              body={{[resolve!.key as string]:'reject'}}
+              qkey={key}
+              disabled={data?.status === "Rejected"}
+            >
+              <IconButton
+                bgColor={data?.status === "Rejected" ? "gray" : "red"}
+                className={`${
+                  data?.status === "Rejected"
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+                }  text-white px-2`}
+              >
+                <span title={"Reject"}>
+                  <X size={20} />
+                </span>
+              </IconButton>
+            </ConfirmationDeleteModal>
           )}
         </div>
       );
@@ -358,11 +406,20 @@ const customColummn = (values: {
           ) : values.key === "questions" ? (
             <>{value?.length}</>
           ) : values.key === "status" ? (
-            <p className={cn("px-2 py-1 rounded-full capitalize border-2", 
-              value ==="pending"?"bg-yellow-200 text-yellow-500 border-yellow-500"
-              :value==="rejected"?"bg-red-200 text-red-500 border-red-500"
-              :value==="reviewed"?"bg-blue-200 text-blue-500 border-blue-500"
-              :"bg-green-200 text-green-500 border-green-500")}>{value}</p>
+            <p
+              className={cn(
+                "px-2 py-1 rounded-full capitalize border-2",
+                value === "pending"
+                  ? "bg-yellow-200 text-yellow-500 border-yellow-500"
+                  : value === "rejected"
+                  ? "bg-red-200 text-red-500 border-red-500"
+                  : value === "reviewed"
+                  ? "bg-blue-200 text-blue-500 border-blue-500"
+                  : "bg-green-200 text-green-500 border-green-500"
+              )}
+            >
+              {value}
+            </p>
           ) : values.key === "featured" ? (
             <>{row.original.featured ? "Yes" : "No"}</>
           ) : values.key === "description" ? (
@@ -573,7 +630,9 @@ export const adminDisputeColumn = [
     width: 150,
   }),
   action({
+    resolve:{url:'', key:'status'},
     deleteBtn: { link: "/disputes", text: "Want To Delete This Dispute?" },
+    rejected:{url:'', key:'status'},
     key: "disputes",
     view: "/disputes/detail",
   }),
@@ -586,7 +645,7 @@ export const userDisputeColumn = [
     width: 200,
   }),
   customColummn({ key: "reason", label: "Reason", ellipses: true, width: 200 }),
-  customColummn({ key: "status", label: "Status"}),
+  customColummn({ key: "status", label: "Status" }),
   customColummn({
     key: "createdAt",
     label: "Created At",
