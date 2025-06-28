@@ -357,6 +357,12 @@ const customColummn = (values: {
             </div>
           ) : values.key === "questions" ? (
             <>{value?.length}</>
+          ) : values.key === "status" ? (
+            <p className={cn("px-2 py-1 rounded-full capitalize border-2", 
+              value ==="pending"?"bg-yellow-200 text-yellow-500 border-yellow-500"
+              :value==="rejected"?"bg-red-200 text-red-500 border-red-500"
+              :value==="reviewed"?"bg-blue-200 text-blue-500 border-blue-500"
+              :"bg-green-200 text-green-500 border-green-500")}>{value}</p>
           ) : values.key === "featured" ? (
             <>{row.original.featured ? "Yes" : "No"}</>
           ) : values.key === "description" ? (
@@ -580,7 +586,7 @@ export const userDisputeColumn = [
     width: 200,
   }),
   customColummn({ key: "reason", label: "Reason", ellipses: true, width: 200 }),
-  customColummn({ key: "status", label: "Status", width: 200 }),
+  customColummn({ key: "status", label: "Status"}),
   customColummn({
     key: "createdAt",
     label: "Created At",

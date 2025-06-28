@@ -18,10 +18,12 @@ const CheckoutForm = ({
   clientSecret,
   amount,
   form,
+  onSubmit
 }: {
   clientSecret: string;
   amount: number;
   form?: any;
+  onSubmit?:(values:any)=>void
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -65,8 +67,8 @@ const CheckoutForm = ({
     }
 
     if (paymentIntent && paymentIntent.status === "succeeded") {
-      if (form) {
-        form.submit();
+      if (form && onSubmit) {
+        await onSubmit(form?.getValues());
       } else {
         await MutateFunc({
           url: "auth/update-package",
@@ -107,7 +109,7 @@ const CheckoutForm = ({
   );
 };
 
-const StripeElement = ({ amount, form }: { amount: number; form?: any }) => {
+const StripeElement = ({ amount, form, onSubmit }: { amount: number; form?: any,   onSubmit?:(values:any)=>void }) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -175,6 +177,7 @@ const StripeElement = ({ amount, form }: { amount: number; form?: any }) => {
               clientSecret={clientSecret}
               amount={amount}
               form={form}
+              onSubmit={onSubmit}
             />
           )}
         </Elements>

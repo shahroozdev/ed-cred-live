@@ -67,6 +67,15 @@ export class DisputeController {
     ) {
         return this.disputeService.updateDispute(id, dto);
     }
+
+    @Delete(':id')
+    async deleteDispute(@Param('id') id: string) {
+      return this.disputeService.deleteDispute(id);
+    }
+    @Patch('/status/:id')
+    async updateDisputeStatus(@Param('id') id: string, @Body() dto: {status:"pending" | "reviewed" | "resolved" | "rejected"}) {
+      return this.disputeService.updateDisputeStatus(id, dto.status);
+    }
     @Post('/sendMessage')
     @ApiConsumes("multipart/form-data")
     @UploadFile("attachment", { folder: "dispute-documents", type:['all']})

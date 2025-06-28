@@ -171,7 +171,14 @@ export class DisputeService {
       pageSize,
     };
   }
-
+  async deleteDispute(id: string):Promise<response> {
+    const dispute = await this.disputeRepository.findOne({
+      where: { id },
+    });
+    if (!dispute) throw new NotFoundException("Dispute not found");
+     await this.disputeRepository.remove(dispute);
+     return {status:200 , message:'Dispute Deleted Successfully.'}
+  }
   async getDisputeStats() {
     const [resolvedDisputes, totalResolved] =
       await this.disputeRepository.findAndCount({
@@ -191,14 +198,26 @@ export class DisputeService {
       disputesStats: { totalPending, totalRejected, totalResolved },
     };
   }
-
+  async updateDisputeStatus(id:string, status:"pending" | "reviewed" | "resolved" | "rejected"){
+    const dispute = await this.disputeRepository.findOne({
+      where: { id },
+    });
+    if (!dispute) throw new NotFoundException("Dispute not found");
+    dispute.status=status;
+    await this.disputeRepository.save(dispute);
+    return {status:200, message:`Dispute ${status} Successfully.`}
+  }
   async createTimline(dto: CreateDisputeTimelineDto, role:string, url?:string) {
-    const { disputeId, message, attachment } = dto;
+    const { disputeId, message } = dto;
 
     const dispute = await this.disputeRepository.findOne({
       where: { id: disputeId },
     });
     if (!dispute) throw new NotFoundException("Dispute not found");
+    if(dispute.status==="pending" && role==="admin"){
+      dispute.status="reviewed";
+      await this.disputeRepository.save(dispute);
+    }
 
     const timeline = this.timelineRepo.create({
       message,

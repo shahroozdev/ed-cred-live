@@ -19,7 +19,7 @@ const QuestionView = ({ response, userId }: { response: Record<string, any>, use
       }}
     >
       <div className="p-4 border-t-muted mx-2 rounded">
-        {userId&&<DisputeBtn id={response?.id} disabled={response?.is_disputed}/>}
+        {userId&&!response?.is_owned && <DisputeBtn id={response?.id} disabled={response?.is_disputed}/>}
         <QuestionList feedback={response?.feedbackForm} disabled />
         <Attachments attachments={response?.attachments}/>
       </div>

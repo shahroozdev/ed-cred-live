@@ -29,6 +29,7 @@ const CreateDispute = () => {
     },
   });
   const onSubmit = async (data: Record<string, any>) => {
+    console.log(data)
     await MutateFunc({
       url: `/disputes/create/${params?.id ?? 0}`,
       method: "POST",
@@ -75,7 +76,7 @@ const CreateDispute = () => {
                 onChange={field.onChange}
                 className="peer accent-primary h-4 w-4 border border-gray-300 rounded-md"
               />
-              <span className="text-sm">
+              <span className="text-sm text-black">
                 I agree to the{" "}
                 <span className="text-primary font-semibold">
                   Dispute Claims Process,{" "}
@@ -99,7 +100,7 @@ const CreateDispute = () => {
         </FormFeilds>
       </FormTemplate>
       <div className="border p-4 rounded-lg shadow-sm bg-gray-50 my-4">
-        <StripeElement amount={100} form={form} />
+        <StripeElement amount={100} form={form} onSubmit={onSubmit}/>
       </div>
 
     </>

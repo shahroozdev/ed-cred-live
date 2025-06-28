@@ -7,6 +7,6 @@ export class CreateDisputeDto {
     @IsOptional()
     attachment?: any;
 
-    @IsBoolean()
-    agreeTerms:boolean
+    @IsString()
+    agreeTerms:string
 }

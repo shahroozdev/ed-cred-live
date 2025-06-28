@@ -45,7 +45,7 @@ const Timeline = ({ timelineData }: { timelineData: Record<string, any> }) => {
                   <p className="mb-1 capitalize font-semibold italic">
                     {msg?.sender === "user" ? "You" : "Admin"}
                   </p>
-                  {msg?.attachment&&<div className="min-w-48 max-w-48 min-h-48 max-h-48 h-48 w-48 mb-2 bg-gray-200 rounded-md p-4"><DynamicView url={msg?.attachment} /></div>}
+                  {msg?.attachment&&<div className="min-w-74 max-w-74 min-h-48 max-h-48 h-48 w-74 mb-2 bg-gray-200 rounded-md pb-6 p-1"><DynamicView url={msg?.attachment} /></div>}
                   <p>{msg?.message}</p>
                 </div>
               </div>

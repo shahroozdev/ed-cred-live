@@ -241,6 +241,7 @@ export class SchoolService {
         "responses",
         "category",
         "responses.feedbackForm",
+        "responses.author",
         "responses.feedbackForm.questions",
       ],
     });
@@ -260,6 +261,8 @@ export class SchoolService {
       } else {
         element.is_disputed = false;
       }
+      element.is_owned =element.author.id === Number(userId)
+      delete element.author;
     });
     return employee;
   }

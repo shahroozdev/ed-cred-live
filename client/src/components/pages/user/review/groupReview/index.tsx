@@ -22,7 +22,6 @@ const GroupedResponseView = ({
           desc: <QuestionView response={item} userId={userId}/>,
         }))
       : [];
-
   return (
     <section className="md:grid flex flex-col md:grid-cols-5 gap-4">
       <div className="lg:col-span-4 col-span-3">
