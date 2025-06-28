@@ -113,15 +113,12 @@ export const useMutate = () => {
             ...(value?.tags ? { revalidateTags: value?.tags } : {}),
             ...(value?.allowMulti ? { allowMulti: value?.allowMulti } : {}),
           });
-      if (res?.status === 200) {
+      if (res?.status === 200 || res?.status === 201) {
         value?.onSuccess && value.onSuccess(res);
-        toast.success(res?.message);
+        !value?.noPopup && toast.success(res?.message);
         value?.sendTo && router.replace(value?.sendTo);
       } else if (res?.statusCode === 401) {
-        await removeCookie("user");
-        await removeCookie("token");
         router.push("/login");
-        toast.error("Your Session is expired now. Please login again.");
       } else {
         toast.error(res?.message || "Something went wrong");
       }

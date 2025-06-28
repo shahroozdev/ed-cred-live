@@ -5,15 +5,16 @@ import React from "react";
 import { v4 } from "uuid";
 
 const ResponseView = ({ response }: any) => {
-  let totalRating =0;
-  let count=0;
-      response.answers.forEach((answer: any) => {
+  let totalRating = 0;
+  let count = 0;
+  response?.answers?.length > 0 &&
+    response?.answers?.forEach((answer: any) => {
       if (Number.isInteger(Number(answer.answer))) {
         totalRating += Number(answer.answer);
-        count++
+        count++;
       }
-    })
-  const averageRating = Math.round(totalRating / count);
+    });
+  const averageRating = Math.round(totalRating / (count===0?1:count));
 
   return (
     <div className="w-full px-3 py-2 flex gap-2 cursor-pointer ">
@@ -30,7 +31,8 @@ const ResponseView = ({ response }: any) => {
         <div className="flex flex-col sm:flex-row justify-between w-full">
           <div>
             <div className="md:text-base text-sm font-normal">
-              <b>Submitted on:</b> {dayjs(response?.submittedAt).format("MMM DD, YY")}
+              <b>Submitted on:</b>{" "}
+              {dayjs(response?.submittedAt).format("MMM DD, YY")}
             </div>
             {response?.details?.reportingPeriod ? (
               <div className="md:text-base text-sm font-normal">

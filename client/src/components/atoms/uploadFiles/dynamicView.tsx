@@ -17,7 +17,7 @@ const DynamicView = ({ file, url }: { file?: File; url?: any }) => {
   return (
     <>
       {type === "video" ? (
-        <VideoCard thumbnail={{ title: file?.name, videoUrl: blobUrl }} />
+        <VideoCard thumbnail={{ title, videoUrl: blobUrl }} />
       ) : type === "audio" ? (
         <CustomAudioPlayer title={title!} url={blobUrl} />
       ) : (

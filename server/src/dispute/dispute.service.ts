@@ -192,8 +192,8 @@ export class DisputeService {
     };
   }
 
-  async createTimline(dto: CreateDisputeTimelineDto) {
-    const { disputeId, message, attachment, sender } = dto;
+  async createTimline(dto: CreateDisputeTimelineDto, role:string, url?:string) {
+    const { disputeId, message, attachment } = dto;
 
     const dispute = await this.disputeRepository.findOne({
       where: { id: disputeId },
@@ -202,12 +202,13 @@ export class DisputeService {
 
     const timeline = this.timelineRepo.create({
       message,
-      attachment,
-      sender,
+      attachment:url,
+      sender:role==='admin'?'admin':'user',
       dispute,
     });
 
-    return await this.timelineRepo.save(timeline);
+     await this.timelineRepo.save(timeline);
+     return {status:200, message:'Message Sent Successfully.'}
   }
 
   async findByDispute(disputeId: string) {

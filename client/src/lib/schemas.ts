@@ -162,3 +162,19 @@ export const disputeSchema = z.object({
     errorMap: () => ({ message: "You must agree to the terms." }),
   }),
 });
+
+export const disputeTimelineSchema =z.object({
+  message: z.string().min(1, { message: "Message is required" }),
+  attachment: z
+    .instanceof(File)
+    .optional()
+    .refine(
+      (file) =>
+        !file || ["image", "video", "audio", "application"].some((type) =>
+          file.type.startsWith(type)
+        ),
+      {
+        message: "Attachment must be an image, video, audio, or document file",
+      }
+    ),
+})

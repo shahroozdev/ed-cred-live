@@ -50,26 +50,38 @@ const FormTemplate = ({
   className,
   schema,
   defaultValues,
-  customForm
+  customForm,
 }: {
   onSubmit: (value: any) => void;
   children: ReactNode;
   className?: string;
   schema?: ZodType<any, any, any>;
   defaultValues?: Record<string, any>;
-  customForm?:UseFormReturn<any, any, undefined>
+  customForm?: UseFormReturn<any, any, undefined>;
 }) => {
-  const form = customForm?customForm:useForm({
-    resolver: zodResolver(schema||z.any()),
-    defaultValues: defaultValues,
-  });
-  const onError = (errors:any) => {
-  console.log("Validation Errors", errors);
-  console.log(form.getValues())
-};
+  const form = customForm
+    ? customForm
+    : useForm({
+        resolver: zodResolver(schema || z.any()),
+        defaultValues: defaultValues,
+      });
+  const onError = (errors: any) => {
+    console.log("Validation Errors", errors);
+    console.log(form.getValues());
+  };
+  // Wrap the onSubmit prop to reset the form after submission
+  const handleSubmit = form.handleSubmit(async (data) => {
+    try {
+      await onSubmit(data); // Execute the provided onSubmit logic
+      form.reset(); // Reset the form after successful submission
+    } catch (error) {
+      console.error("Submission error", error);
+    }
+  }, onError);
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit, onError)} className={className}>
+      <form onSubmit={handleSubmit} className={className}>
         {children}
       </form>
     </Form>

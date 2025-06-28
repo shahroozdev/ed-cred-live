@@ -22,11 +22,11 @@ import { UploadFile } from '../decorators/upload-file-decorator';
 import { CreateDisputeTimelineDto } from './dto/dispute-timline.dto';
 
 @Controller('disputes')
+@UseGuards(JwtAuthGuard)
 export class DisputeController {
     constructor(private readonly disputeService: DisputeService) {}
 
-    @Post(':feedbackResponseId')
-    @UseGuards(JwtAuthGuard)
+    @Post('/create/:feedbackResponseId')
     @ApiConsumes("multipart/form-data")
     @UploadFile("attachment", { folder: "dispute-documents" })
     async createDispute(
@@ -68,8 +68,13 @@ export class DisputeController {
         return this.disputeService.updateDispute(id, dto);
     }
     @Post('/sendMessage')
-    async createTimeline(@Body() dto: CreateDisputeTimelineDto) {
-      return await this.disputeService.createTimline(dto);
+    @ApiConsumes("multipart/form-data")
+    @UploadFile("attachment", { folder: "dispute-documents", type:['all']})
+    async createTimeline(@Req() req:any, @UploadedFile() attachment: Express.Multer.File, @Body() dto: CreateDisputeTimelineDto) {
+      const url = attachment
+      ? `/uploads/dispute-documents/${attachment?.filename}`
+      : null;
+      return await this.disputeService.createTimline(dto, req.user.role, url);
     }
   
     @Get('/timeline/:disputeId')

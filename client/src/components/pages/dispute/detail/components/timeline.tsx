@@ -1,53 +1,70 @@
+"use client";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ChatInput from "./sendInput";
+import DynamicView from "@/components/atoms/uploadFiles/dynamicView";
+import { Loader2 } from "lucide-react";
 
-interface DisputeTimeline {
-  id: number;
-  message: string;
-  sender: string;
-  attachment?: string;
-  createdAt: string;
-}
+const Timeline = ({ timelineData }: { timelineData: Record<string, any> }) => {
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-const Timeline = ({timelineData}:{timelineData:DisputeTimeline[]}) => {
-
-  const messages = [
-    { id: 1, sender: "admin", text: "Hi there! How can I assist you today?" },
-    { id: 2, sender: "user", text: "I have a question about my account." },
-    { id: 3, sender: "admin", text: "Sure, please go ahead." },
-    { id: 4, sender: "user", text: "Why is my feedback not visible?" },
-  ];
+  // Scroll to bottom when timelineData changes
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  }, [timelineData?.timeline]);
   return (
     <>
-      <div className="w-full p-4 space-y-4 border-2 my-4 border-muted rounded-md max-h-[400px] min-h-[400px] h-full relative overflow-y-auto shadow-md">
+      <div className="w-full p-4 space-y-4 border-2 my-4 border-muted rounded-md max-h-[500px] min-h-[500px] h-full shadow-md">
         <h2 className="text-lg font-semibold mb-4">Dispute Timeline</h2>
         <Separator />
-        <div className="space-y-3 h-full">
-          {timelineData?.length>0?timelineData?.map((msg) => (
-            <div
-              key={msg.id}
-              className={cn(
-                "flex",
-                msg.sender === "admin" ? "justify-start" : "justify-end"
-              )}
-            >
+        <div
+          className="space-y-3 h-full relative max-h-[320px] overflow-y-auto p-2"
+          ref={messagesContainerRef}
+        >
+          {timelineData?.timeline?.length > 0 ? (
+            timelineData?.timeline?.map((msg: Record<string, any>) => (
               <div
+                key={msg.id}
                 className={cn(
-                  "max-w-xs px-4 py-2 rounded-lg shadow text-sm",
-                  msg.sender === "admin"
-                    ? "bg-blue-100 text-blue-900"
-                    : "bg-green-100 text-green-900"
+                  "flex",
+                  msg?.sender === "admin" ? "justify-start" : "justify-end"
                 )}
               >
-                <p className="font-medium mb-1 capitalize">{msg.sender}</p>
-                <p>{msg.message}</p>
+                <div
+                  className={cn(
+                    "max-w-xs px-4 py-2 rounded-lg shadow text-sm",
+                    msg?.sender === "admin"
+                      ? "bg-blue-100 text-blue-900"
+                      : "bg-green-100 text-green-900"
+                  )}
+                >
+                  <p className="mb-1 capitalize font-semibold italic">
+                    {msg?.sender === "user" ? "You" : "Admin"}
+                  </p>
+                  {msg?.attachment&&<div className="min-w-48 max-w-48 min-h-48 max-h-48 h-48 w-48 mb-2 bg-gray-200 rounded-md p-4"><DynamicView url={msg?.attachment} /></div>}
+                  <p>{msg?.message}</p>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              no data found
             </div>
-          )):<div className="flex items-center justify-center h-full">no data found</div>}
+          )}
         </div>
-      <ChatInput />
+        <ChatInput
+          id={timelineData?.id}
+          onSuccess={() => {
+            if (messagesContainerRef.current) {
+              messagesContainerRef.current.scrollTop =
+                messagesContainerRef.current.scrollHeight;
+            }
+          }}
+        />
       </div>
     </>
   );

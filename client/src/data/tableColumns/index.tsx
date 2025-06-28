@@ -580,7 +580,7 @@ export const userDisputeColumn = [
     width: 200,
   }),
   customColummn({ key: "reason", label: "Reason", ellipses: true, width: 200 }),
-  customColummn({ key: "status", label: "Status", ellipses: true, width: 200 }),
+  customColummn({ key: "status", label: "Status", width: 200 }),
   customColummn({
     key: "createdAt",
     label: "Created At",

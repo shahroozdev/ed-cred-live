@@ -15,13 +15,7 @@ export class CreateDisputeTimelineDto {
 
   @ApiProperty({ example: 'upload/image.jpg', required: false })
   @IsOptional()
-  @IsString()
-  attachment?: string;
-
-  @ApiProperty({ example: 'user', enum: ['admin', 'user'] })
-  @IsNotEmpty()
-  @IsEnum(['admin', 'user'])
-  sender: 'admin' | 'user';
+  attachment?: any;
 }
 
 export class UpdateDisputeTimelineDto {

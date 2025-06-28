@@ -30,7 +30,7 @@ const CreateDispute = () => {
   });
   const onSubmit = async (data: Record<string, any>) => {
     await MutateFunc({
-      url: `/disputes/${params?.id ?? 0}`,
+      url: `/disputes/create/${params?.id ?? 0}`,
       method: "POST",
       body: data,
       onSuccess:()=>router.back(),

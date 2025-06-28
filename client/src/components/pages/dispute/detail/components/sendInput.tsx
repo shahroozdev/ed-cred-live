@@ -1,50 +1,104 @@
 "use client";
-import React, { useRef, useState } from "react";
-import { Paperclip, Send } from "lucide-react";
+import React, {  useState } from "react";
+import { Loader2, Send } from "lucide-react";
+import { useMutate } from "@/hooks/generalHooks";
+import { FormFeilds, FormTemplate } from "@/components/atoms";
+import { disputeTimelineSchema } from "@/lib/schemas";
+import AttachmentBtn from "./attachmentBtn";
+import DynamicView from "@/components/atoms/uploadFiles/dynamicView";
+import Modal from "@/components/molecules/modal";
 
-const ChatInput = () => {
-  const [message, setMessage] = useState("");
-  const fileRef = useRef<HTMLInputElement | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+const ChatInput = ({
+  id,
+  onSuccess,
+}: {
+  id: number;
+  onSuccess: () => void;
+}) => {
+  const { MutateFunc, isPending } = useMutate();
+  const [preview, setPreview] = useState<any>(null);
 
-  const handleSend = () => {
-    if (!message && !file) return;
-    // onSend(message.trim(), file || undefined);
-    setMessage("");
-    setFile(null);
-    if (fileRef.current) fileRef.current.value = "";
+  const handleSend = async (values: any) => {
+    const body = { disputeId: id, ...values , attachment:preview};
+    await MutateFunc({
+      url: "/disputes/sendMessage",
+      method: "POST",
+      body,
+      tags: "disputeDetail",
+      noPopup: true,
+      allowMulti: true,
+      onSuccess: () => {
+        onSuccess();
+        setPreview(null);
+      },
+    });
   };
 
   return (
-    <div className="w-full border-t p-3 flex items-center gap-2 absolute bottom-0 left- right-0 ">
-      {/* <input
-        ref={fileRef}
-        type="file"
-        className="hidden"
-        onChange={(e) => {
-          if (e.target.files?.[0]) setFile(e.target.files[0]);
-        }}
-      />
-      <button
-        onClick={() => fileRef.current?.click()}
-        className="p-2 text-gray-600 hover:text-blue-600"
+    <>
+      <FormTemplate
+        onSubmit={handleSend}
+        schema={disputeTimelineSchema}
+        defaultValues={{ message: "", attachment: undefined }}
+        className="w-full border-t p-3 flex items-start gap-2 relative"
       >
-        <Paperclip size={20} />
-      </button> */}
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Type your message..."
-        className="flex-1 border rounded-full px-4 py-2 focus:outline-none"
-      />
-      <button
-        onClick={handleSend}
-        className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+        <AttachmentBtn  setPreview={setPreview}/>
+        <FormFeilds fieldProps={{ name: "message", className: "w-full" }}>
+          {(field) => (
+            <input
+              {...field}
+              value={field.value}
+              onChange={field.onChange}
+              placeholder="Type your message..."
+              className="flex-1 border rounded-full px-4 py-2 focus:outline-none"
+            />
+          )}
+        </FormFeilds>
+        <button
+          type="submit"
+          className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 mt-1 cursor-pointer"
+        >
+          {isPending ? <Loader2 className="animate-spin" size={18}/> : <Send size={18} />}
+        </button>
+      </FormTemplate>
+      <Modal
+        trigger={<></>}
+        setIsOpen={setPreview}
+        onClose={() => setPreview(null)}
+        open={preview !== null}
+        title="Attachment"
       >
-        <Send size={18} />
-      </button>
-    </div>
+        <div className="space-y-8 flex justify-center flex-col items-center">
+          <div className="w-48 h-48">
+            {preview && <DynamicView file={preview} />}
+          </div>
+          <FormTemplate
+            onSubmit={handleSend}
+            schema={disputeTimelineSchema}
+            defaultValues={{ message: "", attachment: undefined }}
+            className="w-full border-t p-1 flex items-start gap-2 relative"
+          >
+            <FormFeilds fieldProps={{ name: "message", className: "w-full" }}>
+              {(field) => (
+                <input
+                  {...field}
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="Type your message..."
+                  className="flex-1 p-2 focus:outline-none"
+                />
+              )}
+            </FormFeilds>
+            <button
+              type="submit"
+              className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 mt-1 cursor-pointer"
+            >
+              {isPending ? <Loader2 className="animate-spin" size={18}/> : <Send size={18} />}
+            </button>
+          </FormTemplate>
+        </div>
+      </Modal>
+    </>
   );
 };
 
