@@ -18,15 +18,16 @@ export const SubCategoryCard = ({ category }: { category: Category }) => {
     }
     }})
   };
-
+  console.log(category)
   return (
     <div
       className="flex cursor-pointer items-center sm:justify-center justify-start gap-4 rounded-3xl border border-[#E5F4F2] bg-white p-8 text-center shadow-lg sm:flex-col hover:shadow-xl"
       onClick={() => selectCategory(category?.id)}
     >
+
       <div>
         <img
-          src={`/uploads/categoryIcons/${imagesUrls[category?.name]??'pricipal'}.png`}
+          src={`/uploads/categoryIcons/${imagesUrls[category?.name]??'principal'}.png`}
           width={200}
           height={300}
           alt={category?.name}

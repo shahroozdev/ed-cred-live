@@ -52,7 +52,7 @@ const Verify = ({ user }: { user: Record<string, any> }) => {
           </div>
         ) : user.verificationDocumentUrl ? (
           <div className="flex items-center justify-center text-lg">
-            Your verification docuement has been uploaded!
+            Your verification document has been uploaded!
           </div>
         ) : (
           <>

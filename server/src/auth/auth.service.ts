@@ -265,7 +265,7 @@ export class AuthService {
     user.emailVerificationToken = token;
     await this.userRepository.save(user);
 
-    await this.mailService.sendUserConfirmation(user);
+    await this.mailService.sendUserConfirmation(user, token);
     // TODO: Make this editable by the admin user
 
     return { status: 200, message: "Verification Email Sent Successfully." };

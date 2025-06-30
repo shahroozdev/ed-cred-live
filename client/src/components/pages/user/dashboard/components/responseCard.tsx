@@ -38,7 +38,7 @@ const ResponseCard = ({
       {!noImage?<div className="md:block hidden w-32 h-32 p-4 border-r-[1px]">
         <Image
           src={`/uploads/categoryIcons/${
-            imagesUrls[response?.groupType] ?? "pricipal"
+            imagesUrls[response?.groupType] ?? "principal"
           }.png`}
           width={600}
           height={600}

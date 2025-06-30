@@ -1,20 +1,14 @@
-"use client"
-import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { useRouter } from "next/navigation"
-import { getProfile } from "@/api/auth"
-import { useUserProfile } from "@/hooks/useProfile";
-import { Button } from "@/components/atoms";
+import Link from "next/link";
+import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 
-export default function WelcomePage() {
-    const router = useRouter()
-    const { user, loading }:any = useUserProfile();
-    console.log(user);
-
-    // if (loading || user == null) {
-    //     return <div>Loading...</div>
-    // }
+export default async function WelcomePage() {
+    const user = await getServerSideDataWithFeatures({
+        url: "/auth/profile",
+        key: "profile",
+        noRedirect:true,
+      });
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-100 to-white">
@@ -26,7 +20,7 @@ export default function WelcomePage() {
                         </Avatar>
                     </div>
                     <CardTitle className="text-2xl font-semibold">
-                        Welcome, {user?.username}! 🎉
+                        Welcome, ${user?.username}! 🎉
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="text-center space-y-6">
@@ -34,10 +28,10 @@ export default function WelcomePage() {
                         You’ve successfully joined Ed Cred. Start by exploring schools or leaving your first review!
                     </p>
                     <div className="flex flex-col gap-3">
-                        <Button onClick={() => router.push("/schools")}>Explore Schools</Button>
-                        <Button variant="outline" onClick={() => router.push("/review")}>
+                        <Link href="/dashboard" className="border-2">Explore Schools</Link>
+                        <Link href="/review" className="border-2">
                             Leave a Review
-                        </Button>
+                        </Link>
                     </div>
                 </CardContent>
             </Card>
