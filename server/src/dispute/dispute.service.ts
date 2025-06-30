@@ -10,7 +10,7 @@ import { FeedbackResponse } from "../feedback-response/entities/feedback-respons
 import { CreateDisputeDto } from "./dto/create-dispute.dto";
 import { UpdateDisputeDto } from "./dto/update-dispute.dto";
 import { User } from "../auth/user.entity";
-import { response } from "types";
+import { response } from "../types";
 import { DisputeTimeline } from "./entities/dispute.timeline.entity";
 import { CreateDisputeTimelineDto } from "./dto/dispute-timline.dto";
 

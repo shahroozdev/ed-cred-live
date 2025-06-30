@@ -2,7 +2,7 @@ import { ForumQuestion } from '../forum-question/entities/forum-question.entity'
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, ManyToOne } from 'typeorm';
 import { ForumReply } from '../forum-reply/entities/forum-reply.entity';
 import { FeedbackForm } from '../feedback-form/entities/feedback-form.entity';
-import { UserRole, Permission, SubscriptionPlan } from "./../../types/user";
+import { UserRole, Permission, SubscriptionPlan } from "../types/user";
 import { FeedbackResponse } from '../feedback-response/entities/feedback-response.entity';
 import { Dispute } from '../dispute/entities/dispute.entity';
 import { Subcategory } from '../subcategory/subcategory.entity';

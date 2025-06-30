@@ -7,7 +7,7 @@ import { User } from "../auth/user.entity";
 import { Category } from "../category/category.entity";
 import { Subcategory } from "../subcategory/subcategory.entity";
 import { FeedbackResponse } from "../feedback-response/entities/feedback-response.entity";
-import { response } from "types";
+import { response } from "../types";
 import { Question } from "../question/entities/question.entity";
 
 @Injectable()

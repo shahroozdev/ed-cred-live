@@ -9,7 +9,7 @@ import { ForumQuestion } from "./entities/forum-question.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { AuthService } from "../auth/auth.service";
-import { response } from "types";
+import { response } from "../types";
 
 @Injectable()
 export class ForumQuestionService {

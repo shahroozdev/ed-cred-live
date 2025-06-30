@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Between, ILike, Repository } from "typeorm";
 import { Subcategory } from "./subcategory.entity";
 import { Category } from "../category/category.entity";
-import { response } from "types";
+import { response } from "../types";
 
 @Injectable()
 export class SubcategoryService {

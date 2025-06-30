@@ -8,7 +8,7 @@ import { ILike, Like, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateBranchDto, UpdateBranchDto } from "./dto/branch.dto";
 import { Category } from "../category/category.entity";
-import { response } from "types";
+import { response } from "../types";
 import { Dispute } from "../dispute/entities/dispute.entity";
 
 

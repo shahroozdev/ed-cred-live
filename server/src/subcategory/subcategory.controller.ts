@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { SubcategoryService } from './subcategory.service';
 import { Subcategory } from './subcategory.entity';
-import { response } from 'types';
+import { response } from '../types';
 import { apiWrapper } from '../decorators/globalErrorHandlerClass';
 import { CreateItemDto } from './dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';

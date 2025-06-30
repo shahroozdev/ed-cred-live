@@ -5,7 +5,7 @@ import { ForumReply } from './entities/forum-reply.entity';
 import { CreateForumReplyDto } from './dto/create-forum-reply.dto';
 import { AuthService } from '../auth/auth.service';
 import { ForumQuestion } from '../forum-question/entities/forum-question.entity';
-import { response } from 'types';
+import { response } from '../types';
 
 @Injectable()
 export class ForumReplyService {

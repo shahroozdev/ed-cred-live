@@ -11,7 +11,7 @@ import { CategoryService } from "./category.service";
 import { Category } from "./category.entity";
 import { CreateCategoryDto } from "./dto";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
-import { response } from "types";
+import { response } from "../types";
 import { ApiCustomResponse } from "../decorators/api-decorator";
 
 

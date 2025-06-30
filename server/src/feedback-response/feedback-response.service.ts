@@ -5,7 +5,7 @@ import { FeedbackResponse } from "./entities/feedback-response.entity";
 import { FeedbackForm } from "../feedback-form/entities/feedback-form.entity";
 import { CreateFeedbackResponseDto } from "./dto/create-feedback-response.dto";
 import { User } from "../auth/user.entity";
-import { response } from "types";
+import { response } from "../types";
 import { School } from "../school/entities/school.entity";
 import { Branch } from "../school/entities/branch.entity";
 import { Employee } from "../school/entities/employee.entity";
