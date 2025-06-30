@@ -10,8 +10,8 @@ import {
   OneToOne,
 } from "typeorm";
 import { Branch } from "./branch.entity";
-import { FeedbackResponse } from "src/feedback-response/entities/feedback-response.entity";
-import { Category } from "src/category/category.entity";
+import { FeedbackResponse } from "../../feedback-response/entities/feedback-response.entity";
+import { Category } from "../../category/category.entity";
 
 @Entity()
 export class Employee {
