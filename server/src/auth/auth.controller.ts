@@ -26,7 +26,7 @@ import { CreateUserDto, LoginUserDto, SubscribeDto } from "./dto";
 import { Response } from "express";
 import { ApiConsumes } from "@nestjs/swagger";
 import { UploadFile } from "../decorators/upload-file-decorator";
-import { ApiCustomResponse } from "src/decorators/api-decorator";
+import { ApiCustomResponse } from "../decorators/api-decorator";
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}

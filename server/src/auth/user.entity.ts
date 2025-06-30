@@ -6,7 +6,7 @@ import { UserRole, Permission, SubscriptionPlan } from "./../../types/user";
 import { FeedbackResponse } from '../feedback-response/entities/feedback-response.entity';
 import { Dispute } from '../dispute/entities/dispute.entity';
 import { Subcategory } from '../subcategory/subcategory.entity';
-import { UserPackage } from 'src/packages/entities/user.packages.entity';
+import { UserPackage } from '../packages/entities/user.packages.entity';
 
 @Entity()
 export class User {

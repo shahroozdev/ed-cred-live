@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ForumReply } from './entities/forum-reply.entity';
 import { CreateForumReplyDto } from './dto/create-forum-reply.dto';
-import { AuthService } from 'src/auth/auth.service';
-import { ForumQuestion } from 'src/forum-question/entities/forum-question.entity';
+import { AuthService } from '../auth/auth.service';
+import { ForumQuestion } from '../forum-question/entities/forum-question.entity';
 import { response } from 'types';
 
 @Injectable()

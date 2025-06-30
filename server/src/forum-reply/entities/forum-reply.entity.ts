@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "src/auth/user.entity";
-import { ForumQuestion } from "src/forum-question/entities/forum-question.entity";
+import { User } from "../../auth/user.entity";
+import { ForumQuestion } from "../../forum-question/entities/forum-question.entity";
 
 @Entity()
 export class ForumReply {

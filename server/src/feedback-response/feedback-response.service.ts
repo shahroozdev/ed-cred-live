@@ -9,7 +9,7 @@ import { response } from "types";
 import { School } from "../school/entities/school.entity";
 import { Branch } from "../school/entities/branch.entity";
 import { Employee } from "../school/entities/employee.entity";
-import { Category } from "src/category/category.entity";
+import { Category } from "../category/category.entity";
 
 @Injectable()
 export class FeedbackResponseService {

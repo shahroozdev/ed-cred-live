@@ -9,7 +9,7 @@ import {
 import { FeedbackForm } from "../../feedback-form/entities/feedback-form.entity";
 import { User } from "../../auth/user.entity";
 import { Dispute } from "../../dispute/entities/dispute.entity";
-import { Employee } from "src/school/entities/employee.entity";
+import { Employee } from "../../school/entities/employee.entity";
 
 @Entity()
 export class FeedbackResponse {

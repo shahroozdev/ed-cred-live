@@ -4,7 +4,7 @@ import {
   Column,
   ManyToOne,
 } from 'typeorm';
-import { FeedbackForm } from 'src/feedback-form/entities/feedback-form.entity';
+import { FeedbackForm } from '../../feedback-form/entities/feedback-form.entity';
 
 @Entity()
 export class Question {

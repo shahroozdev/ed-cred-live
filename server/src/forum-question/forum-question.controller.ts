@@ -14,10 +14,10 @@ import {
 import { ForumQuestionService } from "./forum-question.service";
 import { CreateForumQuestionDto } from "./dto/create-forum-question.dto";
 import { UpdateForumQuestionDto } from "./dto/update-forum-question.dto";
-import { apiWrapper } from "src/decorators/globalErrorHandlerClass";
-import { UploadFile } from "src/decorators/upload-file-decorator";
+import { apiWrapper } from "../decorators/globalErrorHandlerClass";
+import { UploadFile } from "../decorators/upload-file-decorator";
 import { ApiConsumes } from "@nestjs/swagger";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @Controller("forum-question")
 export class ForumQuestionController {

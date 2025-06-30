@@ -3,7 +3,7 @@ import { ForumQuestionService } from './forum-question.service';
 import { ForumQuestionController } from './forum-question.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ForumQuestion } from './entities/forum-question.entity';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
     imports: [

@@ -20,7 +20,7 @@ import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { UploadFile } from "../decorators/upload-file-decorator";
 import { ApiConsumes } from "@nestjs/swagger";
-import { parseNestedFormData } from "src/utils/utils";
+import { parseNestedFormData } from "../utils/utils";
 // import { AnyFilesInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 
 @Controller("feedback-responses")

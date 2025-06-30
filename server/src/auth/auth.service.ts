@@ -19,7 +19,7 @@ import { CreateUserDto } from "./dto";
 import { randomBytes } from "crypto";
 import { UserPackage } from "../packages/entities/user.packages.entity";
 import { Package } from "../packages/entities/package.entity";
-import { PackagesService } from "src/packages/packages.service";
+import { PackagesService } from "../packages/packages.service";
 
 @Injectable()
 export class AuthService {

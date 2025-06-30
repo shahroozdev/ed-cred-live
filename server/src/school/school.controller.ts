@@ -11,8 +11,8 @@ import {
 import { SchoolService } from "./school.service";
 import { CreateSchoolDto, UpdateSchoolDto } from "./dto/school.dto";
 import { CreateEmployeeDto, UpdateEmployeeDto } from "./dto/employee.dto";
-import { apiWrapper } from "src/decorators/globalErrorHandlerClass";
-import { ApiCustomResponse } from "src/decorators/api-decorator";
+import { apiWrapper } from "../decorators/globalErrorHandlerClass";
+import { ApiCustomResponse } from "../decorators/api-decorator";
 import { CreateBranchDto, UpdateBranchDto } from "./dto/branch.dto";
 
 @Controller("school")

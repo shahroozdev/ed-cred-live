@@ -1,5 +1,5 @@
 // import { User } from "../auth/user.entity";
-import { Employee } from "src/school/entities/employee.entity";
+import { Employee } from "../school/entities/employee.entity";
 import { FeedbackForm } from "../feedback-form/entities/feedback-form.entity";
 // import { Subcategory } from "src/subcategory/subcategory.entity";
 import {

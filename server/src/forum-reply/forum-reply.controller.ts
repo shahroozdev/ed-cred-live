@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { ForumReplyService } from './forum-reply.service';
 import { CreateForumReplyDto } from './dto/create-forum-reply.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { apiWrapper } from '../decorators/globalErrorHandlerClass';
 
 @Controller('forum-reply')
 export class ForumReplyController {

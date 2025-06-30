@@ -11,8 +11,8 @@ import { PackagesService } from './packages.service';
 import { CreatePackageDto } from './dto/create-package.dto';
 import { UpdatePackageDto } from './dto/update-package.dto';
 import { CreateUserPackageDto } from './dto/create-user-package.dto';
-import { ApiCustomResponse } from 'src/decorators/api-decorator';
-import { apiWrapper } from 'src/decorators/globalErrorHandlerClass';
+import { ApiCustomResponse } from '../decorators/api-decorator';
+import { apiWrapper } from '../decorators/globalErrorHandlerClass';
 
 
 @Controller('packages')
