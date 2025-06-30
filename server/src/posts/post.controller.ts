@@ -17,7 +17,7 @@ import { CreatePostDto, UpdatePostDto } from "./dto/post.dto";
 import { Post as PostEntity } from "./entities/post.entity";
 import { JwtAuthGuard } from "./../auth/jwt-auth.guard";
 import { UploadFile } from "../decorators/upload-file-decorator";
-import { apiWrapper } from "src/decorators/globalErrorHandlerClass";
+import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { response } from "../types";
 
 @Controller("posts")
