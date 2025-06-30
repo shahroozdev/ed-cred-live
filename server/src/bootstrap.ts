@@ -20,14 +20,18 @@ export const createApp = async () => {
 
   app.enableCors();
 
-  const uploadsPath = join(process.cwd(), "uploads");
-  if (!existsSync(uploadsPath)) {
-    mkdirSync(uploadsPath, { recursive: true });
-  }
+  const isVercel = process.env.VERCEL === '1';
 
-  app.useStaticAssets(uploadsPath, {
-    prefix: "/uploads/",
-  });
+  if (!isVercel) {
+    const uploadsPath = join(process.cwd(), 'uploads');
+    if (!existsSync(uploadsPath)) {
+      mkdirSync(uploadsPath, { recursive: true });
+    }
+  
+    app.useStaticAssets(uploadsPath, {
+      prefix: '/uploads/',
+    });
+  }
 
   app.useGlobalFilters(new UploadExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
