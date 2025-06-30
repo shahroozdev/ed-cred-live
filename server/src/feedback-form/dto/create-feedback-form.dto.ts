@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
-import { CreateQuestionDto } from "src/question/dto/create-question.dto";
+import { CreateQuestionDto } from "../../question/dto/create-question.dto";
 
 // Optional details toggles
 export class FeedbackDetails {
