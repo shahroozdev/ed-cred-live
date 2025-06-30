@@ -99,7 +99,7 @@ export class FeedbackResponseController {
   @Patch(":id/:type")
   async acceptFeedback(
     @Param("id") id: string,
-    @Body("type") type: "accept" | "reject"
+    @Param("type") type: "accept" | "reject"
   ) {
     return this.feedbackResponseService.acceptFeedback(id, type);
   }

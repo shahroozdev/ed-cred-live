@@ -1,22 +1,17 @@
-import { IsString, IsEnum, IsBoolean, IsOptional, IsArray } from 'class-validator';
-import { Permission } from '../category.entity';
-
+import { IsString, IsEnum, IsOptional, IsNumber } from 'class-validator';
 
 
 export class CreateCategoryDto {
   @IsString()
   name: string;
 
+  @IsNumber()
+  @IsOptional()
+  id?: number;
+
   @IsEnum(["active", "draft"])
   @IsOptional()
   status?: "active" | "draft";
-
-  @IsArray()
-  @IsOptional()
-  permissions?: Permission[];
-
-  @IsBoolean()
-  requiresVerification: boolean;
 
   @IsString()
   @IsOptional()

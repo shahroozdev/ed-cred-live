@@ -15,7 +15,7 @@ export class SubcategoryController {
     // @UseGuards(JwtAuthGuard)
     @ApiCustomResponse("createCategory")
     async createCategory(@Body() data:CreateItemDto): Promise<response & { subcategory?: Subcategory }> {
-        return await apiWrapper(() =>this.categoryService.createSubcategory(data.name, data.status));
+        return await apiWrapper(() =>this.categoryService.createSubcategory(data));
     }
 
     @Get()

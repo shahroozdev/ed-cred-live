@@ -7,26 +7,55 @@ import { Textarea } from "@/components/ui/textarea";
 import { useMutate } from "@/hooks/generalHooks";
 import { ForumSchema } from "@/lib/schemas";
 import { PlusIcon } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
 
-const CreateForum = () => {
+const CreateForum = ({
+  data,
+  setIsOpen,
+}: {
+  data?: Record<string, any>;
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
+}) => {
   const { MutateFunc, isPending } = useMutate();
-  const onSubmit = async(values: any) => {
-    await MutateFunc({url:'/forum-question', method:'POST', body:values, sendTo:'/forum', allowMulti:true})
+  const onSubmit = async (values: any) => {
+    await MutateFunc({
+      url: "/forum-question",
+      method: "POST",
+      body: { ...values, ...(data?.id ? { id: data?.id } : {}) },
+      tags: "forumList",
+      sendTo: "/forum",
+      allowMulti: true,
+      onSuccess: () => setIsOpen && setIsOpen(false),
+    });
   };
   return (
     <FormTemplate
       onSubmit={onSubmit}
       schema={ForumSchema}
-      defaultValues={{ title: "", text: "", featuredImage: undefined }}
+      defaultValues={{
+        title: data?.title || "",
+        text: data?.text || "",
+        featuredImage: undefined,
+      }}
       className="space-y-2"
     >
       <FormFeilds fieldProps={{ name: "title" }} label={{ text: "Title" }}>
         {(field) => <Input {...field} onChange={field.onChange} />}
       </FormFeilds>
       <FormFeilds fieldProps={{ name: "text" }} label={{ text: "Question" }}>
-        {(field) => <QuillEditor value={field.value}  onChange={field.onChange}  className="w-full mb-10" />}
+        {(field) => (
+          <QuillEditor
+            value={field.value}
+            onChange={field.onChange}
+            className="w-full mb-10"
+          />
+        )}
       </FormFeilds>
-      <UploadFilePreview inputName={"featuredImage"} label={"Featured Image"}/>
+      <UploadFilePreview
+        inputName={"featuredImage"}
+        label={"Featured Image"}
+        url={data?.featureImageUrl}
+      />
       <Button
         // icon={<PlusIcon />}
         variant={"primary"}

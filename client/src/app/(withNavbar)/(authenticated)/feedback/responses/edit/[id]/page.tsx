@@ -10,7 +10,6 @@ const ResponseEditPage = async({params}:{params:Promise<{id:string}>}) => {
   return (
     <TitleWrapper title={"Feedback Response Edit"}>
       <FeedbackForm feedback={data?.feedbackForm} defaultValues={data}/>
-      <></>
     </TitleWrapper>
   )
 }

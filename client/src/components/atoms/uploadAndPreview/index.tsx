@@ -2,10 +2,25 @@
 import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { FormFeilds } from "../form";
+import { useFormContext } from "react-hook-form";
 
-const UploadFilePreview = ({ inputName, label , allowTypes}: { inputName: string, label?:string, allowTypes?:string }) => {
-  const [preview, setPreview] = useState<any>(null);
+const UploadFilePreview = ({
+  inputName,
+  label,
+  allowTypes,
+  url,
+}: {
+  inputName: string;
+  label?: string;
+  allowTypes?: string;
+  url?: string;
+}) => {
+  const [preview, setPreview] = useState<any>(
+    url ? process.env.BASE_URL + url : null
+  );
   const maxSize = 5 * 1024 * 1024; // 5MB
+  const {setValue} = useFormContext()
+
   const attachmentSizeLimiter = (
     e: ChangeEvent<HTMLInputElement>,
     field: any
@@ -25,9 +40,10 @@ const UploadFilePreview = ({ inputName, label , allowTypes}: { inputName: string
       e.target.value = ""; // Reset so reselecting same file works
     }
   };
+
   return (
     <>
-    {label&&<p>{label}</p>}
+      {label && <p>{label}</p>}
       <FormFeilds
         fieldProps={{
           name: inputName,
@@ -35,23 +51,33 @@ const UploadFilePreview = ({ inputName, label , allowTypes}: { inputName: string
         }}
         label={{
           text: (
-            <Image
-              width={1000}
-              height={500}
-              alt=""
-              src={preview ? preview : "/icons/upload-icon.svg"}
-              className="w-full h-full object-contain"
-            />
+            <>
+              <Image
+                width={1000}
+                height={500}
+                alt=""
+                src={preview ? preview : "/icons/upload-icon.svg"}
+                className="w-full h-full object-contain"
+              />
+              {preview&&<span
+                className={
+                  "absolute right-2 top-1 z-10 rounded-full bg-red-600 text-white h-5 w-5 flex justify-center items-center cursor-pointer text-sm"
+                }
+                onClick={(e) => {e.preventDefault();setPreview(null); setValue(inputName, null)}}
+              >
+                X
+              </span>}
+            </>
           ),
           className:
-            "flex flex-col items-center h-[200px] justify-center gap-1 border rounded-xl border-dashed p-5 cursor-pointer",
+            "flex flex-col items-center h-[200px] justify-center gap-1 border relative rounded-xl border-dashed p-5 cursor-pointer",
         }}
       >
         {(field) => (
           <input
             type="file"
             multiple
-            accept={allowTypes||".jpg,.jpeg,.png,.gif"}
+            accept={allowTypes || ".jpg,.jpeg,.png,.gif"}
             // {...field}
             onChange={(e) => {
               attachmentSizeLimiter(e, field);
@@ -60,7 +86,9 @@ const UploadFilePreview = ({ inputName, label , allowTypes}: { inputName: string
           />
         )}
       </FormFeilds>
-      <p className="text-[8px] text-thin opacity-70">(Maximum size limit: 5mb)</p>
+      <p className="text-[8px] text-thin opacity-70">
+        (Maximum size limit: 5mb)
+      </p>
     </>
   );
 };

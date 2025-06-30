@@ -11,6 +11,7 @@ import ConfirmationDeleteModal from "@/components/molecules/confirmationModal/de
 import EditModal from "@/components/molecules/customModal/editModal";
 import Modal from "@/components/molecules/modal";
 import { AddCategory } from "@/components/pages/admin/Category/AddCategory";
+import CreateForum from "@/components/pages/admin/forum/create";
 import VerifyUserCard from "@/components/pages/admin/users/components/verifyUserCard";
 import CreatePost from "@/components/Posts/CreatePost";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -161,7 +162,7 @@ export const action = ({
     enableHiding: false,
     cell: ({ row }: any) => {
       const data = row.original;
-      console.log(data)
+      // console.log(data)
       return (
         <div className="flex gap-1">
           {statusUpdate && <UpdateStatus data={data} values={statusUpdate} />}
@@ -476,11 +477,6 @@ export const studentMaterialColumn = [
   customColummn({ key: "name", label: "Category", width: 200 }),
   customColummn({ key: "status", label: "Status" }),
   customColummn({
-    key: "requiresVerification",
-    label: "Requires Verification",
-    width: 250,
-  }),
-  customColummn({
     key: "createdAt",
     label: "Created At",
     type: "date",
@@ -607,6 +603,7 @@ export const adminForumColumn = [
       link: "/feedback-question",
       text: "Want To Delete This Forum?",
     },
+    editModal: {component:<CreateForum/>, className:'!max-w-[1200px]', title:"Edit Forum"},
     key: "forumList",
   }),
 ];

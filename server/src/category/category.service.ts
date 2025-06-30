@@ -24,44 +24,59 @@ export class CategoryService {
       where: { name: categoryData.name },
     });
 
-    if (existingCategory) {
-      throw new BadRequestException(
-        "Category with the same name already exists"
+    let newCategory;
+    if (categoryData?.id) {
+      await this.categoryRepository.update(
+        { id: categoryData.id }, // criteria
+        {
+          ...categoryData,
+          updatedAt: new Date(),
+        } // partialEntity
       );
-    }
-    const category = this.categoryRepository.create(categoryData);
+      newCategory = await this.categoryRepository.findOneBy({
+        id: categoryData.id,
+      });
+    } else {
+      if (existingCategory) {
+        throw new BadRequestException(
+          "Category with the same name already exists"
+        );
+      }
+      const category = this.categoryRepository.create(categoryData);
 
-    const newCategory = await this.categoryRepository.save(category);
+      newCategory = await this.categoryRepository.save(category);
+    }
     return {
       status: 200,
-      message: "Category Created Successfully.",
+      message: `Category ${categoryData?.id?'Updated':'Created'} Successfully.`,
       category: newCategory,
     };
   }
 
   async getAllCategories(): Promise<response & { categories?: Category[] }> {
+    const [categories, count] = await this.categoryRepository.findAndCount({
+      relations: ["feedbackForms", "feedbackForms.subcategory"],
+      order: {
+        createdAt: "DESC",
+      },
+    });
 
-  const [categories, count] = await this.categoryRepository.findAndCount({
-    relations: ["feedbackForms", "feedbackForms.subcategory"],
-    order: {
-      createdAt: "DESC",
-    },
-  });
+    if (count === 0) {
+      return {
+        status: 404,
+        message: "No categories found.",
+      };
+    }
 
-  if (count === 0) {
     return {
-      status: 404,
-      message: "No categories found.",
+      status: 200,
+      message: "Categories fetched successfully.",
+      categories,
     };
   }
-
-  return {
-    status: 200,
-    message: "Categories fetched successfully.",
-    categories,
-  };
-  }
-  async getAllCategoriesWithFilters(query?: Record<string, any>): Promise<response & { categories?: Category[] }> {
+  async getAllCategoriesWithFilters(
+    query?: Record<string, any>
+  ): Promise<response & { categories?: Category[] }> {
     const page = query?.page ?? 1;
     const pageSize = query?.pageSize ?? 10;
 

@@ -26,7 +26,7 @@ const FeedbackForm = ({
       url: "/feedback-responses",
       method: "POST",
       body,
-      sendTo: defaultValues?.id?"/feedback":"/dashboard",
+      sendTo: defaultValues?.id?"/feedback/responses/all":"/dashboard",
       allowMulti: true,
     });
   };

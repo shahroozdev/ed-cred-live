@@ -6,6 +6,7 @@ import { SubmitHandler } from "react-hook-form";
 export interface QueryProps {
   url: string;
   key: string;
+  noRedirect?:boolean;
 }
 
 export const imagesUrls = {

@@ -132,7 +132,7 @@ export const useMutate = () => {
   }
   return { MutateFunc, isPending };
 };
-export const useQuery = ({ url, key }: QueryProps) => {
+export const useQuery = ({ url, key, noRedirect }: QueryProps) => {
   const [data, setData] = useState<any>(null);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -141,7 +141,7 @@ export const useQuery = ({ url, key }: QueryProps) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await getServerSideDataWithFeatures({ url, key }); // Replace with your API endpoint
+        const data = await getServerSideDataWithFeatures({ url, key, noRedirect }); // Replace with your API endpoint
         setData(data);
         setLoading(false);
       } catch (err: any) {

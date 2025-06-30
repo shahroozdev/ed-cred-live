@@ -1,4 +1,4 @@
-import { IsString, IsIn, IsNumber } from 'class-validator';
+import { IsString, IsIn, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateItemDto {
   @IsString()
@@ -7,6 +7,11 @@ export class CreateItemDto {
   @IsIn(['active', 'draft'])
   status: 'active' | 'draft';
 
-  // @IsNumber()
-  // categoryId: number;
+  @IsNumber()
+  @IsOptional()
+  id?: number;
+
+  @IsString()
+  @IsOptional()
+  iconUrl?: string;
 }

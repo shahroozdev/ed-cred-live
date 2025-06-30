@@ -19,6 +19,7 @@ export function NavigationMenuItems({user}:{user?:UserProfile}) {
   const posts = useQuery({
     url: "/posts",
     key: "posts",
+    noRedirect:true
   });
 
   return (

@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Between, ILike, Repository } from "typeorm";
 import { Subcategory } from "./subcategory.entity";
 import { Category } from "../category/category.entity";
 import { response } from "../types";
+import { CreateItemDto } from "./dto";
 
 @Injectable()
 export class SubcategoryService {
@@ -16,27 +17,33 @@ export class SubcategoryService {
   ) {}
 
   async createSubcategory(
-    name: string,
-    status: "active" | "draft",
-    // categoryId: number
+    dto:CreateItemDto
   ): Promise<response & { subcategory?: Subcategory }> {
-    // const category = await this.categoryRepository.findOne({
-    //   where: { id: categoryId },
-    // });
-    // if (!category)
-    //   throw new NotFoundException(`Category with ID ${categoryId} not found`);
-
-    const subcategory = this.subcategoryRepository.create({
-      name,
-      status,
-      createdAt: new Date(),
-      // parentCategory: category,
+    const existingCategory = await this.subcategoryRepository.findOne({
+      where: { name:dto?.name}
     });
-    const savedSubcategory = await this.subcategoryRepository.save(subcategory);
+    let savedSubcategory;
+    if (dto?.id) {
+      await this.categoryRepository.update({id:dto?.id}
+          ,{...dto,
+          }
+      )
+      savedSubcategory = await this.subcategoryRepository.findOne({where:{id:dto?.id}})
+    }else{
+      if (existingCategory) {
+        throw new BadRequestException(
+          "Category with the same name already exists"
+        );
+      }
+      const subcategory = this.subcategoryRepository.create({
+        ...dto,
+      });
+     savedSubcategory = await this.subcategoryRepository.save(subcategory);
+    }
 
     return {
       status: 200,
-      message: "Subcategory created successfully",
+      message: `Subcategory ${dto?.id?'updated':'created'} successfully`,
       subcategory: savedSubcategory,
     };
   }

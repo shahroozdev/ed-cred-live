@@ -1,6 +1,4 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Select,
@@ -10,40 +8,33 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMutate } from "@/hooks/generalHooks";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import ChooseCategoryIcon from "./chooseIcon";
+import { Dispatch, SetStateAction } from "react";
 
 const FormSchema = z.object({
   name: z.string().min(2, "The category must be at least 2 characters"),
   status: z.enum(["active", "draft"]),
-  requiresVerification: z.boolean(),
+  iconUrl: z.string().optional(),
 });
 
-export const AddCategory = ({data}:{data?:Record<string, any>}) => {
+export const AddCategory = ({data, setIsOpen}:{data?:Record<string, any>, setIsOpen?:Dispatch<SetStateAction<boolean>>}) => {
   const { MutateFunc, isPending } = useMutate();
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     await MutateFunc({
       url: "/category",
       method: "POST",
-      body: data,
+      body: {...values, ...(data?.id?{id:data?.id}:{})},
       tags: "categories",
+      onSuccess:()=>setIsOpen&&setIsOpen(false)
     });
   };
 
   return (
     <div className="ring-2 ring-muted p-4 rounded-md">
-      <div className="font-semibold text-xl mb-4">Add Category</div>
+      {!data&&<div className="font-semibold text-xl mb-4">Add Category</div>}
       <FormTemplate
         onSubmit={onSubmit}
         defaultValues={{

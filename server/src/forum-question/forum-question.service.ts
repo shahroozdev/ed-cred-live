@@ -29,19 +29,30 @@ export class ForumQuestionService {
   ): Promise<response> {
     const user = await this.authService.findUserById(authorId);
     if (!user) {
-      console.log(createForumQuestionDto);
       throw new BadRequestException(`User Not found.`);
     }
-    const forumQuestion = this.forumQuestionRepository.create({
-      text: createForumQuestionDto.text,
-      title: createForumQuestionDto.title,
-      featureImageUrl: url,
-      author: user,
-    });
+    let forum;
+    if(createForumQuestionDto?.id){
+      await this.forumQuestionRepository.update({id:Number(createForumQuestionDto?.id)},{
+        text: createForumQuestionDto.text,
+        title: createForumQuestionDto.title,
+        ...(url?{featureImageUrl: url}:{}),
+        author: user,
+      })
+      forum = await this.forumQuestionRepository.findOne({where:{id:Number(createForumQuestionDto?.id)}})
+    }else{
 
-    const forum = await this.forumQuestionRepository.save(forumQuestion);
+      const forumQuestion = this.forumQuestionRepository.create({
+        text: createForumQuestionDto.text,
+        title: createForumQuestionDto.title,
+        featureImageUrl: url,
+        author: user,
+      });
+      
+       forum = await this.forumQuestionRepository.save(forumQuestion);
+    }
 
-    return { status: 200, message: "Forum Created Successfully." };
+    return { status: 200, message: `Forum ${createForumQuestionDto?.id?'Updated':'Created'} Successfully.` };
   }
 
   // Returns all the questions in the `repository` along with their author names.

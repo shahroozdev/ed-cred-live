@@ -144,7 +144,7 @@ export class FeedbackResponseService {
           avgRatting: averageRating,
           agreeTerms: dto.agreeTerms,
           employee: newEmployee,
-          attachments,
+          ...(attachments?{attachments}:{}),
         }
       );
     } else {
@@ -167,7 +167,7 @@ export class FeedbackResponseService {
 
     return {
       status: 200,
-      message: "Response Created Successfylly",
+      message: `Response ${dto.id?'Updated':'Created'} Successfylly`,
       feedbackResponse:feedbackResponseObject,
     };
   }
@@ -379,6 +379,7 @@ export class FeedbackResponseService {
       where: { id },
     });
     if (!response) throw new NotFoundException("Feedback not found");
+
     response.accepted = type === "accept" ? true : false;
     response.status = type === "accept" ? "Accepted" : "Rejected";
     await this.feedbackResponseRepository.save(response);
