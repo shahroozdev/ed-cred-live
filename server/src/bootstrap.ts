@@ -5,7 +5,7 @@ import { join } from "path";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import * as basicAuth from "express-basic-auth";
+import basicAuth from 'express-basic-auth';
 import { existsSync, mkdirSync } from "fs";
 import { UploadExceptionFilter } from "./decorators/globalErrorHandlerClass/uploadErrorGlobal";
 import { json, urlencoded } from "express";
