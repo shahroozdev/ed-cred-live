@@ -43,7 +43,6 @@ export class FeedbackResponseController {
       console.error("Stream error:", err); // <- Catch hidden stream errors
     });
     // Optional: Log attachment info
-    console.log(attachments, req.body, "attachments");
     const urls =
       attachments?.map(
         (file) => `/uploads/forms-attachments/${file.filename}`

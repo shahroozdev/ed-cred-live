@@ -130,26 +130,45 @@ export class FeedbackResponseService {
       }
     }
 
-    const feedbackResponseObject = this.feedbackResponseRepository.create({
-      feedbackForm,
-      details: dto.details,
-      answers: dto.answers,
-      comments: dto.comments,
-      author: user,
-      avgRatting:averageRating,
-      agreeTerms: dto.agreeTerms,
-      employee: newEmployee,
-      attachments,
-    });
+    let feedbackResponseObject;
 
-    const feedbackResponse = await this.feedbackResponseRepository.save(
-      feedbackResponseObject
-    );
+    if (dto?.id) {
+      feedbackResponseObject = await this.feedbackResponseRepository.update(
+        { id: dto.id },
+        {
+          feedbackForm,
+          details: dto.details,
+          answers: dto.answers,
+          comments: dto.comments,
+          author: user,
+          avgRatting: averageRating,
+          agreeTerms: dto.agreeTerms,
+          employee: newEmployee,
+          attachments,
+        }
+      );
+    } else {
+      feedbackResponseObject = this.feedbackResponseRepository.create({
+        feedbackForm,
+        details: dto.details,
+        answers: dto.answers,
+        comments: dto.comments,
+        author: user,
+        avgRatting: averageRating,
+        agreeTerms: dto.agreeTerms,
+        employee: newEmployee,
+        attachments,
+      });
+    
+      feedbackResponseObject = await this.feedbackResponseRepository.save(
+        feedbackResponseObject
+      );
+    }
 
     return {
       status: 200,
       message: "Response Created Successfylly",
-      feedbackResponse,
+      feedbackResponse:feedbackResponseObject,
     };
   }
   async getResponses(
@@ -206,7 +225,7 @@ export class FeedbackResponseService {
     });
   }
   async findOneResponse(id: string) {
-    return await this.feedbackResponseRepository.find({
+    return await this.feedbackResponseRepository.findOne({
       where: { id: id },
       relations: ["feedbackForm", "feedbackForm.questions"],
     });

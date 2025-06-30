@@ -10,6 +10,7 @@ import { ChangeCategoryModal, CustomModal } from "@/components/molecules";
 import ConfirmationDeleteModal from "@/components/molecules/confirmationModal/deleteModal";
 import EditModal from "@/components/molecules/customModal/editModal";
 import Modal from "@/components/molecules/modal";
+import { AddCategory } from "@/components/pages/admin/Category/AddCategory";
 import VerifyUserCard from "@/components/pages/admin/users/components/verifyUserCard";
 import CreatePost from "@/components/Posts/CreatePost";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -133,7 +134,7 @@ export const action = ({
   rejected,
 }: {
   edit?: string;
-  editModal?: ReactElement;
+  editModal?: {component:ReactElement, className?:string, title?:string};
   deleteBtn?: { text?: string; link?: string };
   statusUpdate?: {
     options?: { label: string; value: string }[];
@@ -248,9 +249,9 @@ export const action = ({
             </IconButton>
           )}
           {editModal && (
-            <EditModal data={data}>
+            <EditModal data={data} className={editModal?.className} title={editModal?.title}>
               {(modalData, setIsOpen) => {
-                return React.cloneElement(editModal as any, {
+                return React.cloneElement(editModal?.component as any, {
                   data: modalData,
                   setIsOpen,
                 });
@@ -486,7 +487,7 @@ export const studentMaterialColumn = [
     width: 150,
   }),
   action({
-    edit: "/category/edit",
+    editModal: {component:<AddCategory/>, className:'!max-w-[600px] overflow-hidden', title:"Edit Category"},
     deleteBtn: { link: "/category", text: "Want To Delete This Category?" },
   }),
 ];
@@ -561,7 +562,7 @@ export const postsAdminColumn = [
       link: "/posts",
       key: "posts",
     },
-    editModal: <CreatePost />,
+    editModal: {component:<CreatePost />},
     deleteBtn: { link: "/posts", text: "Want To Delete This Post?" },
   }),
 ];

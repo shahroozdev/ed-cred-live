@@ -21,9 +21,9 @@ const RatingInput = ({
   return (
     <div className="flex items-center justify-end gap-2">
       {Array.from({ length: 5 }).map((_, i) => {
-        const ratingValue = 5 - i;
+        const ratingValue = i;
         const isActive = value >= ratingValue;
-        const isHovered = hoverRating >= 5 - i;
+        const isHovered = hoverRating >= i;
 
         return (
           <AppleIcon
@@ -37,9 +37,9 @@ const RatingInput = ({
                 ? "fill-opacity-70"
                 : "fill-opacity-30"
             )}
-            onMouseOver={() => setHoverRating(5 - i)}
+            onMouseOver={() => setHoverRating(i)}
             onMouseLeave={() => setHoverRating(0)}
-            onClick={() => !disabled&&onChange(5 - i)}
+            onClick={() => !disabled&&onChange(i)}
           />
         );
       })}

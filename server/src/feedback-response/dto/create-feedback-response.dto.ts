@@ -9,6 +9,7 @@ import {
 import { Type } from "class-transformer";
 
 class FeedbackDetailDto {
+
   @IsOptional()
   @IsString()
   schoolName?: string;
@@ -46,6 +47,11 @@ class FeedbackAnswerDto {
 }
 
 export class CreateFeedbackResponseDto {
+
+  @IsOptional()
+  @IsString()
+  id?: string;
+  
   @IsString()
   feedbackFormId: string;
 

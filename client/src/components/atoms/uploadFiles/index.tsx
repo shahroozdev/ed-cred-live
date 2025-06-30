@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form";
 import DynamicView from "./dynamicView";
 import { toast } from "sonner";
 
-const UploadFiles = ({ inputName }: { inputName?: string }) => {
+const UploadFiles = ({ inputName, urls }: { inputName?: string, urls?:string[] }) => {
   const [attachments, setAttachments] = useState<File[]>([]);
   const { setValue } = useFormContext();
   const maxSize = 5 * 1024 * 1024; // 5MB
@@ -87,6 +87,22 @@ const UploadFiles = ({ inputName }: { inputName?: string }) => {
               >
                 ×
               </span>
+            </div>
+          );
+        })}
+        {urls?.map((file: any, index) => {
+          return (
+            <div
+              key={index}
+              className="relative flex items-start justify-start max-h-48 border-foreground py-1 rounded"
+            >
+             <DynamicView url={file}/>
+              {/* <span
+                className="text-white ml-2 cursor-pointer absolute z-1 -top-[2px] -right-1 w-4 h-4 rounded-full flex justify-center items-center bg-red-500"
+                onClick={() => removeAttachment(index)}
+              >
+                ×
+              </span> */}
             </div>
           );
         })}

@@ -20,17 +20,23 @@ const FeedbackForm = ({
   const { MutateFunc, isPending } = useMutate();
 
   const onSubmit = async (values: any) => {
-    const body = { feedbackFormId: feedback.id, ...values };
+    const body = { ...(defaultValues?.id?{id:defaultValues?.id}:{}),feedbackFormId: feedback.id, ...values };
 
     await MutateFunc({
       url: "/feedback-responses",
       method: "POST",
       body,
-      sendTo: "/dashboard",
+      sendTo: defaultValues?.id?"/feedback":"/dashboard",
       allowMulti: true,
     });
   };
-
+console.log(defaultValues, 'feedback')
+const attachmentUrls =
+  defaultValues?.attachments
+    ?.replace(/[{}"]/g, "") // remove braces and quotes
+    .split(",")
+    .map((url:string) => url.trim())
+    .filter((url:string) => url.length > 0) ?? [];
   return (
     <FormTemplate
       onSubmit={onSubmit}
@@ -55,7 +61,7 @@ const FeedbackForm = ({
                 )?.answer
               : "",
           })) ?? [],
-        comments: "",
+        comments: defaultValues?.comments ||"",
         attachments: [],
         agreeTerms: false,
       }}
@@ -81,7 +87,7 @@ const FeedbackForm = ({
       >
         {(field) => <Textarea {...field} onChange={field.onChange} />}
       </FormFeilds>
-      <UploadFiles />
+      <UploadFiles urls={attachmentUrls}/>
       {/* AI Review Warning */}
       <div
         className={cn(

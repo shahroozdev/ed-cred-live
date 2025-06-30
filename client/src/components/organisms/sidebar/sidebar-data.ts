@@ -20,7 +20,7 @@ export const data = {
       icon: LayoutDashboard,
     },
     {
-      title: "Feedbacks",
+      title: "Feedback",
       url: "/feedback",
       icon: MessageSquareQuote,
       items: [

@@ -31,18 +31,8 @@ export class Category {
   @DeleteDateColumn({ nullable: true })
   deletedAt?: Date; // <- Soft delete column
 
-  @Column("simple-array", { nullable: true })
-  permissions?: Permission[];
-
-  @Column("boolean")
-  requiresVerification: boolean;
-
   @Column({ default: "categoryIcons/default.png" })
   iconUrl: string;
-
-  // // There are multiple users in a category
-  // @OneToMany(() => User, (user) => user.category)
-  // users: User[];
 
   // A category can be linked with multiple feedback forms
   @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)
@@ -52,6 +42,4 @@ export class Category {
   @JoinColumn()
   employees: Employee[];
 
-  // @OneToMany(() => Subcategory, (subcategory) => subcategory.parentCategory)
-  // subCategories: Subcategory[];
 }
