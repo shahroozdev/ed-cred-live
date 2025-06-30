@@ -1,16 +1,14 @@
-import { createNestApplication } from './dist/main'; // adjust based on your main.ts setup
-import { createServer } from '@nestjs/platform-express';
-import { Server } from 'http';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from '../src/app.module';
 
-let cachedServer: Server;
+let cachedApp:any = null;
 
 export default async function handler(req, res) {
-  if (!cachedServer) {
-    const app = await createNestApplication();
+  if (!cachedApp) {
+    const app = await NestFactory.create(AppModule);
     await app.init();
-    const expressApp = app.getHttpAdapter().getInstance();
-    cachedServer = createServer(expressApp);
+    cachedApp = app.getHttpAdapter().getInstance();
   }
 
-  return cachedServer.emit('request', req, res);
+  return cachedApp(req, res);
 }
