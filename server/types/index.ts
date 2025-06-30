@@ -59,3 +59,7 @@ export interface BaseUser {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+
+
+
