@@ -23,6 +23,7 @@ const inter = Geist({
   subsets: ["latin"],
   variable: "--font-inter",
 });
+export const dynamic = 'force-dynamic';
 
 export default async function RootLayout({
   children,
