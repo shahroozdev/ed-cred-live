@@ -1,8 +1,8 @@
-"use client";
-import PublishFeedback from "@/components/pages/admin/feedback/create/publishedBtn";
 import { TitleWrapper } from "@/components/atoms";
 import FeedbackForm from "@/components/pages/admin/feedback/create/FeedbackForm";
-import QuestionsList from "@/components/pages/admin/feedback/create/QuestionsList";
+
+// Inside /feedback/create/page.tsx
+export const dynamic = 'force-dynamic';
 
 const Dashboard = () => {
   return (
