@@ -19,7 +19,7 @@ import { JwtAuthGuard } from "./jwt-auth.guard";
 import { Roles } from "../decorators/roles.decorator";
 import { RolesGuard } from "../guards/roles.guard";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
-import { response, UserRole } from "types";
+import { response, UserRole } from "../types";
 import { User } from "./user.entity";
 import { CreateUserDto, LoginUserDto, SubscribeDto } from "./dto";
 import { Response } from "express";
