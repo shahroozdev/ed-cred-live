@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FeedbackResponseService } from './feedback-response.service';
 import { FeedbackResponseController } from './feedback-response.controller';
 import { FeedbackResponse } from './entities/feedback-response.entity';
-import { FeedbackForm } from 'src/feedback-form/entities/feedback-form.entity';
+import { FeedbackForm } from '../feedback-form/entities/feedback-form.entity';
 import { User } from '../auth/user.entity';
 import { School } from '../school/entities/school.entity';
 import { Employee } from '../school/entities/employee.entity';
