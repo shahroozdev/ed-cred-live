@@ -63,7 +63,7 @@ export class DisputeController {
     @Patch(':id')
     async updateDispute(
         @Param('id') id: string,
-        @Body() dto: UpdateDisputeDto,
+        @Body() dto: Partial<UpdateDisputeDto>,
     ) {
         return this.disputeService.updateDispute(id, dto);
     }

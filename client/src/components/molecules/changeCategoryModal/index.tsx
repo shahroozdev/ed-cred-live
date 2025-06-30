@@ -12,7 +12,7 @@ const ChangeCategoryModal = ({
 }: {
   children: ReactNode;
   data: Record<string, any>;
-  qkey?: string;
+  qkey?: string | string[];
 }) => {
   const [open, setIsOpen] = useState(false);
   return (

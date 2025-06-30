@@ -99,22 +99,16 @@ export class DisputeService {
     return dispute;
   }
 
-  async updateDispute(id: string, dto: UpdateDisputeDto) {
+  async updateDispute(id: string, dto: Partial<UpdateDisputeDto>) {
     const dispute = await this.disputeRepository.findOneBy({ id });
 
     if (!dispute) {
       throw new NotFoundException("Dispute not found.");
     }
-
-    if (dto.status) {
-      dispute.status = dto.status;
-    }
-
-    if (dto.adminNotes !== undefined) {
-      dispute.adminNotes = dto.adminNotes;
-    }
-
-    return await this.disputeRepository.save(dispute);
+    
+  const updated = this.disputeRepository.merge(dispute, dto);
+   await this.disputeRepository.save(updated);
+   return {status:200 , message:'Dispute Updated Successfully.'}
   }
 
   async listDisputes(

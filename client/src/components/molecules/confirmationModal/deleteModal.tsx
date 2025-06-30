@@ -11,7 +11,7 @@ export interface ConfirmationModalProps {
   text?: string;
   children: ReactNode;
   url: string;
-  qkey?: string;
+  qkey?: string | string[];
   type?: "POST" | "PUT" | "DELETE" | "PATCH";
   body?: any;
   disabled?: boolean;
@@ -39,6 +39,7 @@ const ConfirmationDeleteModal = ({
     });
     setIsOpen(false);
   };
+
   return (
     <>
       {disabled ? (

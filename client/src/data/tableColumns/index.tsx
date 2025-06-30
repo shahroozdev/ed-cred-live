@@ -130,7 +130,7 @@ export const action = ({
   setQuestionsList,
   statusUpdate,
   resolve,
-  rejected
+  rejected,
 }: {
   edit?: string;
   editModal?: ReactElement;
@@ -144,9 +144,9 @@ export const action = ({
   };
   btnText?: string;
   view?: string;
-  resolve?: {url?:string, key?:string};
-  rejected?: {url?:string, key?:string};
-  key?: string;
+  resolve?: { url?: string; key?: string };
+  rejected?: { url?: string; key?: string };
+  key?: string | string[];
   changeCategory?: boolean;
   verifyDocument?: boolean;
   accept?: boolean;
@@ -160,7 +160,7 @@ export const action = ({
     enableHiding: false,
     cell: ({ row }: any) => {
       const data = row.original;
-      // console.log(data)
+      console.log(data)
       return (
         <div className="flex gap-1">
           {statusUpdate && <UpdateStatus data={data} values={statusUpdate} />}
@@ -184,6 +184,17 @@ export const action = ({
               {btnText}
             </Button>
           )}
+          {view && (
+            <IconButton
+              bgColor="blue"
+              className="cursor-pointer text-white px-2"
+            >
+              {" "}
+              <Link href={`${view}/${data?.id}`} title={"View"}>
+                <Eye />
+              </Link>
+            </IconButton>
+          )}
           {accept && (
             <ConfirmationDeleteModal
               text={"Want to Accept This Response."}
@@ -206,11 +217,11 @@ export const action = ({
           )}
           {resolve && (
             <ConfirmationDeleteModal
-              text={"Want to Accept This Response."}
-              url={resolve?.url+data?.id}
+              text={"Want to Resolve This."}
+              url={resolve?.url + data?.id}
               type="PATCH"
               qkey={key}
-              body={{[resolve!.key as string]:'resolve'}}
+              body={{ [resolve!.key as string]: "resolve" }}
               disabled={data?.status === "Resolved"}
             >
               <IconButton
@@ -233,17 +244,6 @@ export const action = ({
               {" "}
               <Link href={`${edit}/${data?.id}`} title={"Edit"}>
                 <Pencil size={20} />
-              </Link>
-            </IconButton>
-          )}
-          {view && (
-            <IconButton
-              bgColor="blue"
-              className="cursor-pointer text-white px-2"
-            >
-              {" "}
-              <Link href={`${view}/${data?.id}`} title={"View"}>
-                <Eye />
               </Link>
             </IconButton>
           )}
@@ -312,10 +312,10 @@ export const action = ({
           )}
           {rejected && (
             <ConfirmationDeleteModal
-              text={"Want to Reject This Response."}
-              url={rejected+data?.id}
+              text={"Want to Reject This."}
+              url={rejected + data?.id}
               type="PATCH"
-              body={{[resolve!.key as string]:'reject'}}
+              body={{ [resolve!.key as string]: "reject" }}
               qkey={key}
               disabled={data?.status === "Rejected"}
             >
@@ -630,10 +630,10 @@ export const adminDisputeColumn = [
     width: 150,
   }),
   action({
-    resolve:{url:'', key:'status'},
+    resolve: { url: "/disputes/", key: "status" },
     deleteBtn: { link: "/disputes", text: "Want To Delete This Dispute?" },
-    rejected:{url:'', key:'status'},
-    key: "disputes",
+    rejected: { url: "/disputes/", key: "status" },
+    key: ["disputes", "manageDisputes"],
     view: "/disputes/detail",
   }),
 ];
