@@ -17,7 +17,7 @@ import { UserProfile } from "@/types/user";
 
 export function NavigationMenuItems({user}:{user?:UserProfile}) {
   const posts = useQuery({
-    url: "/posts",
+    url: "/posts/users",
     key: "posts",
     noRedirect:true
   });

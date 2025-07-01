@@ -1,7 +1,7 @@
 "use client";
 import { API_BASE_URL } from "@/api/config";
 import { useEffect, useState } from "react";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../../ui/separator";
 import { MessageSquareMoreIcon, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 

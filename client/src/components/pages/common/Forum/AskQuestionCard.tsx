@@ -1,6 +1,6 @@
 "use client";
 import { XIcon } from "lucide-react"
-import { Button } from "../ui/button"
+import { Button } from "../../../ui/button"
 import { useState } from "react"
 import { useRouter } from "next/navigation";
 

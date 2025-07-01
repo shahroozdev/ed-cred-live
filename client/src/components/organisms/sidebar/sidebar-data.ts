@@ -59,11 +59,6 @@ export const data = {
       icon: UserRoundPenIcon,
     },
     {
-      title: "Review",
-      url: "/review-admin",
-      icon: ScanEye,
-    },
-    {
       title: "Posts",
       url: "/posts",
       icon: SquareTerminal,

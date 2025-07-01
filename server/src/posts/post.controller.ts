@@ -41,6 +41,12 @@ export class PostController {
   ): Promise<response & { posts?: Partial<PostEntity>[] }> {
     return await apiWrapper(() => this.postService.getPosts(query));
   }
+  @Get('/users')
+  async getPostsUser(
+    @Query() query?: Record<string, any>
+  ): Promise<response & { posts?: Partial<PostEntity>[] }> {
+    return await apiWrapper(() => this.postService.getPostsUser(query));
+  }
 
   @Get("/preview/")
   async getPostsPreview(@Req() req): Promise<Partial<PostEntity>[]> {

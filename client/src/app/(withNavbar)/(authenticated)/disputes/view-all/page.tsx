@@ -1,7 +1,6 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
 import { Stats } from "@/components/Common/Stats";
-import { DisputesTable } from "@/components/Dispute/DisputeTable";
 import TableWithFilter from "@/components/molecules/tableWithFilters";
 import { adminDisputeColumn } from "@/data/tableColumns";
 
@@ -48,11 +47,6 @@ const FeedbackDisputePage = async () => {
         pageSize={data?.pageSize}
       />
     </TitleWrapper>
-    // <main className="w-full min-h-screen">
-    //     <div className="w-full mx-auto px-10 mt-10">
-    //         <DisputesTable />
-    //     </div>
-    // </main>
   );
 };
 export default FeedbackDisputePage;

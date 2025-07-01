@@ -61,6 +61,42 @@ export class PostService {
       pageSize,
     };
   }
+  async getPostsUser(
+    query?: Record<string, any>
+  ): Promise<response & { posts?: Partial<Post>[]}> {
+    const page = query?.page ?? 1;
+    const pageSize = query?.pageSize ?? 10;
+
+    const where: any = {};
+
+    // Filter by name (case-insensitive)
+    if (query.name) {
+      where.name = ILike(`%${query.name}%`);
+    }
+      where.status = 'active'
+    const [posts, total] = await this.postRepo.findAndCount({
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      order: { createdAt: "DESC" },
+    });
+
+    if (!posts || posts.length === 0) {
+      return {
+        status: 404,
+        message: "No post found.",
+      };
+    }
+
+    return {
+      status: 200,
+      message: "All Posts List.",
+      posts,
+      total,
+      currentPage: Number(page),
+      pageSize,
+    };
+  }
 
   async getPostsPreview(): Promise<Partial<Post>[]> {
     return this.postRepo.find({

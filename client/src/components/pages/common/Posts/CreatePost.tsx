@@ -1,10 +1,10 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import QuillEditor from "../molecules/editor";
+import QuillEditor from "../../../molecules/editor";
 import { useMutate } from "@/hooks/generalHooks";
-import { Button, FormFeilds, FormTemplate } from "../atoms";
-import UploadFilePreview from "../atoms/uploadAndPreview";
+import { Button, FormFeilds, FormTemplate } from "../../../atoms";
+import UploadFilePreview from "../../../atoms/uploadAndPreview";
 import { postSchema } from "@/lib/schemas";
 import { Dispatch, SetStateAction } from "react";
 

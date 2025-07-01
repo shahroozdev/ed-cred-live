@@ -1,6 +1,6 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
-import { AskQuestionCard } from "@/components/Forum/AskQuestionCard";
+import { AskQuestionCard } from "@/components/pages/common/Forum/AskQuestionCard";
 import ViewALLForums from "@/components/pages/admin/forum/viewAll";
 
 

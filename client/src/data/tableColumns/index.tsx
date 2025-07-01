@@ -6,7 +6,7 @@ import {
   IconButton,
 } from "@/components/atoms";
 import HTMLContent from "@/components/atoms/htmlContent";
-import { ChangeCategoryModal, CustomModal } from "@/components/molecules";
+import { ChangeCategoryModal } from "@/components/molecules";
 import ConfirmationDeleteModal from "@/components/molecules/confirmationModal/deleteModal";
 import EditModal from "@/components/molecules/customModal/editModal";
 import Modal from "@/components/molecules/modal";
@@ -14,7 +14,7 @@ import { AddCategory } from "@/components/pages/admin/Category/AddCategory";
 import CreateForum from "@/components/pages/admin/forum/create";
 import VerifyUserCard from "@/components/pages/admin/users/components/verifyUserCard";
 import FeedbackForm from "@/components/pages/admin/feedback/create/FeedbackForm";
-import CreatePost from "@/components/Posts/CreatePost";
+import CreatePost from "@/components/pages/common/Posts/CreatePost";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Select,
@@ -588,7 +588,7 @@ export const postsAdminColumn = [
       link: "/posts",
       tags: "posts",
     },
-    editModal: { component: <CreatePost /> },
+    editModal: { component: <CreatePost />},
     deleteBtn: { link: "/posts", text: "Want To Delete This Post?" },
   }),
 ];
@@ -630,7 +630,7 @@ export const adminForumColumn = [
   customColummn({ key: "createdAt", label: "Created At", type: "date" }),
   action({
     deleteBtn: {
-      link: "/feedback-question",
+      link: "/forum-question",
       text: "Want To Delete This Forum?",
     },
     editModal: {

@@ -116,10 +116,14 @@ export class ForumQuestionService {
     } as ForumQuestion;
   }
 
-  async removeQuestion(id: number): Promise<void> {
+  async removeQuestion(id: number): Promise<response> {
     const result = await this.forumQuestionRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`forumQuestion with ID ${id} not found`);
+    }
+    return {
+      status:200,
+      message:'Forum Deleted Successfully'
     }
   }
 

@@ -28,7 +28,7 @@ const EditModal = ({
         </IconButton>
       }
     >
-      <div className="h-full !overflow-y-scroll p-1">{children(data, setIsOpen)}</div>
+      <div className="h-full !overflow-y-scroll p-1 !max-h-[90vh]">{children(data, setIsOpen)}</div>
     </Modal>
   );
 };
