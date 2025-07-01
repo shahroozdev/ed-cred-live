@@ -1,6 +1,7 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
 import ProfileComponent from "@/components/pages/common/profile";
+import SettingsPage from "../settings/page";
 
 
 const ProfilePage = async () => {
@@ -16,6 +17,7 @@ const ProfilePage = async () => {
       notBackBtn
     >
       <ProfileComponent user={user} />
+      <SettingsPage />
     </TitleWrapper>
   );
 };

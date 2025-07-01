@@ -1,17 +1,50 @@
-import { UploadProfilePic } from '@/components/atoms'
-import { BadgeCheckIcon, BadgeMinusIcon } from 'lucide-react'
-import Image from 'next/image'
-import React from 'react'
+import { UploadProfilePic } from "@/components/atoms";
+import { BadgeCheckIcon, BadgeMinusIcon } from "lucide-react";
+import Image from "next/image";
+import React from "react";
 
-const ProfileComponent = ({user}:{user:Record<string, any>}) => {
+const ProfileComponent = ({ user }: { user: Record<string, any> }) => {
+  const userDetails = [
+    {
+      title: "Username",
+      dynamic: user?.name,
+    },
+    {
+      title: "Email",
+      dynamic: user?.email,
+    },
+    {
+      title: "Subscription Plan",
+      dynamic: user?.subscription?.status,
+    },
+    {
+      title: "Package",
+      dynamic: user?.subscription?.plan,
+    },
+    {
+      title: "Role",
+      dynamic: user?.role,
+    },
+    {
+      title: "Category",
+      dynamic: user?.category?.name,
+    },
+  ];
+
   return (
-       <div className="flex w-full">
-      <div className="border-2 border-muted rounded-md p-4 w-max">
+    <div className="flex md:flex-row flex-col w-full pb-5 gap-2">
+      <div className="border-2 border-muted rounded-md p-4 md:w-max w-full">
         <div className="font-semibold text-4xl flex flex-col items-center gap-4">
           <UploadProfilePic>
             {user.profilePictureUrl ? (
               <div className="w-full h-full rounded-full overflow-hidden">
-                <Image src={process.env.BASE_URL+user.profilePictureUrl} alt={`{user.username} | ED-Cred`} width={500} height={500} className={'w-full h-full'}/>
+                <Image
+                  src={process.env.BASE_URL + user.profilePictureUrl}
+                  alt={`{user.username} | ED-Cred`}
+                  width={500}
+                  height={500}
+                  className={"w-full h-full"}
+                />
               </div>
             ) : (
               <div className="w-full h-full rounded-full bg-foreground flex items-center justify-center text-background">
@@ -34,34 +67,18 @@ const ProfileComponent = ({user}:{user:Record<string, any>}) => {
       </div>
 
       <div className="border-2 border-muted rounded-md p-4 w-full">
-        <h2 className="text-2xl font-bold underline mb-4">User Detail</h2>
-        <div className="text-base flex gap-4">
-          Username:
-          <div>{user?.name}</div>
-        </div>
-        <div className="text-base flex gap-4">
-          Email:
-          <div>{user?.email}</div>
-        </div>
-        <div className="text-base flex gap-4">
-          Subscription Plan:
-          <div>{user?.subscription?.status}</div>
-        </div>
-        <div className="text-base flex gap-4">
-          Package:
-          <div className='capitalize'>{user?.subscription?.plan}</div>
-        </div>
-        <div className="text-base flex gap-4">
-          Role:
-          <div>{user.role}</div>
-        </div>
-        <div className="text-base flex gap-4">
-          Category:
-          <div>{user?.category?.name}</div>
+        <h2 className="text-2xl font-bold mb-4">Basic Information</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {userDetails.map(({ title, dynamic }, index) => (
+            <div key={index} className="flex flex-col">
+              <span className="text-base text-muted-foreground">{title}</span>
+              <div className="text-base">{dynamic}</div>
+            </div>
+          ))}
         </div>
       </div>
-      </div>
-  )
-}
+    </div>
+  );
+};
 
-export default ProfileComponent
+export default ProfileComponent;
