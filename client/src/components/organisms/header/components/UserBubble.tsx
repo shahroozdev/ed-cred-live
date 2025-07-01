@@ -67,9 +67,6 @@ export const UserBubble = ({ user }: { user: UserProfile }) => {
           <DropdownMenuItem onClick={() => router.push("/profile")}>
             Profile
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push("/settings")}>
-            Settings
-          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => logout()}>Log out</DropdownMenuItem>

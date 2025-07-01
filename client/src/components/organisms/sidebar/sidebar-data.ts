@@ -93,11 +93,6 @@ export const data = {
       url: "/subcategory",
       icon: Layers,
     },
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings2,
-    },
   ],
   navUser: [
     {

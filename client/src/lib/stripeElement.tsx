@@ -100,7 +100,7 @@ const CheckoutForm = ({
       <div className="text-center mt-4 text-sm text-gray-500 flex items-center justify-center gap-1">
         <span>Payments secured by</span>
         <img
-          src="https://stripe.com/img/v3/home/social.png"
+          src="/images/stripe.png"
           alt="Stripe"
           className="h-5"
         />
@@ -113,7 +113,7 @@ const StripeElement = ({ amount, form, onSubmit }: { amount: number; form?: any,
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+    console.log( process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, 'stripe')
   const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
   );
@@ -170,7 +170,9 @@ const StripeElement = ({ amount, form, onSubmit }: { amount: number; form?: any,
         >
           {isLoading ? (
             <div className="flex justify-center items-center h-full">
-              <Loader2 />
+              <div className="animate-pulse !h-16 rounded !w-full bg-gray-200"/>
+              <div className="animate-pulse !h-16 rounded !w-full bg-gray-200"/>
+              <div className="animate-pulse !h-16 rounded !w-full bg-gray-200"/>
             </div>
           ) : (
             <CheckoutForm

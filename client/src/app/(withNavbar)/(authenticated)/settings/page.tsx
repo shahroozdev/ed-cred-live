@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
@@ -10,18 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import {
   Table,
@@ -32,7 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TitleWrapper } from "@/components/atoms";
+import { Button } from "@/components/atoms";
 
 function CardAction({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -136,11 +126,6 @@ const activeSessions = [
 
 export default function SettingsPage() {
   return (
-    // <TitleWrapper
-    //   title="Setting"
-    //   //  desc="Select the type of review you will submit"
-    //   notBackBtn
-    // >
     <Tabs defaultValue="account" className="gap-6">
       <div
         data-slot="dashboard-header"
@@ -361,8 +346,8 @@ export default function SettingsPage() {
             <Button
               type="submit"
               form="form-security"
-              variant="secondary"
-              className="bg-[#00a63e] mt-6"
+              variant="primary"
+              // className="bg-[#00a63e] mt-6"
             >
               Save changes
             </Button>
@@ -447,7 +432,6 @@ export default function SettingsPage() {
         </Card>
       </TabsContent>
     </Tabs>
-    // </TitleWrapper>
   );
 }
 
