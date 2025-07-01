@@ -113,7 +113,7 @@ const StripeElement = ({ amount, form, onSubmit }: { amount: number; form?: any,
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-    console.log( process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, 'stripe')
+
   const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
   );

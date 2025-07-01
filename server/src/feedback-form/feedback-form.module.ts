@@ -8,9 +8,10 @@ import { Category } from '../category/category.entity';
 import { FeedbackResponse } from '../feedback-response/entities/feedback-response.entity';
 import { Subcategory } from '../subcategory/subcategory.entity';
 import { Question } from '../question/entities/question.entity';
+import { EntityLog } from '../feedback-response/entities/feedback-response-log.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([FeedbackForm, User, Category, Subcategory, FeedbackResponse, Question])],
+    imports: [TypeOrmModule.forFeature([FeedbackForm, User, Category, Subcategory, FeedbackResponse, Question, EntityLog])],
     controllers: [FeedbackFormController],
     providers: [FeedbackFormService],
     exports: [FeedbackFormService],

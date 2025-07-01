@@ -10,12 +10,15 @@ import { School } from "../school/entities/school.entity";
 import { Branch } from "../school/entities/branch.entity";
 import { Employee } from "../school/entities/employee.entity";
 import { Category } from "../category/category.entity";
+import { EntityLog  } from "./entities/feedback-response-log.entity";
 
 @Injectable()
 export class FeedbackResponseService {
   constructor(
     @InjectRepository(FeedbackResponse)
     private readonly feedbackResponseRepository: Repository<FeedbackResponse>,
+    @InjectRepository(EntityLog )
+    private readonly EntityLogRepository: Repository<EntityLog >,
 
     @InjectRepository(FeedbackForm)
     private readonly feedbackFormRepository: Repository<FeedbackForm>,
@@ -58,22 +61,26 @@ export class FeedbackResponseService {
       throw new NotFoundException("User not found");
     }
     const category = await this.categoryRepository.findOne({
-      where:{
-        id:feedbackForm.category.id
-      }
-    })
+      where: {
+        id: feedbackForm.category.id,
+      },
+    });
     let totalRating = 0;
-    let count =0;
-      dto.answers.forEach((answer: any) => {
-        if (Number.isInteger(Number(answer.answer))) {
-          totalRating += Number(answer.answer);
-          count++
-        }
-      })
+    let count = 0;
+    dto.answers.forEach((answer: any) => {
+      if (Number.isInteger(Number(answer.answer))) {
+        totalRating += Number(answer.answer);
+        count++;
+      }
+    });
     const averageRating = Math.round(totalRating / count);
     const school = await this.schoolRepository.findOne({
       where: { name: ILike(`%${dto.details.schoolName}%`) },
-      relations: ["branches", "branches.employees","branches.employees.category"],
+      relations: [
+        "branches",
+        "branches.employees",
+        "branches.employees.category",
+      ],
     });
     let newSchool: School;
     let newBranch: Branch;
@@ -93,14 +100,15 @@ export class FeedbackResponseService {
       await this.brachRepository.save(newBranch);
       newEmployee = this.employeeRepository.create({
         name: dto?.details?.revieweeName,
-        category:category,
+        category: category,
         branch: newBranch,
       });
       await this.employeeRepository.save(newEmployee);
     } else {
       const branch = school?.branches?.find(
         (branch) =>
-          branch?.country.toLowerCase() === dto?.details?.country.toLowerCase() &&
+          branch?.country.toLowerCase() ===
+            dto?.details?.country.toLowerCase() &&
           branch?.division.toLowerCase() === dto?.details?.divison.toLowerCase()
       );
       if (branch) {
@@ -116,14 +124,17 @@ export class FeedbackResponseService {
         await this.brachRepository.save(newBranch);
       }
       const employee = newBranch?.employees?.find(
-        (employee) => employee?.name.toLowerCase() === dto?.details?.revieweeName?.toLowerCase() && employee?.category?.id === category?.id
+        (employee) =>
+          employee?.name.toLowerCase() ===
+            dto?.details?.revieweeName?.toLowerCase() &&
+          employee?.category?.id === category?.id
       );
       if (employee) {
         newEmployee = employee;
       } else {
         newEmployee = this.employeeRepository.create({
           name: dto?.details?.revieweeName,
-          category:category,
+          category: category,
           branch: newBranch,
         });
         await this.employeeRepository.save(newEmployee);
@@ -133,6 +144,21 @@ export class FeedbackResponseService {
     let feedbackResponseObject;
 
     if (dto?.id) {
+      const response = await this.feedbackResponseRepository.findOne({
+        where: { id: dto.id },
+        relations: ["feedbackForm", "author", "employee", "disputes"], // include everything needed in snapshot
+      });
+
+      if (!response) {
+        throw new NotFoundException("Feedback response not found");
+      }
+      // store snapshot
+      await this.EntityLogRepository.save({
+        entityName: 'FeedbackResponse',
+        entityId:response?.id,
+        snapshot: { ...response },
+        updatedBy: user,
+      });
       feedbackResponseObject = await this.feedbackResponseRepository.update(
         { id: dto.id },
         {
@@ -140,11 +166,9 @@ export class FeedbackResponseService {
           details: dto.details,
           answers: dto.answers,
           comments: dto.comments,
-          author: user,
           avgRatting: averageRating,
-          agreeTerms: dto.agreeTerms,
           employee: newEmployee,
-          ...(attachments?{attachments}:{}),
+          ...(attachments ? { attachments } : {}),
         }
       );
     } else {
@@ -155,11 +179,11 @@ export class FeedbackResponseService {
         comments: dto.comments,
         author: user,
         avgRatting: averageRating,
-        agreeTerms: dto.agreeTerms,
+        agreeTerms: Boolean(dto.agreeTerms),
         employee: newEmployee,
         attachments,
       });
-    
+
       feedbackResponseObject = await this.feedbackResponseRepository.save(
         feedbackResponseObject
       );
@@ -167,8 +191,8 @@ export class FeedbackResponseService {
 
     return {
       status: 200,
-      message: `Response ${dto.id?'Updated':'Created'} Successfylly`,
-      feedbackResponse:feedbackResponseObject,
+      message: `Response ${dto.id ? "Updated" : "Created"} Successfylly`,
+      feedbackResponse: feedbackResponseObject,
     };
   }
   async getResponses(

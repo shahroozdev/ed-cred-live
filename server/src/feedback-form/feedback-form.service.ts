@@ -9,12 +9,16 @@ import { Subcategory } from "../subcategory/subcategory.entity";
 import { FeedbackResponse } from "../feedback-response/entities/feedback-response.entity";
 import { response } from "../types";
 import { Question } from "../question/entities/question.entity";
+import { EntityLog } from "src/feedback-response/entities/feedback-response-log.entity";
 
 @Injectable()
 export class FeedbackFormService {
   constructor(
     @InjectRepository(FeedbackForm)
     private readonly feedbackFormRepository: Repository<FeedbackForm>,
+
+    @InjectRepository(EntityLog )
+    private readonly EntityLogRepository: Repository<EntityLog >,
 
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -53,7 +57,18 @@ export class FeedbackFormService {
       throw new NotFoundException(
         `SubCategory with ID ${subCategoryId} not found`
       );
-
+    const existingForm = await this.feedbackFormRepository.findOne({
+      where: {
+        category: { id: categoryId },
+        subcategory: { id: subCategoryId },
+      },
+    })
+    if (existingForm) {
+      return {
+        status: 400,
+        message: "Form already exists for this category and subcategory.",
+      };
+    }
     // Create the feedback form first (without questions)
     const feedbackForm = this.feedbackFormRepository.create({
       ...rest,

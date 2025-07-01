@@ -4,7 +4,8 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
-  OneToMany
+  OneToMany,
+  UpdateDateColumn,
 } from "typeorm";
 import { FeedbackForm } from "../../feedback-form/entities/feedback-form.entity";
 import { User } from "../../auth/user.entity";
@@ -23,14 +24,15 @@ export class FeedbackResponse {
 
   @ManyToOne(() => User, (user) => user.feedbackFormsResponses, {
     nullable: true,
+    onDelete: "CASCADE",
   })
   author: User;
 
   @Column({ default: false })
   accepted: boolean;
 
-  @Column({ default: 'Pending' })
-  status: 'Pending'|'Accepted' | 'Rejected';
+  @Column({ default: "Pending" })
+  status: "Pending" | "Accepted" | "Rejected";
 
   @Column("jsonb")
   details: {
@@ -43,12 +45,12 @@ export class FeedbackResponse {
     pricipalDivison: string;
     directorName: string;
   };
-  @ManyToOne(()=> Employee)
-  employee:Employee;
-  
+  @ManyToOne(() => Employee)
+  employee: Employee;
+
   @Column("jsonb")
   answers: {
-    questionId: number| string;
+    questionId: number | string;
     question: string;
     answer: string | string[] | boolean | number;
   }[];
@@ -56,10 +58,10 @@ export class FeedbackResponse {
   @Column({ type: "text", nullable: true })
   comments?: string;
 
-  @Column({default:false})
+  @Column({ default: false })
   agreeTerms: boolean;
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   avgRatting: number;
 
   @OneToMany(() => Dispute, (dispute) => dispute.feedbackResponse)
@@ -68,6 +70,9 @@ export class FeedbackResponse {
   @CreateDateColumn()
   submittedAt: Date;
 
-  @Column({type:"text", nullable:true})
-  attachments?:string[];
+  @UpdateDateColumn({ nullable: true })
+  updatedAt: Date;
+
+  @Column({ type: "text", nullable: true })
+  attachments?: string[];
 }

@@ -32,6 +32,7 @@ import { UserPackage } from "./packages/entities/user.packages.entity";
 import { SchoolModule } from './school/school.module';
 import { DisputeModule } from "./dispute/dispute.module";
 import { DisputeTimeline } from "./dispute/entities/dispute.timeline.entity";
+import { EntityLog  } from "./feedback-response/entities/feedback-response-log.entity";
 
 @Module({
   imports: [
@@ -55,7 +56,8 @@ import { DisputeTimeline } from "./dispute/entities/dispute.timeline.entity";
       School,
       Employee,
       Branch,
-      DisputeTimeline
+      DisputeTimeline,
+      EntityLog
     ]),
     AuthModule,
     PostModule,

@@ -72,8 +72,8 @@ export class DisputeService {
       message: "Dispute created Successfully.",
       sender: "admin",
     });
-    await this.timelineRepo.save(timeline);
     await this.disputeRepository.save(dispute);
+    await this.timelineRepo.save(timeline);
     return {
       status: 200,
       message: "A dispute on this response has been created successfully.",

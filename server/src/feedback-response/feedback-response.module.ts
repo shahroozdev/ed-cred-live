@@ -9,9 +9,10 @@ import { School } from '../school/entities/school.entity';
 import { Employee } from '../school/entities/employee.entity';
 import { Branch } from '../school/entities/branch.entity';
 import { Category } from '../category/category.entity';
+import { EntityLog  } from './entities/feedback-response-log.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([FeedbackResponse, School, Employee, Branch, FeedbackForm, User, Category])],
+    imports: [TypeOrmModule.forFeature([FeedbackResponse, School, Employee, Branch, FeedbackForm, User, Category, EntityLog ])],
     controllers: [FeedbackResponseController],
     providers: [FeedbackResponseService],
     exports: [FeedbackResponseService],

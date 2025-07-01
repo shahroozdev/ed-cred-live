@@ -7,6 +7,7 @@ import { FeedbackResponse } from '../feedback-response/entities/feedback-respons
 import { Dispute } from '../dispute/entities/dispute.entity';
 import { Subcategory } from '../subcategory/subcategory.entity';
 import { UserPackage } from '../packages/entities/user.packages.entity';
+import { EntityLog  } from 'src/feedback-response/entities/feedback-response-log.entity';
 
 @Entity()
 export class User {
@@ -16,9 +17,8 @@ export class User {
     @CreateDateColumn()
     createdAt: Date;
 
-    // TODO: keep the last login time
-    //@Column()
-    //lastLogin: Date;
+    @OneToMany(() => EntityLog , (log) => log.updatedBy)
+    logs: EntityLog [];
 
     @Column({ unique: true })
     username: string;

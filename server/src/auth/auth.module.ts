@@ -13,11 +13,12 @@ import { Package } from '../packages/entities/package.entity';
 import { UserPackage } from '../packages/entities/user.packages.entity';
 import { PackagesModule } from '../packages/packages.module';
 import { PackagesService } from '../packages/packages.service';
+import { EntityLog  } from '../feedback-response/entities/feedback-response-log.entity';
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
-        TypeOrmModule.forFeature([User, Subcategory, Package, UserPackage]),
+        TypeOrmModule.forFeature([User, Subcategory, Package, UserPackage, EntityLog ]),
         PassportModule,
         MailModule,
         PackagesModule,
