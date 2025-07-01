@@ -31,7 +31,7 @@ export class PostController {
     @UploadedFile() file: Express.Multer.File,
     @Body() data: CreatePostDto
   ): Promise<response> {
-    const url = file ? `/uploads/profile-images/${file?.filename}` : null;
+    const url = file ? `/uploads/posts-images/${file?.filename}` : null;
     return await apiWrapper(() => this.postService.createPost(data, url));
   }
 
