@@ -10,10 +10,16 @@ export class PostService {
   constructor(@InjectRepository(Post) private postRepo: Repository<Post>) {}
 
   async createPost(data: CreatePostDto, url: string): Promise<response> {
-    const newData = { ...data, image: url , featured:Boolean(data?.featured)};
-    const post = this.postRepo.create(newData);
-    await this.postRepo.save(post);
-    return { status: 200, message: "Post Created Successfully." };
+    const newData = { ...data, ...(url?{image: url}:{}), featured:Boolean(data?.featured)};
+    if(data?.id){
+      const post = await this.postRepo.findOne({where:{id:data.id}})
+      Object.assign(post, newData)
+      await this.postRepo.save(post)
+    }else{
+      const post = this.postRepo.create(newData);
+      await this.postRepo.save(post);
+    }
+    return { status: 200, message: `Post ${data?.id?'Updated':'Created'} Successfully.` };
   }
 
   async getPosts(

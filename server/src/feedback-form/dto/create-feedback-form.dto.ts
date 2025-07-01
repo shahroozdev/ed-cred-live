@@ -1,5 +1,12 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import {
+  IsArray,
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from "class-validator";
 import { CreateQuestionDto } from "../../question/dto/create-question.dto";
 
 // Optional details toggles
@@ -46,6 +53,10 @@ export class Question {
 }
 
 export class CreateFeedbackFormDto {
+  @IsNumber()
+  @IsOptional()
+  id?: number;
+
   @IsNumber()
   categoryId: number;
 

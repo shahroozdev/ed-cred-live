@@ -178,24 +178,7 @@ const AddQuestion = ({
                       <SelectTrigger className="border p-2 rounded w-full">
                         <SelectValue placeholder="Select a options" />
                       </SelectTrigger>
-                      {
-                      // questionType === "rating" ? (
-                      //   <SelectContent>
-                      //     {[1, 2, 3, 4, 5].map((num) => (
-                      //       <SelectItem key={num} value={num.toString()}>
-                      //         {num}{" "}
-                      //         {Array.from({ length: num }).map((_) => (
-                      //           <AppleIcon
-                      //             key={`apple-${uuidv4()}`}
-                      //             fill="green"
-                      //             stroke="green"
-                      //           />
-                      //         ))}
-                      //       </SelectItem>
-                      //     ))}
-                      //   </SelectContent>
-                      // ) :
-                       questionType === "true_false" ? (
+                      {questionType === "true_false" ? (
                         <SelectContent>
                           <SelectItem value="true">
                             <CheckIcon />

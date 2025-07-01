@@ -1,19 +1,13 @@
 "use client";
-import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { ArrowUpFromLineIcon } from "lucide-react";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { TitleInput } from "../FeedbackElements";
-import { useState } from "react";
-import { ArrowUpFromLineIcon, ChevronDownIcon } from "lucide-react";
-import { Button, CategorySelect, SubCategorySelect } from "@/components/atoms";
+  Button,
+  CategorySelect2,
+  FormFeilds,
+  FormTemplate,
+} from "@/components/atoms";
 import { GeneralFormSchema } from "@/lib/schemas";
 import { useMutate } from "@/hooks/generalHooks";
 import { Question } from "@/types";
@@ -26,34 +20,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import SubCategorySelect2 from "@/components/atoms/subCategorySelect/index2";
 
-const FeedbackForm = () => {
+const FeedbackForm = ({data, setIsOpen}: {data?: Record<string, any>, setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>}) => {
   const { MutateFunc, isPending } = useMutate();
   const [questionsList, setQuestionsList] = useState<Question[] | []>([]);
   const [isError, setIsError] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof GeneralFormSchema>>({
-    resolver: zodResolver(GeneralFormSchema),
-    defaultValues: {
-      title: "",
-      categoryId: "",
-      subCategoryId: "",
-      // details: {
-      //   salary: false,
-      //   schoolName: false,
-      //   schoolWebsite: false,
-      //   schoolCountry: false,
-      //   reportingPeriod: false,
-      //   pricipalName: false,
-      //   pricipalDivison: false,
-      //   directorName: false,
-      // },
-      isDraft: "inactive",
-      questions: questionsList,
-    },
-  });
-
-  const onSubmit = async (data: z.infer<typeof GeneralFormSchema>) => {
+  useEffect(()=>{
+    if(data){
+      setQuestionsList(data?.questions)
+    }
+  },[data])
+  const onSubmit = async (values: z.infer<typeof GeneralFormSchema>) => {
     if (questionsList?.length < 1) {
       setIsError(true);
       return;
@@ -63,44 +43,51 @@ const FeedbackForm = () => {
       url: "/feedback-form",
       method: "POST",
       body: {
-        ...data,
-        isDraft: data?.isDraft === "active" ? false : true,
-        subCategoryId: Number(data?.subCategoryId),
-        categoryId: Number(data?.categoryId),
+        ...(data?.id?{id:data?.id}:{}),
+        ...values,
+        isDraft: values?.isDraft === "active" ? false : true,
+        subCategoryId: Number(values?.subCategoryId),
+        categoryId: Number(values?.categoryId),
         questions: questionsList,
       },
       sendTo: "/feedback",
+      onSuccess: () => {
+        setIsOpen && setIsOpen(false);
+      }
     });
   };
 
-  const onError = (errors: any) => {
-    console.log("Validation Errors", errors);
-    console.log(form.getValues());
-  };
+
   return (
     <div className="flex flex-col gap-5 items-center justify-between">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit, onError)}
-          className="flex w-full flex-col items-start justify-between gap-10"
+      <FormTemplate
+        onSubmit={onSubmit}
+        schema={GeneralFormSchema}
+        defaultValues={{
+          title: data?.title||"",
+          categoryId: data?.category?.id?.toString()||"",
+          subCategoryId: data?.subcategory?.id?.toString()||"",
+          isDraft: data?.isDraft?"inactive":"active",
+          questions: questionsList,
+        }}
+        className="flex w-full flex-col items-start justify-between gap-10"
+      >
+        <MetaDataInput />
+        {isError && (
+          <p className="text-red-500">
+            At least one question must be provided.
+          </p>
+        )}
+        <Button
+          icon={<ArrowUpFromLineIcon />}
+          variant={"primary"}
+          className="w-full font-normal"
+          type="submit"
+          loading={isPending}
         >
-          <MetaDataInput form={form} loading={isPending} />
-          {isError && (
-            <p className="text-red-500">
-              At least one question must be provided.
-            </p>
-          )}
-          <Button
-            icon={<ArrowUpFromLineIcon />}
-            variant={"primary"}
-            className="w-full font-normal"
-            type="submit"
-            loading={isPending}
-          >
-            Publish Feedback
-          </Button>
-        </form>
-      </Form>
+          Publish Feedback
+        </Button>
+      </FormTemplate>
       <AddQuestion setQuestionsList={setQuestionsList} />
       <QuestionsList
         questionsList={questionsList}
@@ -110,29 +97,9 @@ const FeedbackForm = () => {
   );
 };
 
-const MetaDataInput = ({
-  form,
-  loading,
-}: {
-  form: UseFormReturn<z.infer<typeof GeneralFormSchema>>;
-  loading: boolean;
-}) => {
-  const [collapsed, setCollapsed] = useState(false);
+const MetaDataInput = () => {
   return (
     <div className="outline-muted relative flex w-full flex-col gap-4 rounded-md p-6 outline-2 isolate shadow-sm">
-      {/* <ChevronDownIcon
-        className={`absolute right-6 top-6 transition-transform ${
-          collapsed ? "rotate-0" : "rotate-180"
-        }`}
-        onClick={() => setCollapsed((s) => !s)}
-      /> */}
-      <div
-        className={`${
-          collapsed ? "opacity-100" : "opacity-0"
-        } bg-destructive text-white absolute bottom-6 right-6 rounded-sm text-sm px-3 py-1 -z-10`}
-      >
-        required
-      </div>
       <div className="">
         <div className="text-2xl font-semibold">Form Metadata</div>
         <p className="text-muted-foreground mb-0 text-sm">
@@ -143,33 +110,59 @@ const MetaDataInput = ({
       <div
         className={`mt-2 flex flex-col gap-4 overflow-hidden transition-[max-height]`}
       >
-        <TitleInput form={form} />
-        <div className="grid gap-2 grid-cols-2">
-          <CategorySelect control={form.control} inputName="categoryId" />
-          <SubCategorySelect control={form.control} inputName="subCategoryId" label="Subcategory"/>
-        </div>
-        <FormField
-          control={form.control}
-          name="isDraft"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Form Status</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select Status" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="inactive">Inactive</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
+        <FormFeilds fieldProps={{ name: "title" }} label={{ text: "Title" }}>
+          {(field) => (
+            <Input
+              placeholder="Enter feedback title"
+              {...field}
+              value={field.value}
+              onChange={field.onChange}
+              maxLength={100}
+            />
           )}
-        />
-        {/* <SwitchInput form={form} /> */}
+        </FormFeilds>
+        <div className="grid gap-2 grid-cols-2">
+          <FormFeilds
+            fieldProps={{ name: "categoryId" }}
+            label={{ text: "Category" }}
+          >
+            {(field) => (
+              <CategorySelect2
+                {...field}
+                value={field.value}
+                onValueChange={field.onChange}
+              />
+            )}
+          </FormFeilds>
+          <FormFeilds
+            fieldProps={{ name: "subCategoryId" }}
+            label={{ text: "Subcategory" }}
+          >
+            {(field) => (
+              <SubCategorySelect2
+                {...field}
+                value={field.value}
+                onValueChange={field.onChange}
+              />
+            )}
+          </FormFeilds>
+        </div>
+        <FormFeilds
+          fieldProps={{ name: "isDraft" }}
+          label={{ text: "Form Status" }}
+        >
+          {(field) => (
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
+        </FormFeilds>
       </div>
     </div>
   );

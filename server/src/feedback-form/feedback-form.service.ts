@@ -17,8 +17,8 @@ export class FeedbackFormService {
     @InjectRepository(FeedbackForm)
     private readonly feedbackFormRepository: Repository<FeedbackForm>,
 
-    @InjectRepository(EntityLog )
-    private readonly EntityLogRepository: Repository<EntityLog >,
+    @InjectRepository(EntityLog)
+    private readonly EntityLogRepository: Repository<EntityLog>,
 
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -37,7 +37,7 @@ export class FeedbackFormService {
     createFeedbackFormDto: CreateFeedbackFormDto,
     authorId: number
   ): Promise<response & { feedback?: FeedbackForm }> {
-    const { categoryId, subCategoryId, questions, ...rest } =
+    const { categoryId, subCategoryId, questions, id, ...rest } =
       createFeedbackFormDto;
 
     const user = await this.userRepository.findOne({ where: { id: authorId } });
@@ -62,36 +62,94 @@ export class FeedbackFormService {
         category: { id: categoryId },
         subcategory: { id: subCategoryId },
       },
-    })
-    if (existingForm) {
-      return {
-        status: 400,
-        message: "Form already exists for this category and subcategory.",
-      };
-    }
-    // Create the feedback form first (without questions)
-    const feedbackForm = this.feedbackFormRepository.create({
-      ...rest,
-      category,
-      subcategory,
-      author: user,
+      relations: ["questions"],
     });
-    const savedForm = await this.feedbackFormRepository.save(feedbackForm);
 
-    // Map and save each question individually
-    const questionEntities = questions.map((q) => {
-      return this.questionRepository.create({
-        ...q,
-        feedbackForm: savedForm, // set relation
+    let savedForm;
+    if (id) {
+      await this.feedbackFormRepository.update(
+        { id },
+        { ...rest, category, subcategory, author: user }
+      );
+      savedForm = await this.feedbackFormRepository.findOne({
+        where: { id },
+        relations: ["questions"],
       });
-    });
-    await this.questionRepository.save(questionEntities); // bulk insert
 
+      const existingQuestions = savedForm.questions ?? [];
+
+      const newQuestionsMap = new Map(
+        questions.map((q:any) => [q.text, q])
+      );
+
+      const toInsert: any[] = [];
+      const toKeepIds: (string | number)[] = [];
+
+      for (const q of questions) {
+        const match = existingQuestions.find((ex) => ex.text === q.text);
+        if (match) {
+          toKeepIds.push(match.id);
+        } else {
+          const newQuestion = this.questionRepository.create({
+            ...q,
+            feedbackForm: savedForm,
+          });
+          toInsert.push(newQuestion);
+        }
+      }
+
+      // Insert new questions
+      if (toInsert.length > 0) {
+        await this.questionRepository.save(toInsert);
+      }
+
+      // Delete removed questions
+      const toDelete = existingQuestions.filter(
+        (q) => !newQuestionsMap.has(q.text)
+      );
+
+      if (toDelete.length > 0) {
+        await this.questionRepository.remove(toDelete);
+      }
+      console.log(toInsert, toDelete, existingQuestions, newQuestionsMap, 'question')
+    } else {
+      if (existingForm) {
+        return {
+          status: 400,
+          message: "Form already exists for this category and subcategory.",
+        };
+      }
+      // Create the feedback form first (without questions)
+      const feedbackForm = this.feedbackFormRepository.create({
+        ...rest,
+        category,
+        subcategory,
+        author: user,
+      });
+      savedForm = await this.feedbackFormRepository.save(feedbackForm);
+
+      // Map and save each question individually
+      const questionEntities = questions.map((q) => {
+        return this.questionRepository.create({
+          ...q,
+          feedbackForm: savedForm, // set relation
+        });
+      });
+      await this.questionRepository.save(questionEntities); // bulk insert
+    }
     // Reload feedbackForm with questions
     const fullFeedback = await this.feedbackFormRepository.findOne({
       where: { id: savedForm.id },
       relations: ["questions"], // include related questions
     });
+
+    const log = await this.EntityLogRepository.create({
+      entityId: String(id),
+      entityName: "FeedbackForm",
+      snapshot: { ...existingForm },
+      updatedBy: user,
+    });
+    await this.EntityLogRepository.save(log);
 
     return {
       status: 200,
@@ -124,8 +182,8 @@ export class FeedbackFormService {
 
     const allResponses = forms.flatMap((form) =>
       form.responses.filter((response) => response.accepted)
-  );
-  // console.log(allResponses)
+    );
+    // console.log(allResponses)
 
     const schoolGroups: Record<string, FeedbackResponse[]> = {};
     const principalGroups: Record<string, FeedbackResponse[]> = {};
@@ -227,7 +285,7 @@ export class FeedbackFormService {
 
   async findAll(
     query?: Record<string, any>
-  ): Promise<response & { feedbacks?: FeedbackForm[] , activeCount?:number}> {
+  ): Promise<response & { feedbacks?: FeedbackForm[]; activeCount?: number }> {
     const page = query?.page ?? 1;
     const pageSize = query?.pageSize ?? 10;
 
@@ -442,4 +500,17 @@ export class FeedbackFormService {
     }
     return { status: 200, message: "Form Deleted Successfully." };
   }
+
+  async updateStatus(id: number, isDraft: string): Promise<response> {
+    const feedbackForm = await this.feedbackFormRepository.findOne({
+      where: { id },
+    });
+    if (!feedbackForm) {
+      throw new NotFoundException(`FeedbackForm with ID ${id} not found`);
+    }
+    feedbackForm.isDraft = isDraft==="inactive";
+    await this.feedbackFormRepository.save(feedbackForm);
+    return { status: 200, message: "Form Status Updated Successfully." };
+  }
+
 }

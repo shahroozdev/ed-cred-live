@@ -13,6 +13,7 @@ import Modal from "@/components/molecules/modal";
 import { AddCategory } from "@/components/pages/admin/Category/AddCategory";
 import CreateForum from "@/components/pages/admin/forum/create";
 import VerifyUserCard from "@/components/pages/admin/users/components/verifyUserCard";
+import FeedbackForm from "@/components/pages/admin/feedback/create/FeedbackForm";
 import CreatePost from "@/components/Posts/CreatePost";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -55,6 +56,7 @@ export const UpdateStatus = ({
     link?: string;
     icon?: ReactNode;
     key?: string;
+    tags?: string | string[];
   };
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +66,7 @@ export const UpdateStatus = ({
       url: `${values?.link}/${data?.id}` || "",
       method: "PUT",
       body: { ...value, id: data?.id },
-      tags: values?.key,
+      tags: values?.tags,
       onSuccess: () => setIsOpen(false),
     });
   };
@@ -83,11 +85,13 @@ export const UpdateStatus = ({
       >
         <FormTemplate
           onSubmit={onSubmit}
-          defaultValues={{ status: data?.status }}
+          defaultValues={{
+            [values?.key || "status"]: data[values?.key || "status"],
+          }}
           className="space-y-2"
         >
           <FormFeilds
-            fieldProps={{ name: "status" }}
+            fieldProps={{ name: values?.key || "status" }}
             label={{ text: "Status" }}
           >
             {(field) => (
@@ -98,8 +102,8 @@ export const UpdateStatus = ({
                 <SelectContent>
                   {values?.options?.map((item, idx) => {
                     return (
-                      <SelectItem key={idx} value={item.value}>
-                        {item.label}
+                      <SelectItem key={idx} value={item?.value}>
+                        {item?.label}
                       </SelectItem>
                     );
                   })}
@@ -135,7 +139,7 @@ export const action = ({
   rejected,
 }: {
   edit?: string;
-  editModal?: {component:ReactElement, className?:string, title?:string};
+  editModal?: { component: ReactElement; className?: string; title?: string };
   deleteBtn?: { text?: string; link?: string };
   statusUpdate?: {
     options?: { label: string; value: string }[];
@@ -143,6 +147,7 @@ export const action = ({
     link?: string;
     icon?: ReactNode;
     key?: string;
+    tags?: string | string[];
   };
   btnText?: string;
   view?: string;
@@ -223,13 +228,15 @@ export const action = ({
               url={resolve?.url + data?.id}
               type="PATCH"
               qkey={key}
-              body={{ [resolve!.key as string]: "resolve" }}
-              disabled={data?.status === "Resolved"}
+              body={{ [resolve!.key as string]: "resolved" }}
+              disabled={data?.status === "resolved"}
             >
               <IconButton
-                bgColor={data?.accepted ? "gray" : "green"}
+                bgColor={data?.status === "resolved" ? "gray" : "green"}
                 className={`${
-                  data?.accepted ? "cursor-not-allowed" : "cursor-pointer"
+                  data?.status === "resolved"
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
                 }  text-white px-2`}
               >
                 <span title={"Resolve"}>
@@ -250,7 +257,11 @@ export const action = ({
             </IconButton>
           )}
           {editModal && (
-            <EditModal data={data} className={editModal?.className} title={editModal?.title}>
+            <EditModal
+              data={data}
+              className={editModal?.className}
+              title={editModal?.title}
+            >
               {(modalData, setIsOpen) => {
                 return React.cloneElement(editModal?.component as any, {
                   data: modalData,
@@ -315,16 +326,16 @@ export const action = ({
           {rejected && (
             <ConfirmationDeleteModal
               text={"Want to Reject This."}
-              url={rejected + data?.id}
+              url={rejected?.url + data?.id}
               type="PATCH"
-              body={{ [resolve!.key as string]: "reject" }}
+              body={{ [rejected!.key as string]: "rejected" }}
               qkey={key}
-              disabled={data?.status === "Rejected"}
+              disabled={data?.status === "rejected"}
             >
               <IconButton
-                bgColor={data?.status === "Rejected" ? "gray" : "red"}
+                bgColor={data?.status === "rejected" ? "gray" : "red"}
                 className={`${
-                  data?.status === "Rejected"
+                  data?.status === "rejected"
                     ? "cursor-not-allowed"
                     : "cursor-pointer"
                 }  text-white px-2`}
@@ -410,8 +421,8 @@ const customColummn = (values: {
           ) : values.key === "status" ? (
             <p
               className={cn(
-                "px-2 py-1 rounded-full capitalize border-2",
-                value === "pending"
+                "!w-20 px-2 py-1 rounded-full capitalize border-2 text-center",
+                value === "pending" || value ==="draft"
                   ? "bg-yellow-200 text-yellow-500 border-yellow-500"
                   : value === "rejected"
                   ? "bg-red-200 text-red-500 border-red-500"
@@ -433,8 +444,8 @@ const customColummn = (values: {
             />
           ) : values.key === "isDraft" ? (
             <p
-              className={`${
-                row?.original?.isDraft ? "text-red-500" : "text-green-500"
+              className={`capitalize border-2 rounded-2xl px-2 ${
+                row?.original?.isDraft ? "text-red-500 bg-red-200 border-red-500 " : "text-green-500 bg-green-200 border-green-500"
               }`}
             >
               {row?.original?.isDraft ? "draft" : "active"}
@@ -483,7 +494,11 @@ export const studentMaterialColumn = [
     width: 150,
   }),
   action({
-    editModal: {component:<AddCategory/>, className:'!max-w-[600px] overflow-hidden', title:"Edit Category"},
+    editModal: {
+      component: <AddCategory />,
+      className: "!max-w-[600px] overflow-hidden",
+      title: "Edit Category",
+    },
     deleteBtn: { link: "/category", text: "Want To Delete This Category?" },
   }),
 ];
@@ -519,6 +534,21 @@ export const feedbacksDashboardColumn = [
   }),
   action({
     deleteBtn: { link: "/feedback-form", text: "Want To Delete This Form?" },
+    editModal: {
+      component: <FeedbackForm />,
+      className:
+        "!max-w-[1200px] !overflow-x-hidden overflow-y-auto h-full !max-h-[90vh]",
+      title: "Edit Feedback Form",
+    },
+    statusUpdate: {
+      options: [
+        { label: "Active", value: "active" },
+        { label: "Inactive", value: "inactive" },
+      ],
+      link: "/feedback-form/status",
+      key:'isDraft',
+      tags: "feedbacksFormList",
+    },
   }),
 ];
 export const usersAdminColumn = [
@@ -556,9 +586,9 @@ export const postsAdminColumn = [
         { label: "Draft", value: "draft" },
       ],
       link: "/posts",
-      key: "posts",
+      tags: "posts",
     },
-    editModal: {component:<CreatePost />},
+    editModal: { component: <CreatePost /> },
     deleteBtn: { link: "/posts", text: "Want To Delete This Post?" },
   }),
 ];
@@ -603,7 +633,11 @@ export const adminForumColumn = [
       link: "/feedback-question",
       text: "Want To Delete This Forum?",
     },
-    editModal: {component:<CreateForum/>, className:'!max-w-[1200px]', title:"Edit Forum"},
+    editModal: {
+      component: <CreateForum />,
+      className: "!max-w-[1200px]",
+      title: "Edit Forum",
+    },
     key: "forumList",
   }),
 ];

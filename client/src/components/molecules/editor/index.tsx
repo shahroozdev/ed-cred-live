@@ -66,7 +66,7 @@ const QuillEditor = ({ value, links, image, onChange, className }: Props) => {
         onChange={onChange ?? handleChange}
         modules={modules}
         formats={formats}
-        className="!min-h-[280px] !max-h-[280px] !h-[280px] !mb-5 !min-w-full"
+        className="!min-h-[280px] !max-h-[280px] !h-[280px] !mb-5 !min-w-full !max-w-[1200px]"
       />
     </div>
   );

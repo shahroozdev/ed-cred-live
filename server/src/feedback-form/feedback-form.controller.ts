@@ -9,6 +9,7 @@ import {
   Req,
   UseGuards,
   Query,
+  Put,
 } from "@nestjs/common";
 import { FeedbackFormService } from "./feedback-form.service";
 import { CreateFeedbackFormDto } from "./dto/create-feedback-form.dto";
@@ -77,5 +78,10 @@ export class FeedbackFormController {
   @UseGuards(JwtAuthGuard)
   async remove(@Param("id") id: string) {
     return await apiWrapper(() => this.feedbackFormService.remove(+id));
+  }
+  @Put("/status/:id")
+  @UseGuards(JwtAuthGuard)
+  async updateStatus(@Param("id") id: string, @Body() body: { isDraft: string }) {
+    return await apiWrapper(() => this.feedbackFormService.updateStatus(+id, body.isDraft));  
   }
 }

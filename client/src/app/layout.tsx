@@ -37,6 +37,11 @@ export default async function RootLayout({
       tags: ["categories"],
     },
   }).then((res) => res.json());
+  const subCategories = await fetch(process.env.BASE_URL + `/subcategory`, {
+    next: {
+      tags: ["subcategories"],
+    },
+  }).then((res) => res.json());
   const schools = await fetch(process.env.BASE_URL + "/school", {
     next: {
       tags: ["schools"],
@@ -62,7 +67,8 @@ export default async function RootLayout({
           <SidebarProvider>
             <GlobalStoreProvider
               categories={categories?.categories}
-              schools={schools}
+              subCategories={subCategories?.subcategories}
+              schools={schools?.schools}
             >
               {children}
               {Modal}

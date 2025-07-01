@@ -87,7 +87,7 @@ export default function CreatePost({
           </FormFeilds>
         </div>
         <FormFeilds
-          fieldProps={{ name: "body", className: "w-full" }}
+          fieldProps={{ name: "body",}}
           label={{ text: "Post Body" }}
         >
           {(field) => (
@@ -98,7 +98,7 @@ export default function CreatePost({
             />
           )}
         </FormFeilds>
-        <UploadFilePreview inputName={"image"} label={"Featured Image"} />
+        <UploadFilePreview inputName={"image"} label={"Featured Image"} url={defaultValues?.image}/>
       </div>
       <Button variant="primary" loading={isPending} type="submit">
         Save Post

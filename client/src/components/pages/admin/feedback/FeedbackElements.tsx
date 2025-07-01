@@ -20,53 +20,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
-import { GeneralFormSchema, QuestionFormSchema } from "@/lib/schemas";
-import { detailHeading } from "@/data/constant";
-
-export const TitleInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
-    return (
-        <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-                <FormItem>
-                    <FormLabel>Feedback Title</FormLabel>
-                    <FormControl>
-                        <Input placeholder="Enter feedback title" {...field} maxLength={100} />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
-    )
-}
+import { QuestionFormSchema } from "@/lib/schemas";
 
 
-// export const SwitchInput = ({ form }: {form: UseFormReturn<z.infer<typeof GeneralFormSchema>>}) => {
-
-//     return (
-//         <div className="flex flex-col gap-4">
-//             <Label>Feedback Details</Label>
-//             <div className="grid lg:grid-cols-4 xl:grid-cols-5  sm:grid-cols-2 gap-2">
-//                 {Object.keys(form.getValues('details')).map((detail) => (
-//                     <FormField
-//                         key={detail}
-//                         control={form.control}
-//                         name={`details.${detail}` as any}
-//                         render={({ field }) => (
-//                             <FormItem className="flex items-center justify-between">
-//                                 <Label className="capitalize">{detailHeading[detail]}</Label>
-//                                 <FormControl>
-//                                     <Switch checked={field.value} onCheckedChange={field.onChange} />
-//                                 </FormControl>
-//                             </FormItem>
-//                         )}
-//                     />
-//                 ))}
-//             </div>
-//         </div>
-//     )
-// }
 
 
 export const MultipleChoiceInput = ({ form }: { form: UseFormReturn<z.infer<typeof QuestionFormSchema>> }) => {

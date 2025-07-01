@@ -4,11 +4,15 @@ export class CreatePostDto {
   @IsString()
   title: string;
 
+  @IsString()
+  @IsOptional()
+  id?: string;
+
   @IsEnum(["active", "draft"])
   status: "active" | "draft";
 
-  @IsBoolean()
-  featured: boolean;
+  @IsString()
+  featured: string;
 
   @IsOptional()
   @IsString()

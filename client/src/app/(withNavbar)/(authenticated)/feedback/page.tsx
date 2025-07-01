@@ -22,7 +22,7 @@ export default async function FeedbacksPage({ searchParams }: { searchParams: an
     ];
 
     return (
-        <TitleWrapper  title="Feedbacks" desc="Here are the recent feedback forms. You can go here to create a new feedback form.">
+        <TitleWrapper  title="Feedback Forms" desc="Here are the recent feedback forms. You can go here to create a new feedback form.">
             <Stats stats={stats}/>
             <RecentFeedback data={data}/>
         </TitleWrapper>
