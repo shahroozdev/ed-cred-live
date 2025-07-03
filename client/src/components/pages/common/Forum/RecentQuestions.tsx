@@ -3,7 +3,7 @@ import { API_BASE_URL } from "@/api/config";
 import { useEffect, useState } from "react";
 import { Separator } from "../../../ui/separator";
 import { MessageSquareMoreIcon, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePRouter } from "@/hooks/useRouter";
 
 interface Question {
     id:        number;
@@ -26,7 +26,7 @@ export const RecentQuestions = () => {
         fetchQuestions();
     }, []);
 
-    const router = useRouter();
+    const router = usePRouter();
 
     return(
         <div className="outline-muted _outline-2 mx-auto my-auto mt-10 flex h-full max-w-2xl flex-col gap-2 rounded-md p-4 mb-10">

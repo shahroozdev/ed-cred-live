@@ -6,13 +6,14 @@ import { UserBubble } from "./UserBubble";
 import { UserProfile } from "@/types/user";
 import DrawerBtn from "../../sidebar/mobileSidebar";
 import { ThemeToggle } from "@/components/atoms/themeToggle/ThemeToggle";
+import PLink from "@/components/atoms/link";
 
 
 const Navbar = ({ user }: { user: UserProfile }) => {
   return (
     <div className="!sticky !top-0 left-0 flex h-[70px] w-full items-center justify-center bg-background border-b-[1px] shadow-md sm:px-8 px-2 z-10 text-[var(--mt-pre-color)]">
       <div className="w-full flex items-center justify-between py-4">
-        <div className="flex items-center justify-center gap-2 md:gap-4">
+        <PLink href={'/'} className="flex items-center justify-center gap-2 md:gap-4 cursor-pointer">
           <Image
             src="/images/logo.png"
             width={50}
@@ -21,7 +22,7 @@ const Navbar = ({ user }: { user: UserProfile }) => {
             className="w-8 md:w-[50px]"
           />
           <div className="sm:text-lg text-base font-[500] md:text-2xl">Ed-Cred</div>
-        </div>
+        </PLink>
 
         <div className="flex items-center sm:gap-4 gap-2">
           {/* <MenuList/> */}

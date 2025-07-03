@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
 import { API_BASE_URL } from "@/api/config";
 import { Loader } from "@/components/ui/loader";
 import { Button } from "@/components/atoms";
+import { usePRouter } from "@/hooks/useRouter";
 
 
 export default function VerifyPage() {
@@ -12,7 +13,7 @@ export default function VerifyPage() {
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
-  const router = useRouter();
+  const router = usePRouter();
 
   useEffect(() => {
     if (!token) {

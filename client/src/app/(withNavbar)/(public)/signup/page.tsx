@@ -2,10 +2,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/atoms";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 import { SignupFormData, signupSchema } from "@/lib/schemas";
 import { useMutate } from "@/hooks/generalHooks";
 import TitleWrapper from "@/components/atoms/titleWrapper";
+import Image from "next/image";
 
 const SignupPage = () => {
 
@@ -113,20 +114,27 @@ const SignupPage = () => {
       </div>
 
       <div className="flex w-full max-w-md flex-col gap-3">
-        <button className="w-full rounded-2xl bg-[#F3F9FA] px-6 py-3 text-black">
-          Sign up with Google
-        </button>
-        <button className="w-full rounded-2xl bg-[#F3F9FA] px-6 py-3 text-black">
+        <div className="w-full !flex !gap-2 !max-h-[40px] border items-center justify-center cursor-pointer rounded-md">
+          <Image
+            src="/icons/google_icon.svg"
+            width={24}
+            height={24}
+            alt="google_icon"
+            className="w-[30px] h-full"
+          />
+          <span> Sign up with Google</span>
+        </div>
+        {/* <button className="w-full rounded-2xl bg-[#F3F9FA] px-6 py-3 text-black">
           Sign up with Facebook
-        </button>
+        </button> */}
         <div className="text-center">
           Already have an account?{" "}
-          <Link
+          <PLink
             href={"/login"}
             className="text-primary cursor-pointer font-bold"
           >
             Sign in
-          </Link>
+          </PLink>
         </div>
       </div>
     </div>

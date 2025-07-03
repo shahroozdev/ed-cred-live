@@ -32,7 +32,7 @@ const EdCredSection = () => {
                     {/* Larger Image */}
                     <div className="relative w-56 h-56 md:w-55 md:h-55 -right-20">
                         <Image
-                            src="/images/AboutUs/Papers.jpeg"
+                            src="/images/4.png"
                             alt="Educational setting"
                             layout="fill"
                             objectFit="cover"
@@ -43,7 +43,7 @@ const EdCredSection = () => {
                     {/* Overlapping Smaller Image */}
                     <div className="absolute w-50 h-60 top-28 md:top-40 ">
                         <Image
-                            src="/images/AboutUs/meeting.jpeg"
+                            src="/images/6.png"
                             alt="Learning environment"
                             layout="fill"
                             objectFit="cover"

@@ -3,17 +3,16 @@ import {
   getServerSideDataWithFeatures,
   getStringCookie,
   mutateData,
-  removeCookie,
   revalidateTags,
   revalidateWholeRoute,
 } from "@/actions/serverActions";
 import apiClient from "@/lib/apiClient";
 import { appendDataToFormData } from "@/lib/utils";
 import { QueryProps } from "@/types";
-// import { QueryProps } from "@/types/entities";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState, useEffect, createContext, useContext } from "react";
 import { toast } from "sonner";
+import { usePRouter } from "./useRouter";
 
 export const SafariContext = createContext<boolean>(false);
 export const GlobalStore = createContext<any[]>([]);
@@ -75,7 +74,7 @@ export async function MutateFunc(value: {
 }
 export const useMutate = () => {
   const path = usePathname();
-  const router = useRouter();
+  const router = usePRouter();
   const [isPending, setIsPending] = useState(false);
 
   async function MutateFunc(value: {

@@ -12,14 +12,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 import { useRef } from "react";
 import { ThemeToggle } from "@/components/atoms/themeToggle/ThemeToggle";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { removeCookie } from "@/actions/serverActions";
 import { UserBubble } from "./UserBubble";
 import DrawerBtn from "../../sidebar/mobileSidebar";
+import { usePRouter } from "@/hooks/useRouter";
 
 export const AdminNavbar = ({ user }: { user: any }) => {
   return (
@@ -38,7 +39,7 @@ export const AdminNavbar = ({ user }: { user: any }) => {
 };
 
 export function UserNav({ user: profile }: { user: Record<any, any> }) {
-  const router = useRouter();
+  const router = usePRouter();
   const logoutAndRedirect = async () => {
     localStorage.removeItem("token");
     await removeCookie("user");
@@ -122,7 +123,7 @@ export function MainNav({ className, ...props }: MainNavProps) {
         className="overflow-x-auto scrollbar-none flex items-center space-x-4 lg:space-x-6 px-6"
       >
         {links.map(({ href, label }) => (
-          <Link
+          <PLink
             key={href}
             href={href}
             className={cn(
@@ -133,7 +134,7 @@ export function MainNav({ className, ...props }: MainNavProps) {
             )}
           >
             {label}
-          </Link>
+          </PLink>
         ))}
       </nav>
 

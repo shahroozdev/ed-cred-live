@@ -37,12 +37,13 @@ const QuestionList = ({feedback, disabled}: {feedback: Record<string, any>; disa
               fieldProps={{ name: `answers.${index}.answer`, className: "" }}
             >
               {(fieldProps) => {
+                console.log(fieldProps.value, 'ratting')
                 if (inputType === "rating") {
                   return (
                     <RatingInput
                       color="red"
                       //@ts-ignore
-                      value={fieldProps.value ?? ""}
+                      value={fieldProps.value||0}
                       onChange={fieldProps.onChange}
                       disabled={disabled}
                     />

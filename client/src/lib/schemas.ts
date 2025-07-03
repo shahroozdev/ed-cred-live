@@ -84,7 +84,7 @@ export const imageSchema = z
   .refine((file) => file?.size <= 2 * 1024 * 1024, {
     message: "Max file size is 2MB",
   });
-export const feedbackCreateResponseSchema = (feedback:any) => {
+export const feedbackCreateResponseSchema = (feedback: any) => {
   return z.object({
     details: z.object({
       revieweeName: z.string().min(1, "Field is required."),
@@ -150,7 +150,8 @@ export const disputeSchema = z.object({
     .optional()
     .refine(
       (file) =>
-        !file || ["image", "video", "audio", "application"].some((type) =>
+        !file ||
+        ["image", "video", "audio", "application"].some((type) =>
           file.type.startsWith(type)
         ),
       {
@@ -163,18 +164,46 @@ export const disputeSchema = z.object({
   }),
 });
 
-export const disputeTimelineSchema =z.object({
+export const disputeTimelineSchema = z.object({
   message: z.string().min(1, { message: "Message is required" }),
   attachment: z
     .instanceof(File)
     .optional()
     .refine(
       (file) =>
-        !file || ["image", "video", "audio", "application"].some((type) =>
+        !file ||
+        ["image", "video", "audio", "application"].some((type) =>
           file.type.startsWith(type)
         ),
       {
         message: "Attachment must be an image, video, audio, or document file",
       }
     ),
-})
+});
+
+export const changePasswordSchema = z
+  .object({
+    oldPassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
+    newPassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export const profileSchema = z.object({
+  fname: z.string().optional(),
+  lname: z.string().optional(),
+  country: z.string().optional(),
+  state: z.string().optional(),
+  education: z.string().optional(),
+  profession: z.string().optional(),
+  bio: z.string().optional(),
+});

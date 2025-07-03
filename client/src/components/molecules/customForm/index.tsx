@@ -8,11 +8,11 @@ import { cn } from "@/lib/utils";
 import { CustomFormProps } from "@/types";
 import { CustomInput } from "@/components/atoms";
 import { X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePRouter } from "@/hooks/useRouter";
 
 const CustomForm = ({ props }: { props: CustomFormProps }) => {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
+  const router = usePRouter();
   const {
     schema,
     preNode,

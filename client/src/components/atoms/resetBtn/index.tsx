@@ -1,8 +1,8 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React, { Dispatch, SetStateAction, useTransition } from "react";
 import Button from "../button/Button";
 import { useFormContext } from "react-hook-form";
+import { usePRouter } from "@/hooks/useRouter";
 
 const ResetBtn = ({
   setIsOpen,
@@ -10,7 +10,7 @@ const ResetBtn = ({
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
+  const router = usePRouter();
   const { reset, getValues } = useFormContext();
   return (
     <Button

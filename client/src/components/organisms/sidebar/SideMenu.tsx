@@ -35,7 +35,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 import { Dispatch, SetStateAction } from "react";
 
 export const SideMenu = () => {
@@ -143,7 +143,7 @@ export function NavMain({
                     </>
                   ) : (
                     <span onClick={()=>setIsOpen&&setIsOpen(false)}>
-                      <Link href={item.url}>{item.title}</Link>
+                      <PLink href={item.url}>{item.title}</PLink>
                     </span>
                   )}
                 </SidebarMenuButton>
@@ -153,9 +153,9 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <Link href={`${item.url}${subItem.url}`}>
+                        <PLink href={`${item.url}${subItem.url}`}>
                           <span onClick={()=>setIsOpen&&setIsOpen(false)}>{subItem.title}</span>
-                        </Link>
+                        </PLink>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

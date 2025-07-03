@@ -2,12 +2,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/atoms";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 import { useMutate } from "@/hooks/generalHooks";
 import { signupSchema, SignupFormData } from "@/lib/schemas";
+import Image from "next/image";
 
-const SignupPage = () => {
-
+const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status: boolean; type: string }>>}) => {
   const { MutateFunc, isPending } = useMutate();
   const {
     register,
@@ -111,20 +111,27 @@ const SignupPage = () => {
       </div>
 
       <div className="flex w-full max-w-md flex-col gap-3">
-        <button className="w-full rounded-2xl bg-[#F3F9FA] px-6 py-3 text-black">
-          Sign up with Google
-        </button>
-        <button className="w-full rounded-2xl bg-[#F3F9FA] px-6 py-3 text-black">
+        <div className="w-full !flex !gap-2 !max-h-[40px] border items-center justify-center cursor-pointer rounded-md">
+          <Image
+            src="/icons/google_icon.svg"
+            width={24}
+            height={24}
+            alt="google_icon"
+            className="w-[30px] h-full"
+          />
+          <span> Sign up with Google</span>
+        </div>
+        {/* <button className="w-full rounded-2xl bg-[#F3F9FA] px-6 py-3 text-black">
           Sign up with Facebook
-        </button>
+        </button> */}
         <div className="text-center">
           Already have an account?{" "}
-          <Link
-            href={"/login"}
+          <span
             className="text-primary cursor-pointer font-bold"
+            onClick={() => setOpen({ status: true, type: "login" })}
           >
             Sign in
-          </Link>
+          </span>
         </div>
       </div>
     </>

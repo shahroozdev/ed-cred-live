@@ -20,7 +20,8 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { CustomTableProps } from "@/types";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { usePRouter } from "@/hooks/useRouter";
 
 const CustomTable = ({
   data = [],
@@ -36,7 +37,7 @@ const CustomTable = ({
   const [columnFilters, setColumnFilters] = useState<any>([]);
   const [columnVisibility, setColumnVisibility] = useState<any>({});
 
-  const router = useRouter();
+  const router = usePRouter();
   const searchParams = useSearchParams();
 
   const table = useReactTable({

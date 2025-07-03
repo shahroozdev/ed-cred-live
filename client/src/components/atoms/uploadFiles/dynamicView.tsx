@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import { CustomAudioPlayer } from "../players/audioPlayer";
 import { typeOfFile } from "@/lib/utils";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 
 const DynamicView = ({ file, url }: { file?: File; url?: any }) => {
   const type = url
@@ -21,7 +21,7 @@ const DynamicView = ({ file, url }: { file?: File; url?: any }) => {
       ) : type === "audio" ? (
         <CustomAudioPlayer title={title!} url={blobUrl} />
       ) : (
-        <Link href={url?blobUrl:'#'} className="flex flex-col h-full w-full">
+        <PLink href={url?blobUrl:'#'} className="flex flex-col h-full w-full">
           <Image
             src={type === "application" ? `/images/${extension}.png` : blobUrl}
             height={500}
@@ -37,7 +37,7 @@ const DynamicView = ({ file, url }: { file?: File; url?: any }) => {
           <div className={"text-black text-center my-2 text-xs"}>
             {"..."+title?.slice(-20) }
           </div>
-        </Link>
+        </PLink>
       )}
     </>
   );

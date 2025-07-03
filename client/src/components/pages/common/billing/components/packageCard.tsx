@@ -1,10 +1,10 @@
 'use client'
+import { usePRouter } from '@/hooks/useRouter'
 import { CircleCheckIcon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const PackageCard = ({plan}:{plan:Record<string, any>}) => {
-    const router = useRouter();
+    const router = usePRouter();
   return (
     <div className={`p-6 rounded-4xl flex flex-col shadow-md bg-white text-black ${plan.title==="Pro" ? "lg:scale-115" : ""}`}>
             <div className="text-2xl font-semibold">{plan.title}</div>

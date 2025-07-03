@@ -1,13 +1,13 @@
-import { Geist, Inter } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import "react-quill-new/dist/quill.snow.css";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/Common/theme-provider";
 import { ReactNode } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { getServerSideDataWithFeatures } from "@/actions/serverActions";
-import { GlobalStore } from "@/hooks/generalHooks";
 import GlobalStoreProvider from "@/lib/GlobalStore";
+import ProgressProvider from "@/lib/ProgressProvider";
+import { getStaticPropsData } from "@/lib/StaticPropsFetch";
 
 export const metadata = {
   title: "Ed-Cred",
@@ -32,21 +32,7 @@ export default async function RootLayout({
   children: ReactNode;
   Modal: ReactNode;
 }) {
-  const categories = await fetch(process.env.BASE_URL + `/category`, {
-    next: {
-      tags: ["categories"],
-    },
-  }).then((res) => res.json());
-  const subCategories = await fetch(process.env.BASE_URL + `/subcategory`, {
-    next: {
-      tags: ["subcategories"],
-    },
-  }).then((res) => res.json());
-  const schools = await fetch(process.env.BASE_URL + "/school", {
-    next: {
-      tags: ["schools"],
-    },
-  }).then((res) => res.json());
+  const {categories, subCategories, schools} = await getStaticPropsData();
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -70,6 +56,7 @@ export default async function RootLayout({
               subCategories={subCategories?.subcategories}
               schools={schools?.schools}
             >
+              <ProgressProvider/>
               {children}
               {Modal}
             </GlobalStoreProvider>

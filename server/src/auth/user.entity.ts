@@ -44,7 +44,23 @@ export class User {
     };
 
     @Column({ nullable: true })
-    profile_picture?: string;
+    country?: string;
+
+    @Column({ nullable: true })
+    state?: string;
+    @Column({ nullable: true })
+    fname?: string;
+
+    @Column({ nullable: true })
+    lname?: string;
+
+    @Column({ nullable: true })
+    education?: string;
+
+    @Column({ nullable: true })
+    profession?: string;
+    @Column({ nullable: true })
+    bio?: string;
 
     @Column({ default: false })
     isVerified: boolean;

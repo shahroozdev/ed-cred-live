@@ -1,5 +1,5 @@
 import { CategoryCard, TitleWrapper } from "@/components/atoms";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 
 const ReviewPage = async () => {
@@ -33,13 +33,13 @@ console.log(data)
           {data?.feedbacks?.map(
             (feedback: Record<any, any>) =>
               feedback?.category && (
-                <Link
+                <PLink
                   href={`/review/${feedback?.category?.id}/${feedback?.subcategory?.id}`}
                   key={feedback?.category?.id}
                   className="min-w-[270px] h-full cursor-pointer hover:scale-110 !p-5 transition-all duration-300 ease-in-out"
                 >
                   <CategoryCard title={feedback?.category?.name} />
-                </Link>
+                </PLink>
               )
           )}
         </div>

@@ -9,11 +9,11 @@ import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader,
 import { usePostStore } from "@/store/usePostStore";
 import { Search, XCircle, Trash2, Star, ExternalLinkIcon } from "lucide-react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { usePRouter } from "@/hooks/useRouter";
 
 export function PostsListing() {
     const { posts, fetchPosts, removePost } = usePostStore(); 
-    const router = useRouter();
+    const router = usePRouter();
 
     useEffect(() => {
         fetchPosts();

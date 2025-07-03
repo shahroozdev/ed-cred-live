@@ -12,11 +12,12 @@ const Header = () => {
             <Searchbar />
             <div className="masked">
                 <Image
-                    src={"/images/background.png"}
+                    src={"/images/7.jpg"}
                     width={900}
                     height={500}
                     alt='header-background'
                     className='w-full md:max-h-[500px] max-h-[300px]'
+                    priority
                 />
             </div>
             </div>

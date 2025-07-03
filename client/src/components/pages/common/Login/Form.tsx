@@ -1,12 +1,12 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import { loginSchema, LoginSchema } from "@/lib/schemas";
 import { useMutate } from "@/hooks/generalHooks";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
+import { usePRouter } from "@/hooks/useRouter";
 
 export function LoginForm({
   className,
@@ -14,7 +14,7 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"form"> & {handleClose?:()=>void}) {
   const { MutateFunc, isPending } = useMutate();
 
-  const router = useRouter();
+  const router = usePRouter();
 
   const onSubmit = async (values: LoginSchema) => {
     const res = await MutateFunc({
@@ -68,12 +68,12 @@ export function LoginForm({
             />
           )}
         </FormFeilds>
-        <Link
+        <PLink
           href="/forgot-password"
           className="ml-auto text-sm underline-offset-4 hover:underline"
         >
           Forgot your password?
-        </Link>
+        </PLink>
 
         <Button type="submit" className="w-full" loading={isPending}>
           Login
@@ -96,9 +96,9 @@ export function LoginForm({
       </div>
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-primary cursor-pointer font-bold">
+        <PLink href="/signup" className="text-primary cursor-pointer font-bold">
           Sign up
-        </Link>
+        </PLink>
       </div>
     </FormTemplate>
   );

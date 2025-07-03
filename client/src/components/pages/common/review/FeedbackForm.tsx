@@ -8,7 +8,7 @@ import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import { feedbackCreateResponseSchema } from "@/lib/schemas";
 import { useMutate } from "@/hooks/generalHooks";
 import UploadFiles from "@/components/atoms/uploadFiles";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 
 const FeedbackForm = ({
   feedback,
@@ -140,19 +140,19 @@ const attachmentUrls =
             />
             <span>
               I agree to the{" "}
-              <Link
+              <PLink
                 href={"/terms-of-use"}
                 className="text-primary font-semibold"
               >
                 Terms of Service
-              </Link>{" "}
+              </PLink>{" "}
               and{" "}
-              <Link
+              <PLink
                 href={"/web-use-policy"}
                 className="text-primary font-semibold"
               >
                 Privacy Policy.
-              </Link>
+              </PLink>
             </span>
           </div>
         )}

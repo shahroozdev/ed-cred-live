@@ -1,9 +1,8 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
-
 import { ArrowRightIcon, FacebookIcon, LinkedinIcon, TwitterIcon } from 'lucide-react'
 import { Button } from '@/components/atoms'
+import PLink from '@/components/atoms/link'
 
 
 const Footer = () => {
@@ -22,10 +21,10 @@ const Footer = () => {
             </div>
             <div className="flex flex-col gap-4 text-[400]">
                 <div className="text-2xl font-[700]">Quick Links</div>
-                <Link href={'/about'}>About</Link>
-                <Link href={'/contact'}>Contact Us</Link>
-                <Link href={'/terms-of-use'}>Terms & Conditions</Link>
-                <Link href={'/web-use-policy'}>Privacy Policy</Link>
+                <PLink href={'/about'}>About</PLink>
+                <PLink href={'/contact'}>Contact Us</PLink>
+                <PLink href={'/terms-of-use'}>Terms & Conditions</PLink>
+                <PLink href={'/web-use-policy'}>Privacy Policy</PLink>
             </div>
             <div className="flex flex-col gap-4 md:col-span-2">
                 <div className='text-2xl font-[700]'>Try It Today</div>

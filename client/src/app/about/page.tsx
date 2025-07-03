@@ -9,6 +9,7 @@ const AboutPage = async () => {
   const user = await getServerSideDataWithFeatures({
     url: "/auth/profile",
     key: "profile",
+    noRedirect:true,
   });
   return (
     <div className="min-h-screen h-full max-w-screen bg-background relative">

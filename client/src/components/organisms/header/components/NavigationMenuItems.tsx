@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
@@ -26,29 +26,29 @@ export function NavigationMenuItems({user}:{user?:UserProfile}) {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href="/review" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+          <PLink href="/review" className={navigationMenuTriggerStyle()}>
+            {/* <NavigationMenuLink className={navigationMenuTriggerStyle()}> */}
               Give Feedback
-            </NavigationMenuLink>
-          </Link>
+            {/* </NavigationMenuLink> */}
+          </PLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href="/dashboard" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+          <PLink href="/dashboard" className={navigationMenuTriggerStyle()}>
+            {/* <NavigationMenuLink className={navigationMenuTriggerStyle()}> */}
               Read Feedback
-            </NavigationMenuLink>
-          </Link>
+            {/* </NavigationMenuLink> */}
+          </PLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuTrigger>Recent Posts</NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className="w-lg gap-1 p-2 flex flex-col">
-              {posts &&
+              {posts?.data?.posts?.length ?
                 posts?.data?.posts?.map(
                   (post: Record<string, any>, index: number) => (
-                    <ListItem key={index} href={`/posts/${post?.id}`}>
+                    <PLink key={index} href={`/posts/${post?.id}`}>
                       <div className="font-semibold text-foreground">
                         {post.title}
                       </div>
@@ -56,51 +56,29 @@ export function NavigationMenuItems({user}:{user?:UserProfile}) {
                         value={post?.body}
                         className="line-clamp-2 !overflow-hidden !p-0"
                       />
-                    </ListItem>
+                    </PLink>
                   )
-                )}
+                ):<p className="text-center">No data found</p>}
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        {user&&<NavigationMenuItem>
-          <Link href="/disputes/manage" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+        {user?.name&&<NavigationMenuItem>
+          <PLink href="/disputes/manage" className={navigationMenuTriggerStyle()}>
+            {/* <NavigationMenuLink className={navigationMenuTriggerStyle()}> */}
               Dispute Management
-            </NavigationMenuLink>
-          </Link>
+            {/* </NavigationMenuLink> */}
+          </PLink>
         </NavigationMenuItem>}
         <NavigationMenuItem>
-          <Link href="/contact" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+          <PLink href="/contact" className={navigationMenuTriggerStyle()}>
+            {/* <NavigationMenuLink className={navigationMenuTriggerStyle()}> */}
               Contact Us
-            </NavigationMenuLink>
-          </Link>
+            {/* </NavigationMenuLink> */}
+          </PLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
 }
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, children, ...props }, ref) => {
-  return (
-    <NavigationMenuLink asChild>
-      <a
-        ref={ref}
-        className={cn(
-          "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-          className
-        )}
-        {...props}
-      >
-        <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-          {children}
-        </div>
-      </a>
-    </NavigationMenuLink>
-  );
-});
-ListItem.displayName = "ListItem";

@@ -15,15 +15,15 @@ const ProfileComponent = ({ user }: { user: Record<string, any> }) => {
     },
     {
       title: "Subscription Plan",
-      dynamic: user?.subscription?.status,
+      dynamic: user?.userPackage?.package?.title|| 'Free',
     },
     {
       title: "Package",
-      dynamic: user?.subscription?.plan,
+      dynamic: user?.userPackage?.package?.title|| 'None',
     },
     {
-      title: "Role",
-      dynamic: user?.role,
+      title: "Package Expire at",
+      dynamic: user?.userPackage?.expireAt || 'None',
     },
     {
       title: "Category",
@@ -39,7 +39,7 @@ const ProfileComponent = ({ user }: { user: Record<string, any> }) => {
             {user.profilePictureUrl ? (
               <div className="w-full h-full rounded-full overflow-hidden">
                 <Image
-                  src={process.env.BASE_URL + user.profilePictureUrl}
+                  src={process.env.BASE_URL + user?.profilePictureUrl}
                   alt={`{user.username} | ED-Cred`}
                   width={500}
                   height={500}

@@ -1,4 +1,5 @@
 import Button from "./button/Button";
+import CardTemplate from "./card";
 import CategoryCard from "./categoryCard";
 import { SubCategoryCard } from "./categoryCard/subCategory";
 import CategorySelect from "./categorySelect";
@@ -19,8 +20,8 @@ import SubCategorySelect from "./subCategorySelect";
 import { ThemeToggle } from "./themeToggle/ThemeToggle";
 import TitleWrapper from "./titleWrapper";
 import UploadProfilePic from "./uploadProfilePic";
-
 export {
+  CardTemplate,
   DisputeBtn,
   ResetBtn,
   SchoolSelect,

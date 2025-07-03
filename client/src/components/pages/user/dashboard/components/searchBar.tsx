@@ -1,14 +1,15 @@
 "use client";
 import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import { Input } from "@/components/ui/input";
+import { usePRouter } from "@/hooks/useRouter";
 import { SearchIcon } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useTransition } from "react";
 import { z } from "zod";
 
 const SearchBar = () => {
 
-  const router = useRouter();
+  const router = usePRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 

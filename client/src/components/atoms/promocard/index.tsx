@@ -2,11 +2,11 @@
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePRouter } from "@/hooks/useRouter";
 
 export const PromoCard = ({ title, desc, cta, url }: { title: string; desc: string; cta: string; url:string }) => {
     const [close, setClose] = useState(false);
-    const router = useRouter();
+    const router = usePRouter();
 
     return(
         <div 

@@ -2,11 +2,11 @@
 import { XIcon } from "lucide-react"
 import { Button } from "../../../ui/button"
 import { useState } from "react"
-import { useRouter } from "next/navigation";
+import { usePRouter } from "@/hooks/useRouter";
 
 export const AskQuestionCard = () => {
     const [close, setClose] = useState(false);
-    const router = useRouter();
+    const router = usePRouter();
 
     return(
         <div 

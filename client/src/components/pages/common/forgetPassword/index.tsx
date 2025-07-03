@@ -2,16 +2,16 @@
 import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import { Input } from "@/components/ui/input";
 import { useMutate } from "@/hooks/generalHooks";
+import { usePRouter } from "@/hooks/useRouter";
 import { ForgetPasswordSchema, forgetPasswordSchema } from "@/lib/schemas";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import PLink from "@/components/atoms/link";
 import React from "react";
 
 const ForgetPasswordForm = () => {
   const { MutateFunc, isPending } = useMutate();
 
-  const router = useRouter();
+  const router = usePRouter();
 
   const onSubmit = async (values: ForgetPasswordSchema) => {
     const res = await MutateFunc({
@@ -63,18 +63,18 @@ const ForgetPasswordForm = () => {
       <div className="flex flex-col text-center text-sm">
         <span>
           Don&apos;t have an account?{" "}
-          <Link
+          <PLink
             href="/signup"
             className="text-primary cursor-pointer font-bold"
           >
             Sign up
-          </Link>
+          </PLink>
         </span>
         <span>
           Remember your Password?{" "}
-          <Link href="/login" className="text-primary cursor-pointer font-bold">
+          <PLink href="/login" className="text-primary cursor-pointer font-bold">
             Login
-          </Link>
+          </PLink>
         </span>
       </div>
     </FormTemplate>

@@ -1,7 +1,7 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
+import PLink from "@/components/atoms/link";
 import StripeElement from "@/lib/stripeElement";
-import Link from "next/link";
 import React, { use } from "react";
 
 const PackagePurchase = async ({
@@ -63,12 +63,12 @@ const PackagePurchase = async ({
               The package you're trying to purchase doesn't exist or has been
               removed.
             </p>
-            <Link
+            <PLink
               href="/pricing"
               className="mt-6 inline-block cursor-pointer bg-indigo-600 text-white px-6 py-2 rounded-md shadow hover:bg-indigo-700 transition"
             >
               View Available Packages
-            </Link>
+            </PLink>
           </div>
         )}
       </>

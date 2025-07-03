@@ -21,7 +21,7 @@ import { RolesGuard } from "../guards/roles.guard";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { response, UserRole } from "../types";
 import { User } from "./user.entity";
-import { CreateUserDto, LoginUserDto, SubscribeDto } from "./dto";
+import { ChangePasswordDto, CreateUserDto, LoginUserDto, SubscribeDto } from "./dto";
 import { Response } from "express";
 import { ApiConsumes } from "@nestjs/swagger";
 import { UploadFile } from "../decorators/upload-file-decorator";
@@ -42,6 +42,16 @@ export class AuthController {
     @Body() { identifier, password }: LoginUserDto
   ): Promise<response & { token?: string; user?: User }> {
     return apiWrapper(() => this.authService.login(identifier, password));
+  }
+  @Post("change-password")
+    @UseGuards(JwtAuthGuard)
+  async changePassword(
+    @Req() req,
+    @Body() { oldPassword, newPassword }: ChangePasswordDto
+  ): Promise<response & { token?: string; user?: User }> {
+    return apiWrapper(() =>
+      this.authService.changePassword(req.user.id, oldPassword, newPassword)
+    );
   }
 
   @Get("profile")
@@ -151,7 +161,7 @@ export class AuthController {
   async updateProfile(
     @UploadedFile() file: Express.Multer.File,
     @Req() req,
-    updateProfileDto: any
+    @Body() updateProfileDto: any
   ) {
     const url = file ? `/uploads/profile-images/${file?.filename}` : null;
     return await apiWrapper(() =>

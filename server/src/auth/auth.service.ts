@@ -122,8 +122,15 @@ export class AuthService {
         "isVerified",
         "verificationDocumentUrl",
         "profilePictureUrl",
+        "country",
+        "state",
+        "education",
+        "profession",
+        "bio",
+        "fname",
+        "lname"
       ],
-      relations: ["category"],
+      relations: ["category", "UserPackage", "UserPackage.package"],
     });
 
     if (!user) throw new UnauthorizedException("User not found");
@@ -160,7 +167,7 @@ export class AuthService {
         "verificationDocumentUrl",
         "profilePictureUrl",
       ],
-      relations: ["category"],
+      relations: ["category", "UserPackage", "UserPackage.package"],
       skip: (page - 1) * pageSize,
       take: pageSize,
       order: {
@@ -297,16 +304,10 @@ export class AuthService {
       throw new NotFoundException("User not found");
     }
 
-    const updatedData: Partial<User> = {};
-
-    // ✅ Merge DTO fields if present
-    if (updateProfileDto?.username)
-      updatedData.username = updateProfileDto.username;
-    if (updateProfileDto?.email) updatedData.email = updateProfileDto.email;
-
+    const updatedData: Partial<User> = { ...(updateProfileDto || {}) };
+      console.log(updatedData)
     // ✅ Add file URL if present
     if (file) updatedData.profilePictureUrl = file;
-
     // ✅ Only update if something is changing
     if (Object.keys(updatedData).length === 0) {
       throw new BadRequestException("Nothing to update");
@@ -358,6 +359,30 @@ export class AuthService {
     return {
       status: 200,
       message: "User package has been subscribed successfully.",
+    };
+  }
+  async changePassword(
+    userId: number,
+    oldPassword: string,
+    newPassword: string
+  ): Promise<response> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordValid) {
+      throw new NotFoundException("Old password is incorrect");
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await this.userRepository.save(user);
+    return {
+      status: 200,
+      message: "Password changed successfully",
     };
   }
 }

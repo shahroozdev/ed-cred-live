@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 
 export default async function WelcomePage() {
@@ -28,10 +28,10 @@ export default async function WelcomePage() {
                         You’ve successfully joined Ed Cred. Start by exploring schools or leaving your first review!
                     </p>
                     <div className="flex flex-col gap-3">
-                        <Link href="/dashboard" className="border-2">Explore Schools</Link>
-                        <Link href="/review" className="border-2">
+                        <PLink href="/dashboard" className="border-2">Explore Schools</PLink>
+                        <PLink href="/review" className="border-2">
                             Leave a Review
-                        </Link>
+                        </PLink>
                     </div>
                 </CardContent>
             </Card>

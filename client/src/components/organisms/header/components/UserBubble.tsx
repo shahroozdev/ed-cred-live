@@ -9,13 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { usePRouter } from "@/hooks/useRouter";
 import { UserProfile } from "@/types/user";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 export const UserBubble = ({ user }: { user: UserProfile }) => {
-  const router = useRouter();
+  const router = usePRouter();
   async function logout() {
     localStorage.removeItem("token");
     await removeCookie("user");

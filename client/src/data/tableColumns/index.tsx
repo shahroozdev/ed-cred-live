@@ -36,7 +36,7 @@ import {
   UserCheck,
   X,
 } from "lucide-react";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 import React, {
   Dispatch,
   ReactElement,
@@ -197,9 +197,9 @@ export const action = ({
               className="cursor-pointer text-white px-2"
             >
               {" "}
-              <Link href={`${view}/${data?.id}`} title={"View"}>
+              <PLink href={`${view}/${data?.id}`} title={"View"}>
                 <Eye />
-              </Link>
+              </PLink>
             </IconButton>
           )}
           {accept && (
@@ -251,9 +251,9 @@ export const action = ({
               className="cursor-pointer text-white px-2"
             >
               {" "}
-              <Link href={`${edit}/${data?.id}`} title={"Edit"}>
+              <PLink href={`${edit}/${data?.id}`} title={"Edit"}>
                 <Pencil size={20} />
-              </Link>
+              </PLink>
             </IconButton>
           )}
           {editModal && (

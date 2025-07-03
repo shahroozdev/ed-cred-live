@@ -1,5 +1,5 @@
 import { ArrowsUpFromLine, ChevronRightIcon, EyeIcon } from "lucide-react";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 import { Button } from "../ui/button";
 import { useFeedbackStore } from "@/store/createFeedbackStore";
 import { sendFeedback } from "@/api/feedback";
@@ -16,9 +16,9 @@ const Route = ({ route }: { route: string[] }) => {
                     {
                         route.map((path, index) => (
                             <div className="flex items-center justify-center" key={`breadcrumbs-${index}`}>
-                                <Link href={path} className={`${index == route.length - 1 ? "text-black" : "text-gray-600"}`}>
+                                <PLink href={path} className={`${index == route.length - 1 ? "text-black" : "text-gray-600"}`}>
                                     {path}
-                                </Link>
+                                </PLink>
                                 {index == route.length - 1 ? null : <span className="ml-1"><ChevronRightIcon size={16} stroke="#4a5565" /></span>}
                             </div>
                         )

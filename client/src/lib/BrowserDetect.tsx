@@ -1,10 +1,10 @@
 "use client";
 import { SafariContext } from "@/hooks/generalHooks";
-import {useRouter} from "next/navigation";
+import { usePRouter } from "@/hooks/useRouter";
 import { ReactNode, useEffect, useState} from "react";
 
 const BrowserDetect = ({children}: {children: ReactNode}) => {
-  const router = useRouter();
+  const router = usePRouter();
   const [safari, setSafari] = useState(false);
 
   useEffect(() => {

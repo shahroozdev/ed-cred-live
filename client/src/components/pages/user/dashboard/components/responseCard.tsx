@@ -1,8 +1,8 @@
 "use client";
+import { usePRouter } from "@/hooks/useRouter";
 import { imagesUrls } from "@/types";
 import { AppleIcon, ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React from "react";
 import { v4 } from "uuid";
 
@@ -16,7 +16,7 @@ const ResponseCard = ({
   hideRating?: boolean;
   noImage?:boolean;
 }) => {
-  const router = useRouter();
+  const router = usePRouter();
   let totalRating = 0;
   let count = 0;
 

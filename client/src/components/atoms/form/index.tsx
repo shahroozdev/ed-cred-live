@@ -72,8 +72,10 @@ const FormTemplate = ({
   // Wrap the onSubmit prop to reset the form after submission
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
-      await onSubmit(data); // Execute the provided onSubmit logic
-      form.reset(); // Reset the form after successful submission
+      const res:any = await onSubmit(data); // Execute the provided onSubmit logic
+      if(res?.status === 200){
+        form.reset(); // Reset the form after successful submission
+      }
     } catch (error) {
       console.error("Submission error", error);
     }

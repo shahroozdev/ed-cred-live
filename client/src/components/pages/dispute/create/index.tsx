@@ -5,21 +5,20 @@ import UploadFilePreview from "@/components/atoms/uploadAndPreview";
 import { Textarea } from "@/components/ui/textarea";
 import { types } from "@/data/constant";
 import { useMutate } from "@/hooks/generalHooks";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import PLink from "@/components/atoms/link";
+import { useParams } from "next/navigation";
 import React from "react";
-import { z } from "zod";
 import AccordionDispute from "./components/accordion";
 import StripeElement from "@/lib/stripeElement";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { disputeSchema } from "@/lib/schemas";
-import { Router } from "lucide-react";
+import { usePRouter } from "@/hooks/useRouter";
 
 const CreateDispute = () => {
   const params = useParams();
   const { MutateFunc, isPending } = useMutate();
-  const router = useRouter();
+  const router = usePRouter();
   const form = useForm({
     resolver: zodResolver(disputeSchema),
     defaultValues: {
@@ -80,19 +79,19 @@ const CreateDispute = () => {
                 <span className="text-primary font-semibold">
                   Dispute Claims Process,{" "}
                 </span>
-                <Link
+                <PLink
                   href={"/terms-of-use"}
                   className="text-primary font-semibold"
                 >
                   Terms of Service
-                </Link>{" "}
+                </PLink>{" "}
                 and{" "}
-                <Link
+                <PLink
                   href={"/web-use-policy"}
                   className="text-primary font-semibold"
                 >
                   Privacy Policy.
-                </Link>
+                </PLink>
               </span>
             </div>
           )}

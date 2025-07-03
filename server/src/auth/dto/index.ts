@@ -23,7 +23,16 @@ export class LoginUserDto {
 }
 
 export class SubscribeDto{
-  
   @IsNumber()
+  @IsNotEmpty()
   packageId: number;
+}
+
+export class ChangePasswordDto{
+  @IsString()
+  @MinLength(8)
+  oldPassword: string;
+  @IsString()
+  @MinLength(8)
+  newPassword: string;
 }

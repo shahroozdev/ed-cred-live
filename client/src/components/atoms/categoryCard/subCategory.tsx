@@ -1,16 +1,16 @@
 'use client'
 
 import { useMutate } from "@/hooks/generalHooks";
+import { usePRouter } from "@/hooks/useRouter";
 import { imagesUrls } from "@/types";
 import { Category } from "@/types/user";
-import { useRouter } from "next/navigation";
 
 export const SubCategoryCard = ({ category }: { category: Category }) => {
   const {MutateFunc} = useMutate()
-  const router = useRouter();
+  const router = usePRouter();
   const selectCategory = async (id:number|undefined) => {
     const res = await MutateFunc({url:'/auth/users/category',method:'POST', body:{categoryId:id}, tags:'', onSuccess:(result:any)=>{
-      console.log(result)
+
     if (result?.user?.isVerified) {
       router.push("/welcome");
     } else {
@@ -18,7 +18,7 @@ export const SubCategoryCard = ({ category }: { category: Category }) => {
     }
     }})
   };
-  console.log(category)
+
   return (
     <div
       className="flex cursor-pointer items-center sm:justify-center justify-start gap-4 rounded-3xl border border-[#E5F4F2] bg-white p-8 text-center shadow-lg sm:flex-col hover:shadow-xl"

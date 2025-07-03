@@ -1,11 +1,12 @@
-import { useRouter } from "next/navigation";
+'use client'
 import Image from "next/image";
 import { AppleIcon, ExternalLinkIcon } from "lucide-react";
 import { v4 } from "uuid";
 import { imagesUrls } from "@/types";
+import { usePRouter } from "@/hooks/useRouter";
 
 export const ReviewCard = ({ response, hideRating=false } : { response: any, hideRating?: boolean}) => {
-    const router = useRouter();
+    const router = usePRouter();
 
     return (
         <div className="w-full border-2 border-muted rounded-md px-3 py-2 flex flex-col gap-2 shadow-lg hover:shadow-xl" onClick={
@@ -13,7 +14,7 @@ export const ReviewCard = ({ response, hideRating=false } : { response: any, hid
         }>
             <div className="flex gap-4">
                 <Image
-                    src={`/uploads/categoryIcons/${imagesUrls[response?.feedbackForm?.category?.name]??"pricipal"}.png`}
+                    src={`/uploads/categoryIcons/${imagesUrls[response?.feedbackForm?.category?.name]??"principal"}.png`}
                     width={200} height={200} alt={''} className="w-12 h-auto object-contain" />
                 {response.details?.pricipalName ?
                     <div className="flex flex-col leading-snug gap-0">

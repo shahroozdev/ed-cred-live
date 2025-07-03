@@ -1,7 +1,7 @@
 import HTMLContent from "@/components/atoms/htmlContent";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import PLink from "@/components/atoms/link";
 
 const Card = ({ title, featureImageUrl, text, id }: any) => {
 
@@ -20,12 +20,12 @@ const Card = ({ title, featureImageUrl, text, id }: any) => {
         {title}
       </div>
       <HTMLContent value={text} className="line-clamp-5 !px-2 !py-0 !overflow-y-hidden" />
-      <Link
+      <PLink
         href={`/forum/questions/${id}`}
         className="group flex gap-2 ml-2 px-2 py-2 rounded-md transition-all duration-300 ease-in-out bg-[#439e5e] border-[1px] border-[#439e5e] hover:bg-background hover:text-[#439e5e]  text-white"
       >
         Read More <ArrowRight className="-rotate-45 group-hover:rotate-0" />
-      </Link>
+      </PLink>
     </div>
   );
 };

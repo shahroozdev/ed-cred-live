@@ -1,14 +1,14 @@
 "use client";
 import Modal from "@/components/molecules/modal";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { LoginForm } from "@/components/pages/common/Login/Form";
 import { getCookie, removeCookie } from "@/actions/serverActions";
+import { usePRouter } from "@/hooks/useRouter";
 
 const LoginModal = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [user, setUser] = useState<any>(null);
-  const router = useRouter();
+  const router = usePRouter();
 
   useEffect(()=>{
     const getUser= async()=>{
