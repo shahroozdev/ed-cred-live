@@ -10,7 +10,7 @@ const CategoryPage = async ({ searchParams }: { searchParams: any }) => {
   const queryParams = new URLSearchParams(params);
   const data = await getServerSideDataWithFeatures({
     url: `/subcategory/with-filters?${queryParams.toString()}`,
-    key: "categories",
+    key: "subcategories",
   });
 
   return (

@@ -24,7 +24,7 @@ export class SubcategoryService {
     });
     let savedSubcategory;
     if (dto?.id) {
-      await this.categoryRepository.update({id:dto?.id}
+      await this.subcategoryRepository.update({id:dto?.id}
           ,{...dto,
           }
       )

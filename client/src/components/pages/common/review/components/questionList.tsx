@@ -43,7 +43,7 @@ const QuestionList = ({feedback, disabled}: {feedback: Record<string, any>; disa
                     <RatingInput
                       color="red"
                       //@ts-ignore
-                      value={fieldProps.value||0}
+                      value={fieldProps.value||-1}
                       onChange={fieldProps.onChange}
                       disabled={disabled}
                     />

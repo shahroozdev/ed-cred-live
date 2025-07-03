@@ -8,6 +8,7 @@ const PLink = ({
   children,
   onClick,
   className,
+  title,
   legacyBehavior,
   passHref,
   ...props
@@ -16,6 +17,7 @@ const PLink = ({
   children: ReactNode;
   onClick?: (e: MouseEvent<HTMLAnchorElement>) => void;
   className?: string;
+  title?: string;
   legacyBehavior?: boolean;
   passHref?: boolean;
   props?: LinkProps;
@@ -28,6 +30,7 @@ const PLink = ({
         onClick && onClick(e);
       }}
       className={className}
+      title={title}
       legacyBehavior={legacyBehavior}
       passHref={passHref}
       {...props}

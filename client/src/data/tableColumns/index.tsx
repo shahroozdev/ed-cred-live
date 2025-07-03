@@ -44,6 +44,8 @@ import React, {
   SetStateAction,
   useState,
 } from "react";
+import { AddSubCategory } from "@/components/pages/admin/Category/AddSubCategory";
+import DateAndTime from "@/components/atoms/dateAndTime";
 
 export const UpdateStatus = ({
   data,
@@ -387,12 +389,6 @@ const customColummn = (values: {
     header: () => <div className="text-nowrap">{values.label}</div>,
     cell: ({ row }: any) => {
       const value: any = getNestedValue(row.original, values.key) || "--"; // Ensure value exists
-      let date;
-      let time;
-      if (values?.type === "date") {
-        date = dayjs(value).format("YYYY MMM, DD");
-        time = dayjs(value).format("hh:mm A");
-      }
       const avatarSrc = row.original.avatar || "/assets/images/img.png";
       const extra = values.extra
         ? getNestedValue(row.original, values.extra)
@@ -412,10 +408,7 @@ const customColummn = (values: {
             </Avatar>
           )}
           {values.type === "date" ? (
-            <div>
-              <p className="text-[#111827]">{date}</p>
-              <p className="text-sm text-[#6B7280]">{time}</p>
-            </div>
+            <DateAndTime value={value} />
           ) : values.key === "questions" ? (
             <>{value?.length}</>
           ) : values.key === "status" ? (
@@ -500,6 +493,7 @@ export const studentMaterialColumn = [
       title: "Edit Category",
     },
     deleteBtn: { link: "/category", text: "Want To Delete This Category?" },
+    key:"categories"
   }),
 ];
 export const subCategoryColumn = [
@@ -513,11 +507,16 @@ export const subCategoryColumn = [
     width: 150,
   }),
   action({
-    edit: "/subcategory/edit/",
+    editModal: {
+      component: <AddSubCategory />,
+      className: "!max-w-[600px] overflow-hidden",
+      title: "Edit Subcategory",
+    },
     deleteBtn: {
       link: "/subcategory",
       text: "Want To Delete This Subcategory?",
     },
+    key:"subcategories"
   }),
 ];
 export const feedbacksDashboardColumn = [

@@ -106,7 +106,7 @@ export function MainNav({ className, ...props }: MainNavProps) {
   };
 
   return (
-    <div className={cn("relative group", className)}>
+    <div className={cn("relative group h-[70px]", className)}>
       {/* Left arrow */}
       <button
         onClick={() => scroll(-100)}

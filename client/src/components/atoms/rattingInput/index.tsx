@@ -21,7 +21,7 @@ const RatingInput = ({
   return (
     <div className="flex items-center justify-end gap-2">
       {Array.from({ length: 5 }).map((_, i) => {
-        const ratingValue = i;
+        const ratingValue = i+1;
         const isActive = value >= ratingValue;
         const isHovered = hoverRating >= i;
 
@@ -39,7 +39,7 @@ const RatingInput = ({
             )}
             onMouseOver={() => setHoverRating(i)}
             onMouseLeave={() => setHoverRating(0)}
-            onClick={() => !disabled&&onChange(i)}
+            onClick={() => !disabled&&onChange(i+1)}
           />
         );
       })}
