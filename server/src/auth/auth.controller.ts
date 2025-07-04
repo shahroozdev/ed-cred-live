@@ -21,7 +21,7 @@ import { RolesGuard } from "../guards/roles.guard";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { response, UserRole } from "../types";
 import { User } from "./user.entity";
-import { ChangePasswordDto, CreateUserDto, LoginUserDto, SubscribeDto } from "./dto";
+import { ChangePasswordDto, CreateUserDto, LoginUserDto, ResetPasswordDto, resetPasswordEmailDto, SubscribeDto } from "./dto";
 import { Response } from "express";
 import { ApiConsumes } from "@nestjs/swagger";
 import { UploadFile } from "../decorators/upload-file-decorator";
@@ -42,6 +42,22 @@ export class AuthController {
     @Body() { identifier, password }: LoginUserDto
   ): Promise<response & { token?: string; user?: User }> {
     return apiWrapper(() => this.authService.login(identifier, password));
+  }
+  @Post("forgot-password")
+  async forgotPassword(
+    @Body() { email }: resetPasswordEmailDto
+  ): Promise<response> {
+    return apiWrapper(() =>
+      this.authService.forgotPassword(email)
+    );
+  }
+  @Post("reset-password")
+  async verifyPasswordResetToken(
+    @Body() { token, password }: ResetPasswordDto
+  ): Promise<response & { token?: string; user?: User }> {
+    return apiWrapper(() =>
+      this.authService.verifyPasswordResetToken(token, password)
+    );
   }
   @Post("change-password")
     @UseGuards(JwtAuthGuard)

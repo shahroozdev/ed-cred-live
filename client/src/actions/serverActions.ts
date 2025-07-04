@@ -63,8 +63,7 @@ export async function mutateData(value: {
   const methodHandlers = {
     POST: () => apiClient.post({ url: value?.url, data: value?.body, headers }),
     PUT: () => apiClient.put({ url: value?.url, data: value?.body, headers }),
-    PATCH: () =>
-      apiClient.patch({ url: value?.url, data: value?.body, headers }),
+    PATCH: () =>apiClient.patch({ url: value?.url, data: value?.body, headers }),
     DELETE: () => apiClient.delete({ url: value?.url, headers }),
   } as any;
 

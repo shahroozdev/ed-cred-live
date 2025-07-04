@@ -1,4 +1,4 @@
-import { Stats } from "@/components/Common/Stats";
+import { Stats } from "@/components/molecules/stats/Stats";
 import { PromoCard, TitleWrapper } from "@/components/atoms";
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import TableWithFilter from "@/components/molecules/tableWithFilters";

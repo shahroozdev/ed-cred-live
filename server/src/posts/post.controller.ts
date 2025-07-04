@@ -65,7 +65,7 @@ export class PostController {
     @Param("id") id: string,
     @Body() data: UpdatePostDto
   ): Promise<response> {
-    const url = file ? `/uploads/profile-images/${file?.filename}` : null;
+    const url = file ? `/uploads/posts-images/${file?.filename}` : null;
     return this.postService.updatePost(id, data, url);
   }
 

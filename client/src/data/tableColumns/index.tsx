@@ -371,9 +371,10 @@ const getNestedValue = (obj: any, path: string, fallback = "--") => {
 };
 const customColummn = (values: {
   key: string;
+  link?:string;
   label: string;
   extra?: string;
-  avatar?: boolean;
+  avatar?: string;
   icon?: string;
   children?: ReactNode;
   input?: boolean;
@@ -389,11 +390,10 @@ const customColummn = (values: {
     header: () => <div className="text-nowrap">{values.label}</div>,
     cell: ({ row }: any) => {
       const value: any = getNestedValue(row.original, values.key) || "--"; // Ensure value exists
-      const avatarSrc = row.original.avatar || "/assets/images/img.png";
+      const avatarSrc = row.original[values.avatar || "avatar"];
       const extra = values.extra
         ? getNestedValue(row.original, values.extra)
         : null;
-      const status = { Accepted: "", Rejected: "", Pending: "" };
       return (
         <div
           className={`flex gap-3 items-center ${
@@ -403,11 +403,18 @@ const customColummn = (values: {
           {values?.children && values?.children}
           {values.avatar && (
             <Avatar>
-              <AvatarImage src={avatarSrc} alt="Avatar" />
+              <AvatarImage src={process.env.BASE_URL+avatarSrc} alt="Avatar" />
               <AvatarFallback>NA</AvatarFallback>
             </Avatar>
           )}
-          {values.type === "date" ? (
+          {values.link ? (
+            <PLink
+              href={`${values.link}/${row?.original?.id}`}
+              className="text-sm cursor-pointer hover:text-blue-500"
+            >
+              {value}
+            </PLink>
+          ):values.type === "date" ? (
             <DateAndTime value={value} />
           ) : values.key === "questions" ? (
             <>{value?.length}</>
@@ -568,10 +575,10 @@ export const usersAdminColumn = [
   }),
 ];
 export const postsAdminColumn = [
-  customColummn({ key: "title", label: "Title", width: 200 }),
+  customColummn({ key: "title", label: "Title", width: 200 , link:'/posts', avatar:'image'}),
   customColummn({ key: "body", label: "Description", width: 200 }),
-  customColummn({ key: "featured", label: "Featured", width: 200 }),
-  customColummn({ key: "status", label: "Status", width: 200 }),
+  customColummn({ key: "featured", label: "Featured" }),
+  customColummn({ key: "status", label: "Status", width: 100 }),
   customColummn({
     key: "createdAt",
     label: "Joined On",

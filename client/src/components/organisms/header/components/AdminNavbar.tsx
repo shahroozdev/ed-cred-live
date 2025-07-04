@@ -25,7 +25,7 @@ import { usePRouter } from "@/hooks/useRouter";
 export const AdminNavbar = ({ user }: { user: any }) => {
   return (
     <div className="bg-background sticky top-0 z-10 border-b-[1px] max-w-screen">
-      <div className="flex h-16 items-center px-4 ">
+      <div className="flex h-[70px] items-center px-4 ">
         {/* <MainNav className="mx-2" /> */}
         <div className="ml-auto flex items-center space-x-4">
           <ThemeToggle />
@@ -106,7 +106,7 @@ export function MainNav({ className, ...props }: MainNavProps) {
   };
 
   return (
-    <div className={cn("relative group h-[70px]", className)}>
+    <div className={cn("relative group !min-h-[70px] h-[70px]", className)}>
       {/* Left arrow */}
       <button
         onClick={() => scroll(-100)}

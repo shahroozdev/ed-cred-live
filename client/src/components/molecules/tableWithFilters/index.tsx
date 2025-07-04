@@ -12,7 +12,6 @@ import CustomForm from "../customForm";
 
 import { cn, getAllParam } from "@/lib/utils";
 import { TableWithColumnProps } from "@/types";
-import { usePRouter } from "@/hooks/useRouter";
 
 const TableWithFilter: React.FC<TableWithColumnProps> = ({
   tableColumn,
@@ -31,7 +30,7 @@ const TableWithFilter: React.FC<TableWithColumnProps> = ({
 }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [search, setSearch] = useState("");
-  const router = usePRouter();
+  const router = useRouter();
 
   const onSubmit2 = (data: Record<string, any>) => {
     const queryParams = getAllParam(data);

@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import { RecentFeedback } from "./RecentFeedbacks";
 import { RecentPosts } from "./RecentPosts";
-import { Stats } from "@/components/Common/Stats";
+import { Stats } from "@/components/molecules/stats/Stats";
 
 
 export const OverviewTab = ({feedbacks, categories, posts}:{feedbacks:Record<string, any>, categories:Record<string, any>, posts:Record<string, any>}) => {

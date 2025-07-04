@@ -1,4 +1,4 @@
-import { Stats } from "@/components/Common/Stats";
+import { Stats } from "@/components/molecules/stats/Stats";
 import { RecentFeedback } from "@/components/pages/admin/dashboard/RecentFeedbacks";
 import { TitleWrapper } from "@/components/atoms";
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";

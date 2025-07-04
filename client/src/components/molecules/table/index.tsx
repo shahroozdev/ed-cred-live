@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { CustomTableProps } from "@/types";
 import { useSearchParams } from "next/navigation";
 import { usePRouter } from "@/hooks/useRouter";
+import Pagination from "../pagination";
 
 const CustomTable = ({
   data = [],
@@ -145,30 +146,31 @@ const CustomTable = ({
           )}
         </TableBody>
       </Table>
-      {pagination && (
-        <div className="flex items-center justify-end space-x-2 py-4 px-5">
-          <div className="flex-1 text-sm text-muted-foreground">
-            {total || table?.getFilteredRowModel()?.rows?.length} row(s)
-          </div>
-          <div className="space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={prevPageHandle}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={nextPageHandle}
-              disabled={currentPage >= Math.ceil((total || table.getFilteredRowModel().rows.length) / pageSize)}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
+      {pagination && (<Pagination total={total || table.getFilteredRowModel().rows.length} currentPage={currentPage} pageSize={pageSize}/>
+        // <div className="flex items-center justify-end space-x-2 py-4 px-5">
+        //   <div className="flex-1 text-sm text-muted-foreground">
+        //     {total || table?.getFilteredRowModel()?.rows?.length} row(s)
+        //   </div>
+        //   <div className="space-x-2 flex items-center">
+        //     <p className="text-sm text-muted-foreground">Page {currentPage} of {Math.ceil((total || table.getFilteredRowModel().rows.length) / pageSize)}</p>
+        //     <Button
+        //       variant="outline"
+        //       size="sm"
+        //       onClick={prevPageHandle}
+        //       disabled={currentPage === 1}
+        //     >
+        //       Previous
+        //     </Button>
+        //     <Button
+        //       variant="outline"
+        //       size="sm"
+        //       onClick={nextPageHandle}
+        //       disabled={currentPage >= Math.ceil((total || table.getFilteredRowModel().rows.length) / pageSize)}
+        //     >
+        //       Next
+        //     </Button>
+        //   </div>
+        // </div>
       )}
     </div>
   );

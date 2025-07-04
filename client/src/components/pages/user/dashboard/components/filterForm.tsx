@@ -9,9 +9,8 @@ import {
   SchoolSelect,
 } from "@/components/atoms";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { usePRouter } from "@/hooks/useRouter";
 import { AppleIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { Dispatch, SetStateAction, useTransition } from "react";
 import { z } from "zod";
 
@@ -20,7 +19,7 @@ const FilterForm = ({
 }: {
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const router = usePRouter();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   

@@ -1,6 +1,6 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
-import { Stats } from "@/components/Common/Stats";
+import { Stats } from "@/components/molecules/stats/Stats";
 import TableWithFilter from "@/components/molecules/tableWithFilters";
 import { adminDisputeColumn } from "@/data/tableColumns";
 

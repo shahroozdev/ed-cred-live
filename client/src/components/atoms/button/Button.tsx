@@ -34,7 +34,7 @@ const Button = ({
     <button
       {...props}
       className={cn(
-        `${variants[variant]} ${disabled?'cursor-not-allowed':'cursor-pointer'} rounded-md border px-2 md:px-4 py-0.5 md:py-1.5 text-xs/6 md:text-sm/6 font-medium transition-colors flex items-center justify-center gap-2`,
+        `${variants[variant]} ${disabled?'cursor-not-allowed opacity-50':'cursor-pointer'} rounded-md border px-2 md:px-4 py-0.5 md:py-1.5 text-xs/6 md:text-sm/6 font-medium transition-colors flex items-center justify-center gap-2`,
         className
       )}
       disabled={loading || disabled}

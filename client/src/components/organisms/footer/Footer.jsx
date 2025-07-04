@@ -42,7 +42,7 @@ const Footer = () => {
             </div>
             <div className="border-t-2 border-[#2E4E73] pt-4 md:col-span-5">
                 <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
-                    <p>Copyright &#169; {date?.getFullYear()} High-House. All Rights Reserved.</p>
+                    <p>Copyright &#169; {date?.getFullYear()} Ed-Cred. All Rights Reserved.</p>
                     <div className='flex gap-8'>
                         <FacebookIcon fill='white' />
                         <TwitterIcon fill='white' />

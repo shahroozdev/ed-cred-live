@@ -85,10 +85,12 @@ export class AuthService {
     identifier: string,
     password: string
   ): Promise<response & { token?: string; user?: User }> {
-    const user = await this.userRepository.findOne({
-      where: [{ email: identifier }, { username: identifier }],
-    });
-
+    const user = await this.userRepository
+      .createQueryBuilder("user")
+      .addSelect("user.password") // 👈 include password manually
+      .where("user.email = :identifier", { identifier })
+      .orWhere("user.username = :identifier", { identifier })
+      .getOne();
     if (!user) throw new BadRequestException("Invalid credentials");
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -128,7 +130,7 @@ export class AuthService {
         "profession",
         "bio",
         "fname",
-        "lname"
+        "lname",
       ],
       relations: ["category", "UserPackage", "UserPackage.package"],
     });
@@ -305,7 +307,7 @@ export class AuthService {
     }
 
     const updatedData: Partial<User> = { ...(updateProfileDto || {}) };
-      console.log(updatedData)
+    console.log(updatedData);
     // ✅ Add file URL if present
     if (file) updatedData.profilePictureUrl = file;
     // ✅ Only update if something is changing
@@ -350,11 +352,11 @@ export class AuthService {
     }
 
     await this.userRepository.update(id, updatedData);
-    const userPackage= await this.packagesService.createUserPackage({
-      userId:user.id,
-      packageId:Package.id,
+    const userPackage = await this.packagesService.createUserPackage({
+      userId: user.id,
+      packageId: Package.id,
     });
-    console.log(userPackage)
+    console.log(userPackage);
     await this.mailService.sendSubscriptionConfirmation(user, Package);
     return {
       status: 200,
@@ -383,6 +385,56 @@ export class AuthService {
     return {
       status: 200,
       message: "Password changed successfully",
+    };
+  }
+  async forgotPassword(email: string): Promise<response> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    const token = this.jwtService.sign({ email }, { expiresIn: "1h" });
+
+    await this.mailService.sendForgetPasswordEmail(email, token);
+    return {
+      status: 200,
+      message: "Password reset email sent successfully",
+    };
+  }
+  async verifyPasswordResetToken(
+    token: string,
+    password: string
+  ): Promise<response & { token?: string; user?: User }> {
+    const decoded = this.jwtService.verify(token);
+    if (!decoded) {
+      throw new NotFoundException("token is not valid or expired");
+    }
+    const user = await this.userRepository.findOne({
+      where: { email: decoded.email },
+      relations: ["category", "UserPackage", "UserPackage.package"],
+    });
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    await this.userRepository.save(user);
+
+    const newToken = this.jwtService.sign({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      category: user.category,
+      subscription: user.subscription,
+      permissions: user.permissions,
+    });
+    return {
+      status: 200,
+      message: "Password reset successfully",
+      token: newToken,
+      user,
     };
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "@/components/Common/Header";
+import Header from "@/components/atoms/titleHeader/Header";
 import TermsOFUse from "@/components/pages/common/Termsofuse/TermsOfUse";
 
 

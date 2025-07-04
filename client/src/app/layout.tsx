@@ -2,7 +2,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import "react-quill-new/dist/quill.snow.css";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "@/components/Common/theme-provider";
+import { ThemeProvider } from "@/lib/theme-provider";
 import { ReactNode } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import GlobalStoreProvider from "@/lib/GlobalStore";

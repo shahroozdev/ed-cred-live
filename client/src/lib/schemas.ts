@@ -10,6 +10,15 @@ export const loginSchema = z.object({
 export const forgetPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
 });
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export type LoginSchema = z.infer<typeof loginSchema>;
 export type ForgetPasswordSchema = z.infer<typeof forgetPasswordSchema>;

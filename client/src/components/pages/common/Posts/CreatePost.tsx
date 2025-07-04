@@ -28,7 +28,6 @@ export default function CreatePost({
       onSuccess:()=>setIsOpen&&setIsOpen(false)
     });
   }
-  console.log(defaultValues);
   return (
     <FormTemplate
       onSubmit={onSubmit}
