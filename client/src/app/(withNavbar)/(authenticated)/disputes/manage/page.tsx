@@ -9,7 +9,6 @@ const ManageDisputes = async() => {
         url: "/disputes/byUser",
         key: "disputesByUser",
       });
-      console.log(data)
   return (
  <TitleWrapper title={"Manage Disputes"} notBackBtn>
     <TableWithFilter

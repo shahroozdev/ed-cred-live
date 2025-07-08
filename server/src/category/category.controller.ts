@@ -13,6 +13,7 @@ import { CreateCategoryDto } from "./dto";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { response } from "../types";
 import { ApiCustomResponse } from "../decorators/api-decorator";
+import { Public } from "../decorators/public.decorator";
 
 
 @Controller("category")
@@ -26,7 +27,7 @@ export class CategoryController {
   ): Promise<response & { category?: Category }> {
     return await apiWrapper(() => this.categoryService.createCategory(data));
   }
-
+@Public()
   @Get()
   async getAllCategories(): Promise<response & { categories?: Category[] }> {
     return this.categoryService.getAllCategories();

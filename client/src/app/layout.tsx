@@ -54,7 +54,7 @@ export default async function RootLayout({
             <GlobalStoreProvider
               categories={categories?.categories}
               subCategories={subCategories?.subcategories}
-              schools={schools?.schools}
+              schools={schools}
             >
               <ProgressProvider/>
               {children}

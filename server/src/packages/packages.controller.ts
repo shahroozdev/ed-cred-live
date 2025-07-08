@@ -13,6 +13,7 @@ import { UpdatePackageDto } from './dto/update-package.dto';
 import { CreateUserPackageDto } from './dto/create-user-package.dto';
 import { ApiCustomResponse } from '../decorators/api-decorator';
 import { apiWrapper } from '../decorators/globalErrorHandlerClass';
+import { Public } from 'src/decorators/public.decorator';
 
 
 @Controller('packages')
@@ -28,7 +29,7 @@ export class PackagesController {
       this.packagesService.createPackage(createPackageDto),
     );
   }
-
+@Public()
   @Get()
   async findAllPackages() {
     return await apiWrapper(() => this.packagesService.findAllPackages());

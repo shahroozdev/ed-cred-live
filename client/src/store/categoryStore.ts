@@ -89,7 +89,6 @@ export const useSubCategoryStore = create<SubCategoryStore>((set) => ({
             if (!response.ok) throw new Error("Failed to fetch categories");
             const data: SubCategory[] = await response.json();
             set({ categories: data });
-            console.log(data);
         } catch (error) {
             console.error(error);
         }

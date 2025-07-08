@@ -27,6 +27,44 @@ export class DisputeService {
     private readonly timelineRepo: Repository<DisputeTimeline>
   ) {}
 
+  async checkDisputeInformation(
+    dto: CreateDisputeDto,
+    feedbackResponseId: string,
+    userId: number,
+    url?: string
+  ): Promise<response> {
+    const feedbackResponse = await this.feedbackResponseRepository.findOne({
+      where: { id: feedbackResponseId },
+      relations: ["author"],
+    });
+
+    if (!feedbackResponse) {
+      throw new NotFoundException("Feedback response not found.");
+    }
+
+    if (!feedbackResponse.accepted) {
+      throw new BadRequestException(
+        "You can only dispute live (accepted) responses."
+      );
+    }
+    const existing = await this.disputeRepository.findOne({
+      where: {
+        feedbackResponse: { id: feedbackResponseId },
+        disputedBy: { id: userId },
+      },
+    });
+
+    if (existing) {
+      throw new BadRequestException(
+        "You have already submitted a dispute for this response."
+      );
+    }
+
+    return {
+      status: 200,
+      message: "A dispute on this response has been created successfully.",
+    };
+  }
   async createDispute(
     dto: CreateDisputeDto,
     feedbackResponseId: string,

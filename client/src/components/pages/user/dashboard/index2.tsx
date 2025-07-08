@@ -4,11 +4,10 @@ import { TimerIcon } from "lucide-react";
 import FilterDrawer from "./components/filterDrawer";
 import ResponseCard from "./components/responseCard";
 import FilterForm from "./components/filterForm";
+import { Pagination } from "@/components/molecules";
 
 const DashboardView2 = ({ data }: { data: Record<string, any> }) => {
-
-  const responsesGroup = data?.branches?.flatMap((item:Record<string, any>)=>(item?.employees))??[]
-
+console.log(data, 'data')
   return (
     <div>
       <SearchBar />
@@ -23,15 +22,16 @@ const DashboardView2 = ({ data }: { data: Record<string, any> }) => {
             <FilterDrawer />
             </div>
           </div>
-          {data?.branches?.length === 0 ? (
+          {data?.employees?.length === 0 ? (
             <div className="w-full h-full text-center col-span-3">
               No reviews found
             </div>
           ) : (
             <div className="space-y-4">
-              {responsesGroup?.map((review: any, i: number) => (
+              {data?.employees?.map((review: any, i: number) => (
                 <ResponseCard response={review} key={i} />
               ))}
+              <Pagination total={data?.total} pageSize={data?.pageSize} currentPage={data?.currentPage}/>
             </div>
           )}
         </aside>

@@ -38,7 +38,6 @@ const FilterForm = ({
     ratting: searchParams.get("ratting") || "",
   };
 
-  console.log(defaultValues, 'default');
   return (
     <FormTemplate
       onSubmit={onSubmit}

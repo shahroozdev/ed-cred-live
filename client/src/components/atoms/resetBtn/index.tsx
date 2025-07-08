@@ -1,19 +1,24 @@
 "use client";
-import React, { Dispatch, SetStateAction, useTransition } from "react";
+import React, { Dispatch, ReactNode, SetStateAction, useTransition } from "react";
 import Button from "../button/Button";
 import { useFormContext } from "react-hook-form";
-import { usePRouter } from "@/hooks/useRouter";
+import { useRouter } from "next/navigation";
 
 const ResetBtn = ({
   setIsOpen,
+  icon,
+  text
 }: {
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
+  icon?:ReactNode
+  text?:string
 }) => {
   const [isPending, startTransition] = useTransition();
-  const router = usePRouter();
-  const { reset, getValues } = useFormContext();
+  const router = useRouter();
+  const { reset } = useFormContext();
   return (
     <Button
+      icon={icon}
       variant="ghost"
       type="reset"
       loading={isPending}
@@ -26,7 +31,7 @@ const ResetBtn = ({
         setIsOpen && setIsOpen(false);
       }}
     >
-      Reset
+      {text||"Reset"}
     </Button>
   );
 };

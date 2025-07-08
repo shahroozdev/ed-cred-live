@@ -10,7 +10,7 @@ import { useMutate } from "@/hooks/generalHooks";
 import UploadFiles from "@/components/atoms/uploadFiles";
 import PLink from "@/components/atoms/link";
 
-const FeedbackForm = ({
+const FeedbackFormReview = ({
   feedback,
   defaultValues,
 }: {
@@ -30,7 +30,6 @@ const FeedbackForm = ({
       allowMulti: true,
     });
   };
-console.log(defaultValues, 'feedback')
 const attachmentUrls =
   defaultValues?.attachments
     ?.replace(/[{}"]/g, "") // remove braces and quotes
@@ -165,4 +164,4 @@ const attachmentUrls =
   );
 };
 
-export default FeedbackForm;
+export default FeedbackFormReview;

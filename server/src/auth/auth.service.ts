@@ -35,7 +35,14 @@ export class AuthService {
     private mailService: MailService,
     private packagesService: PackagesService
   ) {}
-
+  //handlers
+  async generateToken(payload: Record<string, any>, expiresIn: string = process.env.JWT_EXPIRATION || '1d'): Promise<string> {
+    return await this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_SECRET, // 👈 ensures consistency
+      expiresIn,
+    });
+  }
+  //services
   async signup(
     dto: CreateUserDto
   ): Promise<response & { token?: string; user?: Partial<User> }> {
@@ -63,7 +70,7 @@ export class AuthService {
     });
     const user = await this.userRepository.save(newUser);
 
-    const token = this.jwtService.sign({
+    const token = await this.generateToken({
       id: newUser.id,
       username: newUser.username,
       email: newUser.email,
@@ -97,7 +104,7 @@ export class AuthService {
     if (!isPasswordValid) throw new BadRequestException("Invalid credentials");
 
     // Sign the JWT claims
-    const token = this.jwtService.sign({
+    const token = await this.generateToken({
       id: user.id,
       username: user.username,
       email: user.email,
@@ -421,7 +428,7 @@ export class AuthService {
     user.password = hashedPassword;
     await this.userRepository.save(user);
 
-    const newToken = this.jwtService.sign({
+    const newToken = await this.generateToken({
       id: user.id,
       username: user.username,
       email: user.email,

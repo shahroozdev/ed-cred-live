@@ -1,4 +1,4 @@
-import { Button } from "@/components/atoms";
+import { ResetBtn } from "@/components/atoms";
 import { CategoryFiltersSchema, FeedbackFilterSchema } from "@/lib/schemas";
 import { X } from "lucide-react";
 
@@ -10,15 +10,7 @@ export const CategoryFilterForm = {
   btnIconColor: "#fff",
   btnDivClassName: "justify-end md:col-span-3 sm:col-span-2 mt-6",
   extraBtn: (
-    <Button
-      icon={<X />}
-      background="#00000000"
-      variant="ghost"
-      rounded={8}
-      type="reset"
-    >
-      Clear All
-    </Button>
+    <ResetBtn icon={<X />}  text="Clear All"/>
   ),
   arr: [
     {

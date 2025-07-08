@@ -7,7 +7,6 @@ const ReviewPage = async () => {
     url: "/feedback-form/bySubcategory",
     key: "feedbackFormForReview",
   });
-console.log(data)
   return (
     <TitleWrapper
       title="Review"
@@ -38,7 +37,7 @@ console.log(data)
                   key={feedback?.category?.id}
                   className="min-w-[270px] h-full cursor-pointer hover:scale-110 !p-5 transition-all duration-300 ease-in-out"
                 >
-                  <CategoryCard title={feedback?.category?.name} />
+                  <CategoryCard title={feedback?.category?.name} icon={feedback?.category?.iconUrl} />
                 </PLink>
               )
           )}

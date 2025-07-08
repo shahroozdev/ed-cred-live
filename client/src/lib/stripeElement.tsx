@@ -37,7 +37,6 @@ const CheckoutForm = ({
     e.preventDefault();
 
     const isValid = form ? await form.trigger() : true;
-    console.log(isValid, 'isVAlid')
     if (!isValid) return;
     if (!stripe || !elements) return;
     setIsProcessing(true);

@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGlobalStore, useQuery } from "@/hooks/generalHooks";
+import { useGlobalStore } from "@/hooks/generalHooks";
 import { SelectProps } from "@radix-ui/react-select";
 import React from "react";
 interface CategorySelect2Props extends SelectProps {}
@@ -16,6 +16,7 @@ const SchoolSelect = ({
   ...props
 }: CategorySelect2Props) => {
   const [categories, schools] = useGlobalStore()
+  
   return (
     <Select value={value} onValueChange={onValueChange} {...props}>
       <SelectTrigger className={`w-full`}>

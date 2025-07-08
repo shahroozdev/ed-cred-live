@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  ChevronDown,
-  ChevronDownIcon,
-  PencilIcon,
-  Trash2,
-  Trash2Icon,
-} from "lucide-react";
+import { ChevronDown, Trash2, Trash2Icon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Question } from "@/types";
 import TableWithFilter from "@/components/molecules/tableWithFilters";
-import { action, adminQuestionColumn } from "@/data/tableColumns";
 import { IconButton } from "@/components/atoms";
 
 const QuestionsList = ({
@@ -31,9 +24,6 @@ const QuestionsList = ({
   questionsList: Question[];
   setQuestionsList: Dispatch<SetStateAction<Question[] | []>>;
 }) => {
-  // const { questions } = useQuestionStore();
-  //   const [open, setOpen] = useState(false);
-  console.log(questionsList, "list");
   return (
     <div className="flex flex-col gap-10 relative w-full rounded-md outline-muted p-6 outline-2 isolate shadow-sm">
       <TableWithFilter
@@ -42,8 +32,43 @@ const QuestionsList = ({
         title="Questions List"
         tableData={questionsList}
         tableColumn={[
-          ...adminQuestionColumn,
-          action({setQuestionsList:setQuestionsList}),
+          {
+            accessorKey: "text",
+            size: 300,
+            header: () => <div className="text-nowrap">Question</div>,
+            cell: ({ row }: any) => {
+              return <p>{row.original.text}</p>;
+            },
+          },
+          {
+            accessorKey: "type",
+            size: 300,
+            header: () => <div className="text-nowrap">Question Type</div>,
+            cell: ({ row }: any) => {
+              return <p>{row.original.type}</p>;
+            },
+          },
+          {
+            accessorKey: "actions",
+            header: () => <div className="text-nowrap">Action</div>,
+            enableHiding: false,
+            cell: ({ row }: any) => {
+              return (
+                <IconButton bgColor="red" className="cursor-pointer text-white">
+                  <span
+                    title={"Delete"}
+                    onClick={() =>
+                      setQuestionsList((prev) =>
+                        prev.filter((_) => _?.text !== row.original?.text)
+                      )
+                    }
+                  >
+                    <Trash2 size={20} />
+                  </span>
+                </IconButton>
+              );
+            },
+          },
         ]}
         // tablePagination={true}
         // loading={loading}

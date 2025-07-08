@@ -5,7 +5,20 @@ export const colorVariants: Record<string, string> = {
   green: "text-green-400 fill-green-400 hover:fill-green-300",
   yellow: "text-yellow-400 fill-yellow-400 hover:fill-yellow-300",
 };
-
+export const colorScheme={
+  Teacher:colorVariants['red'],
+  "Staff Membars":colorVariants['red'],
+  Leadership:colorVariants['green'],
+  school:colorVariants['yellow'],
+  district:colorVariants['yellow'],
+}as any;
+export const colors={
+  Teacher:'red',
+  "Staff Membars":'red',
+  Leadership:'green',
+  school:'yellow',
+  district:'yellow',
+}as any;
 export const detailType = {
   schoolName: "text",
   schoolWebsite: "text",
@@ -68,3 +81,5 @@ export const types = {
   audioView: ".mp3,.m4a,",
   docView: ".pdf,.doc,.docx,.ppt,.pptx,.xlxs,.xls,.csv,.xlsx,",
 } as any;
+
+export const oneDay = 24 * 60 * 60;

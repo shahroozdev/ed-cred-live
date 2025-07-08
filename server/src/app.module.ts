@@ -33,6 +33,8 @@ import { SchoolModule } from './school/school.module';
 import { DisputeModule } from "./dispute/dispute.module";
 import { DisputeTimeline } from "./dispute/entities/dispute.timeline.entity";
 import { EntityLog  } from "./feedback-response/entities/feedback-response-log.entity";
+import { JwtAuthGuard } from "./auth/jwt-auth.guard";
+import { APP_GUARD } from "@nestjs/core";
 
 @Module({
   imports: [
@@ -79,6 +81,11 @@ import { EntityLog  } from "./feedback-response/entities/feedback-response-log.e
     DisputeModule
   ],
   controllers: [SearchController],
-  providers: [SearchService],
+  providers: [SearchService, 
+    {
+    provide:APP_GUARD,
+    useClass:JwtAuthGuard
+  }
+],
 })
 export class AppModule {}

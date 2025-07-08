@@ -9,7 +9,6 @@ const CommentSection = ({ question }: { question: Record<string, any> }) => {
   const { MutateFunc, isPending } = useMutate();
 
   const reply = async (value: any) => {
-    console.log(value, 'value')
     await MutateFunc({
       url: `/forum-reply`,
       method: "POST",

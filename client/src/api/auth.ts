@@ -33,10 +33,6 @@ export async function login(identifier: string, password: string) {
 
 export async function getProfile() {
   const token = localStorage.getItem("token");
-//   if (!token) {
-//     console.log("can not find the token!");
-//     window.herf.replace("/login");
-//   }
 
   const response:any = await fetch(`${AUTH_BASE_URL}/profile`, {
     method: "GET",
@@ -45,7 +41,6 @@ export async function getProfile() {
 
   if (response.error) {
     toast(response.message);
-    console.log(response.message);
   }
 
   return await response.json();

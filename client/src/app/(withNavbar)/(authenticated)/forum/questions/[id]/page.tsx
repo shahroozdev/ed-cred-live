@@ -8,7 +8,6 @@ import ForumDetailComponent from "@/components/pages/admin/forum/detail";
 export default async function PostPage({params}: {params: Promise<{ id: string }>}) {
   const {id} = await params;
   const question = await getServerSideDataWithFeatures({url:`/forum-question/${id}`, key:'forumDetail'})
-    console.log(question)
   return (
     <TitleWrapper title={"Form Detail"}>
         <ForumDetailComponent question={question}/>

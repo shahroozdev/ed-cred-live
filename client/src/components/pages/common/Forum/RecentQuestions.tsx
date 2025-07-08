@@ -18,7 +18,6 @@ export const RecentQuestions = () => {
     const fetchQuestions = async () => {
         const response = await fetch(`${API_BASE_URL}/forum-question/`);
         const body = await response.json();
-        console.log(body);
         setQuestions(body);
     }
 

@@ -1,6 +1,6 @@
 import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { TitleWrapper } from "@/components/atoms";
-import FeedbackForm from "@/components/pages/common/review/FeedbackForm"
+import FeedbackForm from "@/components/pages/common/review/feedbackFormReview"
 
 export default async function ReivewPage({
   params,

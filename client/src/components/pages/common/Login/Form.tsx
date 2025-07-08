@@ -21,6 +21,7 @@ export function LoginForm({
       url: "auth/login",
       method: "POST",
       body: values,
+      // tags:'profile',/
       onSuccess: (res: any) =>
         props?.handleClose ? props.handleClose():
         router.push(

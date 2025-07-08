@@ -17,14 +17,12 @@ export default function FeedbackResponseViewPage({ params }: { params: Promise<{
             const responseRaw = await getRequest(`/feedback-responses/response/${feedbackResponseId}`);
             if (!responseRaw) return;
             const response = await responseRaw.json();
-            console.log(response);
             setFeedback(response[0]);
         }
 
         fetchFeedback();
     }, [feedbackResponseId]);
 
-    console.log(data)
     return(
         <div className="w-full h-full min-h-screen flex items-center justify-center text-black">
             {

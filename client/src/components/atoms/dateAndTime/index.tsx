@@ -12,8 +12,9 @@ const DateAndTime = ({ value }: { value: Date }) => {
   }, [value]);
   return (
     <div>
-      <p className="text-[#111827]">{date}</p>
-      <p className="text-sm text-[#6B7280]">{time}</p>
+      <p className="text-foreground">{date}</p>
+
+      <p className="text-sm text-muted-foreground">{time}</p>
     </div>
   );
 };

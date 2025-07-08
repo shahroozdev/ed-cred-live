@@ -1,4 +1,5 @@
 "use server";
+import { oneDay } from "@/data/constant";
 import apiClient from "@/lib/apiClient";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
@@ -6,10 +7,11 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
 
+
 export async function getServerSideDataWithFeatures(props: {
   url: string;
   key?: string | string[];
-  noRedirect?:boolean;
+  noRedirect?: boolean;
 }) {
   "use server";
   const cookieStore = await cookies();
@@ -28,8 +30,17 @@ export async function getServerSideDataWithFeatures(props: {
           : [],
       },
     });
-    // console.log(response.status, response.statusText, props.url, props?.noRedirect)
+    // console.log(props.url, token, response.status, props.noRedirect);
+
     if (response.status === 401 && !props?.noRedirect) {
+      cookieStore.set({
+        name: "sessionOut",
+        value: "yes",
+        httpOnly: true,
+        path: "/",
+        secure: true,
+        maxAge: oneDay,
+      });
       throw redirect("/login");
     }
     const data = await response.json();
@@ -63,7 +74,8 @@ export async function mutateData(value: {
   const methodHandlers = {
     POST: () => apiClient.post({ url: value?.url, data: value?.body, headers }),
     PUT: () => apiClient.put({ url: value?.url, data: value?.body, headers }),
-    PATCH: () =>apiClient.patch({ url: value?.url, data: value?.body, headers }),
+    PATCH: () =>
+      apiClient.patch({ url: value?.url, data: value?.body, headers }),
     DELETE: () => apiClient.delete({ url: value?.url, headers }),
   } as any;
 
@@ -74,7 +86,7 @@ export async function mutateData(value: {
   try {
     const response = await methodHandlers[value?.method]?.();
     success = true;
-    const oneDay = 24 * 60 * 60;
+
     if (response?.token && response?.user && response?.status === 200) {
       const { token, user } = response;
       const cookieStore = await cookies();
@@ -94,6 +106,7 @@ export async function mutateData(value: {
         secure: true,
         maxAge: oneDay,
       });
+      await setCookie("sessionOut", "no");
     }
 
     return response;
@@ -134,7 +147,6 @@ export const getCookie = async <T>(
     return JSON.parse(cookie?.value) as T;
   }
 };
-
 export const getStringCookie = async (
   key: string
 ): Promise<string | null | undefined> => {
@@ -142,7 +154,6 @@ export const getStringCookie = async (
   const cookie = cookieStore.get(key);
   return cookie?.value;
 };
-
 export const setCookie = async <T>(key: string, value: T): Promise<void> => {
   const twoDay = 48 * 60 * 60;
   const cookieStore = await cookies();

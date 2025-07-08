@@ -13,7 +13,7 @@ const LoginModal = () => {
   useEffect(()=>{
     const getUser= async()=>{
       if(user===null){
-        const userData = await getCookie('user')
+        const userData = await getCookie('sessionOut')
         setUser(userData)
         await removeCookie('user');
         await removeCookie('token');
@@ -34,7 +34,8 @@ const LoginModal = () => {
       trigger={<></>}
       setIsOpen={setIsOpen}
     >
-      <LoginForm title={user?"Your session is expired. Please login again":"You are not logged in"} handleClose={handleClose}/>
+      <LoginForm title={user==='yes'?"Your session is expired. Please login again":"You are not logged in"} handleClose={handleClose}/>
+
 
     </Modal>
   );

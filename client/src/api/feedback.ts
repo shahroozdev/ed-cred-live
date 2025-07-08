@@ -29,7 +29,6 @@ export async function sendFeedback(feedback: any) {
 
         if (!response.ok) throw new Error('Failed to send feedback');
         const body = await response.json();
-        console.log(body);
         toast(`<pre>${JSON.stringify(body, null, 2)}</pre>`);
         return body;
     } catch (error) {

@@ -17,7 +17,7 @@ import {
 import { FeedbackResponseService } from "./feedback-response.service";
 // import { CreateFeedbackResponseDto } from "./dto/create-feedback-response.dto";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+// import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { UploadFile } from "../decorators/upload-file-decorator";
 import { ApiConsumes } from "@nestjs/swagger";
 import { parseNestedFormData } from "../utils/utils";
@@ -31,7 +31,7 @@ export class FeedbackResponseController {
 
   // Create a new feedback response
   @Post()
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @ApiConsumes("multipart/form-data")
   @UploadFile("attachments", { folder: "forms-attachments", multiple: true, maxSizeInMB:10,  type : ["all"] })
   async create(

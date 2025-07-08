@@ -30,7 +30,6 @@ export const getRequest = async (route: string) => {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${token}` },
     });
-    console.log(response, route)
     return response;
 }
 

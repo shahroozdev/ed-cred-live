@@ -3,14 +3,14 @@ import { FormFeilds, RatingInput } from "@/components/atoms";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-// import { useEffect } from "react";
+import { colors} from "@/data/constant";
 import { useFieldArray } from "react-hook-form";
 
-const QuestionList = ({feedback, disabled}: {feedback: Record<string, any>; disabled?:boolean}) => {
+const QuestionList = ({feedback, disabled, category}: {feedback: Record<string, any>; disabled?:boolean, category?:string}) => {
+
   const { fields, append } = useFieldArray({
     name: "answers",
   });
-
   return (
     <>
     <h3 className="font-bold text-xl">Questions:</h3>
@@ -37,11 +37,10 @@ const QuestionList = ({feedback, disabled}: {feedback: Record<string, any>; disa
               fieldProps={{ name: `answers.${index}.answer`, className: "" }}
             >
               {(fieldProps) => {
-                console.log(fieldProps.value, 'ratting')
                 if (inputType === "rating") {
                   return (
                     <RatingInput
-                      color="red"
+                      color={colors[category??""]??'blue'}
                       //@ts-ignore
                       value={fieldProps.value||-1}
                       onChange={fieldProps.onChange}

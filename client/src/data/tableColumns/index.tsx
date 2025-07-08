@@ -13,7 +13,7 @@ import Modal from "@/components/molecules/modal";
 import { AddCategory } from "@/components/pages/admin/Category/AddCategory";
 import CreateForum from "@/components/pages/admin/forum/create";
 import VerifyUserCard from "@/components/pages/admin/users/components/verifyUserCard";
-import FeedbackForm from "@/components/pages/admin/feedback/create/FeedbackForm";
+// import FeedbackForm from "@/components/pages/admin/feedback/create/FeedbackForm";
 import CreatePost from "@/components/pages/common/Posts/CreatePost";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -26,7 +26,6 @@ import {
 import { useMutate } from "@/hooks/generalHooks";
 import { cn } from "@/lib/utils";
 import { Question } from "@/types";
-import dayjs from "dayjs";
 import {
   Check,
   Eye,
@@ -46,6 +45,8 @@ import React, {
 } from "react";
 import { AddSubCategory } from "@/components/pages/admin/Category/AddSubCategory";
 import DateAndTime from "@/components/atoms/dateAndTime";
+import FeedbackFormCreateEdit from "@/components/pages/admin/feedback/create/FeedbackFormCreateEdit";
+
 
 export const UpdateStatus = ({
   data,
@@ -169,7 +170,6 @@ export const action = ({
     enableHiding: false,
     cell: ({ row }: any) => {
       const data = row.original;
-      // console.log(data)
       return (
         <div className="flex gap-1">
           {statusUpdate && <UpdateStatus data={data} values={statusUpdate} />}
@@ -541,7 +541,7 @@ export const feedbacksDashboardColumn = [
   action({
     deleteBtn: { link: "/feedback-form", text: "Want To Delete This Form?" },
     editModal: {
-      component: <FeedbackForm />,
+      component: <FeedbackFormCreateEdit />,
       className:
         "!max-w-[1200px] !overflow-x-hidden overflow-y-auto h-full !max-h-[90vh]",
       title: "Edit Feedback Form",

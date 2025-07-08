@@ -4,8 +4,7 @@ import QuestionList from "@/components/pages/common/review/components/questionLi
 import React from "react";
 import Attachments from "./attachments";
 
-const QuestionView = ({ response, userId }: { response: Record<string, any>, userId?:number }) => {
-
+const QuestionView = ({ response, userId, category }: { response: Record<string, any>, userId?:number, category?:string }) => {
   return (
     <FormTemplate
       onSubmit={() => {}}
@@ -18,9 +17,9 @@ const QuestionView = ({ response, userId }: { response: Record<string, any>, use
           })) ?? [],
       }}
     >
-      <div className="p-4 border-t-muted mx-2 rounded">
+      <div className="p-4 border-t-muted mx-2 rounded fill-blue-400">
         {userId&&!response?.is_owned && <DisputeBtn id={response?.id} disabled={response?.is_disputed}/>}
-        <QuestionList feedback={response?.feedbackForm} disabled />
+        <QuestionList feedback={response?.feedbackForm} disabled  category={category}/>
         <Attachments attachments={response?.attachments}/>
       </div>
     </FormTemplate>

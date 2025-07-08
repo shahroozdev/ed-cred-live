@@ -9,7 +9,7 @@ export class ForumReplyController {
     constructor(private readonly forumReplyService: ForumReplyService) {}
 
     @Post()
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     async create(@Req() req, @Body() createForumReplyDto: CreateForumReplyDto) {
         return apiWrapper(()=>this.forumReplyService.create(createForumReplyDto, req.user.id));
     }

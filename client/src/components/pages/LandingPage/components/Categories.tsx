@@ -1,7 +1,4 @@
 "use client";
-import { useQuery } from "@/hooks/generalHooks";
-import Image from "next/image";
-import { imagesUrls } from "@/types";
 import { Slider } from "@/components/molecules";
 import { CategoryCard } from "@/components/atoms";
 
@@ -30,7 +27,7 @@ const Categories = ({categories}:{categories:Record<string, any>}) => {
         spaceBetween={20}
         notShowArrow
       >
-        {(slide) => <CategoryCard title={slide?.name} desc=""/>}
+        {(slide) => <CategoryCard title={slide?.name} desc="" icon={slide?.iconUrl}/>}
       </Slider>
     </div>
   );

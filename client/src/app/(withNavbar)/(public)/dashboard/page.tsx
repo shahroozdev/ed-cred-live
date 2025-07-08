@@ -10,7 +10,7 @@ const PageDashboard = async ({ searchParams }: any) => {
       .map(([k, v]) => [k, Array.isArray(v) ? v[0] : v]) // take first if array
   ).toString();
   const data = await getServerSideDataWithFeatures({
-    url: `/school/branch?${filters}`,
+    url: `/school/employees?${filters}`,
     key: "feedbackFormForGroups",
   });
 

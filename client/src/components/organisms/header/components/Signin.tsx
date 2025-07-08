@@ -23,7 +23,8 @@ const Signin = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status:
       url: "auth/login",
       method: "POST",
       body: values,
-      onSuccess:(res:any)=> router.push(res?.user?.role==="admin"?'/admin-dashboard':'/dashboard'),
+      tags:'profile',
+      onSuccess:(res:any)=> {router.push(res?.user?.role==="admin"?'/admin-dashboard':'/dashboard');setOpen({status:false,type:''})}
     });
   };
 

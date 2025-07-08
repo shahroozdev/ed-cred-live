@@ -15,11 +15,12 @@ const GroupedResponseView = ({
   related: Record<string, any>;
   userId:number;
 }) => {
+
   const items =
     data?.responses?.length > 0
       ? data?.responses?.map((item: Record<string, any>) => ({
-          title: <ResponseView response={item} />,
-          desc: <QuestionView response={item} userId={userId}/>,
+          title: <ResponseView response={item} category={data?.category?.name}/>,
+          desc: <QuestionView response={item} userId={userId} category={data?.category?.name}/>,
         }))
       : [];
   return (

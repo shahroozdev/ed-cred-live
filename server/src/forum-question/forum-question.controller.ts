@@ -17,25 +17,30 @@ import { UpdateForumQuestionDto } from "./dto/update-forum-question.dto";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { UploadFile } from "../decorators/upload-file-decorator";
 import { ApiConsumes } from "@nestjs/swagger";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+// import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { Public } from "src/decorators/public.decorator";
 
 @Controller("forum-question")
 export class ForumQuestionController {
   constructor(private readonly forumQuestionService: ForumQuestionService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @ApiConsumes("multipart/form-data")
   @UploadFile("featuredImage", { folder: "forum-images" })
-  async create(@UploadedFile() featredImage: Express.Multer.File,@Req() req, @Body() createForumQuestionDto: CreateForumQuestionDto) {
-        const url = featredImage
+  async create(
+    @UploadedFile() featredImage: Express.Multer.File,
+    @Req() req,
+    @Body() createForumQuestionDto: CreateForumQuestionDto
+  ) {
+    const url = featredImage
       ? `/uploads/forum-images/${featredImage?.filename}`
       : null;
     return await apiWrapper(() =>
       this.forumQuestionService.create(createForumQuestionDto, req.user.id, url)
     );
   }
-
+  @Public()
   @Get()
   findAll(@Query() query?: Record<string, any>) {
     return this.forumQuestionService.findAll(query);
@@ -55,7 +60,9 @@ export class ForumQuestionController {
   }
 
   @Delete(":id")
- async remove(@Param("id") id: string) {
-    return await apiWrapper(() => this.forumQuestionService.removeQuestion(+id));
+  async remove(@Param("id") id: string) {
+    return await apiWrapper(() =>
+      this.forumQuestionService.removeQuestion(+id)
+    );
   }
 }

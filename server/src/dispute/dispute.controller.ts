@@ -22,7 +22,7 @@ import { UploadFile } from '../decorators/upload-file-decorator';
 import { CreateDisputeTimelineDto } from './dto/dispute-timline.dto';
 
 @Controller('disputes')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class DisputeController {
     constructor(private readonly disputeService: DisputeService) {}
 

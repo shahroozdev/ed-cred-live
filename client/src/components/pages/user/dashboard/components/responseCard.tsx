@@ -1,6 +1,6 @@
 "use client";
+import { colors, colorScheme } from "@/data/constant";
 import { usePRouter } from "@/hooks/useRouter";
-import { imagesUrls } from "@/types";
 import { AppleIcon, ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -27,7 +27,6 @@ const ResponseCard = ({
     }
   });
   const averageRating = count > 0 ? Math.round(totalRating / count) : 0;
-
   return (
     <div
       className="w-full border-2 border-muted rounded-md px-3 py-2 !text-sm flex gap-2 shadow-md hover:scale-101 cursor-pointer min-h-[215px] transition-all duration-300 ease-in-out"
@@ -37,13 +36,14 @@ const ResponseCard = ({
       {/* </div>  */}
       {!noImage?<div className="md:block hidden w-32 h-32 p-4 border-r-[1px]">
         <Image
-          src={`/uploads/categoryIcons/${
-            imagesUrls[response?.groupType] ?? "principal"
-          }.png`}
+          src={`/uploads/categoryIcons/${response?.category?.iconUrl ?? "principal"}.png`}
           width={600}
           height={600}
           alt={""}
           className="w-full h-full object-contain"
+          onError={(e:any)=>{
+            e.target.src = "/uploads/categoryIcons/principal"
+          }}
         />
       </div>:<></>}
       <div className="w-full relative">
@@ -57,7 +57,7 @@ const ResponseCard = ({
         <div
           className={`flex ${
             mobile ? "flex-col" : "flex-col sm:flex-row"
-          } justify-between w-full`}
+          } justify-between w-full h-[90%]`}
         >
           <div>
             <div className="capitalize">
@@ -110,8 +110,8 @@ const ResponseCard = ({
             <AppleIcon
               key={v4()}
               size={16}
-              fill={i + 1 <= averageRating ? "red" : "gray"}
-              stroke={i + 1 <= averageRating ? "red" : "gray"}
+              fill={i + 1 <= averageRating ? (colors[response?.category?.name]??'#51a2ff') : "#cacaca"}
+              stroke={i + 1 <= averageRating ? (colors[response?.category?.name]??'#51a2ff') : "#cacaca"}
             />
           ))}
           <div className="text-base ml-2">{averageRating?.toFixed(0)}/5</div>

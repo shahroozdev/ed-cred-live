@@ -26,23 +26,26 @@ import { Response } from "express";
 import { ApiConsumes } from "@nestjs/swagger";
 import { UploadFile } from "../decorators/upload-file-decorator";
 import { ApiCustomResponse } from "../decorators/api-decorator";
+import { Public } from "../decorators/public.decorator";
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Public()
   @Post("signup")
   async signup(
     @Body() dto: CreateUserDto
   ): Promise<response & { token?: string; user?: Partial<User> }> {
     return apiWrapper(() => this.authService.signup(dto));
   }
-
+  @Public()
   @Post("login")
   async login(
     @Body() { identifier, password }: LoginUserDto
   ): Promise<response & { token?: string; user?: User }> {
     return apiWrapper(() => this.authService.login(identifier, password));
   }
+  @Public()
   @Post("forgot-password")
   async forgotPassword(
     @Body() { email }: resetPasswordEmailDto
@@ -51,6 +54,7 @@ export class AuthController {
       this.authService.forgotPassword(email)
     );
   }
+  @Public()
   @Post("reset-password")
   async verifyPasswordResetToken(
     @Body() { token, password }: ResetPasswordDto
@@ -60,7 +64,7 @@ export class AuthController {
     );
   }
   @Post("change-password")
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
   async changePassword(
     @Req() req,
     @Body() { oldPassword, newPassword }: ChangePasswordDto
@@ -71,13 +75,13 @@ export class AuthController {
   }
 
   @Get("profile")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async getProfile(@Req() req) {
     return this.authService.getProfile(req.user.id);
   }
 
   @Get("users")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async getUsers(@Req() req, @Query() query?: Record<string, any>) {
     if (req.user.role !== "admin") {
       throw new ForbiddenException(
@@ -88,7 +92,7 @@ export class AuthController {
   }
 
   @Post("users/role")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async setUserRole(@Req() req) {
     if (req.user.role !== "admin") {
       throw new ForbiddenException(
@@ -99,26 +103,21 @@ export class AuthController {
   }
 
   @Post("users/category")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async setUserCategory(@Req() req) {
     const { categoryId } = req.body;
     return this.authService.updateUserCategory(req.user.id, categoryId);
   }
-
+ @UseGuards(RolesGuard)
   @Post("category/update")
-  @UseGuards(JwtAuthGuard)
+  @Roles(UserRole.ADMIN)
   async updateUserCategory(@Req() req) {
-    if (req.user.role !== "admin") {
-      throw new ForbiddenException(
-        "You do not have permission to change a users role"
-      );
-    }
     const { userId, categoryId } = req.body;
     return this.authService.updateUserCategory(userId, categoryId);
   }
 
   @Post("upload-verification")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @ApiConsumes("multipart/form-data")
   @ApiCustomResponse("uploadVerificationDocument")
   @UploadFile("file", { folder: "verification-documents" })
@@ -134,7 +133,7 @@ export class AuthController {
     );
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Post("verify-user")
   @Roles(UserRole.ADMIN)
   async verifyUser(
@@ -186,7 +185,7 @@ export class AuthController {
   }
 
   @Put("/update-package")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @ApiCustomResponse("updateUserPackage")
   async updatePackage(@Req() req, @Body() dto: SubscribeDto) {
     return await apiWrapper(() =>

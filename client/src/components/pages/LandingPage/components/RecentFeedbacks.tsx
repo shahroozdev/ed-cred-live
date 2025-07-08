@@ -5,7 +5,7 @@ import ResponseCard from "../../user/dashboard/components/responseCard";
 
 const Feedbacks = ({reviews}:{reviews:Record<string, any>}) => {
   const res = useQuery({
-    url: "/feedback-form/groups",
+    url: `/school/branch`,
     key: "feedbackFormForGroups",
   });
   

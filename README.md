@@ -48,16 +48,17 @@ npm run dev
 - Create a `.env` file in the root directory.
 - Add the following variables:
 
-# Database
+### Database
 DATABASE_URL=your_postgres_connection_url
 
-# Stripe
+### Stripe
 STRIPE_SECRET_KEY=your_stripe_secret
 
-# Any other variables
+### Any other variables
+
 - Create a `.env.local` file in the root directory.
 - Add the following variables:
-# Stripe
+### Stripe
 STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 
 ## Flow

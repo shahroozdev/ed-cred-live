@@ -18,7 +18,6 @@ const ProfileForm = ({user}:{user:Record<string,any>}) => {
   const onSubmit = async(values:any)=>{
     await MutateFunc({url:'auth/profile',method:'PUT',body:values})
   }
-  console.log(user)
   return (
     <CardTemplate
       title={{ comp: "Account Settings" }}

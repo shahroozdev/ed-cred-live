@@ -109,7 +109,6 @@ const AddQuestion = ({
   const questionType = form.watch("type");
 
   const onSubmit = (data: any) => {
-    console.log(data);
     setQuestionsList((prev) => [...prev, data]);
     form.reset();
   };

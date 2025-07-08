@@ -11,7 +11,6 @@ import { Category } from "../category/category.entity";
 import { response } from "../types";
 import { Dispute } from "../dispute/entities/dispute.entity";
 
-
 @Injectable()
 export class SchoolService {
   constructor(
@@ -123,80 +122,86 @@ export class SchoolService {
   //     pageSize,
   //   };
   // }
-async findAllBranches(
-  query?: Record<string, any>
-): Promise<response & { branches?: Branch[] }> {
-  const {
-    page = 1,
-    pageSize = 10,
-    school,
-    categoryId,
-    country,
-    ratting,
-    search,
-  } = query;
+  async findAllBranches(
+    query?: Record<string, any>
+  ): Promise<response & { branches?: Branch[] }> {
+    const {
+      page = 1,
+      pageSize = 10,
+      school,
+      categoryId,
+      country,
+      ratting,
+      search,
+    } = query;
 
-  const qb = this.branchRepository
-    .createQueryBuilder("branch")
-    .leftJoinAndSelect("branch.school", "school")
-    .leftJoinAndSelect("branch.employees", "employee")
-    .leftJoinAndSelect("employee.responses", "response")
-    .leftJoinAndSelect("response.feedbackForm", "feedbackForm")
-    .leftJoinAndSelect("employee.category", "category")
-    .leftJoinAndSelect("employee.branch", "empBranch");
+    const qb = this.branchRepository
+      .createQueryBuilder("branch")
+      .leftJoinAndSelect("branch.school", "school")
+      .leftJoinAndSelect("branch.employees", "employee")
+      .leftJoinAndSelect("employee.responses", "response")
+      .leftJoinAndSelect("response.feedbackForm", "feedbackForm")
+      .leftJoinAndSelect("employee.category", "category")
+      .leftJoinAndSelect("employee.branch", "empBranch");
 
-  // 🔍 Base filter: accepted responses only
-  qb.where("response.accepted = :accepted", { accepted: true });
+    // 🔍 Base filter: accepted responses only
+    qb.where("response.accepted = :accepted", { accepted: true });
 
-  // 🏫 School name filter
-  if (school) {
-    qb.andWhere("branch.name ILIKE :school", { school: `%${school}%` });
+    // 🏫 School name filter
+    if (school) {
+      qb.andWhere("branch.name ILIKE :school", { school: `%${school}%` });
+    }
+
+    // 📂 Category filter
+    if (categoryId) {
+      qb.andWhere("category.id = :categoryId", {
+        categoryId: Number(categoryId),
+      });
+    }
+
+    // 🌍 Country filter
+    if (country) {
+      qb.andWhere("branch.country = :country", { country });
+    }
+
+    // ⭐ Rating filter
+    if (ratting) {
+      qb.andWhere("response.avgRatting = :ratting", {
+        ratting: Number(ratting),
+      });
+    }
+
+    // 🔎 Search (OR across multiple fields)
+    if (search) {
+      qb.andWhere(
+        new Brackets((qb) => {
+          qb.where("branch.country ILIKE :search", { search: `%${search}%` })
+            .orWhere("branch.name ILIKE :search", { search: `%${search}%` })
+            .orWhere("employee.name ILIKE :search", { search: `%${search}%` })
+            .orWhere("category.name ILIKE :search", { search: `%${search}%` })
+            .orWhere("feedbackForm.title ILIKE :search", {
+              search: `%${search}%`,
+            }); // If form is a relation, you'll need another join
+        })
+      );
+    }
+
+    // 📦 Pagination
+    const [branches, total] = await qb
+      .skip((page - 1) * pageSize)
+      .take(pageSize)
+      .orderBy("branch.createdAt", "DESC")
+      .getManyAndCount();
+
+    return {
+      status: 200,
+      message: "All Branches List.",
+      branches,
+      total,
+      currentPage: Number(page),
+      pageSize,
+    };
   }
-
-  // 📂 Category filter
-  if (categoryId) {
-    qb.andWhere("category.id = :categoryId", { categoryId: Number(categoryId) });
-  }
-
-  // 🌍 Country filter
-  if (country) {
-    qb.andWhere("branch.country = :country", { country });
-  }
-
-  // ⭐ Rating filter
-  if (ratting) {
-    qb.andWhere("response.avgRatting = :ratting", { ratting: Number(ratting) });
-  }
-
-  // 🔎 Search (OR across multiple fields)
-  if (search) {
-    qb.andWhere(
-      new Brackets((qb) => {
-        qb.where("branch.country ILIKE :search", { search: `%${search}%` })
-          .orWhere("branch.name ILIKE :search", { search: `%${search}%` })
-          .orWhere("employee.name ILIKE :search", { search: `%${search}%` })
-          .orWhere("category.name ILIKE :search", { search: `%${search}%` })
-          .orWhere("feedbackForm.title ILIKE :search", { search: `%${search}%` }); // If form is a relation, you'll need another join
-      })
-    );
-  }
-
-  // 📦 Pagination
-  const [branches, total] = await qb
-    .skip((page - 1) * pageSize)
-    .take(pageSize)
-    .orderBy("branch.createdAt", "DESC")
-    .getManyAndCount();
-
-  return {
-    status: 200,
-    message: "All Branches List.",
-    branches,
-    total,
-    currentPage: Number(page),
-    pageSize,
-  };
-}
 
   async findOneBranch(id: number): Promise<Branch> {
     const branch = await this.branchRepository.findOne({
@@ -298,15 +303,87 @@ async findAllBranches(
     return await this.employeeRepository.save(employee);
   }
 
-  async findAllEmployee(): Promise<Employee[]> {
+  async findAllEmployee(
+    query?: Record<string, any>
+  ): Promise<response & { employees?: Employee[] }> {
+    const {
+      page = 1,
+      pageSize = 10,
+      ratting,
+      school,
+      categoryId,
+      country,
+      search,
+    } = query;
 
-    return await this.employeeRepository.find({
-      relations: ["branch", "branch.school"],
-    });
+    const qb = this.employeeRepository
+      .createQueryBuilder("employee")
+      .leftJoinAndSelect("employee.branch", "branch")
+      .leftJoinAndSelect("branch.school", "school")
+      .leftJoinAndSelect("employee.responses", "response")
+      .leftJoinAndSelect("response.feedbackForm", "feedbackForm")
+      .leftJoinAndSelect("employee.category", "category");
+
+    // 🔍 Base filter: accepted responses only
+    qb.where("response.accepted = :accepted", { accepted: true });
+
+    // 🏫 School name filter
+    if (school) {
+      qb.andWhere("branch.name ILIKE :school", { school: `%${school}%` });
+    }
+
+    // 📂 Filter by Category ID
+    if (categoryId) {
+      qb.andWhere("category.id = :categoryId", {
+        categoryId: Number(categoryId),
+      });
+    }
+
+    // 🌍 Filter by Country
+    if (country) {
+      qb.andWhere("branch.country = :country", { country });
+    }
+    // ⭐ Rating filter
+    if (ratting) {
+      qb.andWhere("response.avgRatting = :ratting", {
+        ratting: Number(ratting),
+      });
+    }
+    // 🔎 Search (OR across multiple fields)
+    if (search) {
+      qb.andWhere(
+        new Brackets((qb) => {
+          qb.where("employee.name ILIKE :search", { search: `%${search}%` })
+            .orWhere("branch.name ILIKE :search", { search: `%${search}%` })
+            .orWhere("branch.country ILIKE :search", { search: `%${search}%` })
+            .orWhere("category.name ILIKE :search", { search: `%${search}%` })
+            .orWhere("feedbackForm.title ILIKE :search", { search: `%${search}%` })
+        })
+      );
+    }
+
+    // 📦 Pagination
+    const [employees, total] = await qb
+      .skip((page - 1) * pageSize)
+      .take(pageSize)
+      .orderBy("employee.createdAt", "DESC")
+      .getManyAndCount();
+
+    return {
+      status: 200,
+      message: "All Employees List.",
+      employees,
+      total,
+      currentPage: Number(page),
+      pageSize,
+    };
   }
 
-  async findOneEmployee(id: number, query?:Record<string, any>): Promise<Employee> {
-    const {userId} = query;
+  async findOneEmployee(
+    id: number,
+    query?: Record<string, any>
+  ): Promise<Employee> {
+    const { userId } = query;
     const employee = await this.employeeRepository.findOne({
       where: { id },
       relations: [
@@ -319,23 +396,27 @@ async findAllBranches(
         "responses.feedbackForm.questions",
       ],
     });
-    const disputes = userId  && !isNaN(Number(userId))?await this.disputeRepository
-    .createQueryBuilder("dispute")
-    .leftJoin("dispute.feedbackResponse", "feedbackResponse")
-    .leftJoin("dispute.disputedBy", "user")
-    .where("user.id = :userId", { userId: Number(userId) })
-    .select(["dispute.id", "feedbackResponse.id"])
-    .getMany()
-    :null
-    const disputesResponsesIds=disputes?.flatMap((item)=>(item?.feedbackResponse?.id));
+    const disputes =
+      userId && !isNaN(Number(userId))
+        ? await this.disputeRepository
+            .createQueryBuilder("dispute")
+            .leftJoin("dispute.feedbackResponse", "feedbackResponse")
+            .leftJoin("dispute.disputedBy", "user")
+            .where("user.id = :userId", { userId: Number(userId) })
+            .select(["dispute.id", "feedbackResponse.id"])
+            .getMany()
+        : null;
+    const disputesResponsesIds = disputes?.flatMap(
+      (item) => item?.feedbackResponse?.id
+    );
     if (!employee) throw new NotFoundException(`Employee ID ${id} not found`);
-    (employee.responses as any[]).forEach(element => {
+    (employee.responses as any[]).forEach((element) => {
       if (disputesResponsesIds?.includes(element?.id)) {
         element.is_disputed = true;
       } else {
         element.is_disputed = false;
       }
-      element.is_owned =element.author.id === Number(userId)
+      element.is_owned = element.author.id === Number(userId);
       delete element.author;
     });
     return employee;

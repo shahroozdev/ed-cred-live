@@ -6,7 +6,7 @@ import Button from "@/components/atoms/button/Button";
 import { useTransition } from "react";
 import { cn } from "@/lib/utils";
 import { CustomFormProps } from "@/types";
-import { CustomInput } from "@/components/atoms";
+import { CustomInput, ResetBtn } from "@/components/atoms";
 import { X } from "lucide-react";
 import { usePRouter } from "@/hooks/useRouter";
 
@@ -34,7 +34,6 @@ const CustomForm = ({ props }: { props: CustomFormProps }) => {
     resolver: zodResolver(schema),
     defaultValues: defaultValues || {}, // Use Zod schema as resolver for validation
   });
-  console.log(defaultValues, 'values')
   const {
     register,
     handleSubmit,
@@ -78,18 +77,7 @@ const CustomForm = ({ props }: { props: CustomFormProps }) => {
         <div className={cn(btnDivClassName, "flex gap-4")}>
           {/* Extra Button - Can be Cancel, Reset, etc. */}
           {extraBtn && extraBtn}
-          {resetBtn && (
-            <Button
-              icon={<X />}
-              background="#00000000"
-              variant="ghost"
-              rounded={8}
-              onClick={handleReset}
-              type="reset"
-            >
-              Clear All
-            </Button>
-          )}
+          {resetBtn && (<ResetBtn icon={<X />}  text="Clear All"/>)}
           {btnText && (
             <Button
               icon={btnIcon}

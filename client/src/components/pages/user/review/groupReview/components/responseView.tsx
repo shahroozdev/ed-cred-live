@@ -1,10 +1,12 @@
+import { colors } from "@/data/constant";
 import dayjs from "dayjs";
 import { AppleIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { v4 } from "uuid";
 
-const ResponseView = ({ response }: any) => {
+const ResponseView = ({ response , category}: {response: Record<string, any>, category?:string}) => {
+
   let totalRating = 0;
   let count = 0;
   response?.answers?.length > 0 &&
@@ -47,8 +49,8 @@ const ResponseView = ({ response }: any) => {
                   <AppleIcon
                     key={v4()}
                     size={16}
-                    fill={i + 1 <= averageRating ? "red" : "gray"}
-                    stroke={i + 1 <= averageRating ? "red" : "gray"}
+                    fill={i + 1 <= averageRating ?(colors[category??'']??'#51a2ff') : "#cacaca"}
+                    stroke={i + 1 <= averageRating ? (colors[category??'']??'#51a2ff') : "#cacaca"}
                   />
                 ))}
                 <div className="text-base ml-2">

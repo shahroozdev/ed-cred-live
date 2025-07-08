@@ -24,7 +24,7 @@ export class FeedbackFormController {
 
   @Post()
   @ApiCustomResponse("createFeedbackForm")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async create(
     @Req() req,
     @Body() createFeedbackFormDto: CreateFeedbackFormDto
@@ -39,7 +39,7 @@ export class FeedbackFormController {
     return await apiWrapper(() => this.feedbackFormService.findAll(query));
   }
   @Get('/bySubcategory')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async findAllBySubcategory(@Req() req, @Query() query?: Record<string, any>, ) {
     return await apiWrapper(() => this.feedbackFormService.findAllBySubcategory(req.user.id, query));
   }
@@ -75,12 +75,12 @@ export class FeedbackFormController {
   }
 
   @Delete(":id")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async remove(@Param("id") id: string) {
     return await apiWrapper(() => this.feedbackFormService.remove(+id));
   }
   @Put("/status/:id")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async updateStatus(@Param("id") id: string, @Body() body: { isDraft: string }) {
     return await apiWrapper(() => this.feedbackFormService.updateStatus(+id, body.isDraft));  
   }

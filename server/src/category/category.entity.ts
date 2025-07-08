@@ -35,7 +35,7 @@ export class Category {
   @DeleteDateColumn({ nullable: true })
   deletedAt?: Date; // <- Soft delete column
 
-  @Column({ default: "categoryIcons/default.png" })
+  @Column({ nullable: true })
   iconUrl: string;
 
   // A category can be linked with multiple feedback forms

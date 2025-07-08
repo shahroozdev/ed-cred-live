@@ -20,12 +20,9 @@ export function useUserProfile(): UseUserProfileResult {
             try {
                 const res = await getRequest("/auth/profile/");
                 if (!res || !res.ok) throw new Error("Failed to fetch user profile");
-
                 const json = await res.json();
-                console.log(res, 'res')
                 if (isMounted) setUser(json);
             } catch (err: any) {
-                console.log(err, 'error')
                 if (isMounted) setError(err.message ?? "Unknown error");
             } finally {
                 if (isMounted) setLoading(false);

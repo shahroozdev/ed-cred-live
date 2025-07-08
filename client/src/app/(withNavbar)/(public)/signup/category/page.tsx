@@ -8,7 +8,6 @@ const SignupCategorySelectPage = async() => {
     key: "subcategories",
   });
   const categories = data?.subcategories;
-console.log(categories)
   return (
     <TitleWrapper title={"Select Category"} desc="Please select a category you are a part of" notBackBtn>
       <main className="w-full font-inter flex flex-col gap-10 justify-between">

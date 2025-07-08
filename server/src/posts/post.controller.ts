@@ -19,9 +19,10 @@ import { JwtAuthGuard } from "./../auth/jwt-auth.guard";
 import { UploadFile } from "../decorators/upload-file-decorator";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { response } from "../types";
+import { Public } from "src/decorators/public.decorator";
 
 @Controller("posts")
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
@@ -41,6 +42,7 @@ export class PostController {
   ): Promise<response & { posts?: Partial<PostEntity>[] }> {
     return await apiWrapper(() => this.postService.getPosts(query));
   }
+  @Public()
   @Get('/users')
   async getPostsUser(
     @Query() query?: Record<string, any>

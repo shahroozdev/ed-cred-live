@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   const token = cookieStore.get("token")?.value;
   const user = cookieStore.get("user")?.value;
   const authRoutes = ["/signup", "/login", "/forgot-password", "/reset-password"];
-  const protectedRoutes =["/category", "/users", "/feedback", "/forum", "/posts", "/roles", "/subcategory", "/admin-dashboard", "pricing", "/review", "/review-admin", "/setting", "/verify","/welcome"]
+  const protectedRoutes =["/category", "/users", "/feedback", "/forum", "/posts", "/roles", "/subcategory", "/admin-dashboard", "pricing", "/review", "/review-admin", "/setting", "/verify","/welcome", "/dispute"]
     const pathname = request.nextUrl.pathname;
     const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
