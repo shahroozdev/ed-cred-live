@@ -35,6 +35,9 @@ import { DisputeTimeline } from "./dispute/entities/dispute.timeline.entity";
 import { EntityLog  } from "./feedback-response/entities/feedback-response-log.entity";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { APP_GUARD } from "@nestjs/core";
+import { DocumentsModule } from './documents/documents.module';
+import { Document } from "./documents/entities/document.entity";
+import { DocumentLog } from "./documents/entities/document-log.entity";
 
 @Module({
   imports: [
@@ -59,7 +62,9 @@ import { APP_GUARD } from "@nestjs/core";
       Employee,
       Branch,
       DisputeTimeline,
-      EntityLog
+      EntityLog,
+      Document,
+      DocumentLog
     ]),
     AuthModule,
     PostModule,
@@ -78,7 +83,8 @@ import { APP_GUARD } from "@nestjs/core";
     QuestionModule,
     PackagesModule,
     SchoolModule,
-    DisputeModule
+    DisputeModule,
+    DocumentsModule
   ],
   controllers: [SearchController],
   providers: [SearchService, 

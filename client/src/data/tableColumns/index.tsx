@@ -354,21 +354,39 @@ export const action = ({
   };
 };
 
-const getNestedValue = (obj: any, path: string, fallback = "--") => {
+const getNestedValue = (
+  obj: any,
+  path: string,
+  alternativePath?: string
+): any => {
+  const resolvePath = (source: any, pathStr: string) => {
+    const parts = pathStr.replace(/\[(\d+)\]/g, ".$1").split(".");
+    return parts.reduce((acc, key) => {
+      if (acc && typeof acc === "object") {
+        return acc[key];
+      }
+      return undefined;
+    }, source);
+  };
+
   try {
-    const parts = path.replace(/\[(\d+)\]/g, ".$1").split(".");
-    return (
-      parts.reduce((acc, key) => {
-        if (acc && typeof acc === "object") {
-          return acc[key];
-        }
-        return undefined;
-      }, obj) ?? fallback
-    );
+    const value = resolvePath(obj, path);
+    if (value !== undefined && value !== null) {
+      return value;
+    }
+
+    // Try alternative path if main path failed
+    if (alternativePath) {
+      const altValue = resolvePath(obj, alternativePath);
+      return altValue !== undefined && altValue !== null ? altValue : "--";
+    }
+
+    return "--";
   } catch {
-    return fallback;
+    return "--";
   }
 };
+
 const customColummn = (values: {
   key: string;
   link?:string;
@@ -380,6 +398,7 @@ const customColummn = (values: {
   input?: boolean;
   width?: number;
   showExtraNode?: boolean;
+  alternative?:string;
   type?: string;
   ellipses?: boolean;
 }) => {
@@ -389,11 +408,12 @@ const customColummn = (values: {
     showExtraNode: values?.showExtraNode,
     header: () => <div className="text-nowrap">{values.label}</div>,
     cell: ({ row }: any) => {
-      const value: any = getNestedValue(row.original, values.key) || "--"; // Ensure value exists
+      const value: any = getNestedValue(row.original, values.key, values?.alternative) || "--"; // Ensure value exists
       const avatarSrc = row.original[values.avatar || "avatar"];
       const extra = values.extra
         ? getNestedValue(row.original, values.extra)
         : null;
+        console.log(row.original)
       return (
         <div
           className={`flex gap-3 items-center ${
@@ -561,6 +581,7 @@ export const usersAdminColumn = [
   customColummn({ key: "username", label: "Username", width: 200 }),
   customColummn({ key: "email", label: "Email", width: 200 }),
   customColummn({ key: "category.name", label: "Category", width: 200 }),
+  customColummn({ key: "UserPackage[0].package.title", alternative:'subscription.status', label: "Package", width: 200 }),
   customColummn({ key: "isVerified", label: "Status", width: 150 }),
   customColummn({
     key: "createdAt",

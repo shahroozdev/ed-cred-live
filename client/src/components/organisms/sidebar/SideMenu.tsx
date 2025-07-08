@@ -38,7 +38,7 @@ import {
 import PLink from "@/components/atoms/link";
 import { Dispatch, SetStateAction } from "react";
 
-export const SideMenu = () => {
+export const SideMenu = ({user}:{user?:Record<string, any>}) => {
   const { toggleSidebar, open } = useSidebar();
   return (
     <Sidebar className="font-inter !bg-white" collapsible="icon">
@@ -73,7 +73,7 @@ export const SideMenu = () => {
         <Separator />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data?.navMain} />
+        <NavMain items={user?.role==="super_admin"?data?.navSuperMain:data?.navMain} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>

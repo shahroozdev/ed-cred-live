@@ -18,7 +18,7 @@ const Dashboard = async ({ searchParams }: { searchParams: any }) => {
     key: "posts",
   });
   return (
-    <TitleWrapper title={"Dasboard"} notBackBtn>
+    <TitleWrapper title={"Dashboard"} notBackBtn>
       <div className="font-inter flex flex-col">
         <div className="flex-1 space-y-4 p-8 pt-6">
           <OverviewTab feedbacks={feedbacks} categories={categories} posts={posts}/>

@@ -49,7 +49,9 @@ const DrawerBtn = ({ user }: { user: Record<string, any> }) => {
               user
                 ? user?.role === "admin"
                   ? data?.navMain
-                  : data?.navUser
+                  : user?.role === "super_admin"
+                    ? data?.navSuperMain
+                    : data?.navUser
                 : data?.navCommon
             }
             setIsOpen={setIsOpen}

@@ -165,18 +165,6 @@ export class AuthService {
     }
     const [users, total] = await this.userRepository.findAndCount({
       where,
-      select: [
-        "id",
-        "username",
-        "email",
-        "category",
-        "role",
-        "isVerified",
-        "subscription",
-        "createdAt",
-        "verificationDocumentUrl",
-        "profilePictureUrl",
-      ],
       relations: ["category", "UserPackage", "UserPackage.package"],
       skip: (page - 1) * pageSize,
       take: pageSize,
@@ -376,9 +364,12 @@ export class AuthService {
     oldPassword: string,
     newPassword: string
   ): Promise<response> {
-    const user = await this.userRepository.findOne({
-      where: { id: userId },
-    });
+    const user = await this.userRepository
+      .createQueryBuilder("user")
+      .addSelect("user.password") // 👈 include password manually
+      .where("user.id = :userId", { userId })
+      .andWhere("user.deletedAt IS NULL")
+      .getOne();
     if (!user) {
       throw new NotFoundException("User not found");
     }
@@ -402,7 +393,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException("User not found");
     }
-    const token = this.jwtService.sign({ email }, { expiresIn: "1h" });
+    const token = this.jwtService.sign({ email }, { secret:process.env.JWT_SECRET ,expiresIn: "1h" });
 
     await this.mailService.sendForgetPasswordEmail(email, token);
     return {
@@ -414,7 +405,7 @@ export class AuthService {
     token: string,
     password: string
   ): Promise<response & { token?: string; user?: User }> {
-    const decoded = this.jwtService.verify(token);
+    const decoded = this.jwtService.verify(token,{secret:process.env.JWT_SECRET});
     if (!decoded) {
       throw new NotFoundException("token is not valid or expired");
     }

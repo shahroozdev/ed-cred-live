@@ -26,6 +26,13 @@ enum SubscriptionPlan {
     ENTERPRISE = "enterprise",
 }
 
+export enum documentTypes{
+    POLICY ="policy",
+    TOS ="terms_of_service",
+    DISPUTE ="dispute",
+    RESPONSE="response"
+}
+
 interface BaseUser {
     name: string;
     email: string;

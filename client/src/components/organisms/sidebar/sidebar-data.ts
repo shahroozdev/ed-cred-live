@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   MessageSquareQuote,
   MessagesSquare,
+  NotebookPen,
   Phone,
   ScanEye,
   Settings2,
@@ -12,33 +13,31 @@ import {
   UserRoundPenIcon,
 } from "lucide-react";
 
-export const data = {
-  navMain: [
+const overview = {
+  title: "Overview",
+  url: "/admin-dashboard",
+  icon: LayoutDashboard,
+};
+const feedback = {
+  title: "Feedback",
+  url: "/feedback",
+  icon: MessageSquareQuote,
+  items: [
     {
-      title: "Overview",
-      url: "/admin-dashboard",
-      icon: LayoutDashboard,
+      title: "All Feedback Forms",
+      url: "/",
     },
     {
-      title: "Feedback",
-      url: "/feedback",
-      icon: MessageSquareQuote,
-      items: [
-        {
-          title: "All Feedback Forms",
-          url: "/",
-        },
-        {
-          title: "Create Feedback Form",
-          url: "/create",
-        },
-        {
-          title: "All Responses",
-          url: "/responses/all",
-        },
-      ],
+      title: "Create Feedback Form",
+      url: "/create",
     },
     {
+      title: "All Responses",
+      url: "/responses/all",
+    },
+  ],
+};
+const forum =    {
       title: "Forum",
       url: "/forum",
       icon: MessagesSquare,
@@ -52,13 +51,28 @@ export const data = {
           url: "/create",
         },
       ],
-    },
-    {
+    }
+const disputes = {
+      title: "Disputes",
+      url: "/disputes/view-all",
+      icon: Flag,
+    }
+const categories = {
+      title: "Categories",
+      url: "/category",
+      icon: Layers,
+    }
+const subCategories = {
+      title: "SubCategories",
+      url: "/subcategory",
+      icon: Layers,
+    }
+const manageUsers = {
       title: "Manage users",
       url: "/users",
       icon: UserRoundPenIcon,
-    },
-    {
+    }
+const posts=    {
       title: "Posts",
       url: "/posts",
       icon: SquareTerminal,
@@ -72,22 +86,33 @@ export const data = {
           url: "/create",
         },
       ],
-    },
-    {
-      title: "Disputes",
-      url: "/disputes/view-all",
-      icon: Flag,
-    },
-    {
-      title: "Categories",
-      url: "/category",
-      icon: Layers,
-    },
-    {
-      title: "SubCategories",
-      url: "/subcategory",
-      icon: Layers,
-    },
+    }
+const documentation={
+  title:"All documents",
+  url:"/all-documents",
+  icon:NotebookPen
+}
+export const data = {
+  navMain: [
+    overview,
+    feedback,
+    forum,
+    manageUsers,
+    posts,
+    disputes,
+    categories,
+    subCategories,
+  ],
+  navSuperMain: [
+    overview,
+    feedback,
+    forum,
+    manageUsers,
+    posts,
+    disputes,
+    categories,
+    subCategories,
+    documentation
   ],
   navUser: [
     {

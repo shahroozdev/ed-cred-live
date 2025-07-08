@@ -46,6 +46,7 @@ export class AuthController {
   ): Promise<response & { token?: string; user?: User }> {
     return apiWrapper(() => this.authService.login(identifier, password));
   }
+  
   @Public()
   @Post("forgot-password")
   async forgotPassword(
@@ -84,11 +85,11 @@ export class AuthController {
   @Get("users")
   // @UseGuards(JwtAuthGuard)
   async getUsers(@Req() req, @Query() query?: Record<string, any>) {
-    if (req.user.role !== "admin") {
-      throw new ForbiddenException(
-        "You do not have permission to view the users"
-      );
-    }
+    // if (req.user.role !== "admin") {
+    //   throw new ForbiddenException(
+    //     "You do not have permission to view the users"
+    //   );
+    // }
     return await apiWrapper(() => this.authService.getUsers(query));
   }
 

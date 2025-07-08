@@ -15,7 +15,7 @@ const PageDashboard = async ({ searchParams }: any) => {
   });
 
   return (
-    <TitleWrapper title={"Dasboard"} notBackBtn>
+    <TitleWrapper title={"Dashboard"} notBackBtn>
       <DashboardView2 data={data} />
     </TitleWrapper>
   );
