@@ -158,7 +158,7 @@ export class AuthController {
     if (!token) throw new BadRequestException("Token is required");
     try {
       await apiWrapper(() => this.authService.verifyEmail(token));
-      res.redirect(process.env.FRONTEND_URL + "/welcome"); // Replace with your actual frontend login URL
+      res.redirect(process.env.FRONTEND_URL + "welcome"); // Replace with your actual frontend login URL
     } catch (error) {
       // Handle errors, e.g., invalid token, user not found, etc.
       res

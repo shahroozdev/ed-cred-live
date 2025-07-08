@@ -24,7 +24,7 @@ const Signin = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status:
       method: "POST",
       body: values,
       tags:'profile',
-      onSuccess:(res:any)=> {router.push(res?.user?.role==="admin"?'/admin-dashboard':'/dashboard');setOpen({status:false,type:''})}
+      onSuccess:(res:any)=> {router.push(res?.user?.role==="admin"||res?.user?.role==="super_admin"?'/admin-dashboard':'/dashboard');setOpen({status:false,type:''})}
     });
   };
 

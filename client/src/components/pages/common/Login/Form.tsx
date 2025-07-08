@@ -25,7 +25,7 @@ export function LoginForm({
       onSuccess: (res: any) =>
         props?.handleClose ? props.handleClose():
         router.push(
-          res?.user?.role === "admin" ? "/admin-dashboard" : "/dashboard"
+          res?.user?.role === "admin"||res?.user?.role==="super_admin" ? "/admin-dashboard" : "/dashboard"
         ),
     });
   };
