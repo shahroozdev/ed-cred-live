@@ -26,11 +26,11 @@ enum SubscriptionPlan {
     ENTERPRISE = "enterprise",
 }
 
-export enum documentTypes{
-    POLICY ="policy",
-    TOS ="terms_of_service",
-    DISPUTE ="dispute",
-    RESPONSE="response"
+export enum documentTypes {
+  POLICY = "POLICY",
+  TOS = "TOS",
+  DISPUTE = "DISPUTE",
+  RESPONSE = "RESPONSE",
 }
 
 interface BaseUser {

@@ -34,6 +34,12 @@ export class FeedbackResponse {
   @Column({ default: "Pending" })
   status: "Pending" | "Accepted" | "Rejected";
 
+  @Column({ default: false })
+  isVerified: boolean ;
+
+  @Column({ nullable: true })
+  verifierComment: string ;
+
   @Column("jsonb")
   details: {
     salary: string;

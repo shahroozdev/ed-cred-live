@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { DocumentLog } from "./entities/document-log.entity";
 import { Document } from "./entities/document.entity";
+import { response } from "src/types";
 
 @Injectable()
 export class DocumentsService {
@@ -16,13 +17,14 @@ export class DocumentsService {
     private documentLogRepository: Repository<DocumentLog>
   ) {}
 
-  async create(createDocumentDto: CreateDocumentDto) {
+  async create(createDocumentDto: CreateDocumentDto) :Promise<response> {
     const document = this.documentRepository.create(createDocumentDto);
     const saved = await this.documentRepository.save(document);
 
     await this.logDocumentChange(saved, "Created");
 
-    return saved;
+    return {status:200, message:"Document created successfully"};
+
   }
 
   async findAll(query?: Record<string, string>) {
@@ -41,7 +43,7 @@ export class DocumentsService {
     return doc;
   }
 
-  async update(id: string, updateDto: UpdateDocumentDto) {
+  async update(id: string, updateDto: UpdateDocumentDto):Promise<response>{
     const doc = await this.documentRepository.findOne({ where: { id } });
     if (!doc) throw new NotFoundException(`Document #${id} not found`);
 
@@ -49,8 +51,7 @@ export class DocumentsService {
     const result = await this.documentRepository.save(updated);
 
     await this.logDocumentChange(result, "Updated");
-
-    return result;
+    return {status:200, message:"Document Updated successfully"};
   }
 
   async remove(id: string) {
@@ -60,7 +61,7 @@ export class DocumentsService {
     await this.documentRepository.softDelete(id); // soft delete using DeleteDateColumn
     await this.logDocumentChange(doc, "Deleted");
 
-    return { message: `Document #${id} deleted.` };
+    return { status:200, message: `Document #${id} deleted.` };
   }
   async findLogsByType(type: string) {
     return await this.documentLogRepository.find({
