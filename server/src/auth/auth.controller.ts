@@ -13,6 +13,7 @@ import {
   Res,
   HttpStatus,
   Put,
+  Delete,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
@@ -151,6 +152,7 @@ export class AuthController {
     );
   }
 
+  @Public()
   @Get("verify-email/:token")
   async verifyEmail(@Param("token") token: string, @Res() res: Response) {
     if (!token) throw new BadRequestException("Token is required");
@@ -171,7 +173,7 @@ export class AuthController {
   }
 
   @Put("/profile")
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @UploadFile("file", { folder: "profile-images" })
   async updateProfile(
     @UploadedFile() file: Express.Multer.File,
@@ -191,5 +193,12 @@ export class AuthController {
     return await apiWrapper(() =>
       this.authService.updatePackage(req.user.id, dto.packageId)
     );
+  }
+    @UseGuards(RolesGuard)
+  @Delete(":id")
+  @Roles(UserRole.ADMIN)
+  // @ApiCustomResponse("deleteUserPackage")
+  async deleteUser(@Param("id") id: string) {
+    return await apiWrapper(() => this.authService.deleteUser(+id));
   }
 }

@@ -569,7 +569,7 @@ export const usersAdminColumn = [
     width: 150,
   }),
   action({
-    deleteBtn: { link: "/users", text: "Want To Delete This user?" },
+    deleteBtn: { link: "/auth", text: "Want To Delete This user?" },
     changeCategory: true,
     verifyDocument: true,
   }),

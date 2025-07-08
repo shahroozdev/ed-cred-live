@@ -1,5 +1,5 @@
 import { ForumQuestion } from '../forum-question/entities/forum-question.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, ManyToOne, DeleteDateColumn } from 'typeorm';
 import { ForumReply } from '../forum-reply/entities/forum-reply.entity';
 import { FeedbackForm } from '../feedback-form/entities/feedback-form.entity';
 import { UserRole, Permission, SubscriptionPlan } from "../types/user";
@@ -16,6 +16,9 @@ export class User {
 
     @CreateDateColumn()
     createdAt: Date;
+
+    @DeleteDateColumn({nullable: true})
+    deletedAt?: Date;
 
     @OneToMany(() => EntityLog , (log) => log.updatedBy)
     logs: EntityLog [];

@@ -3,19 +3,20 @@ import {
   Injectable,
   UnauthorizedException,
   Logger,
-} from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
-import { AuthGuard } from '@nestjs/passport';
-import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+} from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
+import { JwtService } from "@nestjs/jwt";
+import { AuthGuard } from "@nestjs/passport";
+import { IS_PUBLIC_KEY } from "../decorators/public.decorator";
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
+export class JwtAuthGuard extends AuthGuard("jwt") {
   private readonly logger = new Logger(JwtAuthGuard.name);
 
   constructor(
     private jwtService: JwtService,
-    private reflector: Reflector
+    private reflector: Reflector,
+    // @InjectRepository(User) private userRepository: Repository<User> // Inject user repo
   ) {
     super();
   }
@@ -36,18 +37,27 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     if (!token) {
       this.logger.warn(`Unauthorized: Missing token on route "${handlerName}"`);
-      throw new UnauthorizedException('Missing access token');
+      throw new UnauthorizedException("Missing access token");
     }
 
     try {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,
       });
-      request['user'] = payload;
-      console.log(payload, 'payload')
+      // const user = await this.userRepository.findOne({
+      //   where: { id: payload.id },
+      // });
+
+      // if (!user) {
+      //   this.logger.warn(
+      //     `Unauthorized: User not found for token on route "${handlerName}"`
+      //   );
+      //   throw new UnauthorizedException("User not found");
+      // }
+      request["user"] = payload;
     } catch (err) {
       this.logger.warn(`Unauthorized: Invalid token on route "${handlerName}"`);
-      throw new UnauthorizedException('Invalid access token');
+      throw new UnauthorizedException("Invalid access token");
     }
 
     return true;
@@ -57,7 +67,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const authHeader = request.headers.authorization;
     if (!authHeader) return undefined;
 
-    const [type, token] = authHeader.split(' ');
-    return type === 'Bearer' && token ? token : undefined;
+    const [type, token] = authHeader.split(" ");
+    return type === "Bearer" && token ? token : undefined;
   }
 }

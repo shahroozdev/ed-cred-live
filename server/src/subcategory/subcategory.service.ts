@@ -54,6 +54,7 @@ export class SubcategoryService {
 
     const [subcategories, count] =
       await this.subcategoryRepository.findAndCount({
+        where:{deletedAt:null},
         // relations: ["parentCategory"],
         order: {
           createdAt: "DESC",
@@ -93,6 +94,7 @@ export class SubcategoryService {
       where.createdAt = Between(new Date(query.from), new Date());
     }
 
+    where.deleteAt = null;
     const [subcategories, total] =
       await this.subcategoryRepository.findAndCount({
         where,
@@ -132,7 +134,7 @@ export class SubcategoryService {
   }
 
   async removeSubcategory(id: number): Promise<void> {
-    const result = await this.subcategoryRepository.delete(id);
+    const result = await this.subcategoryRepository.softDelete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`Subcategory with ID ${id} not found`);
     }

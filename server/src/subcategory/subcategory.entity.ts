@@ -28,6 +28,7 @@ export class Subcategory {
   @UpdateDateColumn({ nullable: true})
   updatedAt: Date;
 
+
   @Column({ default: "categoryIcons/default.png" })
   iconUrl: string;
 

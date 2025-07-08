@@ -12,7 +12,7 @@ const ChooseCategoryIcon = ({
   onChange: any;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const icons = ["districts", "leadership", "principal", "schools", "staff"];
+  const icons = ["districts", "leadership", "principal", "schools", "staff","adult", "parents","student","Teachers"];
 
   return (
     <Modal

@@ -97,6 +97,7 @@ export class AuthService {
       .addSelect("user.password") // 👈 include password manually
       .where("user.email = :identifier", { identifier })
       .orWhere("user.username = :identifier", { identifier })
+      .andWhere("user.deletedAt IS NULL")
       .getOne();
     if (!user) throw new BadRequestException("Invalid credentials");
 
@@ -152,7 +153,7 @@ export class AuthService {
     const page = query?.page ?? 1;
     const pageSize = query?.pageSize ?? 10;
 
-    const where: any = { role: UserRole.USER };
+    const where: any = { role: UserRole.USER , deletedAt: null};
     if (query.categoryId) {
       where.category = { id: Number(query.categoryId) };
     }
@@ -442,6 +443,20 @@ export class AuthService {
       message: "Password reset successfully",
       token: newToken,
       user,
+    };
+  }
+  async deleteUser(id: number): Promise<response> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+    });
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    user.deletedAt = new Date();
+    await this.userRepository.save(user);
+    return {
+      status: 200,
+      message: "User has been deleted successfully.",
     };
   }
 }
