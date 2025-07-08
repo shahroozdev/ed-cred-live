@@ -2,7 +2,7 @@
 import Modal from "@/components/molecules/modal";
 import React, { useEffect, useState } from "react";
 import { LoginForm } from "@/components/pages/common/Login/Form";
-import { getCookie, removeCookie } from "@/actions/serverActions";
+import { getStringCookie, removeCookie } from "@/actions/serverActions";
 import { usePRouter } from "@/hooks/useRouter";
 
 const LoginModal = () => {
@@ -13,7 +13,7 @@ const LoginModal = () => {
   useEffect(()=>{
     const getUser= async()=>{
       if(user===null){
-        const userData = await getCookie('sessionOut')
+        const userData = await getStringCookie('sessionOut')
         setUser(userData)
         await removeCookie('user');
         await removeCookie('token');

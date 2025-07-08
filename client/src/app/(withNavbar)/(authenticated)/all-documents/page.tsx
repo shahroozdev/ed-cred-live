@@ -7,7 +7,7 @@ import React from 'react'
 const AllDocuments = async() => {
       const data = await getServerSideDataWithFeatures({
     url: "/documents",
-    key: "disputes",
+    key: "documents",
   });
   return (
        <TitleWrapper title={"ALL Document"} desc="Here you can edit all required documents">

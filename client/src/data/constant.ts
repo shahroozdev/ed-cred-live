@@ -83,3 +83,20 @@ export const types = {
 } as any;
 
 export const oneDay = 24 * 60 * 60;
+
+export const documentTypes=[{
+    label:"Web Policy",
+    value:"POLICY"},
+    {
+    label:"Terms of Service",
+    value:"TOS"
+    },
+    {
+    label:"Dispute Rules",
+    value:"DISPUTE"
+    },
+    {
+      label:"Response Rules",
+      value:"RESPONSE",
+    }
+]

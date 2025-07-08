@@ -1,4 +1,5 @@
 import {
+  CircleDollarSign,
   Flag,
   Layers,
   LayoutDashboard,
@@ -37,61 +38,61 @@ const feedback = {
     },
   ],
 };
-const forum =    {
-      title: "Forum",
-      url: "/forum",
-      icon: MessagesSquare,
-      items: [
-        {
-          title: "All Forums List",
-          url: "/",
-        },
-        {
-          title: "Create Forum",
-          url: "/create",
-        },
-      ],
-    }
+const forum = {
+  title: "Forum",
+  url: "/forum",
+  icon: MessagesSquare,
+  items: [
+    {
+      title: "All Forums List",
+      url: "/",
+    },
+    {
+      title: "Create Forum",
+      url: "/create",
+    },
+  ],
+};
 const disputes = {
-      title: "Disputes",
-      url: "/disputes/view-all",
-      icon: Flag,
-    }
+  title: "Disputes",
+  url: "/disputes/view-all",
+  icon: Flag,
+};
 const categories = {
-      title: "Categories",
-      url: "/category",
-      icon: Layers,
-    }
+  title: "Categories",
+  url: "/category",
+  icon: Layers,
+};
 const subCategories = {
-      title: "SubCategories",
-      url: "/subcategory",
-      icon: Layers,
-    }
+  title: "SubCategories",
+  url: "/subcategory",
+  icon: Layers,
+};
 const manageUsers = {
-      title: "Manage users",
-      url: "/users",
-      icon: UserRoundPenIcon,
-    }
-const posts=    {
-      title: "Posts",
-      url: "/posts",
-      icon: SquareTerminal,
-      items: [
-        {
-          title: "All Posts",
-          url: "/",
-        },
-        {
-          title: "Create Post",
-          url: "/create",
-        },
-      ],
-    }
-const documentation={
-  title:"All documents",
-  url:"/all-documents",
-  icon:NotebookPen
-}
+  title: "Manage users",
+  url: "/users",
+  icon: UserRoundPenIcon,
+};
+const posts = {
+  title: "Posts",
+  url: "/posts",
+  icon: SquareTerminal,
+  items: [
+    {
+      title: "All Posts",
+      url: "/",
+    },
+    {
+      title: "Create Post",
+      url: "/create",
+    },
+  ],
+};
+const documentation = {
+  title: "All documents",
+  url: "/all-documents",
+  icon: NotebookPen,
+};
 export const data = {
   navMain: [
     overview,
@@ -112,7 +113,7 @@ export const data = {
     disputes,
     categories,
     subCategories,
-    documentation
+    documentation,
   ],
   navUser: [
     {
@@ -124,6 +125,11 @@ export const data = {
       title: "Read Feedback",
       url: "/dashboard",
       icon: MessageSquareQuote,
+    },
+    {
+      title: "Pricing",
+      url: "/pricing",
+      icon: CircleDollarSign,
     },
     {
       title: "Contact Us",
@@ -146,6 +152,11 @@ export const data = {
       title: "Read Feedback",
       url: "/dashboard",
       icon: MessageSquareQuote,
+    },
+    {
+      title: "Pricing",
+      url: "/pricing",
+      icon: CircleDollarSign,
     },
     {
       title: "Contact Us",

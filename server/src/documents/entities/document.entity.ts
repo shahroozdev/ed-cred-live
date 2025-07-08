@@ -23,7 +23,10 @@ export class Document {
   @Column()
   name: string;
 
-  @Column()
+  @Column({
+    type: "enum",
+    enum: documentTypes,
+  })
   type: documentTypes;
 
   // ✅ Text column for long HTML content

@@ -14,6 +14,7 @@ import {
 import { useQuery } from "@/hooks/generalHooks";
 import HTMLContent from "@/components/atoms/htmlContent";
 import { UserProfile } from "@/types/user";
+import { Separator } from "@/components/ui/separator";
 
 export function NavigationMenuItems({user}:{user?:UserProfile}) {
   const posts = useQuery({
@@ -47,7 +48,9 @@ export function NavigationMenuItems({user}:{user?:UserProfile}) {
             <div className="w-lg gap-1 p-2 flex flex-col">
               {posts?.data?.posts?.length ?
                 posts?.data?.posts?.map(
-                  (post: Record<string, any>, index: number) => (
+                  (post: Record<string, any>, index: number) => {
+                   console.log(index, posts?.data?.posts?.length)
+                    return (
                     <PLink key={index} href={`/posts/${post?.id}`}>
                       <div className="font-semibold text-foreground">
                         {post.title}
@@ -56,8 +59,10 @@ export function NavigationMenuItems({user}:{user?:UserProfile}) {
                         value={post?.body}
                         className="line-clamp-2 !overflow-hidden !p-0"
                       />
+                     {index !== posts?.data?.posts?.length-1 && <Separator className="my-4"/>}
                     </PLink>
-                  )
+                    )
+                  }
                 ):<p className="text-center">No data found</p>}
             </div>
           </NavigationMenuContent>
@@ -70,6 +75,13 @@ export function NavigationMenuItems({user}:{user?:UserProfile}) {
             {/* </NavigationMenuLink> */}
           </PLink>
         </NavigationMenuItem>}
+        <NavigationMenuItem>
+          <PLink href="/pricing" className={navigationMenuTriggerStyle()}>
+            {/* <NavigationMenuLink className={navigationMenuTriggerStyle()}> */}
+              Pricing
+            {/* </NavigationMenuLink> */}
+          </PLink>
+        </NavigationMenuItem>
         <NavigationMenuItem>
           <PLink href="/contact" className={navigationMenuTriggerStyle()}>
             {/* <NavigationMenuLink className={navigationMenuTriggerStyle()}> */}
