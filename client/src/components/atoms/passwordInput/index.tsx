@@ -21,7 +21,7 @@ const PasswordInput = (props: PasswordInputProps) => {
         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"
         onClick={() => setShow(!show)}
       >
-        {show ? <EyeOff size={18} /> : <Eye size={18} />}
+        {show ? <Eye size={18} /> : <EyeOff size={18} />}
       </div>
     </div>
   )

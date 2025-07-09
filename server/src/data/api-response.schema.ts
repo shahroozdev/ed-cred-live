@@ -1,4 +1,4 @@
-import { updateUserPackage, uploadVerificationDocument } from "./responses/auth";
+import { changePasswordDoc, createOrUpdateUserSchema, deleteUser, forgotPassword, getUserProfile, getUsersSwagger, loginUser, resetPassword, sendVerificationEmailSwagger, setUserCategory, setUserRoleDoc, signup, updateProfileSwagger, updateUserCategoryDoc, updateUserPackage, uploadVerificationDocument, verifyEmail, verifyUser } from "./responses/auth";
 import { createBranchSwagger, deleteBranchSwagger, getAllBranchesSwagger, getSingleBranchSwagger, updateBranchSwagger } from "./responses/branch";
 import { createCategory } from "./responses/categories";
 import { createEmployeeSwagger, deleteEmployeeSwagger, getAllEmployeesSwagger, getSingleEmployeeSwagger, updateEmployeeSwagger } from "./responses/employee";
@@ -15,8 +15,24 @@ export const ApiSchemas = {
   //subcategories
   createSubcategory,
   //auth
+  signup,
+  loginUser,
+  forgotPassword,
+  resetPassword,
+  changePasswordDoc,
+  getUserProfile,
+  getUsersSwagger,
+  setUserRoleDoc,
+  setUserCategory,
+  updateUserCategoryDoc,
+  verifyUser,
+  sendVerificationEmailSwagger,
+  verifyEmail,
+  updateProfileSwagger,
+  deleteUser,
   uploadVerificationDocument,
   updateUserPackage,
+  createOrUpdateUserSchema,
   //package
   createPackage,
   //school

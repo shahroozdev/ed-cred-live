@@ -10,11 +10,11 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import * as bcrypt from "bcryptjs";
 import { User } from "./user.entity";
-import { SubscriptionPlan, UserRole } from "./../../types/user";
+import { SubscriptionPlan, UserRole } from "../types/user";
 import { response } from "../types";
 import { Subcategory } from "../subcategory/subcategory.entity";
 import { MailService } from "../mail/mail.service";
-import { CreateUserDto } from "./dto";
+import { CreateNewUserDto, CreateUserDto } from "./dto";
 import { randomBytes } from "crypto";
 import { UserPackage } from "../packages/entities/user.packages.entity";
 import { Package } from "../packages/entities/package.entity";
@@ -36,11 +36,26 @@ export class AuthService {
     private packagesService: PackagesService
   ) {}
   //handlers
-  async generateToken(payload: Record<string, any>, expiresIn: string = process.env.JWT_EXPIRATION || '1d'): Promise<string> {
+  async generateToken(
+    payload: Record<string, any>,
+    expiresIn: string = process.env.JWT_EXPIRATION || "1d"
+  ): Promise<string> {
     return await this.jwtService.signAsync(payload, {
       secret: process.env.JWT_SECRET, // 👈 ensures consistency
       expiresIn,
     });
+  }
+  async checkUserAvailibility(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: id },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException(
+        `Unauthorized: User not found for token."`
+      );
+    }
+    return user;
   }
   //services
   async signup(
@@ -153,15 +168,15 @@ export class AuthService {
     const page = query?.page ?? 1;
     const pageSize = query?.pageSize ?? 10;
 
-    const where: any = { role: UserRole.USER , deletedAt: null};
-    if (query.categoryId) {
+    const where: any = { role: UserRole.USER, deletedAt: null };
+    if (query?.categoryId) {
       where.category = { id: Number(query.categoryId) };
     }
-    if (query.username) {
-      where.username = { username: query.username };
+    if (query?.username) {
+      where.username = query?.username;
     }
-    if (query.status) {
-      where.isVerified = { isVerified: query.status };
+    if (query?.status) {
+      where.isVerified = query?.status;
     }
     const [users, total] = await this.userRepository.findAndCount({
       where,
@@ -393,7 +408,10 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException("User not found");
     }
-    const token = this.jwtService.sign({ email }, { secret:process.env.JWT_SECRET ,expiresIn: "1h" });
+    const token = this.jwtService.sign(
+      { email },
+      { secret: process.env.JWT_SECRET, expiresIn: "1h" }
+    );
 
     await this.mailService.sendForgetPasswordEmail(email, token);
     return {
@@ -405,7 +423,9 @@ export class AuthService {
     token: string,
     password: string
   ): Promise<response & { token?: string; user?: User }> {
-    const decoded = this.jwtService.verify(token,{secret:process.env.JWT_SECRET});
+    const decoded = this.jwtService.verify(token, {
+      secret: process.env.JWT_SECRET,
+    });
     if (!decoded) {
       throw new NotFoundException("token is not valid or expired");
     }
@@ -448,6 +468,59 @@ export class AuthService {
     return {
       status: 200,
       message: "User has been deleted successfully.",
+    };
+  }
+  // user.service.ts
+  async createOrUpdateUser(dto: CreateNewUserDto): Promise<response> {
+    const catId = Number(dto.categoryId);
+    if (dto.id) {
+      const existingUser = await this.userRepository.findOne({
+        where: { id: dto.id },
+        relations: ["category"], // ensure category relation is loaded if needed
+      });
+
+      if (!existingUser) {
+        throw new NotFoundException(`User with ID ${dto.id} not found`);
+      }
+
+      // Ensure category is merged properly
+      const mergedUser = this.userRepository.merge(existingUser, {
+        ...dto,
+        isVerified: dto?.status === "active",
+        role: UserRole.USER,
+        category: { id: catId },
+      });
+
+      const updatedUser = this.userRepository.save(mergedUser);
+    } else {
+      // 🆕 Create new user
+      const existingUser = await this.userRepository.findOne({
+        where: [{ username: dto.username }, { email: dto.email }],
+      });
+
+      if (existingUser) {
+        if (existingUser.username === dto.username) {
+          throw new ConflictException("Username already taken");
+        }
+        if (existingUser.email === dto.email) {
+          throw new ConflictException("Email already registered");
+        }
+      }
+      const hashedPassword = await bcrypt.hash(dto.password, 10);
+      const newUser = this.userRepository.create({
+        ...dto,
+        password: hashedPassword,
+        category: { id: catId },
+        role: UserRole.USER,
+        permissions: [],
+        isVerified: dto.status === "active" ? true : false,
+      });
+
+      const user = this.userRepository.save(newUser);
+    }
+    return {
+      status: 200,
+      message: `User ${dto?.id ? "Updated" : "Created"} Successfully`,
     };
   }
 }

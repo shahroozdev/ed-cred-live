@@ -47,13 +47,13 @@ const ResponseCard = ({
         />
       </div>:<></>}
       <div className="w-full relative">
-        {!noImage?<Image
+        {/* {!noImage?<Image
           src={"/images/VerifiedStamp.png"}
           className=" h-full opacity-15 max-w-[200px] w-auto absolute right-[35%]"
           width={1000}
           height={500}
           alt=""
-        />:<></>}
+        />:<></>} */}
         <div
           className={`flex ${
             mobile ? "flex-col" : "flex-col sm:flex-row"
@@ -83,12 +83,12 @@ const ResponseCard = ({
               <div className="text-sm flex gap-1 items-center justify-end">
                 {response?.responses?.length} review
                 {response?.responses?.length > 1 ? "s" : ""}
-                <Image
+                {/* <Image
                   src={"/images/VerifiedStamp.png"}
                   width={20}
                   height={20}
                   alt=""
-                />
+                /> */}
               </div>
               <div className="text-sm text-muted-foreground font-normal">
                 {response?.branch?.country}

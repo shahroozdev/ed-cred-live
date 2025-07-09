@@ -72,6 +72,16 @@ const manageUsers = {
   title: "Manage users",
   url: "/users",
   icon: UserRoundPenIcon,
+  items:[
+    {
+      title:"All Users",
+      url:"/"
+    },
+    {
+      title:"Create New User",
+      url:"/create"
+    }
+  ]
 };
 const posts = {
   title: "Posts",

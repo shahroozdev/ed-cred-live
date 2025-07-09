@@ -1,7 +1,6 @@
 enum UserRole {
     ADMIN     = "admin",
     SUPER_ADMIN     = "super_admin",
-    MODERATOR = "moderator",
     USER      = "user",
 }
 
@@ -63,5 +62,10 @@ interface BaseUser {
     createdAt?: Date;
     updatedAt?: Date;
 }
-
-export { BaseUser, Permission, SubscriptionPlan, UserRole, UserCategory };
+// For comparison logic
+ const RolePriority: Record<UserRole, number> = {
+  [UserRole.USER]: 1,
+  [UserRole.ADMIN]: 2,
+  [UserRole.SUPER_ADMIN]: 3,
+};
+export { BaseUser, Permission, SubscriptionPlan, UserRole, UserCategory, RolePriority };

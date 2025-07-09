@@ -76,3 +76,11 @@ export class CreateFeedbackResponseDto {
   @IsOptional()
   attachments?: any[];
 }
+
+export class verifyFeedbackByAdminDto {
+  @IsString()
+  id: string;
+
+  @IsOptional()
+  verifierComment?:string
+}

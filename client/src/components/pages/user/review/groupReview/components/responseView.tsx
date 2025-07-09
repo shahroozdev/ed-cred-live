@@ -17,12 +17,12 @@ const ResponseView = ({ response , category}: {response: Record<string, any>, ca
       }
     });
   const averageRating = Math.round(totalRating / (count===0?1:count));
-
+    // console.log(response)
   return (
     <div className="w-full px-3 py-2 flex gap-2 cursor-pointer ">
       <div className="lg:block hidden w-32 h-24 px-2 border-r-[1px]">
         <Image
-          src={`/images/verifiedStamp.png`}
+          src={`/images/${response?.isVerified?'verifiedStamp':'Review'}.png`}
           width={600}
           height={600}
           alt={""}

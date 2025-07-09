@@ -11,17 +11,15 @@ import {
   UseGuards,
   Query,
   UploadedFiles,
-  // UseInterceptors,
-  // UploadedFiles,
 } from "@nestjs/common";
 import { FeedbackResponseService } from "./feedback-response.service";
-// import { CreateFeedbackResponseDto } from "./dto/create-feedback-response.dto";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
-// import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { UploadFile } from "../decorators/upload-file-decorator";
 import { ApiConsumes } from "@nestjs/swagger";
 import { parseNestedFormData } from "../utils/utils";
-// import { AnyFilesInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
+import { Roles } from "../decorators/roles.decorator";
+import { UserRole } from "../types/user";
+import { verifyFeedbackByAdminDto } from "./dto/create-feedback-response.dto";
 
 @Controller("feedback-responses")
 export class FeedbackResponseController {
@@ -89,12 +87,13 @@ export class FeedbackResponseController {
     return response;
   }
 
-  // // Delete a feedback response by ID
-  // @Delete(':id')
-  // async remove(@Param('id') id: string) {
-  //     await this.feedbackResponseService.deleteResponse(id);
-  //     return { message: 'Feedback response deleted successfully' };
-  // }
+  @Patch("verifyByAdmin")
+  @Roles(UserRole.ADMIN)
+  async verifyFeedbackbBAdmin(
+    @Body() dto: verifyFeedbackByAdminDto
+  ) {
+    return this.feedbackResponseService.verifyFeedback(dto);
+  }
 
   @Patch(":id/:type")
   async acceptFeedback(

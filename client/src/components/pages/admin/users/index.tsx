@@ -1,11 +1,9 @@
 import React from "react";
-import VerifyUserCard from "./components/verifyUserCard";
-import UpdateThroughSelect from "./components/updateThroughSelect";
 import TableWithFilter from "@/components/molecules/tableWithFilters";
 import { usersAdminColumn } from "@/data/tableColumns";
 
 const UsersPageComponent = ({users}:{users:any}) => {
-
+  console.log(users, 'users')
   return (
     <div>
       <TableWithFilter

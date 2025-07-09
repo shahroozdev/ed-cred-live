@@ -8,6 +8,7 @@ import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
 import { IS_PUBLIC_KEY } from "../decorators/public.decorator";
+import { AuthService } from "./auth.service";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard("jwt") {
@@ -15,6 +16,7 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
 
   constructor(
     private jwtService: JwtService,
+    // private authService: AuthService,
     private reflector: Reflector,
     // @InjectRepository(User) private userRepository: Repository<User> // Inject user repo
   ) {
@@ -44,16 +46,7 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,
       });
-      // const user = await this.userRepository.findOne({
-      //   where: { id: payload.id },
-      // });
-
-      // if (!user) {
-      //   this.logger.warn(
-      //     `Unauthorized: User not found for token on route "${handlerName}"`
-      //   );
-      //   throw new UnauthorizedException("User not found");
-      // }
+      // const user = await this.authService.checkUserAvailibility(payload.id);
       request["user"] = payload;
     } catch (err) {
       this.logger.warn(`Unauthorized: Invalid token on route "${handlerName}"`);

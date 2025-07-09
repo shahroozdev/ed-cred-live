@@ -8,12 +8,16 @@ const EditModal = ({
   children,
   data,
   className,
-  title
+  title,
+  icon,
+  iconBtnColor
 }: {
   children: (data: Record<string, any>, setIsOpen:Dispatch<SetStateAction<boolean>>) => ReactNode;
   data: Record<string, any>;
   className?:string;
-  title?:string,
+  title?:string;
+  icon?:ReactNode;
+  iconBtnColor?:string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -23,12 +27,12 @@ const EditModal = ({
       setIsOpen={setIsOpen}
       className={className||"!max-w-[1200px] !w-full mx-5 !max-h-[90vh] h-full"}
       trigger={
-        <IconButton bgColor="black" className="cursor-pointer text-white px-2">
-          <Pencil size={20} />
+        <IconButton bgColor={iconBtnColor||"black" }className="cursor-pointer text-white px-2">
+          {icon||<Pencil size={20} />}
         </IconButton>
       }
     >
-      <div className="h-full !overflow-y-scroll p-1 !max-h-[90vh]">{children(data, setIsOpen)}</div>
+      <div className="!h-max !overflow-y-auto p-1 !max-h-[90vh]">{children(data, setIsOpen)}</div>
     </Modal>
   );
 };

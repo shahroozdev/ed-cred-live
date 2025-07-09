@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ILike, Repository } from "typeorm";
 import { FeedbackResponse } from "./entities/feedback-response.entity";
 import { FeedbackForm } from "../feedback-form/entities/feedback-form.entity";
-import { CreateFeedbackResponseDto } from "./dto/create-feedback-response.dto";
+import { CreateFeedbackResponseDto, verifyFeedbackByAdminDto } from "./dto/create-feedback-response.dto";
 import { User } from "../auth/user.entity";
 import { response } from "../types";
 import { School } from "../school/entities/school.entity";
@@ -254,7 +254,6 @@ export class FeedbackResponseService {
       relations: ["feedbackForm", "feedbackForm.questions"],
     });
   }
-
   async findRelatedResponses(responseId: string): Promise<{
     responses: FeedbackResponse[];
     related: FeedbackResponse[];
@@ -427,5 +426,19 @@ export class FeedbackResponseService {
       take: 4,
       where: { accepted: true },
     });
+  }
+
+  async verifyFeedback(dto: verifyFeedbackByAdminDto): Promise<response> {
+    const response = await this.feedbackResponseRepository.findOne({
+      where: { id :dto?.id},
+    });
+    if (!response) throw new NotFoundException("Feedback not found");
+    response.verifierComment = dto?.verifierComment;
+    response.isVerified = true;
+    await this.feedbackResponseRepository.save(response);
+    return {
+      status: 200,
+      message: `Feedback Response Verified Successfully.`,
+    };
   }
 }
