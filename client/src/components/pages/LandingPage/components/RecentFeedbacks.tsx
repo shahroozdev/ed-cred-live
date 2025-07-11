@@ -16,7 +16,7 @@ const Feedbacks = ({reviews}:{reviews:Record<string, any>}) => {
     1024: { slidesPerView: 2 },
   };
   return (
-    <div className="my-20 flex h-auto w-full flex-col items-center justify-center px-3 py-2  gap-14 md:my-40 max-w-[1200px] m-auto">
+    <div className="flex h-auto w-full flex-col items-center justify-center px-3 py-2  gap-14 mb-20 max-w-[1200px] mx-auto">
       <div className="flex flex-col items-center justify-center gap-4">
         <div className="text-3xl font-[400] md:text-4xl">
           Recent <span className="font-[700]">Feedbacks</span>

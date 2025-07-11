@@ -6,6 +6,7 @@ import PLink from "@/components/atoms/link";
 import { useMutate } from "@/hooks/generalHooks";
 import { signupSchema, SignupFormData } from "@/lib/schemas";
 import Image from "next/image";
+import PasswordInput from "@/components/atoms/passwordInput";
 
 const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status: boolean; type: string }>>}) => {
   const { MutateFunc, isPending } = useMutate();
@@ -59,8 +60,7 @@ const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ sta
 
         <div>
           <label className="block text-sm font-medium">Password</label>
-          <input
-            type="password"
+          <PasswordInput
             {...register("password")}
             className="w-full p-3 border rounded-md"
             placeholder="password (minimum 8 characters)"
@@ -72,8 +72,7 @@ const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ sta
 
         <div>
           <label className="block text-sm font-medium">Confirm Password</label>
-          <input
-            type="password"
+          <PasswordInput
             {...register("confirmPassword")}
             className="w-full p-3 border rounded-md"
             placeholder="confirm password"

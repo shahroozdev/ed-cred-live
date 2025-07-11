@@ -1,12 +1,10 @@
 import Image from "next/image";
 import React from "react";
 import {
-  ArrowRightIcon,
   FacebookIcon,
   LinkedinIcon,
   TwitterIcon,
 } from "lucide-react";
-import { Button } from "@/components/atoms";
 import PLink from "@/components/atoms/link";
 
 const Footer = () => {
@@ -40,8 +38,10 @@ const Footer = () => {
 
   return (
     <div className="bg-[#1B201E] w-screen">
-      <div className="grid grid-cols-1 gap-10 p-10 max-w-[1400px] m-auto pt-20 font-[400] text-white md:grid-cols-5">
-        <div className="flex flex-col gap-4 md:col-span-2">
+      <div className="grid grid-cols-1 gap-4 md:p-10 p-4 max-w-[1400px] m-auto pt-20 font-[400] text-white md:grid-cols-5">
+        {/* About Us */}
+        <div className="flex sm:flex-row flex-col gap-4 md:col-span-3">
+        <div className="flex flex-col gap-4 ">
           <div className="flex items-center gap-3">
             <Image
               src={"/images/logo.png"}
@@ -64,7 +64,8 @@ const Footer = () => {
             Learn More →
           </PLink>
         </div>
-        <div className="flex flex-col gap-4 text-[400]">
+          {/* Quick Links */}
+        <div className="flex flex-col min-w-[150px] gap-4 text-[400]">
           <div className="text-2xl font-[700]">Quick Links</div>
           {Links.map((item, index) => (
             <PLink
@@ -76,6 +77,8 @@ const Footer = () => {
             </PLink>
           ))}
         </div>
+        </div>
+          {/* Mission & Values */}
         <div className="grid grid-row gap-4 col-span-2">
           <div className="flex flex-col gap-4 text-[400]">
             <div className="text-2xl font-[700]">Mission & Values</div>
@@ -101,20 +104,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        {/* <div className="flex flex-col gap-4 md:col-span-2 items-center">
-          <div className="text-2xl font-[700]">Try It Today</div>
-          <div className="text-[400]">
-            Get started for free. Add your whole team as your needs grow.
-          </div>
-          <div>
-            <Button variant="primary">
-              <div className="flex gap-2 text-xl items-center">
-                <div>Join Now</div>
-                <ArrowRightIcon />
-              </div>
-            </Button>
-          </div>
-        </div> */}
+          {/* Social Links */}
         <div className="border-t-2 border-[#2E4E73] pt-4 md:col-span-5">
           <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
             <p>

@@ -7,6 +7,7 @@ import { loginSchema, LoginSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePRouter } from "@/hooks/useRouter";
 import Image from "next/image";
+import PasswordInput from "@/components/atoms/passwordInput";
 
 const Signin = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status: boolean; type: string }>>}) => {
   const { MutateFunc, isPending } = useMutate();
@@ -51,8 +52,7 @@ const Signin = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status:
           )}
         </div>
         <div className="flex flex-col">
-          <input
-            type="password"
+          <PasswordInput
             required
             className="input w-full p-3 border border-gray-300 rounded-lg"
             placeholder="Password"
