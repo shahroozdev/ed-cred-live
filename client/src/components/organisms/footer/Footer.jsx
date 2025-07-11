@@ -13,30 +13,30 @@ const Footer = () => {
   const date = new Date();
   const Links = [
     {
-        head: "Submit a Review",
-        link: "/submission-guidlines"
+      head: "Submit a Review",
+      link: "/submission-guidlines",
     },
     {
-        head: "Review Guidelines",
-        link: "/review-guidlines"
+      head: "Review Guidelines",
+      link: "/review-guidlines",
     },
     {
-        head: "Dispute a Review",
-        link: "/dispute-guidlines"
+      head: "Dispute a Review",
+      link: "/dispute-guidlines",
     },
     {
-        head: "Terms of Use",
-        link: "/terms-of-use"
+      head: "Terms of Use",
+      link: "/terms-of-use",
     },
     {
-        head: "Privacy Policy",
-        link: "/web-use-policy"
+      head: "Privacy Policy",
+      link: "/web-use-policy",
     },
     {
-        head: "Contact us",
-        link: "/contact"
-    }
-  ]
+      head: "Contact us",
+      link: "/contact",
+    },
+  ];
 
   return (
     <div className="bg-[#1B201E] w-screen">
@@ -57,7 +57,12 @@ const Footer = () => {
             promote accountability in schools. Together, we work to ensure safe,
             inclusive, and high-quality education for all students.
           </div>
-            <PLink href={"/about"} className="text-primary hover:scale-105 transition-all duration-300 ease-in-out">Learn More →</PLink>
+          <PLink
+            href={"/about"}
+            className="text-primary hover:scale-105 transition-all duration-300 ease-in-out"
+          >
+            Learn More →
+          </PLink>
         </div>
         <div className="flex flex-col gap-4 text-[400]">
           <div className="text-2xl font-[700]">Quick Links</div>
@@ -72,21 +77,29 @@ const Footer = () => {
           ))}
         </div>
         <div className="grid grid-row gap-4 col-span-2">
-        <div className="flex flex-col gap-4 text-[400]">
-          <div className="text-2xl font-[700]">Mission & Values</div>
-          <div className="opacity-85 font-thin">
-            Transparency. Accountability. Safety. Equity. Voice. We believe
-            every student deserves an educational environment built on trust,
-            fairness, and continuous growth.
+          <div className="flex flex-col gap-4 text-[400]">
+            <div className="text-2xl font-[700]">Mission & Values</div>
+            <div className="opacity-85 font-thin">
+              Transparency. Accountability. Safety. Equity. Voice. We believe
+              every student deserves an educational environment built on trust,
+              fairness, and continuous growth.
+            </div>
+            <PLink
+              href={"/our-mission"}
+              className="text-primary hover:scale-105 transition-all duration-300 ease-in-out"
+            >
+              View Our Full Mission →
+            </PLink>
           </div>
-            <PLink href={"/our-mission"} className="text-primary hover:scale-105 transition-all duration-300 ease-in-out">View Our Full Mission →</PLink>
-        </div>
-        <div className="flex flex-col gap-4 text-[400]">
-          <div className="text-2xl font-[700]">Legal & Trust</div>
-          <div className="opacity-85 font-thin">
-            Ed-Cred operates under U.S. legal protections, including CDA Section 230 and Anti-SLAPP safeguards. All reviews are anonymous. Verified claims receive a Verified Stamp and are securely moderated for accuracy and fairness.
+          <div className="flex flex-col gap-4 text-[400]">
+            <div className="text-2xl font-[700]">Legal & Trust</div>
+            <div className="opacity-85 font-thin">
+              Ed-Cred operates under U.S. legal protections, including CDA
+              Section 230 and Anti-SLAPP safeguards. All reviews are anonymous.
+              Verified claims receive a Verified Stamp and are securely
+              moderated for accuracy and fairness.
+            </div>
           </div>
-        </div>
         </div>
         {/* <div className="flex flex-col gap-4 md:col-span-2 items-center">
           <div className="text-2xl font-[700]">Try It Today</div>
@@ -109,9 +122,27 @@ const Footer = () => {
               Reserved.
             </p>
             <div className="flex gap-8">
-              <FacebookIcon fill="white" />
-              <TwitterIcon fill="white" />
-              <LinkedinIcon fill="white" />
+              <a
+                href="https://www.facebook.com/profile.php?id=61573691075986 "
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FacebookIcon fill="white" />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <TwitterIcon fill="white" />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/ed-cred"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LinkedinIcon fill="white" />
+              </a>
             </div>
           </div>
         </div>

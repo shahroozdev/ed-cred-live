@@ -4,7 +4,7 @@ const TermsOFUse = () => {
   return (
     <div className="max-w-[1400px] w-full m-auto bg-background py-4 md:px-10 px-2">
       <p className="text-[#686C70] my-3 ">
-        Effective Date: <strong>May 20, 2025</strong>
+        Effective Date: <strong>June 3, 2025</strong>
       </p>
       <p className="text-[#686C70] my-5">
         By accessing or using the Ed-Cred platform ("Platform"), you agree to
@@ -22,7 +22,7 @@ const TermsOFUse = () => {
       </p>
       <h2 className="text-2xl font-semibold my-3">2. Submission Guidelines</h2>
       <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
-        <li>All reviews are anonymous, even to Ed-Cred.</li>
+        <li>All reviews are anonymous, even to Ed-Cred</li>
         <li>
           Reviews submitted on the Platform are final and cannot be edited or
           altered once submitted, except in the case of a dispute claim.
@@ -98,15 +98,23 @@ const TermsOFUse = () => {
       <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
         <li>
           Any claims in your review that are supported by official documentation
-          will receive a "Verified Stamp" and will be <b>bolded</b> for
-          emphasis.
+          will receive a "Verified Stamp.”
         </li>
         <li>
           A "Verified Stamp" indicates that the claim has been reviewed and
           validated based on official documentation.
         </li>
       </ul>
-      <h2 className="text-2xl font-semibold my-3">5. Dispute of Claims</h2>
+      <h2 className="text-2xl font-semibold my-3">5. Editorial Discretion and Platform Integrity</h2>
+      <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
+        <li>
+          Our goal is to provide a platform that fosters honest, respectful, and constructive feedback. While we welcome a wide range of perspectives, we reserve the right to decline or remove any submission that we believe may undermine the integrity, safety, or mission of our platform. This includes, but is not limited to, reviews or posts that lack sufficient context, appear to be submitted in bad faith, or do not contribute meaningfully to the conversation.
+        </li>
+        <li>
+          We apply this discretion carefully and thoughtfully, always with a commitment to fairness and the community we serve.
+        </li>
+      </ul>
+      <h2 className="text-2xl font-semibold my-3">6. Dispute of Claims</h2>
       <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
         <li>
           If you wish to dispute a claim made in a review, you may submit a
@@ -127,7 +135,7 @@ const TermsOFUse = () => {
         </li>
       </ul>
       <h2 className="text-2xl font-semibold my-3">
-        6. Limitation of Liability
+        7. Limitation of Liability
       </h2>
       <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
         <li>
@@ -147,7 +155,7 @@ const TermsOFUse = () => {
           is not liable for any statements or claims made by users.
         </li>
       </ul>
-      <h2 className="text-2xl font-semibold my-3">7. Privacy</h2>
+      <h2 className="text-2xl font-semibold my-3">8. Privacy</h2>
       <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
         <li>
           Ed-Cred is committed to respecting your privacy. All reviews submitted
@@ -179,7 +187,7 @@ const TermsOFUse = () => {
           </ul>
         </li>
       </ul>
-      <h2 className="text-2xl font-semibold my-3">8. User Conduct</h2>
+      <h2 className="text-2xl font-semibold my-3">9. User Conduct</h2>
       <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
         <li>
           By using the Platform, you agree not to submit false, defamatory, or
@@ -191,16 +199,16 @@ const TermsOFUse = () => {
         </li>
       </ul>
       <h2 className="text-2xl font-semibold my-3">
-        9. Ed-Cred Founder and Internal Team Exemptiont
+        10. Ed-Cred Founder and Internal Team Exemptiont
       </h2>
-      <p>
+      <p className="text-[#686C70]">
         To uphold the integrity and focus of the Ed-Cred review system,
         individuals who serve on the Ed-Cred platform team, including the
         founder and operational administrators, are not publicly listed for
         review.
       </p>
       <br />
-      <p>
+      <p className="text-[#686C70]">
         While platform leadership may still be involved in the education sector,
         they do not hold a classroom teaching or institutional leadership role
         in a manner that fits the review categories established on Ed-Cred.
@@ -223,16 +231,16 @@ const TermsOFUse = () => {
         </li>
       </ul>
       <br />
-      <p>
+      <p className="text-[#686C70]">
         This policy ensures the platform remains focused on its mission,
         providing relevant, verified feedback about teachers, staff, schools,
         and educational leadership, while protecting privacy and internal
         operational roles that fall outside traditional review categories.
       </p>
       <br />
-      <h2 className="text-2xl font-semibold my-3">10. Changes to Terms</h2>
+      <h2 className="text-2xl font-semibold my-3">11. Changes to Terms</h2>
       <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
-        <p>
+        <p className="text-[#686C70]">
           Ed-Cred reserves the right to modify or update these Terms of Use at
           any time. Any changes will be posted on the Platform, and your
           continued use of the Platform after such changes indicates your
@@ -240,9 +248,9 @@ const TermsOFUse = () => {
         </p>
       </ul>
 
-      <h2 className="text-2xl font-semibold my-3">11. Contact Information</h2>
+      <h2 className="text-2xl font-semibold my-3">12. Contact Information</h2>
       <ul className="list-disc lpl-6 space-y-2 text-[#686C70]">
-        <p>
+        <p className="text-[#686C70]">
           If you have any questions about these Terms or wish to dispute a
           claim, please contact us at <strong>email.</strong>
         </p>

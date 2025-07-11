@@ -4,7 +4,7 @@ const WebsitePolicy = () => {
   return (
     <div className="max-w-[1400px] w-full m-auto bg-background py-4 md:px-10 px-2">
       <p className="text-[#686C70] my-3 ">
-        Effective Date: <strong>May 20, 2025</strong>
+        Effective Date: <strong>: June 3, 2025</strong>
       </p>
       <p className="text-[#686C70] my-5">
         This Website Use Policy governs the access and use of the Ed-Cred
@@ -60,6 +60,22 @@ const WebsitePolicy = () => {
         retained for internal purposes only and are not published publicly.
       </p>
       <h2 className="text-2xl font-semibold my-3">
+        Editorial Discretion and Platform Integrity
+      </h2>
+      <p className="text-[#686C70]">
+        At Ed-Cred, our goal is to provide a platform that fosters honest,
+        respectful, and constructive feedback. While we welcome a wide range of
+        perspectives, we reserve the right to decline or remove any submission
+        that we believe may undermine the integrity, safety, or mission of our
+        platform. This includes, but is not limited to, reviews or posts that
+        lack sufficient context, appear to be submitted in bad faith, or do not
+        contribute meaningfully to the conversation.
+        <br />
+        <br />
+        We apply this discretion carefully and thoughtfully, always with a
+        commitment to fairness and the community we serve.
+      </p>
+      <h2 className="text-2xl font-semibold my-3">
         Discussion and Forum Posts
       </h2>
       <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
@@ -89,7 +105,7 @@ const WebsitePolicy = () => {
         law. All uploaded documents will be moved from cloud storage to a secure
         external hard drive for protection once the review or post is processed.
       </p>
-      <h2 className="text-2xl font-semibold my-3">Dispute and Claims</h2>
+      <h2 className="text-2xl font-semibold my-3">Disputes and Claims</h2>
       <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
         <li>
           If you wish to dispute a review or post, you must provide official
