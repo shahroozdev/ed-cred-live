@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 const EdCredSection = () => {
     return (
-        <div className="max-w-[1400px] w-full h-full mx-auto px-6 md:px-12 bg-background">
-            <div className="text-sm flex flex-col lg:flex-row items-start md:items-center gap-10">
+        <div className="max-w-[1400px] w-full h-full mx-auto p-6 md:px-12 bg-background">
+            <div className=" flex flex-col lg:flex-row items-start md:items-center gap-10">
                 {/* Text Section */}
                 <div className="lg:w-2/3 text-[var(--mt-pre-color)]">
                     <p className="mb-4">

@@ -1,4 +1,5 @@
 import { Button } from "@/components/atoms";
+import PLink from "@/components/atoms/link";
 import Image from "next/image";
 
 const About = () => {
@@ -21,7 +22,7 @@ const About = () => {
           all.
         </div>
         <div>
-          <Button>Read More About Us</Button>
+          <PLink href={"/about"} className="bg-primary text-white p-2 rounded-lg border-2 border-primary hover:bg-white hover:text-primary">Read More About Us</PLink>
         </div>
       </div>
       {/* <Image src={'/icons/about-image.png'} width={900} height={800} alt="about-image" className="w-80 md:w-auto" /> */}

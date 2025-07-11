@@ -14,15 +14,15 @@ const Footer = () => {
   const Links = [
     {
         head: "Submit a Review",
-        link: "/"
+        link: "/submission-guidlines"
     },
     {
         head: "Review Guidelines",
-        link: "/"
+        link: "/review-guidlines"
     },
     {
         head: "Dispute a Review",
-        link: "/"
+        link: "/dispute-guidlines"
     },
     {
         head: "Terms of Use",
@@ -79,7 +79,7 @@ const Footer = () => {
             every student deserves an educational environment built on trust,
             fairness, and continuous growth.
           </div>
-            <PLink href={"/"} className="text-primary hover:scale-105 transition-all duration-300 ease-in-out">View Our Full Mission →</PLink>
+            <PLink href={"/our-mission"} className="text-primary hover:scale-105 transition-all duration-300 ease-in-out">View Our Full Mission →</PLink>
         </div>
         <div className="flex flex-col gap-4 text-[400]">
           <div className="text-2xl font-[700]">Legal & Trust</div>

@@ -49,6 +49,7 @@ import DateAndTime from "@/components/atoms/dateAndTime";
 import FeedbackFormCreateEdit from "@/components/pages/admin/feedback/create/FeedbackFormCreateEdit";
 import { Textarea } from "@/components/ui/textarea";
 import CreateUserComponent from "@/components/pages/admin/users/create/CreateUserComponent";
+import CreateEditDocument from "@/components/pages/admin/documents/create";
 
 export const UpdateStatus = ({
   data,
@@ -138,7 +139,7 @@ export const VerifyAndComment = ({
     await MutateFunc({
       url: `feedback-responses/verifyByAdmin`,
       method: "PATCH",
-      body: {...values, id: data?.id},
+      body: { ...values, id: data?.id },
       onSuccess: () => setIsOpen && setIsOpen(false),
     });
   };
@@ -496,7 +497,8 @@ const customColummn = (values: {
             </PLink>
           ) : values.type === "date" ? (
             <DateAndTime value={value} />
-          ) : values.key === "feedbackForm.questions" ? (
+          ) : values.key === "feedbackForm.questions" ||
+            values.key === "questions" ? (
             <>{value?.length}</>
           ) : values.key === "status" ? (
             <p
@@ -517,7 +519,9 @@ const customColummn = (values: {
             <>{row.original.featured ? "Yes" : "No"}</>
           ) : values.key === "description" ? (
             <p className="!line-clamp-2 ">{value}</p>
-          ) : values.key === "text" || values?.key === "body" ? (
+          ) : values.key === "text" ||
+            values?.key === "body" ||
+            values?.type === "HTML" ? (
             <HTMLContent
               value={value}
               className="line-clamp-2 !overflow-hidden !p-0"
@@ -658,7 +662,7 @@ export const usersAdminColumn = [
   }),
   action({
     deleteBtn: { link: "/auth", text: "Want To Delete This user?" },
-    editModal:{component:<CreateUserComponent/>, title:'User Edit Modal'},
+    editModal: { component: <CreateUserComponent />, title: "User Edit Modal" },
     changeCategory: true,
     verifyDocument: true,
   }),
@@ -705,7 +709,11 @@ export const feedbacksResponsesColumn = [
     label: "Subcategory",
     width: 200,
   }),
-  customColummn({ key: "feedbackForm.questions", label: "Question", width: 100 }),
+  customColummn({
+    key: "feedbackForm.questions",
+    label: "Question",
+    width: 100,
+  }),
   customColummn({ key: "isVerified", label: "Verified", width: 150 }),
   customColummn({ key: "accepted", label: "Status", width: 120 }),
   customColummn({
@@ -795,5 +803,24 @@ export const userDisputeColumn = [
     deleteBtn: { link: "/disputes", text: "Want To Delete This Dispute?" },
     view: "/disputes/detail",
     key: "disputes",
+  }),
+];
+export const adminDocumentsColumn = [
+  customColummn({ key: "desc", label: "Description", ellipses: true, width: 200, type:'HTML' }),
+  customColummn({ key: "type", label: "Document Type", width: 200 }),
+  customColummn({
+    key: "createdAt",
+    label: "Created At",
+    type: "date",
+    width: 150,
+  }),
+  customColummn({
+    key: "updatedAt",
+    label: "Updated At",
+    type: "date",
+    width: 150,
+  }),
+  action({
+    editModal: { component: <CreateEditDocument />, title: "Edit Document" },
   }),
 ];

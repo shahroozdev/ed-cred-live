@@ -14,7 +14,7 @@ export default function ContactPage() {
               Contact Us
             </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6">
               <form className="space-y-4">
                 <Input placeholder="Your Name" />
                 <Input placeholder="Your Email" type="email" />
@@ -23,7 +23,7 @@ export default function ContactPage() {
                   Send Message
                 </Button>
               </form>
-
+{/* 
               <div className="space-y-4 text-gray-600">
                 <div>
                   <h2 className="text-lg font-semibold text-gray-800">
@@ -43,7 +43,7 @@ export default function ContactPage() {
                   <h2 className="text-lg font-semibold text-gray-800">Email</h2>
                   <p>contact@example.com</p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </CardContent>
         </Card>
