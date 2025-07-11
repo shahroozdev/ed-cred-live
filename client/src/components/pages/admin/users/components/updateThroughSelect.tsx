@@ -7,10 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useMutate, useQuery } from "@/hooks/generalHooks";
+import { useGlobalStore, useMutate, useQuery } from "@/hooks/generalHooks";
 
 const UpdateThroughSelect = ({user, type}: { user: Record<string, any>; type: "role" | "category";}) => {
-  const { data } = useQuery({ url: "/category", key: "categories" });
+  const [categories, schooles, subCategories] = useGlobalStore()
   const { MutateFunc } = useMutate();
   const updateUser = async (userId: number, id: string) => {
     const urls ={role:"/auth/users/role", category:"/auth/category/update/"}
@@ -38,8 +38,8 @@ const UpdateThroughSelect = ({user, type}: { user: Record<string, any>; type: "r
         </SelectContent>
       ) : (
         <SelectContent>
-          {data?.categories &&
-            data?.categories.map((category: any) => (
+          {subCategories&&
+            subCategories.map((category: any) => (
               <SelectItem
                 value={category.id ? category.id.toString() : "0"}
                 key={category.id}

@@ -16,24 +16,33 @@ import {
   Delete,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { JwtAuthGuard } from "./jwt-auth.guard";
 import { Roles } from "../decorators/roles.decorator";
-import { RolesGuard } from "../guards/roles.guard";
+// import { RolesGuard } from "../guards/roles.guard";
 import { apiWrapper } from "../decorators/globalErrorHandlerClass";
-import { response, UserRole } from "../types";
 import { User } from "./user.entity";
-import { ChangePasswordDto, CreateUserDto, LoginUserDto, ResetPasswordDto, resetPasswordEmailDto, SubscribeDto } from "./dto";
+import {
+  ChangePasswordDto,
+  CreateNewUserDto,
+  CreateUserDto,
+  LoginUserDto,
+  ResetPasswordDto,
+  resetPasswordEmailDto,
+  SubscribeDto,
+} from "./dto";
 import { Response } from "express";
 import { ApiConsumes } from "@nestjs/swagger";
 import { UploadFile } from "../decorators/upload-file-decorator";
 import { ApiCustomResponse } from "../decorators/api-decorator";
 import { Public } from "../decorators/public.decorator";
+import { response } from "../types";
+import { UserRole } from "../types/user";
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
   @Post("signup")
+  @ApiCustomResponse("signup")
   async signup(
     @Body() dto: CreateUserDto
   ): Promise<response & { token?: string; user?: Partial<User> }> {
@@ -41,23 +50,24 @@ export class AuthController {
   }
   @Public()
   @Post("login")
+  @ApiCustomResponse("loginUser")
   async login(
     @Body() { identifier, password }: LoginUserDto
   ): Promise<response & { token?: string; user?: User }> {
     return apiWrapper(() => this.authService.login(identifier, password));
   }
-  
+
   @Public()
   @Post("forgot-password")
+  @ApiCustomResponse("forgotPassword")
   async forgotPassword(
     @Body() { email }: resetPasswordEmailDto
   ): Promise<response> {
-    return apiWrapper(() =>
-      this.authService.forgotPassword(email)
-    );
+    return apiWrapper(() => this.authService.forgotPassword(email));
   }
   @Public()
   @Post("reset-password")
+  @ApiCustomResponse("resetPassword")
   async verifyPasswordResetToken(
     @Body() { token, password }: ResetPasswordDto
   ): Promise<response & { token?: string; user?: User }> {
@@ -66,7 +76,7 @@ export class AuthController {
     );
   }
   @Post("change-password")
-    // @UseGuards(JwtAuthGuard)
+  @ApiCustomResponse("changePasswordDoc")
   async changePassword(
     @Req() req,
     @Body() { oldPassword, newPassword }: ChangePasswordDto
@@ -77,49 +87,48 @@ export class AuthController {
   }
 
   @Get("profile")
-  // @UseGuards(JwtAuthGuard)
+  @ApiCustomResponse("getUserProfile")
   async getProfile(@Req() req) {
     return this.authService.getProfile(req.user.id);
   }
 
   @Get("users")
-  // @UseGuards(JwtAuthGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiCustomResponse("getUsersSwagger")
   async getUsers(@Req() req, @Query() query?: Record<string, any>) {
-    // if (req.user.role !== "admin") {
-    //   throw new ForbiddenException(
-    //     "You do not have permission to view the users"
-    //   );
-    // }
     return await apiWrapper(() => this.authService.getUsers(query));
   }
 
   @Post("users/role")
-  // @UseGuards(JwtAuthGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiCustomResponse("setUserRoleDoc")
   async setUserRole(@Req() req) {
-    if (req.user.role !== "admin") {
-      throw new ForbiddenException(
-        "You do not have permission to change a users role"
-      );
-    }
     return this.authService.updateUserRole(req.body.userId, req.body.userRole);
   }
 
   @Post("users/category")
-  // @UseGuards(JwtAuthGuard)
+  @ApiCustomResponse("setUserCategory")
   async setUserCategory(@Req() req) {
     const { categoryId } = req.body;
     return this.authService.updateUserCategory(req.user.id, categoryId);
   }
- @UseGuards(RolesGuard)
+
+  @Post("create-update-user")
+  @Roles(UserRole.ADMIN)
+  @ApiCustomResponse("createOrUpdateUserSchema")
+  async createNewUser(@Body() dto: CreateNewUserDto): Promise<response> {
+    return apiWrapper(() => this.authService.createOrUpdateUser(dto));
+  }
+
   @Post("category/update")
   @Roles(UserRole.ADMIN)
+  @ApiCustomResponse("updateUserCategoryDoc")
   async updateUserCategory(@Req() req) {
     const { userId, categoryId } = req.body;
     return this.authService.updateUserCategory(userId, categoryId);
   }
 
   @Post("upload-verification")
-  // @UseGuards(JwtAuthGuard)
   @ApiConsumes("multipart/form-data")
   @ApiCustomResponse("uploadVerificationDocument")
   @UploadFile("file", { folder: "verification-documents" })
@@ -135,9 +144,9 @@ export class AuthController {
     );
   }
 
-  @UseGuards(RolesGuard)
   @Post("verify-user")
   @Roles(UserRole.ADMIN)
+  @ApiCustomResponse("verifyUser")
   async verifyUser(
     @Body() body: { userId: number; action: "approve" | "reject" }
   ) {
@@ -147,6 +156,7 @@ export class AuthController {
   }
 
   @Post("send-verification-email")
+  @ApiCustomResponse("sendVerificationEmailSwagger")
   async sendVerification(@Body("email") email: string) {
     return await apiWrapper(() =>
       this.authService.sendVerificationEmail(email)
@@ -155,6 +165,7 @@ export class AuthController {
 
   @Public()
   @Get("verify-email/:token")
+  @ApiCustomResponse("verifyEmail")
   async verifyEmail(@Param("token") token: string, @Res() res: Response) {
     if (!token) throw new BadRequestException("Token is required");
     try {
@@ -166,15 +177,11 @@ export class AuthController {
         .status(HttpStatus.BAD_REQUEST)
         .send("Verification failed. Please contact support.");
     }
-    // const result = await this.authService.verifyEmail(token);
-    // if (!result) {
-    //     throw new NotFoundException('Invalid or expired token');
-    // }
-    // return { message: 'Email verified successfully' };
   }
 
-  @Put("/profile")
-  // @UseGuards(JwtAuthGuard)
+  @Put("profile")
+  @ApiConsumes("multipart/form-data")
+  @ApiCustomResponse("updateProfileSwagger")
   @UploadFile("file", { folder: "profile-images" })
   async updateProfile(
     @UploadedFile() file: Express.Multer.File,
@@ -187,18 +194,17 @@ export class AuthController {
     );
   }
 
-  @Put("/update-package")
-  // @UseGuards(JwtAuthGuard)
+  @Put("update-package")
   @ApiCustomResponse("updateUserPackage")
   async updatePackage(@Req() req, @Body() dto: SubscribeDto) {
     return await apiWrapper(() =>
       this.authService.updatePackage(req.user.id, dto.packageId)
     );
   }
-    @UseGuards(RolesGuard)
+
   @Delete(":id")
   @Roles(UserRole.ADMIN)
-  // @ApiCustomResponse("deleteUserPackage")
+  @ApiCustomResponse("deleteUser")
   async deleteUser(@Param("id") id: string) {
     return await apiWrapper(() => this.authService.deleteUser(+id));
   }

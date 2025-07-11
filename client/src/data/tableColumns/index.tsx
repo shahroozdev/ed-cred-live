@@ -29,6 +29,7 @@ import { Question } from "@/types";
 import {
   Check,
   Eye,
+  MessageSquareHeart,
   Pencil,
   Repeat1,
   Trash2,
@@ -46,7 +47,8 @@ import React, {
 import { AddSubCategory } from "@/components/pages/admin/Category/AddSubCategory";
 import DateAndTime from "@/components/atoms/dateAndTime";
 import FeedbackFormCreateEdit from "@/components/pages/admin/feedback/create/FeedbackFormCreateEdit";
-
+import { Textarea } from "@/components/ui/textarea";
+import CreateUserComponent from "@/components/pages/admin/users/create/CreateUserComponent";
 
 export const UpdateStatus = ({
   data,
@@ -124,6 +126,53 @@ export const UpdateStatus = ({
     </>
   );
 };
+export const VerifyAndComment = ({
+  data,
+  setIsOpen,
+}: {
+  data?: any;
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
+}) => {
+  const { MutateFunc, isPending } = useMutate();
+  const onSubmit = async (values: any) => {
+    await MutateFunc({
+      url: `feedback-responses/verifyByAdmin`,
+      method: "PATCH",
+      body: {...values, id: data?.id},
+      onSuccess: () => setIsOpen && setIsOpen(false),
+    });
+  };
+  return (
+    <FormTemplate onSubmit={onSubmit} className="space-y-4">
+      <FormFeilds
+        fieldProps={{ name: "comment" }}
+        label={{
+          text: (
+            <p>
+              Comment<span className="text-sm opacity-70">(Optional)</span>
+            </p>
+          ),
+        }}
+      >
+        {(field) => (
+          <Textarea
+            value={field.value}
+            onChange={field.onChange}
+            placeholder={"Enter Comment"}
+          />
+        )}
+      </FormFeilds>
+      <Button
+        variant="primary"
+        type="submit"
+        className="ml-auto mr-0"
+        loading={isPending}
+      >
+        Verify
+      </Button>
+    </FormTemplate>
+  );
+};
 export const action = ({
   edit,
   editModal,
@@ -142,7 +191,13 @@ export const action = ({
   rejected,
 }: {
   edit?: string;
-  editModal?: { component: ReactElement; className?: string; title?: string };
+  editModal?: {
+    component: ReactElement;
+    className?: string;
+    title?: string;
+    icon?: ReactNode;
+    iconBtnColor?: string;
+  };
   deleteBtn?: { text?: string; link?: string };
   statusUpdate?: {
     options?: { label: string; value: string }[];
@@ -263,6 +318,8 @@ export const action = ({
               data={data}
               className={editModal?.className}
               title={editModal?.title}
+              icon={editModal?.icon}
+              iconBtnColor={editModal?.iconBtnColor}
             >
               {(modalData, setIsOpen) => {
                 return React.cloneElement(editModal?.component as any, {
@@ -389,7 +446,7 @@ const getNestedValue = (
 
 const customColummn = (values: {
   key: string;
-  link?:string;
+  link?: string;
   label: string;
   extra?: string;
   avatar?: string;
@@ -398,7 +455,7 @@ const customColummn = (values: {
   input?: boolean;
   width?: number;
   showExtraNode?: boolean;
-  alternative?:string;
+  alternative?: string;
   type?: string;
   ellipses?: boolean;
 }) => {
@@ -408,12 +465,12 @@ const customColummn = (values: {
     showExtraNode: values?.showExtraNode,
     header: () => <div className="text-nowrap">{values.label}</div>,
     cell: ({ row }: any) => {
-      const value: any = getNestedValue(row.original, values.key, values?.alternative) || "--"; // Ensure value exists
+      const value: any =
+        getNestedValue(row.original, values.key, values?.alternative) || "--"; // Ensure value exists
       const avatarSrc = row.original[values.avatar || "avatar"];
       const extra = values.extra
         ? getNestedValue(row.original, values.extra)
         : null;
-        console.log(row.original)
       return (
         <div
           className={`flex gap-3 items-center ${
@@ -423,7 +480,10 @@ const customColummn = (values: {
           {values?.children && values?.children}
           {values.avatar && (
             <Avatar>
-              <AvatarImage src={process.env.BASE_URL+avatarSrc} alt="Avatar" />
+              <AvatarImage
+                src={process.env.BASE_URL + avatarSrc}
+                alt="Avatar"
+              />
               <AvatarFallback>NA</AvatarFallback>
             </Avatar>
           )}
@@ -434,15 +494,15 @@ const customColummn = (values: {
             >
               {value}
             </PLink>
-          ):values.type === "date" ? (
+          ) : values.type === "date" ? (
             <DateAndTime value={value} />
-          ) : values.key === "questions" ? (
+          ) : values.key === "feedbackForm.questions" ? (
             <>{value?.length}</>
           ) : values.key === "status" ? (
             <p
               className={cn(
                 "!w-20 px-2 py-1 rounded-full capitalize border-2 text-center",
-                value === "pending" || value ==="draft"
+                value === "pending" || value === "draft"
                   ? "bg-yellow-200 text-yellow-500 border-yellow-500"
                   : value === "rejected"
                   ? "bg-red-200 text-red-500 border-red-500"
@@ -465,7 +525,9 @@ const customColummn = (values: {
           ) : values.key === "isDraft" ? (
             <p
               className={`capitalize border-2 rounded-2xl px-2 ${
-                row?.original?.isDraft ? "text-red-500 bg-red-200 border-red-500 " : "text-green-500 bg-green-200 border-green-500"
+                row?.original?.isDraft
+                  ? "text-red-500 bg-red-200 border-red-500 "
+                  : "text-green-500 bg-green-200 border-green-500"
               }`}
             >
               {row?.original?.isDraft ? "draft" : "active"}
@@ -520,7 +582,7 @@ export const studentMaterialColumn = [
       title: "Edit Category",
     },
     deleteBtn: { link: "/category", text: "Want To Delete This Category?" },
-    key:"categories"
+    key: "categories",
   }),
 ];
 export const subCategoryColumn = [
@@ -543,7 +605,7 @@ export const subCategoryColumn = [
       link: "/subcategory",
       text: "Want To Delete This Subcategory?",
     },
-    key:"subcategories"
+    key: "subcategories",
   }),
 ];
 export const feedbacksDashboardColumn = [
@@ -572,16 +634,21 @@ export const feedbacksDashboardColumn = [
         { label: "Inactive", value: "inactive" },
       ],
       link: "/feedback-form/status",
-      key:'isDraft',
+      key: "isDraft",
       tags: "feedbacksFormList",
     },
   }),
 ];
 export const usersAdminColumn = [
   customColummn({ key: "username", label: "Username", width: 200 }),
-  customColummn({ key: "email", label: "Email", width: 200 }),
+  customColummn({ key: "email", label: "Email", width: 300 }),
   customColummn({ key: "category.name", label: "Category", width: 200 }),
-  customColummn({ key: "UserPackage[0].package.title", alternative:'subscription.status', label: "Package", width: 200 }),
+  customColummn({
+    key: "UserPackage[0].package.title",
+    alternative: "subscription.status",
+    label: "Package",
+    width: 200,
+  }),
   customColummn({ key: "isVerified", label: "Status", width: 150 }),
   customColummn({
     key: "createdAt",
@@ -591,12 +658,19 @@ export const usersAdminColumn = [
   }),
   action({
     deleteBtn: { link: "/auth", text: "Want To Delete This user?" },
+    editModal:{component:<CreateUserComponent/>, title:'User Edit Modal'},
     changeCategory: true,
     verifyDocument: true,
   }),
 ];
 export const postsAdminColumn = [
-  customColummn({ key: "title", label: "Title", width: 200 , link:'/posts', avatar:'image'}),
+  customColummn({
+    key: "title",
+    label: "Title",
+    width: 200,
+    link: "/posts",
+    avatar: "image",
+  }),
   customColummn({ key: "body", label: "Description", width: 200 }),
   customColummn({ key: "featured", label: "Featured" }),
   customColummn({ key: "status", label: "Status", width: 100 }),
@@ -615,11 +689,10 @@ export const postsAdminColumn = [
       link: "/posts",
       tags: "posts",
     },
-    editModal: { component: <CreatePost />},
+    editModal: { component: <CreatePost /> },
     deleteBtn: { link: "/posts", text: "Want To Delete This Post?" },
   }),
 ];
-
 export const feedbacksResponsesColumn = [
   customColummn({ key: "feedbackForm.title", label: "Title", width: 200 }),
   customColummn({
@@ -632,7 +705,8 @@ export const feedbacksResponsesColumn = [
     label: "Subcategory",
     width: 200,
   }),
-  customColummn({ key: "questions", label: "Question", width: 100 }),
+  customColummn({ key: "feedbackForm.questions", label: "Question", width: 100 }),
+  customColummn({ key: "isVerified", label: "Verified", width: 150 }),
   customColummn({ key: "accepted", label: "Status", width: 120 }),
   customColummn({
     key: "submittedAt",
@@ -641,12 +715,18 @@ export const feedbacksResponsesColumn = [
     width: 150,
   }),
   action({
+    editModal: {
+      component: <VerifyAndComment />,
+      icon: <MessageSquareHeart />,
+      iconBtnColor: "blue",
+      className: "!max-w-[360px]",
+      title: "Verify And Comment",
+    },
     accept: true,
     edit: "/feedback/responses/edit",
     reject: true,
   }),
 ];
-
 export const adminQuestionColumn = [
   customColummn({ key: "text", label: "Question", width: 300 }),
   customColummn({ key: "type", label: "Question Type" }),

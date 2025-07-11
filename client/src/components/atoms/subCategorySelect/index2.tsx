@@ -5,13 +5,13 @@ import { SelectProps } from "@radix-ui/react-select";
 import React from "react";
 interface CategorySelect2Props extends SelectProps {}
 
-const SubCategorySelect2 = ({value,onValueChange, ...props}:CategorySelect2Props) => {
+const SubCategorySelect2 = ({value,onValueChange, placeholder, ...props}:CategorySelect2Props &{placeholder?:string}) => {
   const [categories, schooles, subCategories] = useGlobalStore()
 
   return (
         <Select value={value} onValueChange={onValueChange} {...props}>
       <SelectTrigger className={`w-full`}>
-        <SelectValue placeholder={"Subcategories"} />
+        <SelectValue placeholder={placeholder||"Subcategories"} />
       </SelectTrigger>
       <SelectContent>
         {subCategories &&

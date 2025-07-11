@@ -216,3 +216,36 @@ export const profileSchema = z.object({
   profession: z.string().optional(),
   bio: z.string().optional(),
 });
+
+export const CreateUserSchema = z.object({
+  fname: z.string().optional(),
+  lname: z.string().optional(),
+  country: z.string().optional(),
+  state: z.string().optional(),
+  education: z.string().optional(),
+  profession: z.string().optional(),
+  bio: z.string().optional(),
+  username: z.string().min(1,{ message: "Invalid email" }),
+  email: z.string().email({ message: "Invalid email" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  confirmPassword: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  role: z.enum(["user", "admin", "super_admin"]).optional().default("user"),
+  status: z.enum(["active", "inactive"]).optional().default("active"),
+  categoryId: z.string().min(1, { message: "Category ID is required" }),
+})
+.refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"]})
+export const UpdateUserSchema = z.object({
+  fname: z.string().optional(),
+  lname: z.string().optional(),
+  country: z.string().optional(),
+  state: z.string().optional(),
+  education: z.string().optional(),
+  profession: z.string().optional(),
+  bio: z.string().optional(),
+  username: z.string().min(1,{ message: "Invalid email" }),
+  email: z.string().email({ message: "Invalid email" }),
+  status: z.enum(["active", "inactive"]).optional().default("active"),
+  categoryId: z.string().min(1, { message: "Category ID is required" }),
+})

@@ -8,7 +8,7 @@ import * as basicAuth from "express-basic-auth";
 import { existsSync, mkdirSync } from "fs";
 import { UploadExceptionFilter } from "./decorators/globalErrorHandlerClass/uploadErrorGlobal";
 import { json, urlencoded } from "express";
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 dotenv.config();
 // import * as bodyParser from 'body-parser';
 
@@ -42,7 +42,16 @@ async function bootstrap() {
     .setTitle("ED CRED API")
     .setDescription("API documentation for my NestJS app")
     .setVersion("1.0")
-    .addBearerAuth() // If you have authentication
+    .addBearerAuth(
+      {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT", // ✅ Optional but good
+        name: "Authorization",
+        in: "header",
+      },
+      "access-token"
+    ) // This name must match the @ApiBearerAuth() key) // If you have authentication
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -52,4 +61,3 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 6969);
 }
 bootstrap();
-

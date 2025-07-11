@@ -49,7 +49,6 @@ export function NavigationMenuItems({user}:{user?:UserProfile}) {
               {posts?.data?.posts?.length ?
                 posts?.data?.posts?.map(
                   (post: Record<string, any>, index: number) => {
-                   console.log(index, posts?.data?.posts?.length)
                     return (
                     <PLink key={index} href={`/posts/${post?.id}`}>
                       <div className="font-semibold text-foreground">

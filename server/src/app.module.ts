@@ -38,6 +38,7 @@ import { APP_GUARD } from "@nestjs/core";
 import { DocumentsModule } from './documents/documents.module';
 import { Document } from "./documents/entities/document.entity";
 import { DocumentLog } from "./documents/entities/document-log.entity";
+import { RolesGuard } from "./guards/roles.guard";
 
 @Module({
   imports: [
@@ -91,7 +92,11 @@ import { DocumentLog } from "./documents/entities/document-log.entity";
     {
     provide:APP_GUARD,
     useClass:JwtAuthGuard
-  }
+  },
+  {
+  provide: APP_GUARD,
+  useClass: RolesGuard,
+}
 ],
 })
 export class AppModule {}

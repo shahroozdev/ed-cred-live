@@ -21,10 +21,12 @@ export const FormFeilds = ({
   children,
   fieldProps,
   label,
+  required,
 }: {
   children: (field: ControllerRenderProps<any, string>) => React.ReactNode;
   fieldProps: { name: string; className?: string };
   label?: { text: string | ReactNode; className?: string };
+  required?: boolean;
 }) => {
   const { control } = useFormContext();
   return (
@@ -34,7 +36,7 @@ export const FormFeilds = ({
       render={({ field }) => (
         <FormItem className={fieldProps.className}>
           {label?.text && (
-            <FormLabel className={label?.className}>{label?.text}</FormLabel>
+            <FormLabel className={label?.className}>{label?.text}{required && <span className="text-red-500">*</span>}</FormLabel>
           )}
           <FormControl>{children(field)}</FormControl>
           <FormMessage />
