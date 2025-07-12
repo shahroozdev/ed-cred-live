@@ -10,13 +10,13 @@ const Header = () => {
             <div className="text-2xl md:text-5xl font-[600] md:w-1/2 z-1">Your Trusted Platform for Honest Feedback</div>
             <div className="md:text-base text-xs w-2/3 text-[#878787] z-1">Transparency, Accountability, Safety, Voice, and Equity</div>
             <Searchbar />
-            <div className="masked overflow-hidden aspect-[9/5]">
+            <div className="masked max-w-[300px] lg:max-w-[800px] !h-max">
                 <Image
                     src={"/images/7.jpg"}
                     width={900}
                     height={500}
                     alt='header-background'
-                    className='w-full md:max-h-[500px] max-h-[300px]'
+                    className='w-full object-fill'
                     priority
                 />
             </div>

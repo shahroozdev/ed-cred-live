@@ -29,7 +29,7 @@ const ResponseCard = ({
   const averageRating = count > 0 ? Math.round(totalRating / count) : 0;
   return (
     <div
-      className="w-full border-2 border-muted rounded-md px-3 py-2 !text-sm flex gap-2 shadow-md hover:scale-101 cursor-pointer min-h-[215px] transition-all duration-300 ease-in-out"
+      className="w-full border-2 border-muted border-solid rounded-md px-3 py-2 !text-sm flex gap-2 shadow-md hover:scale-101 cursor-pointer min-h-[215px] transition-all duration-300 ease-in-out"
       onClick={() => router.push(`/response/${response?.id}`)}
     >
       {/* <div className="w-full h-full absolute flex justify-center items-center"> */}

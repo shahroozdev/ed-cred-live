@@ -6,20 +6,20 @@ import PLink from "@/components/atoms/link";
 const Card = ({ title, featureImageUrl, text, id }: any) => {
 
   return (
-    <div className="flex flex-col items-start h-[500px] overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out justify-start gap-6 rounded-3xl border border-[#E5F4F2] bg-background p-2 text-left shadow-lg">
-      <div className="w-full min-h-[200px] h-[200px] max-h-[200px] border-[2px] rounded-3xl">
+    <div className="flex flex-col items-start sm:h-[500px] h-[600px] overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out justify-start gap-6 rounded-3xl border border-muted border-solid bg-background p-2 text-left shadow-lg shadow-[#b6b6b6]" >
+      <div className="w-full sm:min-h-[200px] sm:h-[200px] sm:max-h-[200px] min-h-[300px] h-[300px] max-h-[300px] border rounded-3xl border-solid">
         <Image
           src={process.env.BASE_URL + featureImageUrl}
-          width={500}
-          height={200}
+          width={1000}
+          height={1000}
           alt={title}
-          className="w-full h-full rounded-3xl"
+          className="w-full h-full object-cover object-center rounded-3xl"
         />
       </div>
       <div className="text-xl font-[600] line-clamp-2 min-h-[55px] px-2">
         {title}
       </div>
-      <HTMLContent value={text} className="line-clamp-5 !px-2 !py-0 !overflow-y-hidden" />
+      <HTMLContent value={text} className="line-clamp-4 !px-2 !py-0 !overflow-y-hidden" />
       <PLink
         href={`/forum/questions/${id}`}
         className="group flex gap-2 ml-2 px-2 py-2 rounded-md transition-all duration-300 ease-in-out bg-[#439e5e] border-[1px] border-[#439e5e] hover:bg-background hover:text-[#439e5e]  text-white"

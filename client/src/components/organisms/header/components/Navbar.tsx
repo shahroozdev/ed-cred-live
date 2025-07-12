@@ -12,7 +12,7 @@ import PLink from "@/components/atoms/link";
 const Navbar = ({ user }: { user: UserProfile }) => {
   // console.log(user)
   return (
-    <div className="!sticky !top-0 left-0 flex h-[70px] w-full items-center justify-center bg-background border-b-[1px] shadow-md sm:px-8 px-2 z-10 text-[var(--mt-pre-color)]">
+    <div className="!sticky !top-0 left-0 flex h-[70px] w-full items-center justify-center bg-background border-b-[1px] border-muted border-solid  shadow-md sm:px-8 px-2 z-10 text-[var(--mt-pre-color)]">
       <div className="w-full flex items-center justify-between py-4">
         <PLink href={'/'} className="flex items-center justify-center gap-2 md:gap-4 cursor-pointer">
           <Image

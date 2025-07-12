@@ -3,9 +3,9 @@ import Image from "next/image";
 import React from "react";
 
 const CategoryCard = ({ title, desc, icon }: { title: string; desc?: string; icon?: string }) => {
-  console.log(icon)
+  // console.log(icon)
   return (
-    <div className="flex items-center justify-center gap-4 rounded-3xl border border-[#E5F4F2] bg-background p-4 text-center shadow-md flex-col h-[270px] min-h-[270px] max-h-[270px]">
+    <div className="flex items-center justify-center gap-4 rounded-3xl border border-muted border-solid bg-background p-4 text-center shadow-md flex-col h-[270px] min-h-[270px] max-h-[270px]">
       <div>
         <Image
           src={`/uploads/categoryIcons/${icon}.png`}

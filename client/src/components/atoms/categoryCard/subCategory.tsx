@@ -26,7 +26,7 @@ export const SubCategoryCard = ({ category }: { category: Category }) => {
 
   return (
     <div
-      className="flex cursor-pointer items-center sm:justify-center justify-start gap-4 rounded-3xl border border-[#E5F4F2] bg-white p-8 text-center shadow-lg sm:flex-col hover:shadow-xl"
+      className="flex cursor-pointer items-center sm:justify-center justify-start gap-4 rounded-3xl border border-muted border-solid bg-white p-8 text-center shadow-lg sm:flex-col hover:shadow-xl"
       onClick={() => selectCategory(category?.id)}
     >
       <div>

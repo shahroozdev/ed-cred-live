@@ -24,7 +24,7 @@ import { usePRouter } from "@/hooks/useRouter";
 
 export const AdminNavbar = ({ user }: { user: any }) => {
   return (
-    <div className="bg-background sticky top-0 z-10 border-b-[1px] max-w-screen">
+    <div className="bg-background sticky top-0 z-10 border-b-[1px] border-muted border-solid  max-w-screen">
       <div className="flex h-[70px] items-center px-4 ">
         {/* <MainNav className="mx-2" /> */}
         <div className="ml-auto flex items-center space-x-4">

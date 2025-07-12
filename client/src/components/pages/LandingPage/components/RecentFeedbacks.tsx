@@ -1,13 +1,8 @@
 "use client";
-import { useQuery } from "@/hooks/generalHooks";
 import { Slider } from "@/components/molecules";
 import ResponseCard from "../../user/dashboard/components/responseCard";
 
 const Feedbacks = ({reviews}:{reviews:Record<string, any>}) => {
-  const res = useQuery({
-    url: `/school/branch`,
-    key: "feedbackFormForGroups",
-  });
   
   const feedbacks = reviews?.branches?.flatMap((item:any)=>(item?.employees));
   const breakpoints = {

@@ -1,6 +1,7 @@
 "use client";
 import { GlobalStore } from "@/hooks/generalHooks";
 import React, { ReactNode } from "react";
+import BrowserDetect from "./BrowserDetect";
 
 const GlobalStoreProvider = ({
   children,
@@ -15,7 +16,7 @@ const GlobalStoreProvider = ({
 }) => {
   return (
     <GlobalStore.Provider value={[categories, schools, subCategories]}>
-      {children}
+           <BrowserDetect>{children}</BrowserDetect>
     </GlobalStore.Provider>
   );
 };
