@@ -15,7 +15,7 @@ export const CategoryFilterForm = {
   arr: [
     {
       pStyle: "border-none flex-col items-start max-md:mb-2 w-full",
-      style: "border-2 rounded-lg p-5 w-full",
+      style: "border-2 border-solid rounded-lg p-5 w-full",
       type: "text",
       preNode: <h1 className="text-sm font-medium text-[#374151]">Name</h1>,
       placeHolder: "Category Name",
@@ -23,7 +23,7 @@ export const CategoryFilterForm = {
     },
     {
       pStyle: "border-none flex-col items-start max-md:mb-2",
-      style: "border-2 rounded-lg px-5 h-16 w-full",
+      style: "border-2 border-solid rounded-lg px-5 h-16 w-full",
       type: "date",
       preNode: (
         <h1 className="text-sm font-medium text-[#374151]">From Date</h1>
@@ -33,7 +33,7 @@ export const CategoryFilterForm = {
     },
     {
       pStyle: "border-none flex-col items-start max-md:mb-2",
-      style: "border-2 rounded-lg px-5 h-16 w-full",
+      style: "border-2 border-solid rounded-lg px-5 h-16 w-full",
       type: "date",
       preNode: <h1 className="text-sm font-medium text-[#374151]">To Date</h1>,
       placeHolder: "Select Date",
@@ -53,13 +53,13 @@ export const FeedbackFilterForm = {
   arr: [
     {
       pStyle: "border-none flex-col items-start max-md:mb-2",
-      style: "border-2 rounded-lg px-5 h-16 w-full",
+      style: "border-2 border-solid rounded-lg px-5 h-16 w-full",
       preNode: <h1 className="text-sm font-medium text-[#374151]">Category</h1>,
       type: "category",
     },
     {
       pStyle: "border-none flex-col items-start max-md:mb-2",
-      style: "border-2 rounded-lg px-5 h-16 w-full",
+      style: "border-2 border-solid rounded-lg px-5 h-16 w-full",
       preNode: (
         <h1 className="text-sm font-medium text-[#374151]">Sub Category</h1>
       ),
@@ -67,7 +67,7 @@ export const FeedbackFilterForm = {
     },
     {
       pStyle: "border-none flex-col items-start max-md:mb-2",
-      style: "border-2 rounded-lg px-5 h-12 w-full",
+      style: "border-2 border-solid rounded-lg px-5 h-12 w-full",
       type: "select",
       preNode: <h1 className="text-sm font-medium text-[#374151]">Status</h1>,
       placeHolder: "Select Date",

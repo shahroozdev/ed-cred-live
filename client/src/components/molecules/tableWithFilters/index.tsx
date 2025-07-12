@@ -47,7 +47,7 @@ const TableWithFilter: React.FC<TableWithColumnProps> = ({
       className={cn(
         className,
         !removeMainCSS &&
-          "shadow-[8px_8px_48px_0px_rgba(0,0,0,0.08)] rounded-xl border mb-5"
+          "shadow-[8px_8px_48px_0px_rgba(0,0,0,0.08)] rounded-xl border border-solid mb-5"
       )}
     >
       <div className="mt-3 flex items-center justify-between sm:px-4 px-2 mb-2">
@@ -79,7 +79,7 @@ const TableWithFilter: React.FC<TableWithColumnProps> = ({
 
       {searchBar && (
         <div className="w-full flex justify-end px-5 mb-2">
-          <div className="flex items-center gap-2 border border-gray-300 rounded-md px-2 bg-white">
+          <div className="flex items-center gap-2 border border-gray-300 border-solid rounded-md px-2 bg-white">
             <Input
               placeholder="Search title..."
               value={search}

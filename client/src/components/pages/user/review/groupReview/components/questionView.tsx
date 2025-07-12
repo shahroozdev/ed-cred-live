@@ -17,7 +17,7 @@ const QuestionView = ({ response, userId, category }: { response: Record<string,
           })) ?? [],
       }}
     >
-      <div className="p-4 border-t-muted mx-2 rounded fill-blue-400">
+      <div className="p-4 border-t-muted border-solid mx-2 rounded fill-blue-400">
         {userId&&!response?.is_owned && <DisputeBtn id={response?.id} disabled={response?.is_disputed}/>}
         <QuestionList feedback={response?.feedbackForm} disabled  category={category}/>
         <Attachments attachments={response?.attachments}/>

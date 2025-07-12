@@ -41,7 +41,7 @@ const VerifyUserCard = ({
               <Button
                 loading={isPending}
                 onClick={() => verifyUser(user.id, "reject")}
-                className="flex-grow bg-red-500 text-white hover:text-red-500 hover:border-red-500"
+                className="flex-grow bg-red-500 text-white border-solid hover:text-red-500 hover:border-red-500"
               >
                 Cancel
               </Button>

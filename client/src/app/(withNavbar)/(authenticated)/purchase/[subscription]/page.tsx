@@ -36,7 +36,7 @@ const PackagePurchase = async ({
             </div>
 
             {/* Features List */}
-            <div className="mb-8 bg-gray-50 p-6 rounded-xl border">
+            <div className="mb-8 bg-gray-50 p-6 rounded-xl border border-solid">
               <h2 className="text-lg font-semibold text-gray-700 mb-4">
                 What you get:
               </h2>
@@ -50,7 +50,7 @@ const PackagePurchase = async ({
             </div>
             <div className="mb-6">
               <h3 className="text-lg font-semibold my-4">Payment Details</h3>
-              <div className="border p-4 rounded-lg shadow-sm bg-gray-50">
+              <div className="border border-solid p-4 rounded-lg shadow-sm bg-gray-50">
                 <StripeElement amount={Number(Package!.price)} />
               </div>
             </div>

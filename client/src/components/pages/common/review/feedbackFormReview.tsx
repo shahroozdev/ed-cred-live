@@ -90,7 +90,7 @@ const attachmentUrls =
       {/* AI Review Warning */}
       <div
         className={cn(
-          "bg-destructive/10 dark:bg-destructive/20 border-destructive-foreground",
+          "bg-destructive/10 dark:bg-destructive/20 border-destructive-foreground border-solid",
           "text-destructive-foreground flex gap-2 rounded-md p-4 text-sm"
         )}
       >
@@ -135,7 +135,7 @@ const attachmentUrls =
               type={"checkbox"}
               {...field}
               onChange={field.onChange}
-              className="peer accent-primary h-4 w-4 border border-gray-300 rounded-md"
+              className="peer accent-primary h-4 w-4 border border-gray-300 border-solid rounded-md"
             />
             <span>
               I agree to the{" "}

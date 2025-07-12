@@ -19,7 +19,7 @@ const SchoolSearch = ({
   const [query, setQuery] = useState("");
 
   return (
-    <Command className="rounded-md border shadow-md">
+    <Command className="rounded-md border border-solid shadow-md">
       <CommandInput placeholder="Search school..." onValueChange={setQuery} />
       {query.trim() !== "" && (
         <CommandList>

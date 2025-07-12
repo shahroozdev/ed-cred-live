@@ -34,7 +34,7 @@ const FilterBar = ({
   const [_school, setSchool] = useState("");
 
   return (
-    <div className="w-full h-max bg-background border rounded-md flex flex-col gap-4 p-4 shadow-md">
+    <div className="w-full h-max bg-background border border-solid rounded-md flex flex-col gap-4 p-4 shadow-md">
       <div className="font-semibold flex gap-2">
         <FilterIcon />
         Filters

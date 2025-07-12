@@ -31,10 +31,10 @@ const GroupedResponseView = ({
           <h3 className="text-xl font-semibold my-4">Responses List:</h3>{" "}
           {/* <FilterDrawer /> */}
         </div>
-        <div className="border-2 border-muted rounded-md p-4">
+        <div className="border-2 border-muted border-solid rounded-md p-4">
           <CustomAccordion
             items={items}
-            className=" border-2 border-muted rounded-md mb-2 shadow-md hover:scale-101 transition-all duration-300 ease-in-out space-y-3"
+            className=" border-2 border-muted border-solid rounded-md mb-2 shadow-md hover:scale-101 transition-all duration-300 ease-in-out space-y-3"
           />
         </div>
       </div>

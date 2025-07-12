@@ -137,7 +137,7 @@ export const MultipleChoiceInput = ({ form }: { form: UseFormReturn<z.infer<type
                 <Input
                     key={i}
                     onChange={(e: any) => form.setValue(`options.${i}.value`, e.target.value)}
-                    className="border p-2 rounded w-full mt-1"
+                    className="border border-solid p-2 rounded w-full mt-1"
                     placeholder={`Option ${i + 1}`}
                     maxLength={50}
                     required={i < 2}
@@ -149,7 +149,7 @@ export const MultipleChoiceInput = ({ form }: { form: UseFormReturn<z.infer<type
                 onValueChange={(value) => form.setValue("answer", value)}
                 value={String(form.getValues("answer"))}
             >
-                <SelectTrigger className="border p-2 rounded w-full">
+                <SelectTrigger className="border border-solid p-2 rounded w-full">
                     <SelectValue placeholder="Select the correct answer" />
                 </SelectTrigger>
                 <SelectContent>

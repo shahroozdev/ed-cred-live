@@ -503,7 +503,7 @@ const customColummn = (values: {
           ) : values.key === "status" ? (
             <p
               className={cn(
-                "!w-20 px-2 py-1 rounded-full capitalize border-2 text-center",
+                "!w-20 px-2 py-1 rounded-full capitalize border-2 border-solid text-center",
                 value === "pending" || value === "draft"
                   ? "bg-yellow-200 text-yellow-500 border-yellow-500"
                   : value === "rejected"

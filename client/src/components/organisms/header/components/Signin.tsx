@@ -39,7 +39,7 @@ const Signin = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status:
       >
         <div className="flex flex-col">
           <input
-            className="input w-full p-3 border border-gray-300 rounded-lg"
+            className="input w-full p-3 border border-gray-300 border-solid rounded-lg"
             {...register("identifier")}
             type="text"
             required
@@ -54,7 +54,7 @@ const Signin = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status:
         <div className="flex flex-col">
           <PasswordInput
             required
-            className="input w-full p-3 border border-gray-300 rounded-lg"
+            className="input w-full p-3 border border-gray-300 border-solid rounded-lg"
             placeholder="Password"
             {...register("password")}
           />
@@ -85,7 +85,7 @@ const Signin = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status:
       </div>
 
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <div className="w-full !flex !gap-2 !max-h-[40px] border items-center justify-center cursor-pointer rounded-md">
+        <div className="w-full !flex !gap-2 !max-h-[40px] border border-solid items-center justify-center cursor-pointer rounded-md">
           <Image
             src="/icons/google_icon.svg"
             width={24}

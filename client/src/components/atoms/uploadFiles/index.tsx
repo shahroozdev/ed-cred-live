@@ -78,7 +78,7 @@ const UploadFiles = ({ inputName, urls }: { inputName?: string, urls?:string[] }
           return (
             <div
               key={index}
-              className="relative flex items-start justify-start max-h-48 border-foreground py-1 rounded"
+              className="relative flex items-start justify-start max-h-48 border-foreground border-solid py-1 rounded"
             >
              <DynamicView file={file}/>
               <span
@@ -94,7 +94,7 @@ const UploadFiles = ({ inputName, urls }: { inputName?: string, urls?:string[] }
           return (
             <div
               key={index}
-              className="relative flex items-start justify-start max-h-48 border-foreground py-1 rounded"
+              className="relative flex items-start justify-start max-h-48 border-foreground border-solid py-1 rounded"
             >
              <DynamicView url={file}/>
               {/* <span

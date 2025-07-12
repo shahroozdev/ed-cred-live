@@ -34,7 +34,7 @@ const ResponseCard = ({
     >
       {/* <div className="w-full h-full absolute flex justify-center items-center"> */}
       {/* </div>  */}
-      {!noImage?<div className="md:block hidden w-32 h-32 p-4 border-r-[1px]">
+      {!noImage?<div className="md:block hidden w-32 h-32 p-4 border-r-[1px] border-solid">
         <Image
           src={`/uploads/categoryIcons/${response?.category?.iconUrl ?? "principal"}.png`}
           width={600}

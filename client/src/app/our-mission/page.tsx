@@ -75,7 +75,7 @@ const AboutPage = async () => {
                 alt="Educational setting"
                 layout="fill"
                 objectFit="cover"
-                className="rounded-2xl border-7 border-white shadow-lg"
+                className="rounded-2xl border-7 border-solid border-white shadow-lg"
               />
             </div>
 
@@ -86,7 +86,7 @@ const AboutPage = async () => {
                 alt="Learning environment"
                 layout="fill"
                 objectFit="cover"
-                className="rounded-2xl border-7 border-white shadow-lg"
+                className="rounded-2xl border-7 border-solid border-white shadow-lg"
               />
             </div>
           </div>

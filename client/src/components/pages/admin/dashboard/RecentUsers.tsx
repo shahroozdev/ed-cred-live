@@ -20,7 +20,7 @@ export function RecentUsers() {
                 </div>
             </div>
             <div className="flex items-center">
-                <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
+                <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border border-solid">
                     <AvatarImage src="/avatars/02.png" alt="Avatar" />
                     <AvatarFallback>JL</AvatarFallback>
                 </Avatar>

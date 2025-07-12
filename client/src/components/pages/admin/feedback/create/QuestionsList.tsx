@@ -119,7 +119,7 @@ const QuestionListItem = ({
             <DropdownMenuItem>Preview</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <div className="px-2 py-1 rounded-md text-sm  border border-primary capitalize">
+        <div className="px-2 py-1 rounded-md text-sm  border border-primary border-solid capitalize">
           {question.type.replace("_", " ")}
         </div>
         <div className="self-end ml-auto flex gap-2">

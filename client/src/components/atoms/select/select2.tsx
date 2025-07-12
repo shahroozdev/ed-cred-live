@@ -105,8 +105,8 @@ import React, {
   
     // Status classes for the component
     const statusClasses = {
-      error: "border-red-500 hover:border-red-500 focus:border-red-500",
-      warning: "border-yellow-500 hover:border-yellow-500 focus:border-yellow-500",
+      error: "border-red-500 border-solid hover:border-red-500 focus:border-red-500",
+      warning: "border-yellow-500 border-solid hover:border-yellow-500 focus:border-yellow-500",
     };
   
     // Filter options based on search input
@@ -386,7 +386,7 @@ import React, {
       >
         <div
           onClick={toggleDropdown}
-          className={`flex flex-wrap items-center gap-1 px-3 py-1 transition-all ${
+          className={`flex flex-wrap items-center gap-1 px-3 py-1 border-solid transition-all ${
             sizeClasses[size]
           } ${
             bordered ? 'border rounded-md' : 'border-b'
@@ -475,7 +475,7 @@ import React, {
   
           <div className="flex items-center gap-2 ml-auto pl-2">
             {loading && (
-              <div className="w-4 h-4 border-2 border-t-blue-500 rounded-full animate-spin"></div>
+              <div className="w-4 h-4 border-2 border-t-blue-500 border-solid rounded-full animate-spin"></div>
             )}
             
             {allowClear && selectedOptions.length > 0 && !disabled && (
@@ -501,7 +501,7 @@ import React, {
             <div
               ref={dropdownRef}
               id={dropdownId}
-              className={`rounded-md shadow-lg overflow-hidden bg-white border border-gray-200 ${dropdownClassName}`}
+              className={`rounded-md shadow-lg overflow-hidden bg-white border border-gray-200 border-solid ${dropdownClassName}`}
               style={{
                 position: "absolute",
                 top: `${position.top}px`,
@@ -512,7 +512,7 @@ import React, {
               }}
             >
               {mode === "multiple" && showSearch && (
-                <div className="px-2 py-1 border-b border-gray-100">
+                <div className="px-2 py-1 border-b border-gray-100 border-solid">
                   <div className="flex items-center bg-gray-50 rounded px-2 py-1">
                     <Search className="w-4 h-4 text-gray-400 mr-2" />
                     <input

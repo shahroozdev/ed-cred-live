@@ -12,7 +12,7 @@ console.log(data, 'data')
     <div>
       <SearchBar />
       <section className="flex gap-2">
-        <aside className="border-[1px] rounded-md p-4 mt-4 w-full shadow-xl">
+        <aside className="border-[1px] border-solid rounded-md p-4 mt-4 w-full shadow-xl">
           <div className="text-muted-foreground justify-between flex gap-2 w-full my-4">
             <div className="flex gap-2 font-semibold sm:text-lg text-base items-center">
               <TimerIcon />
@@ -35,7 +35,7 @@ console.log(data, 'data')
             </div>
           )}
         </aside>
-        <aside className="lg:block hidden border-[1px] rounded-md mt-4 w-[300px] max-h-[500px] shadow-xl">
+        <aside className="lg:block hidden border-[1px] border-solid rounded-md mt-4 w-[300px] max-h-[500px] shadow-xl">
           <FilterForm />
         </aside>
       </section>

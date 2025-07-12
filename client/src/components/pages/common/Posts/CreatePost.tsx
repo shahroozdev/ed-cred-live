@@ -64,7 +64,7 @@ export default function CreatePost({
             fieldProps={{
               name: "featured",
               className:
-                "flex w-full flex-row items-center justify-between rounded-lg border p-4",
+                "flex w-full flex-row items-center justify-between rounded-lg border border-solid p-4",
             }}
             label={{ text: "Featured Post", className: "space-y-0.5" }}
           >
@@ -76,7 +76,7 @@ export default function CreatePost({
             fieldProps={{
               name: "status",
               className:
-                "flex w-full flex-row items-center justify-between rounded-lg border p-4",
+                "flex w-full flex-row items-center justify-between rounded-lg border border-solid p-4",
             }}
             label={{ text: "Make Post Live", className: "space-y-0.5" }}
           >

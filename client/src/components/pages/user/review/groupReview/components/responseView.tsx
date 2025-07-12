@@ -20,7 +20,7 @@ const ResponseView = ({ response , category}: {response: Record<string, any>, ca
     // console.log(response)
   return (
     <div className="w-full px-3 py-2 flex gap-2 cursor-pointer ">
-      <div className="lg:block hidden w-32 h-24 px-2 border-r-[1px]">
+      <div className="lg:block hidden w-32 h-24 px-2 border-r-[1px] border-solid">
         <Image
           src={`/images/${response?.isVerified?'verifiedStamp':'Review'}.png`}
           width={600}

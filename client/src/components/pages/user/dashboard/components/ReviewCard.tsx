@@ -15,7 +15,7 @@ export const ReviewCard = ({
 
   return (
     <div
-      className="w-full border-2 border-muted rounded-md px-3 py-2 flex flex-col gap-2 shadow-lg hover:shadow-xl"
+      className="w-full border-2 border-muted border-solid rounded-md px-3 py-2 flex flex-col gap-2 shadow-lg hover:shadow-xl"
       onClick={() => router.push(`/response/${response.id}`)}
     >
       <div className="flex gap-4">

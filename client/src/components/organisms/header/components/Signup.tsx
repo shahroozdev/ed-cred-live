@@ -38,7 +38,7 @@ const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ sta
           <label className="block text-sm font-medium">Email</label>
           <input
             {...register("email")}
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border border-solid rounded-md"
             placeholder="abc@xyz.com"
           />
           {errors.email && (
@@ -50,7 +50,7 @@ const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ sta
           <label className="block text-sm font-medium">Username</label>
           <input
             {...register("username")}
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border border-solid rounded-md"
             placeholder="John etc."
           />
           {errors.username && (
@@ -62,7 +62,7 @@ const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ sta
           <label className="block text-sm font-medium">Password</label>
           <PasswordInput
             {...register("password")}
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border border-solid rounded-md"
             placeholder="password (minimum 8 characters)"
           />
           {errors.password && (
@@ -74,7 +74,7 @@ const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ sta
           <label className="block text-sm font-medium">Confirm Password</label>
           <PasswordInput
             {...register("confirmPassword")}
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border border-solid rounded-md"
             placeholder="confirm password"
           />
           {errors.confirmPassword && (
@@ -110,7 +110,7 @@ const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ sta
       </div>
 
       <div className="flex w-full max-w-md flex-col gap-3">
-        <div className="w-full !flex !gap-2 !max-h-[40px] border items-center justify-center cursor-pointer rounded-md">
+        <div className="w-full !flex !gap-2 !max-h-[40px] border border-solid items-center justify-center cursor-pointer rounded-md">
           <Image
             src="/icons/google_icon.svg"
             width={24}
