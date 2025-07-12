@@ -163,7 +163,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
       } bg-white`}
     >
       <div
-        className={`flex flex-wrap items-center gap-2 p-1 min-h-9 border rounded-md cursor-text transition-colors ${
+        className={`flex flex-wrap items-center gap-2 p-1 min-h-9 border border-solid rounded-md cursor-text transition-colors ${
           isOpen
             ? "border-blue-500 ring-2 ring-blue-100"
             : "border-gray-300 hover:border-gray-400"

@@ -98,7 +98,7 @@ export function PostsListing() {
                 paginatedPosts.map((post) => (
                     <div 
                         key={post.id}
-                        className="flex items-center justify-between border-b pb-4 hover:bg-foreground/2 py-4 px-2 rounded-md" 
+                        className="flex items-center justify-between border-b border-solid pb-4 hover:bg-foreground/2 py-4 px-2 rounded-md" 
                     >
                         <div className="flex flex-col">
                             <p className="text-base font-medium leading-none">{post.title}</p>

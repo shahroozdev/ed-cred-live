@@ -3,7 +3,7 @@ import React from "react";
 
 const AccordionDispute = () => {
   return (
-    <div className="border-2 border-red-300 rounded-xl mb-2 h-auto bg-red-100">
+    <div className="border-2 border-red-300 border-solid rounded-xl mb-2 h-auto bg-red-100">
       <CustomAccordion
         items={[
           {

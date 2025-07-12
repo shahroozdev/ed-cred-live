@@ -30,7 +30,7 @@ const SignupPage = () => {
 
   return (
     <TitleWrapper title={""} notBackBtn>
-    <div className="flex h-full w-full flex-col items-center justify-center gap-4 border rounded-2xl p-5 bg-background font-sans font-[400] transition-[bottom]">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-4 border border-solid rounded-2xl p-5 bg-background font-sans font-[400] transition-[bottom]">
       <div className="text-2xl sm:text-3xl font-bold">Sign Up below</div>
       <form
         className="flex w-full max-w-md flex-col gap-4"
@@ -52,7 +52,7 @@ const SignupPage = () => {
           <label className="block text-sm font-medium">Username</label>
           <input
             {...register("username")}
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border border-solid rounded-md"
             placeholder="John etc."
           />
           {errors.username && (
@@ -65,7 +65,7 @@ const SignupPage = () => {
           <input
             type="password"
             {...register("password")}
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border border-solid rounded-md"
             placeholder="password (minimum 8 characters)"
           />
           {errors.password && (
@@ -78,7 +78,7 @@ const SignupPage = () => {
           <input
             type="password"
             {...register("confirmPassword")}
-            className="w-full p-3 border rounded-md"
+            className="w-full p-3 border border-solid rounded-md"
             placeholder="confirm password"
           />
           {errors.confirmPassword && (
@@ -114,7 +114,7 @@ const SignupPage = () => {
       </div>
 
       <div className="flex w-full max-w-md flex-col gap-3">
-        <div className="w-full !flex !gap-2 !max-h-[40px] border items-center justify-center cursor-pointer rounded-md">
+        <div className="w-full !flex !gap-2 !max-h-[40px] border border-solid items-center justify-center cursor-pointer rounded-md">
           <Image
             src="/icons/google_icon.svg"
             width={24}

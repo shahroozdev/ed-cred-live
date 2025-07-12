@@ -15,7 +15,7 @@ const DisputeDetail = ({ data , role}: { data: Record<string, any>, role:string 
             desc: <QuestionView response={data?.feedbackResponse} />,
           },
         ]}
-        className=" border-2 border-muted rounded-md mb-2 shadow-md hover:scale-101 transition-all duration-300 ease-in-out space-y-3"
+        className=" border-2 border-muted border-solid rounded-md mb-2 shadow-md hover:scale-101 transition-all duration-300 ease-in-out space-y-3"
       />
       <Timeline timelineData={data} role={role}/>
     </div>

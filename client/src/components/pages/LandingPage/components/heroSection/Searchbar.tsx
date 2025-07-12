@@ -40,7 +40,7 @@ const Searchbar = () => {
     }, [debouncedTerm]);
 
     return (
-        <div className="rounded-full border border-[#C7BAAF] bg-white relative flex items-center shadow-md justify-between overflow-hidden h-10 py-2 px-1 gap-2">
+        <div className="rounded-full border border-[#C7BAAF] border-solid bg-white relative flex items-center shadow-md justify-between overflow-hidden h-10 py-2 px-1 gap-2">
             <input
                 type="text"
                 placeholder="Search"
@@ -54,7 +54,7 @@ const Searchbar = () => {
 
             {/* Display results */}
             {debouncedTerm && (
-                <div className="absolute top-full mt-2 w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto z-50">
+                <div className="absolute top-full mt-2 w-full bg-white border border-solid rounded-lg shadow-lg max-h-60 overflow-y-auto z-50">
                     {loading ? (
                         <div className="p-4 text-center">Loading...</div>
                     ) : (

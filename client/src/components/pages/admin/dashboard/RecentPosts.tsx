@@ -11,7 +11,7 @@ export function RecentPosts({ posts }: { posts: Record<string, any> }) {
           {posts?.map((post: any, index: number) => (
             <div
               key={index}
-              className="flex flex-col space-y-1 border-b pb-4 hover:bg-foreground/2 py-4 px-2 rounded-md select-none cursor-pointer"
+              className="flex flex-col space-y-1 border-b border-solid pb-4 hover:bg-foreground/2 py-4 px-2 rounded-md select-none cursor-pointer"
               onClick={() => router.push("/posts")}
             >
               <p className="text-sm font-medium leading-none">{post.title}</p>

@@ -105,7 +105,7 @@ const Footer = () => {
           </div>
         </div>
           {/* Social Links */}
-        <div className="border-t-2 border-[#2E4E73] pt-4 md:col-span-5">
+        <div className="border-t-2 border-solid border-[#2E4E73] pt-4 md:col-span-5">
           <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
             <p>
               Copyright &#169; {date?.getFullYear()} Ed-Cred. All Rights

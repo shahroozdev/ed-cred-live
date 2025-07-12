@@ -33,7 +33,7 @@ const ProfileComponent = ({ user }: { user: Record<string, any> }) => {
 
   return (
     <div className="flex md:flex-row flex-col w-full pb-5 gap-2">
-      <div className="border-2 border-muted rounded-md p-4 md:w-max w-full">
+      <div className="border-2 border-muted border-solid rounded-md p-4 md:w-max w-full">
         <div className="font-semibold text-4xl flex flex-col items-center gap-4">
           <UploadProfilePic>
             {user.profilePictureUrl ? (
@@ -66,7 +66,7 @@ const ProfileComponent = ({ user }: { user: Record<string, any> }) => {
         </div>
       </div>
 
-      <div className="border-2 border-muted rounded-md p-4 w-full">
+      <div className="border-2 border-muted border-solid rounded-md p-4 w-full">
         <h2 className="text-2xl font-bold mb-4">Basic Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {userDetails.map(({ title, dynamic }, index) => (

@@ -193,7 +193,7 @@ export default function SettingsPage() {
               </FieldGroup>
             </form>
           </CardContent>
-          <CardFooter className="border-t">
+          <CardFooter className="border-t border-solid">
             <Button
               type="submit"
               form="form-account"
@@ -342,7 +342,7 @@ export default function SettingsPage() {
               </FieldGroup>
             </form>
           </CardContent>
-          <CardFooter className="border-t">
+          <CardFooter className="border-t border-solid">
             <Button
               type="submit"
               form="form-security"

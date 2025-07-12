@@ -36,7 +36,7 @@ const EdCredSection = () => {
                             alt="Educational setting"
                             layout="fill"
                             objectFit="cover"
-                            className="rounded-2xl border-7 border-white shadow-lg"
+                            className="rounded-2xl border-7 border-white border-solid shadow-lg"
                         />
                     </div>
 
@@ -47,7 +47,7 @@ const EdCredSection = () => {
                             alt="Learning environment"
                             layout="fill"
                             objectFit="cover"
-                            className="rounded-2xl border-7 border-white shadow-lg"
+                            className="rounded-2xl border-7 border-white border-solid shadow-lg"
                         />
                     </div>
                 </div>

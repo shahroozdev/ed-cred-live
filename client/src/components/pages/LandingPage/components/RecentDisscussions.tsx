@@ -22,7 +22,7 @@ const Card = ({ title, featureImageUrl, text, id }: any) => {
       <HTMLContent value={text} className="line-clamp-4 !px-2 !py-0 !overflow-y-hidden" />
       <PLink
         href={`/forum/questions/${id}`}
-        className="group flex gap-2 ml-2 px-2 py-2 rounded-md transition-all duration-300 ease-in-out bg-[#439e5e] border-[1px] border-[#439e5e] hover:bg-background hover:text-[#439e5e]  text-white"
+        className="group flex gap-2 ml-2 px-2 py-2 rounded-md transition-all duration-300 ease-in-out bg-[#439e5e] border-[1px] border-[#439e5e] border-solid hover:bg-background hover:text-[#439e5e]  text-white"
       >
         Read More <ArrowRight className="-rotate-45 group-hover:rotate-0" />
       </PLink>

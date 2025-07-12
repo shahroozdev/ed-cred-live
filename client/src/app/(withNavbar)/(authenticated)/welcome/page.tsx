@@ -28,8 +28,8 @@ export default async function WelcomePage() {
                         You’ve successfully joined Ed Cred. Start by exploring schools or leaving your first review!
                     </p>
                     <div className="flex flex-col gap-3">
-                        <PLink href="/dashboard" className="border-2">Explore Schools</PLink>
-                        <PLink href="/review" className="border-2">
+                        <PLink href="/dashboard" className="border-2 border-solid">Explore Schools</PLink>
+                        <PLink href="/review" className="border-2 border-solid">
                             Leave a Review
                         </PLink>
                     </div>

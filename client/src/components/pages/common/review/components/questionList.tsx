@@ -74,7 +74,7 @@ const QuestionList = ({feedback, disabled, category}: {feedback: Record<string, 
                       onChange={fieldProps.onChange}
                       placeholder="Your answer"
                       disabled={disabled}
-                      className="border-[1px] border-foreground"
+                      className="border-[1px] border-foreground border-solid"
                     />
                   );
                 }

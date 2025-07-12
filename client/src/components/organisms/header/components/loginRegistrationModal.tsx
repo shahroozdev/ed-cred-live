@@ -12,7 +12,7 @@ const LoginRegistrationModal = () => {
       <Button
         variant="border"
         onClick={() => setOpen({ status: true, type: "signup" })}
-        className="border border-[#439E5E] text-[#439E5E]"
+        className="border border-[#439E5E] border-solid text-[#439E5E]"
       >
         Join Now
       </Button>

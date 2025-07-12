@@ -19,7 +19,7 @@ const FAQs = () => {
       </div>
        <CustomAccordion
           items={faqs.map((q)=>({title:<p className="md:text-lg text-base font-semibold">{q.title}</p>, desc:<p className="text-base px-4 opacity-90">{q.desc}</p>}))}
-          className=" border-b-2 border-b-muted mb-2 transition-all duration-300 ease-in-out space-y-3 mx-4"
+          className=" border-b-2 border-b-muted border-solid mb-2 transition-all duration-300 ease-in-out space-y-3 mx-4"
         />
     </>
   );

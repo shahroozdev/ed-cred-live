@@ -40,7 +40,7 @@ const ChatInput = ({
         onSubmit={handleSend}
         schema={disputeTimelineSchema}
         defaultValues={{ message: "", attachment: undefined }}
-        className="w-full border-t p-3 flex items-start gap-2 relative"
+        className="w-full border-t border-solid p-3 flex items-start gap-2 relative"
       >
         <AttachmentBtn  setPreview={setPreview}/>
         <FormFeilds fieldProps={{ name: "message", className: "w-full" }}>
@@ -50,7 +50,7 @@ const ChatInput = ({
               value={field.value}
               onChange={field.onChange}
               placeholder="Type your message..."
-              className="flex-1 border rounded-full px-4 py-2 focus:outline-none"
+              className="flex-1 border border-solid rounded-full px-4 py-2 focus:outline-none"
             />
           )}
         </FormFeilds>
@@ -76,7 +76,7 @@ const ChatInput = ({
             onSubmit={handleSend}
             schema={disputeTimelineSchema}
             defaultValues={{ message: "", attachment: undefined }}
-            className="w-full border-t p-1 flex items-start gap-2 relative"
+            className="w-full border-t border-solid p-1 flex items-start gap-2 relative"
           >
             <FormFeilds fieldProps={{ name: "message", className: "w-full" }}>
               {(field) => (

@@ -103,7 +103,7 @@ export default async function PostPage({
             width={1000}
             height={500}
             alt={selectedPost.title}
-            className="w-full max-h-[500px] object-cover border-1 rounded-2xl mb-4"
+            className="w-full max-h-[500px] object-cover border-1 border-solid rounded-2xl mb-4"
           />
         ) : (
           <></>

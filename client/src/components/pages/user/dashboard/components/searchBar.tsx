@@ -26,7 +26,7 @@ const SearchBar = () => {
     <FormTemplate
       onSubmit={onSubmit}
       schema={z.any()}
-      className="w-full flex gap-2 p-4 border-[1px] rounded-md"
+      className="w-full flex gap-2 p-4 border-[1px] border-solid rounded-md"
       defaultValues={defaultValues}
     >
       <FormFeilds

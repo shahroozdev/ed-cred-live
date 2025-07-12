@@ -78,7 +78,7 @@ const UsersPage = () => {
                     error && <div className="text-destructive-foreground">{error}</div>
                 }
                 {
-                    users.map((user, i) => (<div key={i} className="p-4 rounded-md border-2 border-muted">
+                    users.map((user, i) => (<div key={i} className="p-4 rounded-md border-2 border-muted border-solid">
                         <div className="text-2xl font-semibold capitalize flex gap-2 items-baseline">{user.username}
                             <span className="text-muted-foreground text-xl">({user.category?.name ?? ""})</span>
                             <div className={`ml-auto px-2 py-0.1 text-sm font-normal rounded-full ${user.isVerified ? "bg-green-800" : "bg-red-800"} text-white lowercase`}>

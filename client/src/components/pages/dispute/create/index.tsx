@@ -43,7 +43,7 @@ const CreateDispute = () => {
         customForm={form}
         schema={disputeSchema}
         defaultValues={{}}
-        className="space-y-2 border p-4 rounded-lg shadow-sm bg-gray-50 my-4"
+        className="space-y-2 border border-solid p-4 rounded-lg shadow-sm bg-gray-50 my-4"
       >
         <FormFeilds fieldProps={{ name: "reason" }} label={{ text: "Reason" }}>
           {(field) => (
@@ -72,7 +72,7 @@ const CreateDispute = () => {
                 type={"checkbox"}
                 {...field}
                 onChange={field.onChange}
-                className="peer accent-primary h-4 w-4 border border-gray-300 rounded-md"
+                className="peer accent-primary h-4 w-4 border border-gray-300 border-solid rounded-md"
               />
               <span className="text-sm text-black">
                 I agree to the{" "}
@@ -97,7 +97,7 @@ const CreateDispute = () => {
           )}
         </FormFeilds>
       </FormTemplate>
-      <div className="border p-4 rounded-lg shadow-sm bg-gray-50 my-4">
+      <div className="border border-solid p-4 rounded-lg shadow-sm bg-gray-50 my-4">
         <StripeElement amount={100} form={form} onSubmit={onSubmit}/>
       </div>
 

@@ -86,7 +86,7 @@ const FilterForm = ({
         label={{ text: "Filter by Rating" }}
       >
         {(field) => (
-          <div className="border-[1px] rounded-md p-4 text-center">
+          <div className="border-[1px] border-solid rounded-md p-4 text-center">
             <ToggleGroup
               type="single"
               value={field.value}

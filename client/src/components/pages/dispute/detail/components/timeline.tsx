@@ -56,7 +56,7 @@ const Timeline = ({
         </div>
         </CardContent>
       </Card>:<></>}
-      <div className="w-full p-4 space-y-4 border-2 my-4 border-muted rounded-md max-h-[500px] min-h-[500px] h-full shadow-md">
+      <div className="w-full p-4 space-y-4 border-2 my-4 border-muted border-solid rounded-md max-h-[500px] min-h-[500px] h-full shadow-md">
         <h2 className="text-lg font-semibold mb-4">Dispute Timeline</h2>
         <Separator />
         <div
