@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react'
 const TitleWrapper = ({title, desc, children, notBackBtn}:{title:string, desc?:string|ReactNode, children:ReactNode, notBackBtn?:boolean}) => {
       const router = usePRouter();
       return(
-          <div className='max-w-[1400px] w-full mx-auto md:p-5 p-2'>
+          <div className='max-w-[1400px] w-full mx-auto md:p-5 p-2 min-h-screen'>
               {!notBackBtn&&<button onClick={() => router.push('/admin-dashboard')} className="text-left text-blue-500 hover:underline mb-4">
                   ← Back to Dashboard
               </button>}

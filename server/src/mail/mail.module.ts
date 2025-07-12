@@ -4,6 +4,7 @@ import { MailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import { join } from "path";
 import { ConfigModule } from "@nestjs/config";
+import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 @Global()
 @Module({
@@ -17,8 +18,8 @@ import { ConfigModule } from "@nestjs/config";
         auth: {
           user: process.env.EMAIL_USERNAME,
           pass: process.env.EMAIL_PASSWORD,
-        },
-      },
+        } 
+      }as SMTPTransport.Options,
       defaults: {
         from: process.env.EMAIL_USERNAME,
       },

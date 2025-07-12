@@ -11,7 +11,7 @@ const WithNavabarLayout = async ({ children }: { children: ReactNode }) => {
   });
 
   return (
-    <div className="relative w-screen">
+    <div className="relative w-screen min-h-screen">
       <Header user={user} />
       {children}
     </div>

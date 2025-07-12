@@ -5,12 +5,13 @@
   "compilerOptions": {
     "assets": [
       {
-        "include": "mail/templates/",  
-        "outDir": "dist/src/"
+        "include": "mail/templates/**/*",     
+        "outDir": "dist/",                   
+        "watchAssets": true
       },
       {
-        "include": "../uploads/**/*",
-        "outDir": "dist/uploads/",
+        "include": "../uploads/**/*",                
+        "outDir": "dist/",
         "watchAssets": true
       }
     ],
