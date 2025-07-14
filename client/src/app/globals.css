@@ -96,7 +96,7 @@ body {
     --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
+/* .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.145 0 0);
@@ -129,7 +129,7 @@ body {
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
-}
+} */
 
 @layer base {
     * {
@@ -286,7 +286,7 @@ body {
     --hljs-number: #3da067;
 }
 
-.dark {
+/* .dark {
     --mt-overlay: rgba(31, 32, 35, 0.75);
     --mt-transparent-foreground: rgba(255, 255, 255, 0.4);
     --mt-bg-secondary: rgba(31, 32, 35, 0.8);
@@ -330,7 +330,7 @@ body {
     --hljs-name: #5fc0a0;
     --hljs-selector-tag: #e8c785;
     --hljs-number: #b6e7b6;
-}
+} */
 
 /* hide scrollbar but allow scroll */
 .no-scrollbar::-webkit-scrollbar {

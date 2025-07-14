@@ -3,7 +3,7 @@ import { createBranchSwagger, deleteBranchSwagger, getAllBranchesSwagger, getSin
 import { createCategory } from "./responses/categories";
 import { createEmployeeSwagger, deleteEmployeeSwagger, getAllEmployeesSwagger, getSingleEmployeeSwagger, updateEmployeeSwagger } from "./responses/employee";
 import { createFeedbackForm } from "./responses/feedback";
-import { createPackage } from "./responses/package";
+import { createPackage, findOnePackage } from "./responses/package";
 import { createSchoolSwagger, deleteSchoolSwagger, getAllSchoolsSwagger, getSingleSchoolSwagger, updateSchoolSwagger } from "./responses/school";
 import { createSubcategory } from "./responses/subcategories";
 
@@ -35,6 +35,7 @@ export const ApiSchemas = {
   createOrUpdateUserSchema,
   //package
   createPackage,
+  findOnePackage,
   //school
   createSchoolSwagger,
   getAllSchoolsSwagger,

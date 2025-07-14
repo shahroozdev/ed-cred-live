@@ -32,7 +32,7 @@ const Navbar = ({ user }: { user: UserProfile }) => {
             // userCategoryId={user && user?.category ? user.category.id : 0}
             />
           </div>
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
           {user?.name ? (
             <UserBubble user={user} />
           ) : (

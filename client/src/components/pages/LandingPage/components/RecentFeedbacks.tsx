@@ -3,7 +3,7 @@ import { Slider } from "@/components/molecules";
 import ResponseCard from "../../user/dashboard/components/responseCard";
 
 const Feedbacks = ({reviews}:{reviews:Record<string, any>}) => {
-  
+  console.log(reviews, 'reviews')
   const feedbacks = reviews?.branches?.flatMap((item:any)=>(item?.employees));
   const breakpoints = {
     640: { slidesPerView: 1 },

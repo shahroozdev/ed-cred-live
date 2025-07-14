@@ -15,7 +15,7 @@ const PasswordInput = (props: PasswordInputProps) => {
       <Input
         {...props}
         type={show ? 'text' : 'password'}
-        className={`pr-10 ${props.className ?? ''}`} // Ensure space for icon
+        className={`pr-10 h-[50px] !text-[var(--foreground)] ${props.className ?? ''}`} // Ensure space for icon
       />
       <div
         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground"

@@ -14,11 +14,11 @@ const PackagePurchase = async ({
     url: `/packages/${subscription}`,
     key: "packages",
   });
-
+console.log(Package, subscription)
   return (
     <TitleWrapper title="  " notBackBtn>
       <>
-        {!Package.error ? (
+        {Package?.title ? (
           <>
             <div className="text-center mb-6">
               <h1 className="text-3xl font-bold ">Confirm Your Plan</h1>

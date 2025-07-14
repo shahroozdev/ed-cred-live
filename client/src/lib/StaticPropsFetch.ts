@@ -1,8 +1,9 @@
 // lib/static-data.ts
+import { getServerSideDataWithFeatures } from "@/actions/serverActions";
 import { cache } from "react";
 
 export const getStaticPropsData = cache(async () => {
-  const [categories, subCategories, schools] = await Promise.all([
+  const [categories, subCategories, schools, profile] = await Promise.all([
     fetch(`${process.env.BASE_URL}/category`, {
       next: { tags: ["categories"] },
     })
@@ -18,11 +19,17 @@ export const getStaticPropsData = cache(async () => {
     })
       .then((res) => res.json())
       .catch(() => []),
+    getServerSideDataWithFeatures({
+    url: "/auth/profile",
+    key: "profile",
+    noRedirect:true,
+  })
   ]);
 
   return {
     categories,
     subCategories,
     schools,
+    profile
   };
 });

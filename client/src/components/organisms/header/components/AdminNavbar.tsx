@@ -28,7 +28,7 @@ export const AdminNavbar = ({ user }: { user: any }) => {
       <div className="flex h-[70px] items-center px-4 ">
         {/* <MainNav className="mx-2" /> */}
         <div className="ml-auto flex items-center space-x-4">
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
           <Search />
           <UserBubble user={user} />
           <div className="md:hidden block"><DrawerBtn user={user} /></div>

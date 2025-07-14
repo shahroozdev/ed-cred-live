@@ -9,6 +9,7 @@ import { feedbacksDashboardColumn } from "@/data/tableColumns";
 import TableWithFilter from "@/components/molecules/tableWithFilters";
 import { useQuery } from "@/hooks/generalHooks";
 import { FeedbackFilterForm } from "@/data/forms";
+import FilterFormDashboard from "./filterForm";
 
 // TODO:factor it out in the common module
 export interface Feedback {
@@ -33,10 +34,11 @@ export interface Feedback {
 }
 
 export const RecentFeedback = ({ data }: { data: Record<string, any> }) => {
+  console.log(data, 'data')
   return (
     <div className="col-span-2">
       <TableWithFilter
-        form={FeedbackFilterForm}
+        formComponent={<FilterFormDashboard/>}
         title="Recent Feedback"
         tableData={data?.feedbacks}
         tableColumn={feedbacksDashboardColumn}

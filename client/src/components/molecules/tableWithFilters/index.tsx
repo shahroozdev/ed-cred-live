@@ -18,6 +18,7 @@ const TableWithFilter: React.FC<TableWithColumnProps> = ({
   tableData=[],
   title,
   form,
+  formComponent,
   tablePagination,
   noFilter,
   removeMainCSS,
@@ -72,8 +73,9 @@ const TableWithFilter: React.FC<TableWithColumnProps> = ({
         <>
           <Separator className="my-3" />
           <div className="sm:px-4 px-2 transition-all duration-300 ease-in-out">
-            <CustomForm props={{ ...form, onSubmit: onSubmit2 }} />
+           {formComponent||<CustomForm props={{ ...form, onSubmit: onSubmit2 }} />}
           </div>
+          <Separator className="my-3" />
         </>
       )}
 

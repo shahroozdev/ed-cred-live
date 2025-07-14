@@ -1,26 +1,54 @@
-import { getServerSideDataWithFeatures } from "@/actions/serverActions";
+import FetchWithSuspension from "@/components/molecules/fetchWithSuspension";
 import { Footer } from "@/components/organisms";
 import Navbar from "@/components/organisms/header/components/Navbar";
-import { About, Categories, Feedbacks, Discussions, Header } from "@/components/pages/LandingPage";
+import {
+  About,
+  Categories,
+  Feedbacks,
+  Discussions,
+  Header,
+} from "@/components/pages/LandingPage";
+import FetchOnServer from "@/lib/FetchOnServerSide";
+import CategoriesSliderSkeleton from "@/skeletons/LandingPage/CategoriesSliderSkeleton";
+import DisscussionSkeleton from "@/skeletons/LandingPage/DisscussionSkeleton";
+import ResponseSlideSkeleton from "@/skeletons/LandingPage/ResponseSlideSkeleton";
 
-const HomePage = async() => {
-    const user = await getServerSideDataWithFeatures({url:'/auth/profile', key:'profile', noRedirect:true})
-    const data = await getServerSideDataWithFeatures({url:'/forum-question?pageSize=3', key:'forumList'})
-    const categories = await getServerSideDataWithFeatures({url:'/category', key:'categories'})
-    const reviews = await getServerSideDataWithFeatures({
-      url: `/school/branch`,
-      key: "feedbackFormForGroups",
-    });
-
+const HomePage = () => {
   return (
     <div className="w-screen min-h-screen bg-background relative">
-      <Navbar user={user}/>
+      <FetchOnServer getProfile>
+        {(data, profile) => <Navbar user={profile} />}
+      </FetchOnServer>
       <Header />
-      <Categories categories={categories?.categories}/>
+      <FetchWithSuspension
+        apiData={{
+          url: `/category`,
+          key: "categories",
+        }}
+        suspension={<CategoriesSliderSkeleton />}
+      >
+        {(data) => <Categories categories={data?.categories} />}
+      </FetchWithSuspension>
       <About />
       {/* <Metrics /> */}
-      <Feedbacks  reviews={reviews}/>
-      <Discussions data={data}/>
+      <FetchWithSuspension
+        apiData={{
+          url: `/school/branch`,
+          key: "feedbackFormForGroups",
+        }}
+        suspension={<ResponseSlideSkeleton />}
+      >
+        {(data) => <Feedbacks reviews={data} />}
+      </FetchWithSuspension>
+      <FetchWithSuspension
+        apiData={{
+          url: "/forum-question?pageSize=3",
+          key: "forumList",
+        }}
+        suspension={<DisscussionSkeleton />}
+      >
+        {(data) => <Discussions data={data} />}
+      </FetchWithSuspension>
       <Footer />
     </div>
   );

@@ -111,6 +111,7 @@ export interface TableWithColumnProps {
   actionBtnIcon?: string;
   actionBtn?: ReactNode;
   form?: any;
+  formComponent?:ReactNode;
   searchBar?: boolean;
   tableData: any;
   tableColumn: any;
@@ -131,6 +132,7 @@ export interface CustomFormProps {
   onSubmit: SubmitHandler<any>;
   defaultValues?: Record<string, any>;
   style?: any;
+  className?:string;
   arr?: Array<any>;
   preNode?: ReactNode;
   postNode?: ReactNode;

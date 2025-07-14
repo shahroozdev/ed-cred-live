@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
     }
     return NextResponse.next();
   }
-  if (authRoutes.includes(request.nextUrl.pathname) && token) {
+  if ((authRoutes.includes(request.nextUrl.pathname)|| request.nextUrl.pathname === "/") && token) {
     return NextResponse.redirect(new URL(`/dashboard`, request.url));
   }
 }

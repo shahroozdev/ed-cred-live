@@ -7,7 +7,6 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { toast } from "sonner";
 
-
 export async function getServerSideDataWithFeatures(props: {
   url: string;
   key?: string | string[];
@@ -16,7 +15,7 @@ export async function getServerSideDataWithFeatures(props: {
   "use server";
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
+  const { noRedirect = false } = props;
   try {
     const response = await fetch(process.env.BASE_URL + props?.url, {
       headers: {
@@ -30,9 +29,15 @@ export async function getServerSideDataWithFeatures(props: {
           : [],
       },
     });
-    // console.log(props.url, token, response.status, props.noRedirect);
+    console.log(
+      props.url,
+      response.status,
+      noRedirect,
+      response?.status === 401 && !noRedirect
+    );
 
-    if (response.status === 401 && !props?.noRedirect) {
+    if (response?.status === 401 && !noRedirect) {
+      const cookieStore = await cookies();
       cookieStore.set({
         name: "sessionOut",
         value: "yes",
@@ -46,6 +51,7 @@ export async function getServerSideDataWithFeatures(props: {
     const data = await response.json();
     return data;
   } catch (err: any) {
+    console.log(err, "err");
     if (isRedirectError(err)) {
       throw err; // Rethrow redirect errors to allow Next.js to handle them
     }

@@ -37,15 +37,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import PLink from "@/components/atoms/link";
 import { Dispatch, SetStateAction } from "react";
+import { usePRouter } from "@/hooks/useRouter";
+import { removeCookie } from "@/actions/serverActions";
 
-export const SideMenu = ({user}:{user?:Record<string, any>}) => {
+export const SideMenu = ({ user }: { user?: Record<string, any> }) => {
   const { toggleSidebar, open } = useSidebar();
+  const router = usePRouter();
+  async function logout() {
+    localStorage.removeItem("token");
+    await removeCookie("user");
+    await removeCookie("token");
+    router.push("/");
+  }
   return (
     <Sidebar className="font-inter !bg-white" collapsible="icon">
       <SidebarHeader className="relative overflow-auto">
         <SidebarMenu>
           <SidebarMenuItem className="my-2">
             <SidebarMenuButton>
+              {/* <PLink href={"/"} className="flex gap-2"> */}
               <Image
                 src={"/logo.png"}
                 width={100}
@@ -54,6 +64,7 @@ export const SideMenu = ({user}:{user?:Record<string, any>}) => {
                 alt="logo"
               />
               <div className="font-semibold text-lg">Ed Cred</div>
+              {/* </PLink> */}
             </SidebarMenuButton>
             <div onClick={toggleSidebar} className="absolute right-0 top-0">
               {open ? (
@@ -73,7 +84,11 @@ export const SideMenu = ({user}:{user?:Record<string, any>}) => {
         <Separator />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={user?.role==="super_admin"?data?.navSuperMain:data?.navMain} />
+        <NavMain
+          items={
+            user?.role === "super_admin" ? data?.navSuperMain : data?.navMain
+          }
+        />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
@@ -90,13 +105,13 @@ export const SideMenu = ({user}:{user?:Record<string, any>}) => {
                 className="w-[--radix-popper-anchor-width]"
               >
                 <DropdownMenuItem>
-                  <span>Account</span>
+                  <PLink href={"/profile"}>Profile</PLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <span>Billing</span>
+                  <PLink href={"/pricing"}>Pricing</PLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <span>Sign out</span>
+                  <span className="cursor-pointer" onClick={logout}>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -109,7 +124,8 @@ export const SideMenu = ({user}:{user?:Record<string, any>}) => {
 };
 
 export function NavMain({
-  items, setIsOpen,
+  items,
+  setIsOpen,
 }: {
   items: {
     title: string;
@@ -120,7 +136,8 @@ export function NavMain({
       title: string;
       url: string;
     }[];
-  }[],  setIsOpen?:Dispatch<SetStateAction<boolean>>
+  }[];
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <SidebarGroup>
@@ -142,7 +159,7 @@ export function NavMain({
                       <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </>
                   ) : (
-                    <span onClick={()=>setIsOpen&&setIsOpen(false)}>
+                    <span onClick={() => setIsOpen && setIsOpen(false)}>
                       <PLink href={item.url}>{item.title}</PLink>
                     </span>
                   )}
@@ -154,7 +171,9 @@ export function NavMain({
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
                         <PLink href={`${item.url}${subItem.url}`}>
-                          <span onClick={()=>setIsOpen&&setIsOpen(false)}>{subItem.title}</span>
+                          <span onClick={() => setIsOpen && setIsOpen(false)}>
+                            {subItem.title}
+                          </span>
                         </PLink>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
