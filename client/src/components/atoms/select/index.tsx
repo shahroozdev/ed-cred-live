@@ -197,7 +197,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="flex-1 min-w-[120px] bg-transparent outline-none border-none p-1 text-sm placeholder-gray-400"
+          className="flex-1 min-w-[120px] text-gray-400 bg-transparent outline-none border-none p-1 text-sm placeholder-gray-400"
           placeholder={selectedOptions.length === 0 ? placeHolder : ""}
           aria-autocomplete="list"
           aria-expanded={isOpen}
@@ -230,7 +230,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
           id={dropdownId}
           role="listbox"
           aria-multiselectable={isMultiple}
-          className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto"
+          className="absolute z-50 w-full mt-1 bg-white text-black border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto"
         >
           {filteredOptions.map((option, index) => (
             <li

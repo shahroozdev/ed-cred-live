@@ -22,7 +22,7 @@ const CustomInput = ({ item }: { item: item }) => {
       {item?.label && item?.label}
       <label
         className={`flex items-center gap-2 ${
-          item?.noBorder ? "" : "border-b-black border-0 border-b-[1px] border-solid"
+          item?.noBorder ? "" : ""
         } ${item?.hAuto ? "h-auto" : "h-10"} ${
           item?.bgColor || "bg-transparent"
         } ${item.pStyle || ""}`}

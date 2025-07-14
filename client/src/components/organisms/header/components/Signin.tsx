@@ -29,9 +29,9 @@ const Signin = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ status:
     });
   };
 
-  return (
+  return (  
     <>
-      <div className="text-2xl sm:text-3xl font-bold">Log In Below</div>
+      <div className="text-2xl sm:text-3xl font-bold mb-5 text-center">Log In Below</div>
 
       <form
         className="flex w-full max-w-sm flex-col gap-3"

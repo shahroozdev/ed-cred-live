@@ -29,7 +29,7 @@ const SignupPage = ({setOpen}:{setOpen:React.Dispatch<React.SetStateAction<{ sta
 
   return (
     <>
-      <div className="text-2xl sm:text-3xl font-bold">Sign Up below</div>
+      <div className="text-2xl sm:text-3xl font-bold mb-5 text-center">Sign Up below</div>
       <form
         className="flex w-full max-w-md flex-col gap-4"
         onSubmit={handleSubmit(onSubmit)}

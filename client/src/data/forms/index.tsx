@@ -70,7 +70,7 @@ export const FeedbackFilterForm = {
       style: "border-2 border-solid rounded-lg px-5 h-12 w-full",
       type: "select",
       preNode: <h1 className="text-sm font-medium text-[#374151]">Status</h1>,
-      placeHolder: "Select Date",
+      placeHolder: "Status",
       inputName: "isDraft",
       options: [
         { value: "true", label: "Draft" },
