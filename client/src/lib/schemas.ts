@@ -136,6 +136,18 @@ export const ForumSchema = z.object({
       message: "Only image files are allowed",
     }),
 });
+export const ForumEditSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }),
+  text: z.string().min(1, { message: "Text is required" }),
+  featuredImage: z
+    .any()
+    .refine((file) => file instanceof File, {
+      message: "Image file is required",
+    })
+    .refine((file) => file?.type?.startsWith("image/"), {
+      message: "Only image files are allowed",
+    }).optional(),
+});
 
 export const replySchema = z.object({
   text: z.string().min(5, "Minimum 5 Charters Required."),
@@ -249,3 +261,51 @@ export const UpdateUserSchema = z.object({
   status: z.enum(["active", "inactive"]).optional().default("active"),
   categoryId: z.string().min(1, { message: "Category ID is required" }),
 })
+
+export const createPackageSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(100, "Title must be at most 100 characters"),
+    
+  description: z
+    .string()
+    .min(1, "Description is required")
+    .max(500, "Description must be at most 500 characters"),
+
+  features: z
+    .array(
+      z.object({
+        value: z.string().min(1, "Feature value cannot be empty"),
+      })
+    )
+    .min(1, "At least one feature is required"),
+
+  viewFeedbackLimit: z
+    .union([z.string(), z.number()])
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "View Feedback Limit must be 0 or greater",
+    }),
+
+  giveFeedbackLimit: z
+    .union([z.string(), z.number()])
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "Feedback Limit must be 0 or greater",
+    }),
+
+  price: z
+    .union([z.string(), z.number()])
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: "Price must be 0 or greater",
+    }),
+
+  durationDays: z
+    .union([z.string(), z.number()])
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val) && val > 0, {
+      message: "Duration must be greater than 0",
+    }),
+});

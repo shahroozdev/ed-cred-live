@@ -18,8 +18,20 @@ const FetchOnServer = async ({
 }: {
   children: (data: any, profile: any, cookies?: any) => ReactNode;
   apiData?:
-    | { url: string; key?: string | string[], noParams?:boolean, noSearParams?:boolean, noCookie?:boolean  }
-    | { url?: string; key?: string | string[], noParams?:boolean, noSearParams?:boolean, noCookie?:boolean}[];
+    | {
+        url: string;
+        key?: string | string[];
+        noParams?: boolean;
+        noSearParams?: boolean;
+        noCookie?: boolean;
+      }
+    | {
+        url?: string;
+        key?: string | string[];
+        noParams?: boolean;
+        noSearParams?: boolean;
+        noCookie?: boolean;
+      }[];
   getProfile?: boolean;
   cookie?: { name: string; default?: any; key?: string };
   searchParams?: any;
@@ -49,13 +61,15 @@ const FetchOnServer = async ({
             getServerSideDataWithFeatures({
               url:
                 (api?.url || "") +
-                ((!api?.noParams && path)? (params?.type === "link" ? "/" : "?") + path : "") +
-                ((!api?.noCookie && cookie && cookies)
+                (!api?.noParams && path
+                  ? (params?.type === "link" ? "/" : "?") + path
+                  : "") +
+                (!api?.noCookie && cookie && cookies
                   ? cookie?.key
                     ? cookies[cookie?.key || ""]
                     : cookie
                   : "") +
-                ((!api?.noSearParams && searchParams) ? "?" + queryParams:""),
+                (!api?.noSearParams && searchParams ? "?" + queryParams : ""),
               key: api?.key,
             })
           )
@@ -64,12 +78,12 @@ const FetchOnServer = async ({
           url:
             apiData?.url +
             (path ? (params?.type === "link" ? "/" : "?") + path : "") +
-            ((cookie && cookies)
+            (cookie && cookies
               ? cookie?.key
                 ? cookies[cookie?.key || ""]
                 : cookie
               : "") +
-            (searchParams ? "?" + queryParams:""),
+            (searchParams ? "?" + queryParams : ""),
           key: apiData?.key,
         })
     : [];

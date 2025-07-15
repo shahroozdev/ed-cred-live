@@ -14,10 +14,14 @@ export const colorScheme={
 }as any;
 export const colors={
   Teacher:'red',
+  Teachers:'red',
   "Staff Membars":'red',
+  "School Staff Membars":'red',
   Leadership:'green',
   school:'yellow',
+  schools:'yellow',
   district:'yellow',
+  districts:'yellow',
 }as any;
 export const detailType = {
   schoolName: "text",

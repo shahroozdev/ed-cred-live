@@ -3,10 +3,8 @@ import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import UploadFilePreview from "@/components/atoms/uploadAndPreview";
 import QuillEditor from "@/components/molecules/editor";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useMutate } from "@/hooks/generalHooks";
-import { ForumSchema } from "@/lib/schemas";
-import { PlusIcon } from "lucide-react";
+import { ForumEditSchema, ForumSchema } from "@/lib/schemas";
 import { Dispatch, SetStateAction } from "react";
 
 const CreateForum = ({
@@ -31,7 +29,7 @@ const CreateForum = ({
   return (
     <FormTemplate
       onSubmit={onSubmit}
-      schema={ForumSchema}
+      schema={data?.id ?ForumEditSchema:ForumSchema}
       defaultValues={{
         title: data?.title || "",
         text: data?.text || "",

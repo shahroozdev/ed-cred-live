@@ -50,6 +50,7 @@ import FeedbackFormCreateEdit from "@/components/pages/admin/feedback/create/Fee
 import { Textarea } from "@/components/ui/textarea";
 import CreateUserComponent from "@/components/pages/admin/users/create/CreateUserComponent";
 import CreateEditDocument from "@/components/pages/admin/documents/create";
+import CreatePackageComponent from "@/components/pages/admin/package/create";
 
 export const UpdateStatus = ({
   data,
@@ -560,7 +561,7 @@ const customColummn = (values: {
             </p>
           ) : (
             <div>
-              <p className={"text-sm"}>{value}</p>
+              <p className={"text-sm"}>{values.key==="price"?"$":""}{value}</p>
               {extra && <p className={"text-sm"}>{extra}</p>}
             </div>
           )}
@@ -822,5 +823,17 @@ export const adminDocumentsColumn = [
   }),
   action({
     editModal: { component: <CreateEditDocument />, title: "Edit Document" },
+  }),
+];
+export const adminPackagesColumn = [
+  customColummn({ key: "title", label: "Title", ellipses: true, width: 200 }),
+  customColummn({ key: "description", label: "Description", ellipses: true, width: 200 }),
+  customColummn({ key: "price", label: "Price", width: 100 }),
+  customColummn({ key: "durationDays", label: "Duration", width: 100 }),
+
+  action({
+    editModal:{component:<CreatePackageComponent/>, title:'Edit Package', className:'!max-w-7xl'},
+    deleteBtn: { link: "/disputes", text: "Want To Delete This Dispute?" },
+    key: ["disputes", "manageDisputes"],
   }),
 ];
