@@ -63,7 +63,7 @@ export const SideMenu = ({ user }: { user?: Record<string, any> }) => {
                 className="w-10 h-auto"
                 alt="logo"
               />
-              <div className="font-semibold text-lg">Ed Cred</div>
+              <div className="font-semibold text-lg">Ed-Cred</div>
               {/* </PLink> */}
             </SidebarMenuButton>
             <div onClick={toggleSidebar} className="absolute right-0 top-0">
