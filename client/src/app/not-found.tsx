@@ -24,9 +24,9 @@ const NotFound = async () => {
           />
         </div>
         <div className="flex flex-col gap-2 mb-4">
-          <p className="text-5xl sm:text-6xl lg:text-8xl font-bold">404</p>
-          <p className="text-md sm:text-xl lg:text-2xl font-medium">
-            Not Found
+          <p className="text-5xl sm:text-6xl lg:text-8xl font-bold">4<b className="text-primary">0</b>4</p>
+          <p className="text-md sm:text-xl lg:text-2xl font-medium typing-effect typing-effect-container">
+            Page Not Found
           </p>
         </div>
         <div className="flex gap-2.5">
