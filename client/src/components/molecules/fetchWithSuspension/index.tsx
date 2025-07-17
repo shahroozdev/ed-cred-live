@@ -21,7 +21,7 @@ const FetchWithSuspension = ({
     | { url: string; key?: string | string[], noParams?:boolean, noSearParams?:boolean, noCookie?:boolean  }
     | { url?: string; key?: string | string[], noParams?:boolean, noSearParams?:boolean, noCookie?:boolean }[];
   getProfile?: boolean;
-  cookie?: { name: string; default?: any; key?: string };
+  cookie?: { name: string; default?: any; key?: string, type?: "link" | "params", paramKey?:string };
   searchParams?: any;
   params?: { slugs: any; key: string | string[]; type: "link" | "params" };
 }) => {

@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { colors} from "@/data/constant";
 import { useFieldArray } from "react-hook-form";
 
-const QuestionList = ({feedback, disabled, category}: {feedback: Record<string, any>; disabled?:boolean, category?:string}) => {
+const QuestionList = ({feedback, disabled, category}: {feedback: Record<string, any>; disabled?:boolean, category?:Record<string, any>}) => {
 
   const { fields, append } = useFieldArray({
     name: "answers",
@@ -40,7 +40,7 @@ const QuestionList = ({feedback, disabled, category}: {feedback: Record<string, 
                 if (inputType === "rating") {
                   return (
                     <RatingInput
-                      color={colors[category??""]??'blue'}
+                      color={feedback?.category?.color??category?.color??'blue'}
                       //@ts-ignore
                       value={fieldProps.value||-1}
                       onChange={fieldProps.onChange}

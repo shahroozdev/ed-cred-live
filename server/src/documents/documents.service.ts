@@ -5,7 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { DocumentLog } from "./entities/document-log.entity";
 import { Document } from "./entities/document.entity";
-import { response } from "src/types";
+import { response } from "../types";
 
 @Injectable()
 export class DocumentsService {

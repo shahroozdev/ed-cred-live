@@ -1,38 +1,38 @@
-enum UserRole {
+export enum UserRole {
     ADMIN     = "admin",
     SUPER_ADMIN     = "super_admin",
     USER      = "user",
 }
 
-enum UserCategory {
+export enum UserCategory {
     STUDENT  = "student",
     TEACHER  = "teacher",
     CUSTOMER = "customer",
     EMPLOYEE = "employee",
 }
 
-enum Permission {
+export enum Permission {
     VIEW_POST   = "view_post",
     CREATE_POST = "create_post",
     CREATE_FEEDBACK_FORM = "create_feedback_form",
     ANSWER_FEEDBACK_FORM = "answer_feedback_form",
 }
 
-enum SubscriptionPlan {
+export enum SubscriptionPlan {
     FREE       = "free",
     BASIC      = "basic",
     PRO    = "pro",
     ENTERPRISE = "enterprise",
 }
 
-export enum documentTypes {
+export enum DocumentTypes  {
   POLICY = "POLICY",
   TOS = "TOS",
   DISPUTE = "DISPUTE",
   RESPONSE = "RESPONSE",
 }
 
-interface BaseUser {
+export interface BaseUser {
     name: string;
     email: string;
     role: UserRole;
@@ -63,9 +63,8 @@ interface BaseUser {
     updatedAt?: Date;
 }
 // For comparison logic
- const RolePriority: Record<UserRole, number> = {
+export  const RolePriority: Record<UserRole, number> = {
   [UserRole.USER]: 1,
   [UserRole.ADMIN]: 2,
   [UserRole.SUPER_ADMIN]: 3,
 };
-export { BaseUser, Permission, SubscriptionPlan, UserRole, UserCategory, RolePriority };

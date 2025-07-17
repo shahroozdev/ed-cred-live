@@ -26,7 +26,7 @@ export class FeedbackForm {
     @CreateDateColumn()
     createdAt: Date;
     
-    @Column({ default: true })
+    @Column({ default: false })
     isDraft: boolean;
 
     @Column({ type: "jsonb" , nullable:true})

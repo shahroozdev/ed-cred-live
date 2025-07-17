@@ -12,7 +12,6 @@ import {
 import { DocumentsService } from "./documents.service";
 import { CreateDocumentDto } from "./dto/create-document.dto";
 import { UpdateDocumentDto } from "./dto/update-document.dto";
-import { documentTypes } from "src/types/user";
 
 @Controller("documents")
 export class DocumentsController {
@@ -42,8 +41,7 @@ export class DocumentsController {
   }
   @Get("logs/type/:type")
   findLogsByType(
-    @Param("type", new ParseEnumPipe(documentTypes)) type: documentTypes
-  ) {
+    @Param("type") type: 'TOS' |'POLICY' | 'DISPUTE' | 'RESPONSE') {
     return this.documentsService.findLogsByType(type);
   }
 

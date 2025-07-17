@@ -72,16 +72,16 @@ const manageUsers = {
   title: "Manage users",
   url: "/users",
   icon: UserRoundPenIcon,
-  items:[
+  items: [
     {
-      title:"All Users",
-      url:"/"
+      title: "All Users",
+      url: "/",
     },
     {
-      title:"Create New User",
-      url:"/create"
-    }
-  ]
+      title: "Create New User",
+      url: "/create",
+    },
+  ],
 };
 const posts = {
   title: "Posts",
@@ -103,75 +103,45 @@ const documentation = {
   url: "/all-documents",
   icon: NotebookPen,
 };
+const giveFeedback = {
+  title: "Give Feedback",
+  url: "/feedback",
+  icon: LayoutDashboard,
+};
+const readFeedback = {
+  title: "Read Feedback",
+  url: "/dashboard",
+  icon: MessageSquareQuote,
+};
+const pricing = {
+  title: "Pricing",
+  url: "/pricing",
+  icon: CircleDollarSign,
+};
+const contactUs = {
+  title: "Contact Us",
+  url: "/contact",
+  icon: Phone,
+};
+const disputeManagement = {
+  title: "Disputes Management",
+  url: "/disputes/manage",
+  icon: Flag,
+};
+const adminDefault = [
+  overview,
+  feedback,
+  forum,
+  manageUsers,
+  posts,
+  disputes,
+  categories,
+  subCategories,
+];
+const userDefault = [giveFeedback, readFeedback, contactUs];
 export const data = {
-  navMain: [
-    overview,
-    feedback,
-    forum,
-    manageUsers,
-    posts,
-    disputes,
-    categories,
-    subCategories,
-  ],
-  navSuperMain: [
-    overview,
-    feedback,
-    forum,
-    manageUsers,
-    posts,
-    disputes,
-    categories,
-    subCategories,
-    documentation,
-  ],
-  navUser: [
-    {
-      title: "Give Feedback",
-      url: "/feedback",
-      icon: LayoutDashboard,
-    },
-    {
-      title: "Read Feedback",
-      url: "/dashboard",
-      icon: MessageSquareQuote,
-    },
-    {
-      title: "Pricing",
-      url: "/pricing",
-      icon: CircleDollarSign,
-    },
-    {
-      title: "Contact Us",
-      url: "/contact",
-      icon: Phone,
-    },
-    {
-      title: "Disputes Management",
-      url: "/disputes/manage",
-      icon: Flag,
-    },
-  ],
-  navCommon: [
-    {
-      title: "Give Feedback",
-      url: "/feedback",
-      icon: LayoutDashboard,
-    },
-    {
-      title: "Read Feedback",
-      url: "/dashboard",
-      icon: MessageSquareQuote,
-    },
-    {
-      title: "Pricing",
-      url: "/pricing",
-      icon: CircleDollarSign,
-    },
-    {
-      title: "Contact Us",
-      url: "/contact",
-      icon: Phone,
-    },
-  ],
+  navMain: adminDefault,
+  navSuperMain: [...adminDefault, documentation],
+  navUser: [...userDefault, disputeManagement],
+  navCommon: userDefault,
 } as any;

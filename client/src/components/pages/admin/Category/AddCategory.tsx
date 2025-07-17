@@ -12,11 +12,13 @@ import { Input } from "@/components/ui/input";
 import { Button, FormFeilds, FormTemplate } from "@/components/atoms";
 import ChooseCategoryIcon from "./chooseIcon";
 import { Dispatch, SetStateAction } from "react";
+import ChooseColor from "./chooseColor";
 
 const FormSchema = z.object({
   name: z.string().min(2, "The category must be at least 2 characters"),
   status: z.enum(["active", "draft"]),
   iconUrl: z.string().optional(),
+  color: z.string().min(1, "Color is required."),
 });
 
 export const AddCategory = ({data, setIsOpen}:{data?:Record<string, any>, setIsOpen?:Dispatch<SetStateAction<boolean>>}) => {
@@ -41,6 +43,7 @@ export const AddCategory = ({data, setIsOpen}:{data?:Record<string, any>, setIsO
           name: data?.name||"",
           status: data?.status||"active",
           iconUrl: data?.iconUrl||"",
+          color: data?.color||"",
         }}
         schema={FormSchema}
         className="grid md:grid-cols-2 grid-cols-1 justify-start gap-4"
@@ -74,6 +77,11 @@ export const AddCategory = ({data, setIsOpen}:{data?:Record<string, any>, setIsO
         <FormFeilds fieldProps={{ name: "iconUrl", className:"col-span-2"  }} label={{ text: "Icon" }}>
           {(field) => (
             <ChooseCategoryIcon value={field.value} onChange={field.onChange} />
+          )}
+        </FormFeilds>
+        <FormFeilds fieldProps={{ name: "color", className:"col-span-2"  }} label={{ text: "Choose Apples Color" }}>
+          {(field) => (
+            <ChooseColor value={field.value} onChange={field.onChange} />
           )}
         </FormFeilds>
 

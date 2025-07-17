@@ -14,7 +14,7 @@ const SchoolForm = ({
   // if (!feedback?.details) return null;
   return (
     <div className="outline-muted rounded-md p-6 outline-2 flex flex-col w-full gap-4">
-      <h3 className="font-bold">Meta Form:</h3>
+      {/* <h3 className="font-bold">Meta Form:</h3> */}
       {detailObjectsArray.map((detail: Record<string,any>, i:number) => {
         // if (detail === "salary") return null;
         // if (!feedback?.details[detail]) return null;

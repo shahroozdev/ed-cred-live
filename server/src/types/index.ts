@@ -3,14 +3,14 @@ import { Category } from "../category/category.entity";
 export type response = {
   status: number;
   message?: string;
-  total?:number;
+  total?: number;
   currentPage?: number;
   pageSize?: number;
 };
 
 export enum UserRole {
   ADMIN = "admin",
-  MODERATOR = "moderator",
+  SUPERADMIN = "superAdmin",
   USER = "user",
 }
 
@@ -59,7 +59,3 @@ export interface BaseUser {
   createdAt?: Date;
   updatedAt?: Date;
 }
-
-
-
-

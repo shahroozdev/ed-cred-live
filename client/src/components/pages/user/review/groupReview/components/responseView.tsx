@@ -1,12 +1,17 @@
-import { colors } from "@/data/constant";
+import { colorVariants } from "@/data/constant";
 import dayjs from "dayjs";
 import { AppleIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { v4 } from "uuid";
 
-const ResponseView = ({ response , category}: {response: Record<string, any>, category?:string}) => {
-
+const ResponseView = ({
+  response,
+  category,
+}: {
+  response: Record<string, any>;
+  category?: string;
+}) => {
   let totalRating = 0;
   let count = 0;
   response?.answers?.length > 0 &&
@@ -16,13 +21,14 @@ const ResponseView = ({ response , category}: {response: Record<string, any>, ca
         count++;
       }
     });
-  const averageRating = Math.round(totalRating / (count===0?1:count));
-    // console.log(response)
+  const averageRating = Math.round(totalRating / (count === 0 ? 1 : count));
   return (
     <div className="w-full px-3 py-2 flex gap-2 cursor-pointer ">
       <div className="lg:block hidden w-32 h-24 px-2 border-r-[1px] border-solid">
         <Image
-          src={`/images/${response?.isVerified?'verifiedStamp':'Review'}.png`}
+          src={`/images/${
+            response?.isVerified ? "verifiedStamp" : "Review"
+          }.png`}
           width={600}
           height={600}
           alt={""}
@@ -49,8 +55,11 @@ const ResponseView = ({ response , category}: {response: Record<string, any>, ca
                   <AppleIcon
                     key={v4()}
                     size={16}
-                    fill={i + 1 <= averageRating ?(colors[category??'']??'#51a2ff') : "#cacaca"}
-                    stroke={i + 1 <= averageRating ? (colors[category??'']??'#51a2ff') : "#cacaca"}
+                    className={
+                      i + 1 <= averageRating
+                        ? colorVariants[category ?? "blue"]
+                        : "text-gray-400 fill-gray-400 hover:fill-gray-300"
+                    }
                   />
                 ))}
                 <div className="text-base ml-2">

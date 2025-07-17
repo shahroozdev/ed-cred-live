@@ -1,4 +1,4 @@
-import { documentTypes } from "../../types/user";
+import { DocumentTypes  } from "../../types/user";
 import {
   Column,
   CreateDateColumn,
@@ -26,11 +26,8 @@ export class Document {
   @Column()
   name: string;
 
-  @Column({
-    type: "enum",
-    enum: documentTypes,
-  })
-  type: documentTypes;
+  @Column()
+  type: 'TOS' |'POLICY' | 'DISPUTE' | 'RESPONSE'; ;
 
   // ✅ Text column for long HTML content
   @Column("text")

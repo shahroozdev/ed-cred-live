@@ -19,7 +19,7 @@ import { SearchModule } from "./search/search.module";
 import { Post } from "./posts/entities/post.entity";
 import { FeedbackResponse } from "./feedback-response/entities/feedback-response.entity";
 import { FeedbackForm } from "./feedback-form/entities/feedback-form.entity";
-import { Dispute } from "./dispute/entities/dispute.entity";  
+import { Dispute } from "./dispute/entities/dispute.entity";
 import { School } from "./school/entities/school.entity";
 import { Employee } from "./school/entities/employee.entity";
 import { Branch } from "./school/entities/branch.entity";
@@ -29,16 +29,18 @@ import { QuestionModule } from "./question/question.module";
 import { PackagesModule } from "./packages/packages.module";
 import { Package } from "./packages/entities/package.entity";
 import { UserPackage } from "./packages/entities/user.packages.entity";
-import { SchoolModule } from './school/school.module';
+import { SchoolModule } from "./school/school.module";
 import { DisputeModule } from "./dispute/dispute.module";
 import { DisputeTimeline } from "./dispute/entities/dispute.timeline.entity";
-import { EntityLog  } from "./feedback-response/entities/feedback-response-log.entity";
+import { EntityLog } from "./feedback-response/entities/feedback-response-log.entity";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { APP_GUARD } from "@nestjs/core";
-import { DocumentsModule } from './documents/documents.module';
+import { DocumentsModule } from "./documents/documents.module";
 import { Document } from "./documents/entities/document.entity";
 import { DocumentLog } from "./documents/entities/document-log.entity";
 import { RolesGuard } from "./guards/roles.guard";
+import { SeederModule } from "./seeders/seeder.module";
+import { CommandModule } from "nestjs-command";
 
 @Module({
   imports: [
@@ -47,6 +49,7 @@ import { RolesGuard } from "./guards/roles.guard";
       type: "postgres",
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
+      entities: [__dirname + "/**/*.entity{.ts,.js}"],
       synchronize: true,
     }),
     TypeOrmModule.forFeature([
@@ -65,9 +68,10 @@ import { RolesGuard } from "./guards/roles.guard";
       DisputeTimeline,
       EntityLog,
       Document,
-      DocumentLog
+      DocumentLog,
     ]),
     AuthModule,
+    CommandModule,
     PostModule,
     CategoryModule,
     SubcategoryModule,
@@ -85,18 +89,20 @@ import { RolesGuard } from "./guards/roles.guard";
     PackagesModule,
     SchoolModule,
     DisputeModule,
-    DocumentsModule
+    DocumentsModule,
+    SeederModule,
   ],
   controllers: [SearchController],
-  providers: [SearchService, 
+  providers: [
+    SearchService,
     {
-    provide:APP_GUARD,
-    useClass:JwtAuthGuard
-  },
-  {
-  provide: APP_GUARD,
-  useClass: RolesGuard,
-}
-],
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}

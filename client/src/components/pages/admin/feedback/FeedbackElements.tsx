@@ -29,7 +29,7 @@ const MetaDataInput = () => {
   return (
     <div className="outline-muted relative flex w-full flex-col gap-4 rounded-md p-6 outline-2 isolate shadow-sm">
       <div className="">
-        {/* <div className="text-2xl font-semibold">Form Metadata</div> */}
+        <div className="text-2xl font-semibold">Form Metadata</div>
         <p className="text-muted-foreground mb-0 text-sm">
           Metadata means data about data. This is information about the feedback
           form.

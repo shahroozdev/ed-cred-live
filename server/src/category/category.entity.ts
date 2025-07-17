@@ -1,7 +1,5 @@
-// import { User } from "../auth/user.entity";
 import { Employee } from "../school/entities/employee.entity";
 import { FeedbackForm } from "../feedback-form/entities/feedback-form.entity";
-// import { Subcategory } from "src/subcategory/subcategory.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -37,6 +35,9 @@ export class Category {
 
   @Column({ nullable: true })
   iconUrl: string;
+
+  @Column({ nullable: true })
+  color: string;
 
   // A category can be linked with multiple feedback forms
   @OneToMany(() => FeedbackForm, (feedbackForm) => feedbackForm.category)

@@ -7,6 +7,7 @@
   "scripts": {
     "build": "nest build",
     "start": "ts-node src/index.ts",
+    "seed": "ts-node src/main-cli.ts seed",
     "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -45,6 +46,7 @@
     "express-basic-auth": "^1.2.1",
     "handlebars": "^4.7.8",
     "multer": "^1.4.5-lts.2",
+    "nestjs-command": "^3.1.5",
     "nodemailer": "^6.9.14",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",

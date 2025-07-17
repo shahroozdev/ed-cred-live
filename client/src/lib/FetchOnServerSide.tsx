@@ -33,7 +33,7 @@ const FetchOnServer = async ({
         noCookie?: boolean;
       }[];
   getProfile?: boolean;
-  cookie?: { name: string; default?: any; key?: string };
+  cookie?: { name: string; default?: any; key?: string, type?: "link" | "params", paramKey?:string  };
   searchParams?: any;
   params?: { slugs: any; key: string | string[]; type: "link" | "params" };
 }) => {
@@ -53,7 +53,7 @@ const FetchOnServer = async ({
   } else if (typeof params?.key === "string") {
     path = slugs?.[params.key] || "";
   }
-
+const cookietype = cookie?.type ? (cookie?.type==="params"?"?"+cookie?.paramKey:"/"):""
   const data = apiData
     ? Array.isArray(apiData)
       ? await Promise.all(
@@ -66,8 +66,8 @@ const FetchOnServer = async ({
                   : "") +
                 (!api?.noCookie && cookie && cookies
                   ? cookie?.key
-                    ? cookies[cookie?.key || ""]
-                    : cookie
+                    ?cookietype+cookies[cookie?.key || ""]
+                    : cookietype+cookie
                   : "") +
                 (!api?.noSearParams && searchParams ? "?" + queryParams : ""),
               key: api?.key,

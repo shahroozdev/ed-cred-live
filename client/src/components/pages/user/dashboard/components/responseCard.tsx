@@ -1,5 +1,5 @@
 "use client";
-import { colors, colorScheme } from "@/data/constant";
+import { colors, colorScheme, colorVariants } from "@/data/constant";
 import { usePRouter } from "@/hooks/useRouter";
 import { AppleIcon, ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
@@ -27,6 +27,7 @@ const ResponseCard = ({
     }
   });
   const averageRating = count > 0 ? Math.round(totalRating / count) : 0;
+
   return (
     <div
       className="w-full border-2 border-muted border-solid rounded-md px-3 py-2 !text-sm flex gap-2 shadow-md hover:scale-101 cursor-pointer min-h-[215px] transition-all duration-300 ease-in-out"
@@ -110,8 +111,10 @@ const ResponseCard = ({
             <AppleIcon
               key={v4()}
               size={16}
-              fill={i + 1 <= averageRating ? (colors[response?.category?.name]??'#51a2ff') : "#cacaca"}
-              stroke={i + 1 <= averageRating ? (colors[response?.category?.name]??'#51a2ff') : "#cacaca"}
+              className={i + 1 <= averageRating ? colorVariants[response?.category?.color??'blue'] :
+                "text-gray-400 fill-gray-400 hover:fill-gray-300"}
+              // fill={i + 1 <= averageRating ? (colors[response?.category?.name]??'#51a2ff') : "#cacaca"}
+              // stroke={i + 1 <= averageRating ? (colors[response?.category?.name]??'#51a2ff') : "#cacaca"}
             />
           ))}
           <div className="text-base ml-2">{averageRating?.toFixed(0)}/5</div>

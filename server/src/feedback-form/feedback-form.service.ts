@@ -9,7 +9,7 @@ import { Subcategory } from "../subcategory/subcategory.entity";
 import { FeedbackResponse } from "../feedback-response/entities/feedback-response.entity";
 import { response } from "../types";
 import { Question } from "../question/entities/question.entity";
-import { EntityLog } from "src/feedback-response/entities/feedback-response-log.entity";
+import { EntityLog } from "../feedback-response/entities/feedback-response-log.entity";
 
 @Injectable()
 export class FeedbackFormService {

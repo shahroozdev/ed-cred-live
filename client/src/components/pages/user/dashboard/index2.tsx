@@ -7,6 +7,7 @@ import FilterForm from "./components/filterForm";
 import { Pagination } from "@/components/molecules";
 
 const DashboardView2 = ({ data }: { data: Record<string, any> }) => {
+// console.log(data)
   return (
     <>
       {data?.employees?.length === 0 ? (

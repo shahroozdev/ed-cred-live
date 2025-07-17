@@ -34,7 +34,7 @@ export interface Feedback {
 }
 
 export const RecentFeedback = ({ data }: { data: Record<string, any> }) => {
-  console.log(data, 'data')
+
   return (
     <div className="col-span-2">
       <TableWithFilter

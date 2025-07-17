@@ -29,12 +29,12 @@ export async function getServerSideDataWithFeatures(props: {
           : [],
       },
     });
-    console.log(
-      props.url,
-      response.status,
-      noRedirect,
-      response?.status === 401 && !noRedirect
-    );
+    // console.log(
+    //   props.url,
+    //   response.status,
+    //   noRedirect,
+    //   response?.status === 401 && !noRedirect
+    // );
 
     if (response?.status === 401 && !noRedirect) {
       const cookieStore = await cookies();

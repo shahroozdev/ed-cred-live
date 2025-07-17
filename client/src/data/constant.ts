@@ -1,10 +1,16 @@
-// Color Variants for Rating Icons
 export const colorVariants: Record<string, string> = {
   red: "text-red-400 fill-red-400 hover:fill-red-300",
-  blue: "text-blue-400 fill-blue-400 hover:fill-blue-300",
-  green: "text-green-400 fill-green-400 hover:fill-green-300",
+  orange: "text-orange-400 fill-orange-400 hover:fill-orange-300",
   yellow: "text-yellow-400 fill-yellow-400 hover:fill-yellow-300",
-};
+  green: "text-green-400 fill-green-400 hover:fill-green-300",
+  teal: "text-teal-400 fill-teal-400 hover:fill-teal-300",
+  blue: "text-blue-400 fill-blue-400 hover:fill-blue-300",
+  cyan: "text-cyan-400 fill-cyan-400 hover:fill-cyan-300",
+  indigo: "text-indigo-400 fill-indigo-400 hover:fill-indigo-300",
+  purple: "text-purple-400 fill-purple-400 hover:fill-purple-300",
+  pink: "text-pink-400 fill-pink-400 hover:fill-pink-300",
+  violet: "text-violet-400 fill-violet-400 hover:fill-violet-300",
+};;
 export const colorScheme={
   Teacher:colorVariants['red'],
   "Staff Membars":colorVariants['red'],

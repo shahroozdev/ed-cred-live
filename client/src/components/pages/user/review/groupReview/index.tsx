@@ -19,8 +19,8 @@ const GroupedResponseView = ({
   const items =
     data?.responses?.length > 0
       ? data?.responses?.map((item: Record<string, any>) => ({
-          title: <ResponseView response={item} category={data?.category?.name}/>,
-          desc: <QuestionView response={item} userId={userId} category={data?.category?.name}/>,
+          title: <ResponseView response={item} category={data?.category?.color}/>,
+          desc: <QuestionView response={item} userId={userId} category={data?.category}/>,
         }))
       : [];
   return (

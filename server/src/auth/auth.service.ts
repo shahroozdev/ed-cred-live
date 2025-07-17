@@ -64,6 +64,7 @@ export class AuthService {
     const { password: hash, username, email } = dto;
     const existingUser = await this.userRepository.findOne({
       where: [{ username }, { email }],
+      withDeleted: true, // 👈 includes soft-deleted users
     });
 
     if (existingUser) {
@@ -80,7 +81,7 @@ export class AuthService {
       username,
       email,
       password: hashedPassword,
-      role: UserRole.USER, // default role is USER
+      role: 'user', // default role is USER
       permissions: [], // no permissions allowed
     });
     const user = await this.userRepository.save(newUser);

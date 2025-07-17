@@ -18,7 +18,7 @@ import { apiWrapper } from "../decorators/globalErrorHandlerClass";
 import { UploadFile } from "../decorators/upload-file-decorator";
 import { ApiConsumes } from "@nestjs/swagger";
 // import { JwtAuthGuard } from "../auth/jwt-auth.guard";
-import { Public } from "src/decorators/public.decorator";
+import { Public } from "../decorators/public.decorator";
 
 @Controller("forum-question")
 export class ForumQuestionController {
