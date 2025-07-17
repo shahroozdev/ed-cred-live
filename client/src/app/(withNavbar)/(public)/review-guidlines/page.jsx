@@ -124,6 +124,15 @@ const TermsOfUsePage = () => {
           6. Dispute Resolution Process
         </h2>
         <p className="text-[#686C70]">
+          Any party who believes content on Ed-Cred is false, defamatory, or in
+          violation of law or policy must submit a formal dispute through the
+          official Ed-Cred Dispute Form, available{" "}
+          <a href="#" className="text-primary">
+            [HERE]
+          </a>
+          .
+          <br />
+          <br />
           Ed-Cred will only respond to content-related complaints that are
           submitted through the Dispute Form. Each submission must include the
           nature of the dispute, the specific content in question, and any
@@ -134,8 +143,9 @@ const TermsOfUsePage = () => {
           <br />
           Please note: Content will not be removed simply because it is negative
           or critical. Valid public opinion and experience, even when
-          uncomfortable or unfavorable, is protected speech. By using Ed-Cred,
-          you acknowledge and agree to the following:
+          uncomfortable or unfavorable, is protected speech.
+          <br />
+          By using Ed-Cred, you acknowledge and agree to the following:
         </p>
         <ul className="list-disc pl-6 space-y-2 text-[#686C70]">
           <li>
@@ -156,9 +166,18 @@ const TermsOfUsePage = () => {
           </li>
           <li>
             Content disputes must be submitted using the Ed-Cred Dispute Form to
-            be reviewed.
+            be reviewed.Please follow the link for more information{" "}
+            <a href="#" className="text-primary">
+              [LINK]
+            </a>
+            .
           </li>
         </ul>
+        <br />
+        <p>
+          If you have any questions, please feel free to reach out at
+          <a href="https://inquiry@ed-cred.com">inquiry@ed-cred.com</a>.
+        </p>
       </div>
     </>
   );
